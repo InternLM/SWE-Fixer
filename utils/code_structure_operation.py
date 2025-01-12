@@ -5,7 +5,7 @@ def construct_hunk_code(hunk_code, add_line_numbers=False):
     code = []
     for line_no, line in hunk_code:
         if add_line_numbers:
-            # line aleady has a newline character
+            # line already has a newline character
             code.append(f"{line_no} {line}")
         else:
             code.append(line)
