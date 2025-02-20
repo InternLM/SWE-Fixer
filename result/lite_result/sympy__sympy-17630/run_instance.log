@@ -1,0 +1,82 @@
+2025-02-12 13:20:29,600 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-17630
+Building instance image sweb.eval.x86_64.sympy__sympy-17630:latest for sympy__sympy-17630
+2025-02-12 13:20:29,603 - INFO - Image sweb.eval.x86_64.sympy__sympy-17630:latest already exists, skipping build.
+2025-02-12 13:20:29,604 - INFO - Creating container for sympy__sympy-17630...
+2025-02-12 13:20:29,635 - INFO - Container for sympy__sympy-17630 created: 4e6f9eee09f0775155938ae49ddcb536bb0ddcc8a264589c61f54f1554ecb73f
+2025-02-12 13:20:29,913 - INFO - Container for sympy__sympy-17630 started: 4e6f9eee09f0775155938ae49ddcb536bb0ddcc8a264589c61f54f1554ecb73f
+2025-02-12 13:20:29,914 - INFO - Intermediate patch for sympy__sympy-17630 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-17630/patch.diff, now applying to container...
+2025-02-12 13:20:30,169 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 13:20:30,228 - INFO - >>>>> Applied Patch:
+patching file sympy/matrices/expressions/blockmatrix.py
+
+2025-02-12 13:20:30,676 - INFO - Git diff before:
+diff --git a/sympy/matrices/expressions/blockmatrix.py b/sympy/matrices/expressions/blockmatrix.py
+index 95302a05ca..0649bea2d9 100644
+--- a/sympy/matrices/expressions/blockmatrix.py
++++ b/sympy/matrices/expressions/blockmatrix.py
+@@ -164,10 +164,24 @@ def structurally_equal(self, other):
+     def _blockmul(self, other):
+         if (isinstance(other, BlockMatrix) and
+                 self.colblocksizes == other.rowblocksizes):
+-            return BlockMatrix(self.blocks*other.blocks)
++            A = self.blocks
++            B = other.blocks
++            m, n = A.shape
++            n, p = B.shape
++            result = [[None for j in range(p)] for i in range(m)]
++            for i in range(m):
++                for j in range(p):
++                    for k in range(n):
++                        if result[i][j] is None:
++                            result[i][j] = A[i, k] * B[k, j]
++                        else:
++                            result[i][j] += A[i, k] * B[k, j]
++            return BlockMatrix(result)
+ 
+         return self * other
+ 
++
++
+     def _blockadd(self, other):
+         if (isinstance(other, BlockMatrix)
+                 and self.structurally_equal(other)):
+2025-02-12 13:20:30,676 - INFO - Eval script for sympy__sympy-17630 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-17630/eval.sh; copying to container...
+2025-02-12 13:20:34,708 - INFO - Test runtime: 3.83 seconds
+2025-02-12 13:20:34,709 - INFO - Test output for sympy__sympy-17630 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-17630/test_output.txt
+2025-02-12 13:20:34,777 - INFO - Git diff after:
+diff --git a/sympy/matrices/expressions/blockmatrix.py b/sympy/matrices/expressions/blockmatrix.py
+index 95302a05ca..0649bea2d9 100644
+--- a/sympy/matrices/expressions/blockmatrix.py
++++ b/sympy/matrices/expressions/blockmatrix.py
+@@ -164,10 +164,24 @@ def structurally_equal(self, other):
+     def _blockmul(self, other):
+         if (isinstance(other, BlockMatrix) and
+                 self.colblocksizes == other.rowblocksizes):
+-            return BlockMatrix(self.blocks*other.blocks)
++            A = self.blocks
++            B = other.blocks
++            m, n = A.shape
++            n, p = B.shape
++            result = [[None for j in range(p)] for i in range(m)]
++            for i in range(m):
++                for j in range(p):
++                    for k in range(n):
++                        if result[i][j] is None:
++                            result[i][j] = A[i, k] * B[k, j]
++                        else:
++                            result[i][j] += A[i, k] * B[k, j]
++            return BlockMatrix(result)
+ 
+         return self * other
+ 
++
++
+     def _blockadd(self, other):
+         if (isinstance(other, BlockMatrix)
+                 and self.structurally_equal(other)):
+2025-02-12 13:20:34,777 - INFO - Grading answer for sympy__sympy-17630...
+2025-02-12 13:20:34,781 - INFO - report: {'sympy__sympy-17630': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_issue_17624'], 'failure': ['test_zero_matrix_add']}, 'PASS_TO_PASS': {'success': ['test_bc_matmul', 'test_bc_matadd', 'test_bc_transpose', 'test_bc_dist_diag', 'test_block_plus_ident', 'test_BlockMatrix', 'test_block_collapse_explicit_matrices', 'test_BlockMatrix_trace', 'test_BlockMatrix_Determinant', 'test_squareBlockMatrix', 'test_BlockDiagMatrix', 'test_blockcut', 'test_reblock_2x2', 'test_deblock', 'test_sort_key', 'test_matadd_sympify', 'test_matadd_of_matrices', 'test_doit_args', 'test_generic_identity'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-17630: resolved: False
+2025-02-12 13:20:34,781 - INFO - Attempting to stop container sweb.eval.sympy__sympy-17630.20250212_130622...
+2025-02-12 13:20:50,053 - INFO - Attempting to remove container sweb.eval.sympy__sympy-17630.20250212_130622...
+2025-02-12 13:20:50,080 - INFO - Container sweb.eval.sympy__sympy-17630.20250212_130622 removed.

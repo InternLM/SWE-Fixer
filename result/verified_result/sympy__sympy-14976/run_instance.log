@@ -1,0 +1,56 @@
+2025-02-12 15:43:37,271 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-14976
+Building instance image sweb.eval.x86_64.sympy__sympy-14976:latest for sympy__sympy-14976
+2025-02-12 15:43:37,272 - INFO - Image sweb.eval.x86_64.sympy__sympy-14976:latest already exists, skipping build.
+2025-02-12 15:43:37,273 - INFO - Creating container for sympy__sympy-14976...
+2025-02-12 15:43:37,303 - INFO - Container for sympy__sympy-14976 created: 6e1a4de64c668dd3887e3397219a55896e325f80a55dc5db25b0f817c6986c2b
+2025-02-12 15:43:37,670 - INFO - Container for sympy__sympy-14976 started: 6e1a4de64c668dd3887e3397219a55896e325f80a55dc5db25b0f817c6986c2b
+2025-02-12 15:43:37,671 - INFO - Intermediate patch for sympy__sympy-14976 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-14976/patch.diff, now applying to container...
+2025-02-12 15:43:37,945 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:43:37,997 - INFO - >>>>> Applied Patch:
+patching file sympy/utilities/lambdify.py
+
+2025-02-12 15:43:38,568 - INFO - Git diff before:
+diff --git a/sympy/utilities/lambdify.py b/sympy/utilities/lambdify.py
+index f71bea25f5..6ba1ad7969 100644
+--- a/sympy/utilities/lambdify.py
++++ b/sympy/utilities/lambdify.py
+@@ -69,10 +69,12 @@
+     "Ci": "ci",
+     "RisingFactorial": "rf",
+     "FallingFactorial": "ff",
++    "Rational": "mpf",
+ }
+ 
+ NUMPY_TRANSLATIONS = {}
+ 
++
+ TENSORFLOW_TRANSLATIONS = {
+     "Abs": "abs",
+     "ceiling": "ceil",
+2025-02-12 15:43:38,568 - INFO - Eval script for sympy__sympy-14976 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-14976/eval.sh; copying to container...
+2025-02-12 15:43:45,204 - INFO - Test runtime: 6.45 seconds
+2025-02-12 15:43:45,204 - INFO - Test output for sympy__sympy-14976 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-14976/test_output.txt
+2025-02-12 15:43:45,253 - INFO - Git diff after:
+diff --git a/sympy/utilities/lambdify.py b/sympy/utilities/lambdify.py
+index f71bea25f5..6ba1ad7969 100644
+--- a/sympy/utilities/lambdify.py
++++ b/sympy/utilities/lambdify.py
+@@ -69,10 +69,12 @@
+     "Ci": "ci",
+     "RisingFactorial": "rf",
+     "FallingFactorial": "ff",
++    "Rational": "mpf",
+ }
+ 
+ NUMPY_TRANSLATIONS = {}
+ 
++
+ TENSORFLOW_TRANSLATIONS = {
+     "Abs": "abs",
+     "ceiling": "ceil",
+2025-02-12 15:43:45,254 - INFO - Grading answer for sympy__sympy-14976...
+2025-02-12 15:43:45,255 - INFO - report: {'sympy__sympy-14976': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_MpmathPrinter']}, 'PASS_TO_PASS': {'success': ['test_PythonCodePrinter', 'test_NumPyPrinter', 'test_SciPyPrinter', 'test_pycode_reserved_words', 'test_printmethod', 'test_codegen_ast_nodes', 'test_nsolve_denominator', 'test_nsolve', 'test_issue_6408', 'test_increased_dps', 'test_nsolve_precision', 'test_nsolve_complex', 'test_nsolve_dict_kwarg'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-14976: resolved: False
+2025-02-12 15:43:45,255 - INFO - Attempting to stop container sweb.eval.sympy__sympy-14976.20250212_145457...
+2025-02-12 15:44:00,649 - INFO - Attempting to remove container sweb.eval.sympy__sympy-14976.20250212_145457...
+2025-02-12 15:44:00,662 - INFO - Container sweb.eval.sympy__sympy-14976.20250212_145457 removed.

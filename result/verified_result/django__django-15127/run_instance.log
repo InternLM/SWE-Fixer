@@ -1,0 +1,74 @@
+2025-02-12 15:10:48,546 - INFO - Environment image sweb.env.x86_64.934a137824256b612e9dc5:latest found for django__django-15127
+Building instance image sweb.eval.x86_64.django__django-15127:latest for django__django-15127
+2025-02-12 15:10:48,548 - INFO - Image sweb.eval.x86_64.django__django-15127:latest already exists, skipping build.
+2025-02-12 15:10:48,548 - INFO - Creating container for django__django-15127...
+2025-02-12 15:10:48,575 - INFO - Container for django__django-15127 created: d80d2c8ff0a69c8053036cf5d62ded87fef0c694ae3736302cbf2152d065ebf1
+2025-02-12 15:10:49,003 - INFO - Container for django__django-15127 started: d80d2c8ff0a69c8053036cf5d62ded87fef0c694ae3736302cbf2152d065ebf1
+2025-02-12 15:10:49,004 - INFO - Intermediate patch for django__django-15127 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-15127/patch.diff, now applying to container...
+2025-02-12 15:10:49,255 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:10:49,314 - INFO - >>>>> Applied Patch:
+patching file django/contrib/messages/storage/base.py
+
+2025-02-12 15:10:50,217 - INFO - Git diff before:
+diff --git a/django/contrib/messages/storage/base.py b/django/contrib/messages/storage/base.py
+index 01422066a6..cf699919d8 100644
+--- a/django/contrib/messages/storage/base.py
++++ b/django/contrib/messages/storage/base.py
+@@ -1,11 +1,20 @@
+-from django.conf import settings
+ from django.contrib.messages import constants, utils
++from django.test.signals import setting_changed
+ 
+ LEVEL_TAGS = utils.get_level_tags()
+ 
+ 
++def update_level_tags(*args, **kwargs):
++    global LEVEL_TAGS
++    LEVEL_TAGS = utils.get_level_tags()
++
++
++setting_changed.connect(update_level_tags)
++
++
+ class Message:
+     """
++
+     Represent an actual message that can be stored in any of the supported
+     storage classes (typically session- or cookie-based) and rendered in a view
+     or template.
+2025-02-12 15:10:50,218 - INFO - Eval script for django__django-15127 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-15127/eval.sh; copying to container...
+2025-02-12 15:11:06,364 - INFO - Test runtime: 15.94 seconds
+2025-02-12 15:11:06,364 - INFO - Test output for django__django-15127 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-15127/test_output.txt
+2025-02-12 15:11:06,444 - INFO - Git diff after:
+diff --git a/django/contrib/messages/storage/base.py b/django/contrib/messages/storage/base.py
+index 01422066a6..cf699919d8 100644
+--- a/django/contrib/messages/storage/base.py
++++ b/django/contrib/messages/storage/base.py
+@@ -1,11 +1,20 @@
+-from django.conf import settings
+ from django.contrib.messages import constants, utils
++from django.test.signals import setting_changed
+ 
+ LEVEL_TAGS = utils.get_level_tags()
+ 
+ 
++def update_level_tags(*args, **kwargs):
++    global LEVEL_TAGS
++    LEVEL_TAGS = utils.get_level_tags()
++
++
++setting_changed.connect(update_level_tags)
++
++
+ class Message:
+     """
++
+     Represent an actual message that can be stored in any of the supported
+     storage classes (typically session- or cookie-based) and rendered in a view
+     or template.
+2025-02-12 15:11:06,444 - INFO - Grading answer for django__django-15127...
+2025-02-12 15:11:06,450 - INFO - report: {'django__django-15127': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_override_settings_level_tags (messages_tests.tests.TestLevelTags)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_eq (messages_tests.tests.MessageTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-15127: resolved: True
+2025-02-12 15:11:06,450 - INFO - Attempting to stop container sweb.eval.django__django-15127.20250212_145457...
+2025-02-12 15:11:21,788 - INFO - Attempting to remove container sweb.eval.django__django-15127.20250212_145457...
+2025-02-12 15:11:21,807 - INFO - Container sweb.eval.django__django-15127.20250212_145457 removed.

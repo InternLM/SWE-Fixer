@@ -1,0 +1,54 @@
+2025-02-12 13:07:35,234 - INFO - Environment image sweb.env.x86_64.2baaea72acc974f6c02079:latest found for django__django-11283
+Building instance image sweb.eval.x86_64.django__django-11283:latest for django__django-11283
+2025-02-12 13:07:35,237 - INFO - Image sweb.eval.x86_64.django__django-11283:latest already exists, skipping build.
+2025-02-12 13:07:35,237 - INFO - Creating container for django__django-11283...
+2025-02-12 13:07:35,272 - INFO - Container for django__django-11283 created: 71b4e3ab9f0a52115bd1ea9fee23d027fbb59a239713910daf7a233962cb970b
+2025-02-12 13:07:35,681 - INFO - Container for django__django-11283 started: 71b4e3ab9f0a52115bd1ea9fee23d027fbb59a239713910daf7a233962cb970b
+2025-02-12 13:07:35,681 - INFO - Intermediate patch for django__django-11283 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-11283/patch.diff, now applying to container...
+2025-02-12 13:07:35,884 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 13:07:35,941 - INFO - >>>>> Applied Patch:
+patching file django/db/models/options.py
+
+2025-02-12 13:07:37,612 - INFO - Git diff before:
+diff --git a/django/db/models/options.py b/django/db/models/options.py
+index fea65f7626..0f8a9abd52 100644
+--- a/django/db/models/options.py
++++ b/django/db/models/options.py
+@@ -288,10 +288,12 @@ class Options:
+         self.pk = target._meta.pk
+         self.proxy_for_model = target
+         self.db_table = target._meta.db_table
++        self.concrete_model = target._meta.concrete_model
+ 
+     def __repr__(self):
+         return '<Options for %s>' % self.object_name
+ 
++
+     def __str__(self):
+         return "%s.%s" % (self.app_label, self.model_name)
+2025-02-12 13:07:37,613 - INFO - Eval script for django__django-11283 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-11283/eval.sh; copying to container...
+2025-02-12 13:07:45,331 - INFO - Test runtime: 7.57 seconds
+2025-02-12 13:07:45,332 - INFO - Test output for django__django-11283 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-11283/test_output.txt
+2025-02-12 13:07:45,411 - INFO - Git diff after:
+diff --git a/django/db/models/options.py b/django/db/models/options.py
+index fea65f7626..0f8a9abd52 100644
+--- a/django/db/models/options.py
++++ b/django/db/models/options.py
+@@ -288,10 +288,12 @@ class Options:
+         self.pk = target._meta.pk
+         self.proxy_for_model = target
+         self.db_table = target._meta.db_table
++        self.concrete_model = target._meta.concrete_model
+ 
+     def __repr__(self):
+         return '<Options for %s>' % self.object_name
+ 
++
+     def __str__(self):
+         return "%s.%s" % (self.app_label, self.model_name)
+2025-02-12 13:07:45,411 - INFO - Grading answer for django__django-11283...
+2025-02-12 13:07:45,415 - INFO - report: {'django__django-11283': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_migrate_with_existing_target_permission (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)']}, 'PASS_TO_PASS': {'success': ['test_migrate_backwards (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_proxy_model_permissions_contenttype (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_user_has_now_proxy_model_permissions (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_user_keeps_same_permissions_after_migrating_backward (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_migrate_backwards (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)', 'test_proxy_model_permissions_contenttype (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)', 'test_user_keeps_same_permissions_after_migrating_backward (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)', 'test_user_still_has_proxy_model_permissions (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-11283: resolved: False
+2025-02-12 13:07:45,416 - INFO - Attempting to stop container sweb.eval.django__django-11283.20250212_130622...
+2025-02-12 13:08:00,760 - INFO - Attempting to remove container sweb.eval.django__django-11283.20250212_130622...
+2025-02-12 13:08:00,777 - INFO - Container sweb.eval.django__django-11283.20250212_130622 removed.

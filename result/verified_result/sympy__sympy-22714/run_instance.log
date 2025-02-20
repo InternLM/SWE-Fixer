@@ -1,0 +1,62 @@
+2025-02-12 15:48:43,605 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-22714
+Building instance image sweb.eval.x86_64.sympy__sympy-22714:latest for sympy__sympy-22714
+2025-02-12 15:48:43,613 - INFO - Image sweb.eval.x86_64.sympy__sympy-22714:latest already exists, skipping build.
+2025-02-12 15:48:43,613 - INFO - Creating container for sympy__sympy-22714...
+2025-02-12 15:48:43,653 - INFO - Container for sympy__sympy-22714 created: f1d833eb38cd46ad037f5bfa49a36e32ccdfb283d66f8d899d76ff1601d0222d
+2025-02-12 15:48:43,944 - INFO - Container for sympy__sympy-22714 started: f1d833eb38cd46ad037f5bfa49a36e32ccdfb283d66f8d899d76ff1601d0222d
+2025-02-12 15:48:43,945 - INFO - Intermediate patch for sympy__sympy-22714 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-22714/patch.diff, now applying to container...
+2025-02-12 15:48:44,228 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:48:44,289 - INFO - >>>>> Applied Patch:
+patching file sympy/parsing/sympy_parser.py
+
+2025-02-12 15:48:44,801 - INFO - Git diff before:
+diff --git a/sympy/parsing/sympy_parser.py b/sympy/parsing/sympy_parser.py
+index e403654cb4..e3cbc0634e 100644
+--- a/sympy/parsing/sympy_parser.py
++++ b/sympy/parsing/sympy_parser.py
+@@ -1201,11 +1201,13 @@ def visit_BinOp(self, node):
+ 
+     def visit_Call(self, node):
+         new_node = self.generic_visit(node)
+-        if isinstance(node.func, ast.Name) and node.func.id in self.functions:
+-            new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
++        new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
+         return new_node
+ 
+ 
++
++
++
+ _transformation = {  # items can be added but never re-ordered
+ 0: lambda_notation,
+ 1: auto_symbol,
+2025-02-12 15:48:44,801 - INFO - Eval script for sympy__sympy-22714 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-22714/eval.sh; copying to container...
+2025-02-12 15:48:54,928 - INFO - Test runtime: 9.92 seconds
+2025-02-12 15:48:54,928 - INFO - Test output for sympy__sympy-22714 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-22714/test_output.txt
+2025-02-12 15:48:55,009 - INFO - Git diff after:
+diff --git a/sympy/parsing/sympy_parser.py b/sympy/parsing/sympy_parser.py
+index e403654cb4..e3cbc0634e 100644
+--- a/sympy/parsing/sympy_parser.py
++++ b/sympy/parsing/sympy_parser.py
+@@ -1201,11 +1201,13 @@ def visit_BinOp(self, node):
+ 
+     def visit_Call(self, node):
+         new_node = self.generic_visit(node)
+-        if isinstance(node.func, ast.Name) and node.func.id in self.functions:
+-            new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
++        new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
+         return new_node
+ 
+ 
++
++
++
+ _transformation = {  # items can be added but never re-ordered
+ 0: lambda_notation,
+ 1: auto_symbol,
+2025-02-12 15:48:55,009 - INFO - Grading answer for sympy__sympy-22714...
+2025-02-12 15:48:55,010 - INFO - report: {'sympy__sympy-22714': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_22684']}, 'PASS_TO_PASS': {'success': ['test_point', 'test_point3D', 'test_Point2D', 'test_issue_9214', 'test_issue_11617', 'test_transform', 'test_concyclic_doctest_bug', 'test_arguments', 'test_unit', 'test_dot', 'test__normalize_dimension'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-22714: resolved: False
+2025-02-12 15:48:55,011 - INFO - Attempting to stop container sweb.eval.sympy__sympy-22714.20250212_145457...
+2025-02-12 15:49:10,320 - INFO - Attempting to remove container sweb.eval.sympy__sympy-22714.20250212_145457...
+2025-02-12 15:49:10,338 - INFO - Container sweb.eval.sympy__sympy-22714.20250212_145457 removed.

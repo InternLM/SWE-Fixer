@@ -1,0 +1,126 @@
+2025-02-12 15:35:03,212 - INFO - Environment image sweb.env.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-12682
+Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-12682:latest for scikit-learn__scikit-learn-12682
+2025-02-12 15:35:03,216 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-12682:latest already exists, skipping build.
+2025-02-12 15:35:03,216 - INFO - Creating container for scikit-learn__scikit-learn-12682...
+2025-02-12 15:35:03,244 - INFO - Container for scikit-learn__scikit-learn-12682 created: 1a40ffa3b372ef2f2997d33bdc51cf79b3e177525dfd2ecdd8c8e6a994e4e4e6
+2025-02-12 15:35:03,522 - INFO - Container for scikit-learn__scikit-learn-12682 started: 1a40ffa3b372ef2f2997d33bdc51cf79b3e177525dfd2ecdd8c8e6a994e4e4e6
+2025-02-12 15:35:03,523 - INFO - Intermediate patch for scikit-learn__scikit-learn-12682 written to logs/run_evaluation/20250212_145457/SWE-Fixer/scikit-learn__scikit-learn-12682/patch.diff, now applying to container...
+2025-02-12 15:35:03,775 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:35:03,840 - INFO - >>>>> Applied Patch:
+patching file sklearn/decomposition/dict_learning.py
+patching file sklearn/decomposition/dict_learning.py
+Hunk #1 succeeded at 996 (offset 5 lines).
+patching file sklearn/decomposition/dict_learning.py
+Hunk #1 succeeded at 1011 (offset 8 lines).
+
+2025-02-12 15:35:04,264 - INFO - Git diff before:
+diff --git a/sklearn/decomposition/dict_learning.py b/sklearn/decomposition/dict_learning.py
+index a318c957f..0112ec034 100644
+--- a/sklearn/decomposition/dict_learning.py
++++ b/sklearn/decomposition/dict_learning.py
+@@ -958,9 +958,14 @@ class SparseCoder(BaseEstimator, SparseCodingMixin):
+         the reconstruction error targeted. In this case, it overrides
+         `n_nonzero_coefs`.
+ 
++    transform_max_iter : int, None by default
++        Maximum number of iterations to perform if `algorithm='lasso_cd'`.
++        If `None`, the default value of 1000 is set.
++
+     split_sign : bool, False by default
+         Whether to split the sparse feature vector into the concatenation of
+         its negative part and its positive part. This can improve the
++
+         performance of downstream classifiers.
+ 
+     n_jobs : int or None, optional (default=None)
+@@ -991,22 +996,27 @@ class SparseCoder(BaseEstimator, SparseCodingMixin):
+ 
+     def __init__(self, dictionary, transform_algorithm='omp',
+                  transform_n_nonzero_coefs=None, transform_alpha=None,
+-                 split_sign=False, n_jobs=None, positive_code=False):
++                 split_sign=False, n_jobs=None, positive_code=False,
++                 transform_max_iter=None):
+         self._set_sparse_coding_params(dictionary.shape[0],
+                                        transform_algorithm,
+                                        transform_n_nonzero_coefs,
+                                        transform_alpha, split_sign, n_jobs,
+-                                       positive_code)
++                                       positive_code, transform_max_iter)
+         self.components_ = dictionary
+ 
++
++
+     def fit(self, X, y=None):
+         """Do nothing and return the estimator unchanged
+ 
+         This method is just there to implement the usual API and hence
+-        work in pipelines.
++        work in pipelines. :class:`SparseCoder` is supposed to be used
++        as a transformer.
+ 
+         Parameters
+         ----------
++
+         X : Ignored
+ 
+         y : Ignored
+2025-02-12 15:35:04,265 - INFO - Eval script for scikit-learn__scikit-learn-12682 written to logs/run_evaluation/20250212_145457/SWE-Fixer/scikit-learn__scikit-learn-12682/eval.sh; copying to container...
+2025-02-12 15:35:18,163 - INFO - Test runtime: 13.71 seconds
+2025-02-12 15:35:18,163 - INFO - Test output for scikit-learn__scikit-learn-12682 written to logs/run_evaluation/20250212_145457/SWE-Fixer/scikit-learn__scikit-learn-12682/test_output.txt
+2025-02-12 15:35:18,235 - INFO - Git diff after:
+diff --git a/sklearn/decomposition/dict_learning.py b/sklearn/decomposition/dict_learning.py
+index a318c957f..0112ec034 100644
+--- a/sklearn/decomposition/dict_learning.py
++++ b/sklearn/decomposition/dict_learning.py
+@@ -958,9 +958,14 @@ class SparseCoder(BaseEstimator, SparseCodingMixin):
+         the reconstruction error targeted. In this case, it overrides
+         `n_nonzero_coefs`.
+ 
++    transform_max_iter : int, None by default
++        Maximum number of iterations to perform if `algorithm='lasso_cd'`.
++        If `None`, the default value of 1000 is set.
++
+     split_sign : bool, False by default
+         Whether to split the sparse feature vector into the concatenation of
+         its negative part and its positive part. This can improve the
++
+         performance of downstream classifiers.
+ 
+     n_jobs : int or None, optional (default=None)
+@@ -991,22 +996,27 @@ class SparseCoder(BaseEstimator, SparseCodingMixin):
+ 
+     def __init__(self, dictionary, transform_algorithm='omp',
+                  transform_n_nonzero_coefs=None, transform_alpha=None,
+-                 split_sign=False, n_jobs=None, positive_code=False):
++                 split_sign=False, n_jobs=None, positive_code=False,
++                 transform_max_iter=None):
+         self._set_sparse_coding_params(dictionary.shape[0],
+                                        transform_algorithm,
+                                        transform_n_nonzero_coefs,
+                                        transform_alpha, split_sign, n_jobs,
+-                                       positive_code)
++                                       positive_code, transform_max_iter)
+         self.components_ = dictionary
+ 
++
++
+     def fit(self, X, y=None):
+         """Do nothing and return the estimator unchanged
+ 
+         This method is just there to implement the usual API and hence
+-        work in pipelines.
++        work in pipelines. :class:`SparseCoder` is supposed to be used
++        as a transformer.
+ 
+         Parameters
+         ----------
++
+         X : Ignored
+ 
+         y : Ignored
+2025-02-12 15:35:18,235 - INFO - Grading answer for scikit-learn__scikit-learn-12682...
+2025-02-12 15:35:18,244 - INFO - report: {'scikit-learn__scikit-learn-12682': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['sklearn/decomposition/tests/test_dict_learning.py::test_max_iter']}, 'PASS_TO_PASS': {'success': ['sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_shapes_omp', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_shapes', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_overcomplete', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_positive_parameter', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-False-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-False-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-False-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-True-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-True-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-True-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-False-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-False-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-False-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-True-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-True-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-True-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_dict_positivity[False]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_dict_positivity[True]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_code_positivity', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_reconstruction', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_reconstruction_parallel', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lassocd_readonly_data', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_nonzero_coefs', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_unknown_fit_algorithm', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_split', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_shapes', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_lars_positive_parameter', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-False-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-False-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-False-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-True-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-True-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-True-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-False-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-False-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-False-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-True-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-True-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-True-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_lars[False]', 'sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_lars[True]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[False-False]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[False-True]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[True-False]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[True-True]', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_verbosity', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_estimator_shapes', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_overcomplete', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_initialization', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_readonly_initialization', 'sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_partial_fit', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_shapes', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[False-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[False-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[False-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[True-lasso_lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[True-lasso_cd]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[True-threshold]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_unavailable_positivity[lars]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_unavailable_positivity[omp]', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_input', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_error', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_error_default_sparsity', 'sklearn/decomposition/tests/test_dict_learning.py::test_unknown_method'], 'failure': ['sklearn/decomposition/tests/test_dict_learning.py::test_sparse_coder_estimator', 'sklearn/decomposition/tests/test_dict_learning.py::test_sparse_coder_parallel_mmap']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for scikit-learn__scikit-learn-12682: resolved: False
+2025-02-12 15:35:18,244 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-12682.20250212_145457...
+2025-02-12 15:35:33,509 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-12682.20250212_145457...
+2025-02-12 15:35:33,523 - INFO - Container sweb.eval.scikit-learn__scikit-learn-12682.20250212_145457 removed.

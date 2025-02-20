@@ -1,0 +1,56 @@
+2025-02-12 14:59:51,252 - INFO - Environment image sweb.env.x86_64.2baaea72acc974f6c02079:latest found for django__django-11119
+Building instance image sweb.eval.x86_64.django__django-11119:latest for django__django-11119
+2025-02-12 14:59:51,256 - INFO - Image sweb.eval.x86_64.django__django-11119:latest already exists, skipping build.
+2025-02-12 14:59:51,256 - INFO - Creating container for django__django-11119...
+2025-02-12 14:59:51,286 - INFO - Container for django__django-11119 created: bba519fd4c9b155044f1d97065ba9cf5f5ead2ca44cdeaa2a224c0ad92522157
+2025-02-12 14:59:51,588 - INFO - Container for django__django-11119 started: bba519fd4c9b155044f1d97065ba9cf5f5ead2ca44cdeaa2a224c0ad92522157
+2025-02-12 14:59:51,589 - INFO - Intermediate patch for django__django-11119 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-11119/patch.diff, now applying to container...
+2025-02-12 14:59:51,848 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 14:59:51,915 - INFO - >>>>> Applied Patch:
+patching file django/template/engine.py
+
+2025-02-12 14:59:52,862 - INFO - Git diff before:
+diff --git a/django/template/engine.py b/django/template/engine.py
+index dfaa67ba12..24c27d6cb8 100644
+--- a/django/template/engine.py
++++ b/django/template/engine.py
+@@ -160,10 +160,11 @@ class Engine:
+         if isinstance(context, Context):
+             return t.render(context)
+         else:
+-            return t.render(Context(context))
++            return t.render(Context(context, autoescape=self.autoescape))
+ 
+     def select_template(self, template_name_list):
+         """
++
+         Given a list of template names, return the first that can be loaded.
+         """
+         if not template_name_list:
+2025-02-12 14:59:52,863 - INFO - Eval script for django__django-11119 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-11119/eval.sh; copying to container...
+2025-02-12 15:00:06,062 - INFO - Test runtime: 13.02 seconds
+2025-02-12 15:00:06,062 - INFO - Test output for django__django-11119 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-11119/test_output.txt
+2025-02-12 15:00:06,133 - INFO - Git diff after:
+diff --git a/django/template/engine.py b/django/template/engine.py
+index dfaa67ba12..24c27d6cb8 100644
+--- a/django/template/engine.py
++++ b/django/template/engine.py
+@@ -160,10 +160,11 @@ class Engine:
+         if isinstance(context, Context):
+             return t.render(context)
+         else:
+-            return t.render(Context(context))
++            return t.render(Context(context, autoescape=self.autoescape))
+ 
+     def select_template(self, template_name_list):
+         """
++
+         Given a list of template names, return the first that can be loaded.
+         """
+         if not template_name_list:
+2025-02-12 15:00:06,133 - INFO - Grading answer for django__django-11119...
+2025-02-12 15:00:06,137 - INFO - report: {'django__django-11119': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_autoescape_off (template_tests.test_engine.RenderToStringTest)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_cached_loader_priority (template_tests.test_engine.LoaderTests)', 'test_loader_priority (template_tests.test_engine.LoaderTests)', 'test_origin (template_tests.test_engine.LoaderTests)', 'test_basic_context (template_tests.test_engine.RenderToStringTest)', 'test_multiple_engines_configured (template_tests.test_engine.GetDefaultTests)', 'test_no_engines_configured (template_tests.test_engine.GetDefaultTests)', 'test_single_engine_configured (template_tests.test_engine.GetDefaultTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-11119: resolved: True
+2025-02-12 15:00:06,137 - INFO - Attempting to stop container sweb.eval.django__django-11119.20250212_145457...
+2025-02-12 15:00:21,562 - INFO - Attempting to remove container sweb.eval.django__django-11119.20250212_145457...
+2025-02-12 15:00:21,581 - INFO - Container sweb.eval.django__django-11119.20250212_145457 removed.

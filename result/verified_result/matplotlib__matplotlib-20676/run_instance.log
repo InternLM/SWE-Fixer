@@ -1,0 +1,56 @@
+2025-02-12 15:17:19,184 - INFO - Environment image sweb.env.x86_64.e958786629b532c32249d9:latest found for matplotlib__matplotlib-20676
+Building instance image sweb.eval.x86_64.matplotlib__matplotlib-20676:latest for matplotlib__matplotlib-20676
+2025-02-12 15:17:19,186 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-20676:latest already exists, skipping build.
+2025-02-12 15:17:19,186 - INFO - Creating container for matplotlib__matplotlib-20676...
+2025-02-12 15:17:19,216 - INFO - Container for matplotlib__matplotlib-20676 created: 80e1d9b62d005d92bfa069c892eeefdf436cd51d70ef77a2d67e47d1741617fa
+2025-02-12 15:17:19,734 - INFO - Container for matplotlib__matplotlib-20676 started: 80e1d9b62d005d92bfa069c892eeefdf436cd51d70ef77a2d67e47d1741617fa
+2025-02-12 15:17:19,736 - INFO - Intermediate patch for matplotlib__matplotlib-20676 written to logs/run_evaluation/20250212_145457/SWE-Fixer/matplotlib__matplotlib-20676/patch.diff, now applying to container...
+2025-02-12 15:17:19,986 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:17:20,034 - INFO - >>>>> Applied Patch:
+patching file lib/matplotlib/axes/_base.py
+
+2025-02-12 15:17:21,483 - INFO - Git diff before:
+diff --git a/lib/matplotlib/axes/_base.py b/lib/matplotlib/axes/_base.py
+index 10ab40b147..2ec397b2f8 100644
+--- a/lib/matplotlib/axes/_base.py
++++ b/lib/matplotlib/axes/_base.py
+@@ -2883,10 +2883,11 @@ class _AxesBase(martist.Artist):
+             x_values = np.extract(np.isfinite(x_values), x_values)
+             if x_values.size >= 1:
+                 x0, x1 = (x_values.min(), x_values.max())
+-            elif getattr(self._viewLim, f"mutated{name}")():
++            elif not autoscaleon and getattr(self._viewLim, f"mutated{name}")():
+                 # No data, but explicit viewLims already set:
+                 # in mutatedx or mutatedy.
+                 return
++
+             else:
+                 x0, x1 = (-np.inf, np.inf)
+             # If x0 and x1 are non finite, use the locator to figure out
+2025-02-12 15:17:21,483 - INFO - Eval script for matplotlib__matplotlib-20676 written to logs/run_evaluation/20250212_145457/SWE-Fixer/matplotlib__matplotlib-20676/eval.sh; copying to container...
+2025-02-12 15:17:35,604 - INFO - Test runtime: 13.93 seconds
+2025-02-12 15:17:35,605 - INFO - Test output for matplotlib__matplotlib-20676 written to logs/run_evaluation/20250212_145457/SWE-Fixer/matplotlib__matplotlib-20676/test_output.txt
+2025-02-12 15:17:35,682 - INFO - Git diff after:
+diff --git a/lib/matplotlib/axes/_base.py b/lib/matplotlib/axes/_base.py
+index 10ab40b147..2ec397b2f8 100644
+--- a/lib/matplotlib/axes/_base.py
++++ b/lib/matplotlib/axes/_base.py
+@@ -2883,10 +2883,11 @@ class _AxesBase(martist.Artist):
+             x_values = np.extract(np.isfinite(x_values), x_values)
+             if x_values.size >= 1:
+                 x0, x1 = (x_values.min(), x_values.max())
+-            elif getattr(self._viewLim, f"mutated{name}")():
++            elif not autoscaleon and getattr(self._viewLim, f"mutated{name}")():
+                 # No data, but explicit viewLims already set:
+                 # in mutatedx or mutatedy.
+                 return
++
+             else:
+                 x0, x1 = (-np.inf, np.inf)
+             # If x0 and x1 are non finite, use the locator to figure out
+2025-02-12 15:17:35,682 - INFO - Grading answer for matplotlib__matplotlib-20676...
+2025-02-12 15:17:35,685 - INFO - report: {'matplotlib__matplotlib-20676': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_widgets.py::test_span_selector_bound[horizontal]', 'lib/matplotlib/tests/test_widgets.py::test_span_selector_bound[vertical]']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_widgets.py::test_rectangle_drag[True-new_center0]', 'lib/matplotlib/tests/test_widgets.py::test_rectangle_drag[False-new_center1]', 'lib/matplotlib/tests/test_widgets.py::test_ellipse', 'lib/matplotlib/tests/test_widgets.py::test_rectangle_handles', 'lib/matplotlib/tests/test_widgets.py::test_span_selector', 'lib/matplotlib/tests/test_widgets.py::test_span_selector_drag[True]', 'lib/matplotlib/tests/test_widgets.py::test_span_selector_drag[False]', 'lib/matplotlib/tests/test_widgets.py::test_span_selector_direction', 'lib/matplotlib/tests/test_widgets.py::test_tool_line_handle', 'lib/matplotlib/tests/test_widgets.py::test_lasso_selector', 'lib/matplotlib/tests/test_widgets.py::test_CheckButtons', 'lib/matplotlib/tests/test_widgets.py::test_TextBox', 'lib/matplotlib/tests/test_widgets.py::test_check_radio_buttons_image[png]', 'lib/matplotlib/tests/test_widgets.py::test_check_bunch_of_radio_buttons[png]', 'lib/matplotlib/tests/test_widgets.py::test_slider_slidermin_slidermax_invalid', 'lib/matplotlib/tests/test_widgets.py::test_slider_slidermin_slidermax', 'lib/matplotlib/tests/test_widgets.py::test_slider_valmin_valmax', 'lib/matplotlib/tests/test_widgets.py::test_slider_valstep_snapping', 'lib/matplotlib/tests/test_widgets.py::test_slider_horizontal_vertical', 'lib/matplotlib/tests/test_widgets.py::test_range_slider[horizontal]', 'lib/matplotlib/tests/test_widgets.py::test_range_slider[vertical]', 'lib/matplotlib/tests/test_widgets.py::test_polygon_selector', 'lib/matplotlib/tests/test_widgets.py::test_MultiCursor[True-True]', 'lib/matplotlib/tests/test_widgets.py::test_MultiCursor[True-False]', 'lib/matplotlib/tests/test_widgets.py::test_MultiCursor[False-True]', 'lib/matplotlib/tests/test_widgets.py::test_rect_visibility[png]', 'lib/matplotlib/tests/test_widgets.py::test_rect_visibility[pdf]', 'lib/matplotlib/tests/test_widgets.py::test_polygon_selector_remove[1]', 'lib/matplotlib/tests/test_widgets.py::test_polygon_selector_remove[2]', 'lib/matplotlib/tests/test_widgets.py::test_polygon_selector_remove[3]', 'lib/matplotlib/tests/test_widgets.py::test_polygon_selector_remove_first_point', 'lib/matplotlib/tests/test_widgets.py::test_polygon_selector_redraw'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for matplotlib__matplotlib-20676: resolved: False
+2025-02-12 15:17:35,686 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-20676.20250212_145457...
+2025-02-12 15:17:50,998 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-20676.20250212_145457...
+2025-02-12 15:17:51,019 - INFO - Container sweb.eval.matplotlib__matplotlib-20676.20250212_145457 removed.

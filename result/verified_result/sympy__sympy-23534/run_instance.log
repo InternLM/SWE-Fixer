@@ -1,0 +1,56 @@
+2025-02-12 15:49:10,341 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-23534
+Building instance image sweb.eval.x86_64.sympy__sympy-23534:latest for sympy__sympy-23534
+2025-02-12 15:49:10,343 - INFO - Image sweb.eval.x86_64.sympy__sympy-23534:latest already exists, skipping build.
+2025-02-12 15:49:10,343 - INFO - Creating container for sympy__sympy-23534...
+2025-02-12 15:49:10,370 - INFO - Container for sympy__sympy-23534 created: 28c95c2486fb5901d464ea24654c8a35475fa679774d33ccbb60c039afb4410c
+2025-02-12 15:49:10,743 - INFO - Container for sympy__sympy-23534 started: 28c95c2486fb5901d464ea24654c8a35475fa679774d33ccbb60c039afb4410c
+2025-02-12 15:49:10,743 - INFO - Intermediate patch for sympy__sympy-23534 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-23534/patch.diff, now applying to container...
+2025-02-12 15:49:11,025 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:49:11,117 - INFO - >>>>> Applied Patch:
+patching file sympy/core/symbol.py
+
+2025-02-12 15:49:11,713 - INFO - Git diff before:
+diff --git a/sympy/core/symbol.py b/sympy/core/symbol.py
+index f4a555c13f..eb2157e6b0 100644
+--- a/sympy/core/symbol.py
++++ b/sympy/core/symbol.py
+@@ -741,10 +741,12 @@ def literal(s):
+                 raise ValueError('missing symbol')
+ 
+             if ':' not in name:
++                name = name.strip('()')
+                 symbol = cls(literal(name), **args)
+                 result.append(symbol)
+                 continue
+ 
++
+             split: list[str] = _range.split(name)
+             split_list: list[list[str]] = []
+             # remove 1 layer of bounding parentheses around ranges
+2025-02-12 15:49:11,713 - INFO - Eval script for sympy__sympy-23534 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-23534/eval.sh; copying to container...
+2025-02-12 15:49:28,179 - INFO - Test runtime: 16.28 seconds
+2025-02-12 15:49:28,179 - INFO - Test output for sympy__sympy-23534 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-23534/test_output.txt
+2025-02-12 15:49:28,241 - INFO - Git diff after:
+diff --git a/sympy/core/symbol.py b/sympy/core/symbol.py
+index f4a555c13f..eb2157e6b0 100644
+--- a/sympy/core/symbol.py
++++ b/sympy/core/symbol.py
+@@ -741,10 +741,12 @@ def literal(s):
+                 raise ValueError('missing symbol')
+ 
+             if ':' not in name:
++                name = name.strip('()')
+                 symbol = cls(literal(name), **args)
+                 result.append(symbol)
+                 continue
+ 
++
+             split: list[str] = _range.split(name)
+             split_list: list[list[str]] = []
+             # remove 1 layer of bounding parentheses around ranges
+2025-02-12 15:49:28,241 - INFO - Grading answer for sympy__sympy-23534...
+2025-02-12 15:49:28,242 - INFO - report: {'sympy__sympy-23534': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_symbols']}, 'PASS_TO_PASS': {'success': ['test_Str', 'test_Symbol', 'test_Dummy', 'test_Dummy_force_dummy_index', 'test_lt_gt', 'test_no_len', 'test_ineq_unequal', 'test_Wild_properties', 'test_symbols_become_functions_issue_3539', 'test_unicode', 'test_uniquely_named_symbol_and_Symbol'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-23534: resolved: False
+2025-02-12 15:49:28,242 - INFO - Attempting to stop container sweb.eval.sympy__sympy-23534.20250212_145457...
+2025-02-12 15:49:43,527 - INFO - Attempting to remove container sweb.eval.sympy__sympy-23534.20250212_145457...
+2025-02-12 15:49:43,544 - INFO - Container sweb.eval.sympy__sympy-23534.20250212_145457 removed.

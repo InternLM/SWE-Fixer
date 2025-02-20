@@ -1,0 +1,56 @@
+2025-02-12 15:34:41,181 - INFO - Environment image sweb.env.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-10844
+Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-10844:latest for scikit-learn__scikit-learn-10844
+2025-02-12 15:34:41,184 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-10844:latest already exists, skipping build.
+2025-02-12 15:34:41,185 - INFO - Creating container for scikit-learn__scikit-learn-10844...
+2025-02-12 15:34:41,214 - INFO - Container for scikit-learn__scikit-learn-10844 created: 0590cb61ede8f24dfb6a53dfcf2bbadbea5ef527539b0b8c2ca8f59bed684a92
+2025-02-12 15:34:41,512 - INFO - Container for scikit-learn__scikit-learn-10844 started: 0590cb61ede8f24dfb6a53dfcf2bbadbea5ef527539b0b8c2ca8f59bed684a92
+2025-02-12 15:34:41,512 - INFO - Intermediate patch for scikit-learn__scikit-learn-10844 written to logs/run_evaluation/20250212_145457/SWE-Fixer/scikit-learn__scikit-learn-10844/patch.diff, now applying to container...
+2025-02-12 15:34:41,766 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:34:41,839 - INFO - >>>>> Applied Patch:
+patching file sklearn/metrics/cluster/supervised.py
+
+2025-02-12 15:34:42,278 - INFO - Git diff before:
+diff --git a/sklearn/metrics/cluster/supervised.py b/sklearn/metrics/cluster/supervised.py
+index a987778ae..422fc393d 100644
+--- a/sklearn/metrics/cluster/supervised.py
++++ b/sklearn/metrics/cluster/supervised.py
+@@ -856,10 +856,11 @@ def fowlkes_mallows_score(labels_true, labels_pred, sparse=False):
+     tk = np.dot(c.data, c.data) - n_samples
+     pk = np.sum(np.asarray(c.sum(axis=0)).ravel() ** 2) - n_samples
+     qk = np.sum(np.asarray(c.sum(axis=1)).ravel() ** 2) - n_samples
+-    return tk / np.sqrt(pk * qk) if tk != 0. else 0.
++    return tk / (np.sqrt(pk) * np.sqrt(qk)) if tk != 0. else 0.
+ 
+ 
+ def entropy(labels):
++
+     """Calculates the entropy for a labeling."""
+     if len(labels) == 0:
+         return 1.0
+2025-02-12 15:34:42,278 - INFO - Eval script for scikit-learn__scikit-learn-10844 written to logs/run_evaluation/20250212_145457/SWE-Fixer/scikit-learn__scikit-learn-10844/eval.sh; copying to container...
+2025-02-12 15:34:47,424 - INFO - Test runtime: 4.95 seconds
+2025-02-12 15:34:47,425 - INFO - Test output for scikit-learn__scikit-learn-10844 written to logs/run_evaluation/20250212_145457/SWE-Fixer/scikit-learn__scikit-learn-10844/test_output.txt
+2025-02-12 15:34:47,475 - INFO - Git diff after:
+diff --git a/sklearn/metrics/cluster/supervised.py b/sklearn/metrics/cluster/supervised.py
+index a987778ae..422fc393d 100644
+--- a/sklearn/metrics/cluster/supervised.py
++++ b/sklearn/metrics/cluster/supervised.py
+@@ -856,10 +856,11 @@ def fowlkes_mallows_score(labels_true, labels_pred, sparse=False):
+     tk = np.dot(c.data, c.data) - n_samples
+     pk = np.sum(np.asarray(c.sum(axis=0)).ravel() ** 2) - n_samples
+     qk = np.sum(np.asarray(c.sum(axis=1)).ravel() ** 2) - n_samples
+-    return tk / np.sqrt(pk * qk) if tk != 0. else 0.
++    return tk / (np.sqrt(pk) * np.sqrt(qk)) if tk != 0. else 0.
+ 
+ 
+ def entropy(labels):
++
+     """Calculates the entropy for a labeling."""
+     if len(labels) == 0:
+         return 1.0
+2025-02-12 15:34:47,475 - INFO - Grading answer for scikit-learn__scikit-learn-10844...
+2025-02-12 15:34:47,483 - INFO - report: {'scikit-learn__scikit-learn-10844': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['sklearn/metrics/cluster/tests/test_supervised.py::test_int_overflow_mutual_info_fowlkes_mallows_score'], 'failure': []}, 'PASS_TO_PASS': {'success': ['sklearn/metrics/cluster/tests/test_supervised.py::test_error_messages_on_wrong_input', 'sklearn/metrics/cluster/tests/test_supervised.py::test_perfect_matches', 'sklearn/metrics/cluster/tests/test_supervised.py::test_homogeneous_but_not_complete_labeling', 'sklearn/metrics/cluster/tests/test_supervised.py::test_complete_but_not_homogeneous_labeling', 'sklearn/metrics/cluster/tests/test_supervised.py::test_not_complete_and_not_homogeneous_labeling', 'sklearn/metrics/cluster/tests/test_supervised.py::test_non_consicutive_labels', 'sklearn/metrics/cluster/tests/test_supervised.py::test_adjustment_for_chance', 'sklearn/metrics/cluster/tests/test_supervised.py::test_adjusted_mutual_info_score', 'sklearn/metrics/cluster/tests/test_supervised.py::test_expected_mutual_info_overflow', 'sklearn/metrics/cluster/tests/test_supervised.py::test_entropy', 'sklearn/metrics/cluster/tests/test_supervised.py::test_contingency_matrix', 'sklearn/metrics/cluster/tests/test_supervised.py::test_contingency_matrix_sparse', 'sklearn/metrics/cluster/tests/test_supervised.py::test_exactly_zero_info_score', 'sklearn/metrics/cluster/tests/test_supervised.py::test_v_measure_and_mutual_information', 'sklearn/metrics/cluster/tests/test_supervised.py::test_fowlkes_mallows_score', 'sklearn/metrics/cluster/tests/test_supervised.py::test_fowlkes_mallows_score_properties'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for scikit-learn__scikit-learn-10844: resolved: True
+2025-02-12 15:34:47,484 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-10844.20250212_145457...
+2025-02-12 15:35:02,748 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-10844.20250212_145457...
+2025-02-12 15:35:02,762 - INFO - Container sweb.eval.scikit-learn__scikit-learn-10844.20250212_145457 removed.

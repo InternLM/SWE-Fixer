@@ -1,0 +1,60 @@
+2025-02-12 15:02:32,473 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12155
+Building instance image sweb.eval.x86_64.django__django-12155:latest for django__django-12155
+2025-02-12 15:02:32,476 - INFO - Image sweb.eval.x86_64.django__django-12155:latest already exists, skipping build.
+2025-02-12 15:02:32,476 - INFO - Creating container for django__django-12155...
+2025-02-12 15:02:32,512 - INFO - Container for django__django-12155 created: 61f53c2b8687c174c53bd26deae23759dd5b1acabccd3000639f19f6c49f1dd8
+2025-02-12 15:02:33,039 - INFO - Container for django__django-12155 started: 61f53c2b8687c174c53bd26deae23759dd5b1acabccd3000639f19f6c49f1dd8
+2025-02-12 15:02:33,040 - INFO - Intermediate patch for django__django-12155 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-12155/patch.diff, now applying to container...
+2025-02-12 15:02:33,299 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:02:33,362 - INFO - >>>>> Applied Patch:
+patching file django/contrib/admindocs/utils.py
+
+2025-02-12 15:02:34,275 - INFO - Git diff before:
+diff --git a/django/contrib/admindocs/utils.py b/django/contrib/admindocs/utils.py
+index 4c0e7e2a56..27a3b0225c 100644
+--- a/django/contrib/admindocs/utils.py
++++ b/django/contrib/admindocs/utils.py
+@@ -34,11 +34,13 @@ def trim_docstring(docstring):
+         return ''
+     # Convert tabs to spaces and split into lines
+     lines = docstring.expandtabs().splitlines()
+-    indent = min(len(line) - len(line.lstrip()) for line in lines if line.lstrip())
++    indent = min(len(line) - len(line.lstrip()) for line in lines[1:] if line.lstrip())
+     trimmed = [lines[0].lstrip()] + [line[indent:].rstrip() for line in lines[1:]]
+     return "\n".join(trimmed).strip()
+ 
+ 
++
++
+ def parse_docstring(docstring):
+     """
+     Parse out the parts of a docstring.  Return (title, body, metadata).
+2025-02-12 15:02:34,275 - INFO - Eval script for django__django-12155 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-12155/eval.sh; copying to container...
+2025-02-12 15:02:40,576 - INFO - Test runtime: 6.09 seconds
+2025-02-12 15:02:40,576 - INFO - Test output for django__django-12155 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-12155/test_output.txt
+2025-02-12 15:02:40,653 - INFO - Git diff after:
+diff --git a/django/contrib/admindocs/utils.py b/django/contrib/admindocs/utils.py
+index 4c0e7e2a56..27a3b0225c 100644
+--- a/django/contrib/admindocs/utils.py
++++ b/django/contrib/admindocs/utils.py
+@@ -34,11 +34,13 @@ def trim_docstring(docstring):
+         return ''
+     # Convert tabs to spaces and split into lines
+     lines = docstring.expandtabs().splitlines()
+-    indent = min(len(line) - len(line.lstrip()) for line in lines if line.lstrip())
++    indent = min(len(line) - len(line.lstrip()) for line in lines[1:] if line.lstrip())
+     trimmed = [lines[0].lstrip()] + [line[indent:].rstrip() for line in lines[1:]]
+     return "\n".join(trimmed).strip()
+ 
+ 
++
++
+ def parse_docstring(docstring):
+     """
+     Parse out the parts of a docstring.  Return (title, body, metadata).
+2025-02-12 15:02:40,653 - INFO - Grading answer for django__django-12155...
+2025-02-12 15:02:40,657 - INFO - report: {'django__django-12155': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_parse_rst_with_docstring_no_leading_line_feed (admin_docs.test_utils.TestUtils)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_description_output (admin_docs.test_utils.TestUtils)', 'test_initial_header_level (admin_docs.test_utils.TestUtils)', 'test_parse_docstring (admin_docs.test_utils.TestUtils)', 'test_parse_rst (admin_docs.test_utils.TestUtils)', 'test_publish_parts (admin_docs.test_utils.TestUtils)', 'test_title_output (admin_docs.test_utils.TestUtils)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-12155: resolved: True
+2025-02-12 15:02:40,658 - INFO - Attempting to stop container sweb.eval.django__django-12155.20250212_145457...
+2025-02-12 15:02:55,966 - INFO - Attempting to remove container sweb.eval.django__django-12155.20250212_145457...
+2025-02-12 15:02:55,996 - INFO - Container sweb.eval.django__django-12155.20250212_145457 removed.

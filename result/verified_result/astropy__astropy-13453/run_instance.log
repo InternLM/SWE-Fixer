@@ -1,0 +1,80 @@
+2025-02-12 14:55:57,315 - INFO - Environment image sweb.env.x86_64.428468730904ff6b4232aa:latest found for astropy__astropy-13453
+Building instance image sweb.eval.x86_64.astropy__astropy-13453:latest for astropy__astropy-13453
+2025-02-12 14:55:57,326 - INFO - Image sweb.eval.x86_64.astropy__astropy-13453:latest already exists, skipping build.
+2025-02-12 14:55:57,327 - INFO - Creating container for astropy__astropy-13453...
+2025-02-12 14:55:59,340 - INFO - Container for astropy__astropy-13453 created: 8e7cc17c5b7a94c68e096f84ae2b52992d4487e5b1c7cc5dfacb6a69c17b1c08
+2025-02-12 14:56:00,900 - INFO - Container for astropy__astropy-13453 started: 8e7cc17c5b7a94c68e096f84ae2b52992d4487e5b1c7cc5dfacb6a69c17b1c08
+2025-02-12 14:56:00,901 - INFO - Intermediate patch for astropy__astropy-13453 written to logs/run_evaluation/20250212_145457/SWE-Fixer/astropy__astropy-13453/patch.diff, now applying to container...
+2025-02-12 14:56:01,151 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 14:56:01,207 - INFO - >>>>> Applied Patch:
+patching file astropy/io/ascii/html.py
+
+2025-02-12 14:56:01,889 - INFO - Git diff before:
+diff --git a/astropy/io/ascii/html.py b/astropy/io/ascii/html.py
+index 266cf229cc..17793f6b1b 100644
+--- a/astropy/io/ascii/html.py
++++ b/astropy/io/ascii/html.py
+@@ -437,11 +437,12 @@ class HTML(core.BaseReader):
+                                     new_cols.append(new_col)
+                             else:
+ 
+-                                col_iter_str_vals = self.fill_values(col, col.info.iter_str_vals())
++                                col_iter_str_vals = self.fill_values(col, col.info.get_formatted())
+                                 col_str_iters.append(col_iter_str_vals)
+ 
+                                 new_cols_escaped.append(col_escaped)
+ 
++
+                     for row in zip(*col_str_iters):
+                         with w.tag('tr'):
+                             for el, col_escaped in zip(row, new_cols_escaped):
+diff --git a/pyproject.toml b/pyproject.toml
+index 7a3b85fc92..83f08ed124 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,5 +1,5 @@
+ [build-system]
+-requires = ["setuptools",
++requires = ["setuptools==68.0.0",
+             "setuptools_scm>=6.2",
+             "wheel",
+             "cython==0.29.30",
+2025-02-12 14:56:01,890 - INFO - Eval script for astropy__astropy-13453 written to logs/run_evaluation/20250212_145457/SWE-Fixer/astropy__astropy-13453/eval.sh; copying to container...
+2025-02-12 14:57:16,551 - INFO - Test runtime: 74.50 seconds
+2025-02-12 14:57:16,553 - INFO - Test output for astropy__astropy-13453 written to logs/run_evaluation/20250212_145457/SWE-Fixer/astropy__astropy-13453/test_output.txt
+2025-02-12 14:57:16,626 - INFO - Git diff after:
+diff --git a/astropy/io/ascii/html.py b/astropy/io/ascii/html.py
+index 266cf229cc..17793f6b1b 100644
+--- a/astropy/io/ascii/html.py
++++ b/astropy/io/ascii/html.py
+@@ -437,11 +437,12 @@ class HTML(core.BaseReader):
+                                     new_cols.append(new_col)
+                             else:
+ 
+-                                col_iter_str_vals = self.fill_values(col, col.info.iter_str_vals())
++                                col_iter_str_vals = self.fill_values(col, col.info.get_formatted())
+                                 col_str_iters.append(col_iter_str_vals)
+ 
+                                 new_cols_escaped.append(col_escaped)
+ 
++
+                     for row in zip(*col_str_iters):
+                         with w.tag('tr'):
+                             for el, col_escaped in zip(row, new_cols_escaped):
+diff --git a/pyproject.toml b/pyproject.toml
+index 7a3b85fc92..83f08ed124 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,5 +1,5 @@
+ [build-system]
+-requires = ["setuptools",
++requires = ["setuptools==68.0.0",
+             "setuptools_scm>=6.2",
+             "wheel",
+             "cython==0.29.30",
+2025-02-12 14:57:16,627 - INFO - Grading answer for astropy__astropy-13453...
+2025-02-12 14:57:16,677 - INFO - report: {'astropy__astropy-13453': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['astropy/io/ascii/tests/test_html.py::test_write_table_formatted_columns']}, 'PASS_TO_PASS': {'success': ['astropy/io/ascii/tests/test_html.py::test_listwriter', 'astropy/io/ascii/tests/test_html.py::test_htmlinputter_no_bs4'], 'failure': ['astropy/io/ascii/tests/test_html.py::test_multicolumn_write', 'astropy/io/ascii/tests/test_html.py::test_write_no_multicols', 'astropy/io/ascii/tests/test_html.py::test_write_table_html_fill_values', 'astropy/io/ascii/tests/test_html.py::test_write_table_html_fill_values_optional_columns', 'astropy/io/ascii/tests/test_html.py::test_write_table_html_fill_values_masked', 'astropy/io/ascii/tests/test_html.py::test_multicolumn_table_html_fill_values', 'astropy/io/ascii/tests/test_html.py::test_multi_column_write_table_html_fill_values_masked']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-13453: resolved: False
+2025-02-12 14:57:16,679 - INFO - Attempting to stop container sweb.eval.astropy__astropy-13453.20250212_145457...
+2025-02-12 14:57:32,014 - INFO - Attempting to remove container sweb.eval.astropy__astropy-13453.20250212_145457...
+2025-02-12 14:57:32,045 - INFO - Container sweb.eval.astropy__astropy-13453.20250212_145457 removed.

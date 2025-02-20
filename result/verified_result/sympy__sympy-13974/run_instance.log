@@ -1,0 +1,86 @@
+2025-02-12 15:43:08,435 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13974
+Building instance image sweb.eval.x86_64.sympy__sympy-13974:latest for sympy__sympy-13974
+2025-02-12 15:43:08,437 - INFO - Image sweb.eval.x86_64.sympy__sympy-13974:latest already exists, skipping build.
+2025-02-12 15:43:08,437 - INFO - Creating container for sympy__sympy-13974...
+2025-02-12 15:43:08,460 - INFO - Container for sympy__sympy-13974 created: 89a2b98d8fe4c0f347cdf2750cf7dd1521100022872f4884f0ce90e12aeabfde
+2025-02-12 15:43:09,231 - INFO - Container for sympy__sympy-13974 started: 89a2b98d8fe4c0f347cdf2750cf7dd1521100022872f4884f0ce90e12aeabfde
+2025-02-12 15:43:09,231 - INFO - Intermediate patch for sympy__sympy-13974 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-13974/patch.diff, now applying to container...
+2025-02-12 15:43:09,439 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:43:09,491 - INFO - >>>>> Applied Patch:
+patching file sympy/physics/quantum/tensorproduct.py
+patching file sympy/physics/quantum/tensorproduct.py
+Hunk #1 succeeded at 386 (offset 4 lines).
+
+2025-02-12 15:43:09,941 - INFO - Git diff before:
+diff --git a/sympy/physics/quantum/tensorproduct.py b/sympy/physics/quantum/tensorproduct.py
+index 9dd10d219e..c4e3c76fa5 100644
+--- a/sympy/physics/quantum/tensorproduct.py
++++ b/sympy/physics/quantum/tensorproduct.py
+@@ -143,9 +143,13 @@ def flatten(cls, args):
+     def _eval_adjoint(self):
+         return TensorProduct(*[Dagger(i) for i in self.args])
+ 
++    def _eval_power(self, other):
++        return TensorProduct(*[i**other for i in self.args])
++
+     def _eval_rewrite(self, pattern, rule, **hints):
+         sargs = self.args
+         terms = [t._eval_rewrite(pattern, rule, **hints) for t in sargs]
++
+         return TensorProduct(*terms).expand(tensorproduct=True)
+ 
+     def _sympystr(self, printer, *args):
+@@ -382,9 +386,12 @@ def tensor_product_simp(e, **hints):
+     if isinstance(e, Add):
+         return Add(*[tensor_product_simp(arg) for arg in e.args])
+     elif isinstance(e, Pow):
++        if isinstance(e.base, TensorProduct):
++            return TensorProduct(*[tensor_product_simp(arg)**e.exp for arg in e.base.args])
+         return tensor_product_simp(e.base) ** e.exp
+     elif isinstance(e, Mul):
+         return tensor_product_simp_Mul(e)
++
+     elif isinstance(e, Commutator):
+         return Commutator(*[tensor_product_simp(arg) for arg in e.args])
+     elif isinstance(e, AntiCommutator):
+2025-02-12 15:43:09,941 - INFO - Eval script for sympy__sympy-13974 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-13974/eval.sh; copying to container...
+2025-02-12 15:43:16,155 - INFO - Test runtime: 5.99 seconds
+2025-02-12 15:43:16,155 - INFO - Test output for sympy__sympy-13974 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-13974/test_output.txt
+2025-02-12 15:43:16,229 - INFO - Git diff after:
+diff --git a/sympy/physics/quantum/tensorproduct.py b/sympy/physics/quantum/tensorproduct.py
+index 9dd10d219e..c4e3c76fa5 100644
+--- a/sympy/physics/quantum/tensorproduct.py
++++ b/sympy/physics/quantum/tensorproduct.py
+@@ -143,9 +143,13 @@ def flatten(cls, args):
+     def _eval_adjoint(self):
+         return TensorProduct(*[Dagger(i) for i in self.args])
+ 
++    def _eval_power(self, other):
++        return TensorProduct(*[i**other for i in self.args])
++
+     def _eval_rewrite(self, pattern, rule, **hints):
+         sargs = self.args
+         terms = [t._eval_rewrite(pattern, rule, **hints) for t in sargs]
++
+         return TensorProduct(*terms).expand(tensorproduct=True)
+ 
+     def _sympystr(self, printer, *args):
+@@ -382,9 +386,12 @@ def tensor_product_simp(e, **hints):
+     if isinstance(e, Add):
+         return Add(*[tensor_product_simp(arg) for arg in e.args])
+     elif isinstance(e, Pow):
++        if isinstance(e.base, TensorProduct):
++            return TensorProduct(*[tensor_product_simp(arg)**e.exp for arg in e.base.args])
+         return tensor_product_simp(e.base) ** e.exp
+     elif isinstance(e, Mul):
+         return tensor_product_simp_Mul(e)
++
+     elif isinstance(e, Commutator):
+         return Commutator(*[tensor_product_simp(arg) for arg in e.args])
+     elif isinstance(e, AntiCommutator):
+2025-02-12 15:43:16,229 - INFO - Grading answer for sympy__sympy-13974...
+2025-02-12 15:43:16,230 - INFO - report: {'sympy__sympy-13974': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_tensor_product_simp'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_tensor_product_abstract', 'test_tensor_product_expand', 'test_tensor_product_commutator', 'test_issue_5923'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-13974: resolved: True
+2025-02-12 15:43:16,231 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13974.20250212_145457...
+2025-02-12 15:43:31,555 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13974.20250212_145457...
+2025-02-12 15:43:31,570 - INFO - Container sweb.eval.sympy__sympy-13974.20250212_145457 removed.

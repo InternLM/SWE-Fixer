@@ -1,0 +1,72 @@
+2025-02-12 15:14:25,202 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-16136
+Building instance image sweb.eval.x86_64.django__django-16136:latest for django__django-16136
+2025-02-12 15:14:25,205 - INFO - Image sweb.eval.x86_64.django__django-16136:latest already exists, skipping build.
+2025-02-12 15:14:25,205 - INFO - Creating container for django__django-16136...
+2025-02-12 15:14:25,233 - INFO - Container for django__django-16136 created: 0458e8c5213c4abb6886d013c70d882d8794b6d80d87b0142b8a00235f5a835a
+2025-02-12 15:14:25,494 - INFO - Container for django__django-16136 started: 0458e8c5213c4abb6886d013c70d882d8794b6d80d87b0142b8a00235f5a835a
+2025-02-12 15:14:25,495 - INFO - Intermediate patch for django__django-16136 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-16136/patch.diff, now applying to container...
+2025-02-12 15:14:25,751 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:14:25,820 - INFO - >>>>> Applied Patch:
+patching file django/views/generic/base.py
+
+2025-02-12 15:14:26,760 - INFO - Git diff before:
+diff --git a/django/views/generic/base.py b/django/views/generic/base.py
+index db1842e3e5..7dd74d3f27 100644
+--- a/django/views/generic/base.py
++++ b/django/views/generic/base.py
+@@ -148,10 +148,19 @@ class View:
+             request.path,
+             extra={"status_code": 405, "request": request},
+         )
+-        return HttpResponseNotAllowed(self._allowed_methods())
++        response = HttpResponseNotAllowed(self._allowed_methods())
++        if self.view_is_async:
++
++            async def func():
++                return response
++
++            return func()
++        else:
++            return response
+ 
+     def options(self, request, *args, **kwargs):
+         """Handle responding to requests for the OPTIONS HTTP verb."""
++
+         response = HttpResponse()
+         response.headers["Allow"] = ", ".join(self._allowed_methods())
+         response.headers["Content-Length"] = "0"
+2025-02-12 15:14:26,761 - INFO - Eval script for django__django-16136 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-16136/eval.sh; copying to container...
+2025-02-12 15:14:36,900 - INFO - Test runtime: 9.94 seconds
+2025-02-12 15:14:36,901 - INFO - Test output for django__django-16136 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-16136/test_output.txt
+2025-02-12 15:14:36,987 - INFO - Git diff after:
+diff --git a/django/views/generic/base.py b/django/views/generic/base.py
+index db1842e3e5..7dd74d3f27 100644
+--- a/django/views/generic/base.py
++++ b/django/views/generic/base.py
+@@ -148,10 +148,19 @@ class View:
+             request.path,
+             extra={"status_code": 405, "request": request},
+         )
+-        return HttpResponseNotAllowed(self._allowed_methods())
++        response = HttpResponseNotAllowed(self._allowed_methods())
++        if self.view_is_async:
++
++            async def func():
++                return response
++
++            return func()
++        else:
++            return response
+ 
+     def options(self, request, *args, **kwargs):
+         """Handle responding to requests for the OPTIONS HTTP verb."""
++
+         response = HttpResponse()
+         response.headers["Allow"] = ", ".join(self._allowed_methods())
+         response.headers["Content-Length"] = "0"
+2025-02-12 15:14:36,987 - INFO - Grading answer for django__django-16136...
+2025-02-12 15:14:36,994 - INFO - report: {'django__django-16136': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_http_method_not_allowed_responds_correctly (async.tests.ViewTests)', 'test_mixed_views_raise_error (async.tests.ViewTests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ["View and by extension any subclasses that don't define handlers are", 'test_options_handler_responds_correctly (async.tests.ViewTests)', 'test_views_are_correctly_marked (async.tests.ViewTests)', 'test_caches_local (async.tests.CacheTest)', 'test_async_unsafe (async.tests.AsyncUnsafeTest)', 'Utility class which turns an awaitable that only works on the thread with', 'test_get_async_connection (async.tests.DatabaseConnectionTest)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-16136: resolved: True
+2025-02-12 15:14:36,994 - INFO - Attempting to stop container sweb.eval.django__django-16136.20250212_145457...
+2025-02-12 15:14:52,296 - INFO - Attempting to remove container sweb.eval.django__django-16136.20250212_145457...
+2025-02-12 15:14:52,322 - INFO - Container sweb.eval.django__django-16136.20250212_145457 removed.

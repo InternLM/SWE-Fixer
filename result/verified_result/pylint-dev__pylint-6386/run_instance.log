@@ -1,0 +1,54 @@
+2025-02-12 15:32:06,670 - INFO - Environment image sweb.env.x86_64.15539247fbef7d28c70168:latest found for pylint-dev__pylint-6386
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-6386:latest for pylint-dev__pylint-6386
+2025-02-12 15:32:06,672 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-6386:latest already exists, skipping build.
+2025-02-12 15:32:06,672 - INFO - Creating container for pylint-dev__pylint-6386...
+2025-02-12 15:32:06,706 - INFO - Container for pylint-dev__pylint-6386 created: 815b619c9f85eb541de502961b2db2be3348ad4543d555950feb4b211a766a46
+2025-02-12 15:32:06,979 - INFO - Container for pylint-dev__pylint-6386 started: 815b619c9f85eb541de502961b2db2be3348ad4543d555950feb4b211a766a46
+2025-02-12 15:32:06,980 - INFO - Intermediate patch for pylint-dev__pylint-6386 written to logs/run_evaluation/20250212_145457/SWE-Fixer/pylint-dev__pylint-6386/patch.diff, now applying to container...
+2025-02-12 15:32:07,245 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:32:07,306 - INFO - >>>>> Applied Patch:
+patching file pylint/lint/base_options.py
+
+2025-02-12 15:32:07,623 - INFO - Git diff before:
+diff --git a/pylint/lint/base_options.py b/pylint/lint/base_options.py
+index c793cc85a..2b489749e 100644
+--- a/pylint/lint/base_options.py
++++ b/pylint/lint/base_options.py
+@@ -539,10 +539,10 @@ def _make_run_options(self: Run) -> Options:
+             "verbose",
+             {
+                 "action": _DoNothingAction,
+-                "kwargs": {},
+                 "short": "v",
+                 "help": "In verbose mode, extra non-checker-related info "
+                 "will be displayed.",
++
+                 "hide_from_config_file": True,
+             },
+         ),
+2025-02-12 15:32:07,623 - INFO - Eval script for pylint-dev__pylint-6386 written to logs/run_evaluation/20250212_145457/SWE-Fixer/pylint-dev__pylint-6386/eval.sh; copying to container...
+2025-02-12 15:32:11,231 - INFO - Test runtime: 3.42 seconds
+2025-02-12 15:32:11,232 - INFO - Test output for pylint-dev__pylint-6386 written to logs/run_evaluation/20250212_145457/SWE-Fixer/pylint-dev__pylint-6386/test_output.txt
+2025-02-12 15:32:11,301 - INFO - Git diff after:
+diff --git a/pylint/lint/base_options.py b/pylint/lint/base_options.py
+index c793cc85a..2b489749e 100644
+--- a/pylint/lint/base_options.py
++++ b/pylint/lint/base_options.py
+@@ -539,10 +539,10 @@ def _make_run_options(self: Run) -> Options:
+             "verbose",
+             {
+                 "action": _DoNothingAction,
+-                "kwargs": {},
+                 "short": "v",
+                 "help": "In verbose mode, extra non-checker-related info "
+                 "will be displayed.",
++
+                 "hide_from_config_file": True,
+             },
+         ),
+2025-02-12 15:32:11,301 - INFO - Grading answer for pylint-dev__pylint-6386...
+2025-02-12 15:32:11,306 - INFO - report: {'pylint-dev__pylint-6386': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/config/test_config.py::test_short_verbose']}, 'PASS_TO_PASS': {'success': ['tests/config/test_config.py::test_can_read_toml_env_variable', 'tests/config/test_config.py::test_unknown_message_id', 'tests/config/test_config.py::test_unknown_option_name', 'tests/config/test_config.py::test_unknown_short_option_name', 'tests/config/test_config.py::test_unknown_confidence', 'tests/config/test_config.py::test_unknown_yes_no', 'tests/config/test_config.py::test_unknown_py_version'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-6386: resolved: False
+2025-02-12 15:32:11,306 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-6386.20250212_145457...
+2025-02-12 15:32:26,547 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-6386.20250212_145457...
+2025-02-12 15:32:26,561 - INFO - Container sweb.eval.pylint-dev__pylint-6386.20250212_145457 removed.

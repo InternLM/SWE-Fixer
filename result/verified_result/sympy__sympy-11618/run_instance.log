@@ -1,0 +1,62 @@
+2025-02-12 15:41:39,374 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-11618
+Building instance image sweb.eval.x86_64.sympy__sympy-11618:latest for sympy__sympy-11618
+2025-02-12 15:41:39,375 - INFO - Image sweb.eval.x86_64.sympy__sympy-11618:latest already exists, skipping build.
+2025-02-12 15:41:39,375 - INFO - Creating container for sympy__sympy-11618...
+2025-02-12 15:41:39,404 - INFO - Container for sympy__sympy-11618 created: 1951f136f7efd12309852ff36f12cc01f846a290f9474a82b5f1d0e4cd2c69d6
+2025-02-12 15:41:40,623 - INFO - Container for sympy__sympy-11618 started: 1951f136f7efd12309852ff36f12cc01f846a290f9474a82b5f1d0e4cd2c69d6
+2025-02-12 15:41:40,623 - INFO - Intermediate patch for sympy__sympy-11618 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-11618/patch.diff, now applying to container...
+2025-02-12 15:41:40,881 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:41:40,955 - INFO - >>>>> Applied Patch:
+patching file sympy/geometry/point.py
+
+2025-02-12 15:41:41,453 - INFO - Git diff before:
+diff --git a/sympy/geometry/point.py b/sympy/geometry/point.py
+index 593048464b..ef237b29fd 100644
+--- a/sympy/geometry/point.py
++++ b/sympy/geometry/point.py
+@@ -266,12 +266,14 @@ def distance(self, p):
+         sqrt(x**2 + y**2)
+ 
+         """
++        p = Point(p)
+         return sqrt(sum([(a - b)**2 for a, b in zip(
+-            self.args, p.args if isinstance(p, Point) else p)]))
++            self.args, p.args)]))
+ 
+     def taxicab_distance(self, p):
+         """The Taxicab Distance from self to point p.
+ 
++
+         Returns the sum of the horizontal and vertical distances to point p.
+ 
+         Parameters
+2025-02-12 15:41:41,453 - INFO - Eval script for sympy__sympy-11618 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-11618/eval.sh; copying to container...
+2025-02-12 15:41:45,452 - INFO - Test runtime: 3.79 seconds
+2025-02-12 15:41:45,452 - INFO - Test output for sympy__sympy-11618 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-11618/test_output.txt
+2025-02-12 15:41:45,507 - INFO - Git diff after:
+diff --git a/sympy/geometry/point.py b/sympy/geometry/point.py
+index 593048464b..ef237b29fd 100644
+--- a/sympy/geometry/point.py
++++ b/sympy/geometry/point.py
+@@ -266,12 +266,14 @@ def distance(self, p):
+         sqrt(x**2 + y**2)
+ 
+         """
++        p = Point(p)
+         return sqrt(sum([(a - b)**2 for a, b in zip(
+-            self.args, p.args if isinstance(p, Point) else p)]))
++            self.args, p.args)]))
+ 
+     def taxicab_distance(self, p):
+         """The Taxicab Distance from self to point p.
+ 
++
+         Returns the sum of the horizontal and vertical distances to point p.
+ 
+         Parameters
+2025-02-12 15:41:45,507 - INFO - Grading answer for sympy__sympy-11618...
+2025-02-12 15:41:45,519 - INFO - report: {'sympy__sympy-11618': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_11617']}, 'PASS_TO_PASS': {'success': ['test_point3D', 'test_Point2D', 'test_issue_9214', 'test_transform'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-11618: resolved: False
+2025-02-12 15:41:45,519 - INFO - Attempting to stop container sweb.eval.sympy__sympy-11618.20250212_145457...
+2025-02-12 15:42:00,852 - INFO - Attempting to remove container sweb.eval.sympy__sympy-11618.20250212_145457...
+2025-02-12 15:42:00,870 - INFO - Container sweb.eval.sympy__sympy-11618.20250212_145457 removed.

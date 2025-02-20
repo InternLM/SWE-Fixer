@@ -1,0 +1,62 @@
+2025-02-12 15:42:00,873 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13031
+Building instance image sweb.eval.x86_64.sympy__sympy-13031:latest for sympy__sympy-13031
+2025-02-12 15:42:00,875 - INFO - Image sweb.eval.x86_64.sympy__sympy-13031:latest already exists, skipping build.
+2025-02-12 15:42:00,875 - INFO - Creating container for sympy__sympy-13031...
+2025-02-12 15:42:00,904 - INFO - Container for sympy__sympy-13031 created: ef8616f99fd9a40d9352506dbe4cfa6f06fc41ff8808e380013a52371c577134
+2025-02-12 15:42:01,434 - INFO - Container for sympy__sympy-13031 started: ef8616f99fd9a40d9352506dbe4cfa6f06fc41ff8808e380013a52371c577134
+2025-02-12 15:42:01,435 - INFO - Intermediate patch for sympy__sympy-13031 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-13031/patch.diff, now applying to container...
+2025-02-12 15:42:01,896 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:42:01,996 - INFO - >>>>> Applied Patch:
+patching file sympy/solvers/diophantine.py
+
+2025-02-12 15:42:02,410 - INFO - Git diff before:
+diff --git a/sympy/solvers/diophantine.py b/sympy/solvers/diophantine.py
+index 1038790b28..3d95a3952a 100644
+--- a/sympy/solvers/diophantine.py
++++ b/sympy/solvers/diophantine.py
+@@ -2723,10 +2723,14 @@ def _diop_general_pythagorean(var, coeff, t):
+     ith = sum(m_i**2 for m_i in m)
+     L = [ith - 2*m[n - 2]**2]
+     L.extend([2*m[i]*m[n-2] for i in range(n - 2)])
+-    sol = L[:index] + [ith] + L[index:]
++    if index == 0:
++        sol = [ith] + L
++    else:
++        sol = L[:index] + [ith] + L[index:]
+ 
+     lcm = 1
+     for i, v in enumerate(var):
++
+         if i == index or (index > 0 and i == 0) or (index == 0 and i == 1):
+             lcm = ilcm(lcm, sqrt(abs(coeff[v**2])))
+         else:
+2025-02-12 15:42:02,411 - INFO - Eval script for sympy__sympy-13031 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-13031/eval.sh; copying to container...
+2025-02-12 15:42:08,381 - INFO - Test runtime: 5.75 seconds
+2025-02-12 15:42:08,382 - INFO - Test output for sympy__sympy-13031 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-13031/test_output.txt
+2025-02-12 15:42:08,444 - INFO - Git diff after:
+diff --git a/sympy/solvers/diophantine.py b/sympy/solvers/diophantine.py
+index 1038790b28..3d95a3952a 100644
+--- a/sympy/solvers/diophantine.py
++++ b/sympy/solvers/diophantine.py
+@@ -2723,10 +2723,14 @@ def _diop_general_pythagorean(var, coeff, t):
+     ith = sum(m_i**2 for m_i in m)
+     L = [ith - 2*m[n - 2]**2]
+     L.extend([2*m[i]*m[n-2] for i in range(n - 2)])
+-    sol = L[:index] + [ith] + L[index:]
++    if index == 0:
++        sol = [ith] + L
++    else:
++        sol = L[:index] + [ith] + L[index:]
+ 
+     lcm = 1
+     for i, v in enumerate(var):
++
+         if i == index or (index > 0 and i == 0) or (index == 0 and i == 1):
+             lcm = ilcm(lcm, sqrt(abs(coeff[v**2])))
+         else:
+2025-02-12 15:42:08,444 - INFO - Grading answer for sympy__sympy-13031...
+2025-02-12 15:42:08,446 - INFO - report: {'sympy__sympy-13031': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_sparse_matrix']}, 'PASS_TO_PASS': {'success': ['test_transpose', 'test_trace', 'test_CL_RL', 'test_add', 'test_errors', 'test_len', 'test_sparse_zeros_sparse_eye', 'test_copyin', 'test_sparse_solve'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-13031: resolved: False
+2025-02-12 15:42:08,446 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13031.20250212_145457...
+2025-02-12 15:42:23,791 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13031.20250212_145457...
+2025-02-12 15:42:23,804 - INFO - Container sweb.eval.sympy__sympy-13031.20250212_145457 removed.

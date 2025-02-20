@@ -1,0 +1,62 @@
+2025-02-12 15:15:25,786 - INFO - Environment image sweb.env.x86_64.c70909fdac4897d1c685df:latest found for django__django-16502
+Building instance image sweb.eval.x86_64.django__django-16502:latest for django__django-16502
+2025-02-12 15:15:25,788 - INFO - Image sweb.eval.x86_64.django__django-16502:latest already exists, skipping build.
+2025-02-12 15:15:25,788 - INFO - Creating container for django__django-16502...
+2025-02-12 15:15:25,816 - INFO - Container for django__django-16502 created: 0183daab7dfc65df0875a382b0c6c24972abd1d004db0dc1220330a0c58a3a78
+2025-02-12 15:15:26,336 - INFO - Container for django__django-16502 started: 0183daab7dfc65df0875a382b0c6c24972abd1d004db0dc1220330a0c58a3a78
+2025-02-12 15:15:26,336 - INFO - Intermediate patch for django__django-16502 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-16502/patch.diff, now applying to container...
+2025-02-12 15:15:26,614 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:15:26,679 - INFO - >>>>> Applied Patch:
+patching file django/core/servers/basehttp.py
+
+2025-02-12 15:15:28,144 - INFO - Git diff before:
+diff --git a/django/core/servers/basehttp.py b/django/core/servers/basehttp.py
+index fef5532e58..9e4a941e5b 100644
+--- a/django/core/servers/basehttp.py
++++ b/django/core/servers/basehttp.py
+@@ -147,10 +147,15 @@ class ServerHandler(simple_server.ServerHandler):
+         self.get_stdin().read()
+         super().close()
+ 
++    def send_body(self):
++        if self.command.lower() != "head":
++            super().send_body()
++
+ 
+ class WSGIRequestHandler(simple_server.WSGIRequestHandler):
+     protocol_version = "HTTP/1.1"
+ 
++
+     def address_string(self):
+         # Short-circuit parent method to not call socket.getfqdn
+         return self.client_address[0]
+2025-02-12 15:15:28,144 - INFO - Eval script for django__django-16502 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-16502/eval.sh; copying to container...
+2025-02-12 15:15:37,647 - INFO - Test runtime: 9.32 seconds
+2025-02-12 15:15:37,648 - INFO - Test output for django__django-16502 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-16502/test_output.txt
+2025-02-12 15:15:37,730 - INFO - Git diff after:
+diff --git a/django/core/servers/basehttp.py b/django/core/servers/basehttp.py
+index fef5532e58..9e4a941e5b 100644
+--- a/django/core/servers/basehttp.py
++++ b/django/core/servers/basehttp.py
+@@ -147,10 +147,15 @@ class ServerHandler(simple_server.ServerHandler):
+         self.get_stdin().read()
+         super().close()
+ 
++    def send_body(self):
++        if self.command.lower() != "head":
++            super().send_body()
++
+ 
+ class WSGIRequestHandler(simple_server.WSGIRequestHandler):
+     protocol_version = "HTTP/1.1"
+ 
++
+     def address_string(self):
+         # Short-circuit parent method to not call socket.getfqdn
+         return self.client_address[0]
+2025-02-12 15:15:37,730 - INFO - Grading answer for django__django-16502...
+2025-02-12 15:15:37,732 - INFO - report: {'django__django-16502': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_no_body_returned_for_head_requests (servers.test_basehttp.WSGIRequestHandlerTestCase.test_no_body_returned_for_head_requests)']}, 'PASS_TO_PASS': {'success': ['test_https (servers.test_basehttp.WSGIRequestHandlerTestCase.test_https)', 'test_log_message (servers.test_basehttp.WSGIRequestHandlerTestCase.test_log_message)', 'WSGIRequestHandler ignores headers containing underscores.', 'WSGIServer handles broken pipe errors.'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-16502: resolved: False
+2025-02-12 15:15:37,732 - INFO - Attempting to stop container sweb.eval.django__django-16502.20250212_145457...
+2025-02-12 15:15:53,004 - INFO - Attempting to remove container sweb.eval.django__django-16502.20250212_145457...
+2025-02-12 15:15:53,020 - INFO - Container sweb.eval.django__django-16502.20250212_145457 removed.

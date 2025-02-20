@@ -1,0 +1,56 @@
+2025-02-12 15:49:43,466 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-24443
+Building instance image sweb.eval.x86_64.sympy__sympy-24443:latest for sympy__sympy-24443
+2025-02-12 15:49:43,467 - INFO - Image sweb.eval.x86_64.sympy__sympy-24443:latest already exists, skipping build.
+2025-02-12 15:49:43,467 - INFO - Creating container for sympy__sympy-24443...
+2025-02-12 15:49:43,502 - INFO - Container for sympy__sympy-24443 created: 12fb6dca095b6e19ab62156c6813eb1c0346b3c0739b9619fba171a6718e4acf
+2025-02-12 15:49:44,007 - INFO - Container for sympy__sympy-24443 started: 12fb6dca095b6e19ab62156c6813eb1c0346b3c0739b9619fba171a6718e4acf
+2025-02-12 15:49:44,007 - INFO - Intermediate patch for sympy__sympy-24443 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-24443/patch.diff, now applying to container...
+2025-02-12 15:49:44,366 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:49:44,448 - INFO - >>>>> Applied Patch:
+patching file sympy/combinatorics/homomorphisms.py
+
+2025-02-12 15:49:45,134 - INFO - Git diff before:
+diff --git a/sympy/combinatorics/homomorphisms.py b/sympy/combinatorics/homomorphisms.py
+index bb7bdf32ba..a466769bcd 100644
+--- a/sympy/combinatorics/homomorphisms.py
++++ b/sympy/combinatorics/homomorphisms.py
+@@ -333,10 +333,11 @@ def _image(r):
+             # both indices
+             while i < len(r):
+                 power = r_arr[j][1]
+-                if isinstance(domain, PermutationGroup) and r[i] in gens:
++                if isinstance(domain, PermutationGroup) and (r[i] in gens or r[i] in [g**-1 for g in gens]):
+                     s = domain.generators[gens.index(r[i])]
+                 else:
+                     s = r[i]
++
+                 if s in images:
+                     w = w*images[s]**power
+                 elif s**-1 in images:
+2025-02-12 15:49:45,134 - INFO - Eval script for sympy__sympy-24443 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-24443/eval.sh; copying to container...
+2025-02-12 15:49:51,897 - INFO - Test runtime: 6.52 seconds
+2025-02-12 15:49:51,898 - INFO - Test output for sympy__sympy-24443 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-24443/test_output.txt
+2025-02-12 15:49:52,027 - INFO - Git diff after:
+diff --git a/sympy/combinatorics/homomorphisms.py b/sympy/combinatorics/homomorphisms.py
+index bb7bdf32ba..a466769bcd 100644
+--- a/sympy/combinatorics/homomorphisms.py
++++ b/sympy/combinatorics/homomorphisms.py
+@@ -333,10 +333,11 @@ def _image(r):
+             # both indices
+             while i < len(r):
+                 power = r_arr[j][1]
+-                if isinstance(domain, PermutationGroup) and r[i] in gens:
++                if isinstance(domain, PermutationGroup) and (r[i] in gens or r[i] in [g**-1 for g in gens]):
+                     s = domain.generators[gens.index(r[i])]
+                 else:
+                     s = r[i]
++
+                 if s in images:
+                     w = w*images[s]**power
+                 elif s**-1 in images:
+2025-02-12 15:49:52,027 - INFO - Grading answer for sympy__sympy-24443...
+2025-02-12 15:49:52,029 - INFO - report: {'sympy__sympy-24443': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_homomorphism']}, 'PASS_TO_PASS': {'success': ['test_isomorphisms'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-24443: resolved: False
+2025-02-12 15:49:52,029 - INFO - Attempting to stop container sweb.eval.sympy__sympy-24443.20250212_145457...
+2025-02-12 15:50:07,407 - INFO - Attempting to remove container sweb.eval.sympy__sympy-24443.20250212_145457...
+2025-02-12 15:50:07,422 - INFO - Container sweb.eval.sympy__sympy-24443.20250212_145457 removed.

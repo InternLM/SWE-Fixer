@@ -1,0 +1,56 @@
+2025-02-12 15:48:40,920 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-22456
+Building instance image sweb.eval.x86_64.sympy__sympy-22456:latest for sympy__sympy-22456
+2025-02-12 15:48:40,922 - INFO - Image sweb.eval.x86_64.sympy__sympy-22456:latest already exists, skipping build.
+2025-02-12 15:48:40,922 - INFO - Creating container for sympy__sympy-22456...
+2025-02-12 15:48:40,953 - INFO - Container for sympy__sympy-22456 created: 22dc18514d76d4d2a52aa8e8dc1240d86f1caacb61dcfb75a6c25d9c866c10ef
+2025-02-12 15:48:41,282 - INFO - Container for sympy__sympy-22456 started: 22dc18514d76d4d2a52aa8e8dc1240d86f1caacb61dcfb75a6c25d9c866c10ef
+2025-02-12 15:48:41,282 - INFO - Intermediate patch for sympy__sympy-22456 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-22456/patch.diff, now applying to container...
+2025-02-12 15:48:41,576 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:48:41,664 - INFO - >>>>> Applied Patch:
+patching file sympy/printing/codeprinter.py
+
+2025-02-12 15:48:42,270 - INFO - Git diff before:
+diff --git a/sympy/printing/codeprinter.py b/sympy/printing/codeprinter.py
+index 8c2f803ca3..bd9d7e8db9 100644
+--- a/sympy/printing/codeprinter.py
++++ b/sympy/printing/codeprinter.py
+@@ -330,11 +330,12 @@ def _print_CodeBlock(self, expr):
+         return '\n'.join([self._print(i) for i in expr.args])
+ 
+     def _print_String(self, string):
+-        return str(string)
++        return str(string.value)
+ 
+     def _print_QuotedString(self, arg):
+         return '"%s"' % arg.text
+ 
++
+     def _print_Comment(self, string):
+         return self._get_comment(str(string))
+2025-02-12 15:48:42,270 - INFO - Eval script for sympy__sympy-22456 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-22456/eval.sh; copying to container...
+2025-02-12 15:48:49,280 - INFO - Test runtime: 6.84 seconds
+2025-02-12 15:48:49,280 - INFO - Test output for sympy__sympy-22456 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-22456/test_output.txt
+2025-02-12 15:48:49,343 - INFO - Git diff after:
+diff --git a/sympy/printing/codeprinter.py b/sympy/printing/codeprinter.py
+index 8c2f803ca3..bd9d7e8db9 100644
+--- a/sympy/printing/codeprinter.py
++++ b/sympy/printing/codeprinter.py
+@@ -330,11 +330,12 @@ def _print_CodeBlock(self, expr):
+         return '\n'.join([self._print(i) for i in expr.args])
+ 
+     def _print_String(self, string):
+-        return str(string)
++        return str(string.value)
+ 
+     def _print_QuotedString(self, arg):
+         return '"%s"' % arg.text
+ 
++
+     def _print_Comment(self, string):
+         return self._get_comment(str(string))
+2025-02-12 15:48:49,343 - INFO - Grading answer for sympy__sympy-22456...
+2025-02-12 15:48:49,344 - INFO - report: {'sympy__sympy-22456': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_String']}, 'PASS_TO_PASS': {'success': ['test_Assignment', 'test_AugAssign', 'test_Assignment_printing', 'test_CodeBlock', 'test_CodeBlock_topological_sort', 'test_CodeBlock_free_symbols', 'test_CodeBlock_cse', 'test_CodeBlock_cse__issue_14118', 'test_For', 'test_none', 'test_Comment', 'test_Node', 'test_Type', 'test_Type__from_expr', 'test_Type__cast_check__integers', 'test_Attribute', 'test_Variable', 'test_Pointer', 'test_Declaration', 'test_IntBaseType', 'test_FloatType', 'test_Type__cast_check__floating_point', 'test_Type__cast_check__complex_floating_point', 'test_While', 'test_Scope', 'test_Print', 'test_FunctionPrototype_and_FunctionDefinition', 'test_Return', 'test_FunctionCall'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-22456: resolved: False
+2025-02-12 15:48:49,344 - INFO - Attempting to stop container sweb.eval.sympy__sympy-22456.20250212_145457...
+2025-02-12 15:49:04,715 - INFO - Attempting to remove container sweb.eval.sympy__sympy-22456.20250212_145457...
+2025-02-12 15:49:04,731 - INFO - Container sweb.eval.sympy__sympy-22456.20250212_145457 removed.

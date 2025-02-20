@@ -1,0 +1,145 @@
+2025-02-12 15:02:07,161 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-11964
+Building instance image sweb.eval.x86_64.django__django-11964:latest for django__django-11964
+2025-02-12 15:02:07,164 - INFO - Image sweb.eval.x86_64.django__django-11964:latest already exists, skipping build.
+2025-02-12 15:02:07,164 - INFO - Creating container for django__django-11964...
+2025-02-12 15:02:07,198 - INFO - Container for django__django-11964 created: 648ed86344fc53d258de49d16793d4906a1f3473d64747e99550e161b3257d1f
+2025-02-12 15:02:07,550 - INFO - Container for django__django-11964 started: 648ed86344fc53d258de49d16793d4906a1f3473d64747e99550e161b3257d1f
+2025-02-12 15:02:07,551 - INFO - Intermediate patch for django__django-11964 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-11964/patch.diff, now applying to container...
+2025-02-12 15:02:07,798 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:02:07,871 - INFO - >>>>> Applied Patch:
+patching file django/db/models/fields/__init__.py
+patching file django/db/models/fields/__init__.py
+Hunk #1 succeeded at 1013 (offset 3 lines).
+Hunk #2 succeeded at 2031 (offset 3 lines).
+patching file django/db/models/fields/__init__.py
+Hunk #1 succeeded at 1776 (offset 6 lines).
+
+2025-02-12 15:02:08,890 - INFO - Git diff before:
+diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
+index d610dc86f0..3a637dab38 100644
+--- a/django/db/models/fields/__init__.py
++++ b/django/db/models/fields/__init__.py
+@@ -5,9 +5,12 @@ import decimal
+ import operator
+ import uuid
+ import warnings
++import enum
+ from base64 import b64decode, b64encode
+ from functools import partialmethod, total_ordering
+ 
++
++
+ from django import forms
+ from django.apps import apps
+ from django.conf import settings
+@@ -1010,10 +1013,13 @@ class CharField(Field):
+     def to_python(self, value):
+         if isinstance(value, str) or value is None:
+             return value
++        if isinstance(value, enum.Enum):
++            return value.value
+         return str(value)
+ 
+     def get_prep_value(self, value):
+         value = super().get_prep_value(value)
++
+         return self.to_python(value)
+ 
+     def formfield(self, **kwargs):
+@@ -1770,10 +1776,13 @@ class IntegerField(Field):
+         if value is None:
+             return value
+         try:
++            if isinstance(value, enum.Enum):
++                return value.value
+             return int(value)
+         except (TypeError, ValueError):
+             raise exceptions.ValidationError(
+                 self.error_messages['invalid'],
++
+                 code='invalid',
+                 params={'value': value},
+             )
+@@ -2025,10 +2034,13 @@ class TextField(Field):
+     def to_python(self, value):
+         if isinstance(value, str) or value is None:
+             return value
++        if isinstance(value, enum.Enum):
++            return value.value
+         return str(value)
+ 
+     def get_prep_value(self, value):
+         value = super().get_prep_value(value)
++
+         return self.to_python(value)
+ 
+     def formfield(self, **kwargs):
+2025-02-12 15:02:08,890 - INFO - Eval script for django__django-11964 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-11964/eval.sh; copying to container...
+2025-02-12 15:02:17,002 - INFO - Test runtime: 7.92 seconds
+2025-02-12 15:02:17,003 - INFO - Test output for django__django-11964 written to logs/run_evaluation/20250212_145457/SWE-Fixer/django__django-11964/test_output.txt
+2025-02-12 15:02:17,096 - INFO - Git diff after:
+diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
+index d610dc86f0..3a637dab38 100644
+--- a/django/db/models/fields/__init__.py
++++ b/django/db/models/fields/__init__.py
+@@ -5,9 +5,12 @@ import decimal
+ import operator
+ import uuid
+ import warnings
++import enum
+ from base64 import b64decode, b64encode
+ from functools import partialmethod, total_ordering
+ 
++
++
+ from django import forms
+ from django.apps import apps
+ from django.conf import settings
+@@ -1010,10 +1013,13 @@ class CharField(Field):
+     def to_python(self, value):
+         if isinstance(value, str) or value is None:
+             return value
++        if isinstance(value, enum.Enum):
++            return value.value
+         return str(value)
+ 
+     def get_prep_value(self, value):
+         value = super().get_prep_value(value)
++
+         return self.to_python(value)
+ 
+     def formfield(self, **kwargs):
+@@ -1770,10 +1776,13 @@ class IntegerField(Field):
+         if value is None:
+             return value
+         try:
++            if isinstance(value, enum.Enum):
++                return value.value
+             return int(value)
+         except (TypeError, ValueError):
+             raise exceptions.ValidationError(
+                 self.error_messages['invalid'],
++
+                 code='invalid',
+                 params={'value': value},
+             )
+@@ -2025,10 +2034,13 @@ class TextField(Field):
+     def to_python(self, value):
+         if isinstance(value, str) or value is None:
+             return value
++        if isinstance(value, enum.Enum):
++            return value.value
+         return str(value)
+ 
+     def get_prep_value(self, value):
+         value = super().get_prep_value(value)
++
+         return self.to_python(value)
+ 
+     def formfield(self, **kwargs):
+2025-02-12 15:02:17,096 - INFO - Grading answer for django__django-11964...
+2025-02-12 15:02:17,103 - INFO - report: {'django__django-11964': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_str (model_enums.tests.ChoicesTests)', 'test_textchoices (model_enums.tests.ChoicesTests)']}, 'PASS_TO_PASS': {'success': ['test_integerchoices (model_enums.tests.ChoicesTests)', 'test_integerchoices_auto_label (model_enums.tests.ChoicesTests)', 'test_integerchoices_containment (model_enums.tests.ChoicesTests)', 'test_integerchoices_empty_label (model_enums.tests.ChoicesTests)', 'test_integerchoices_functional_api (model_enums.tests.ChoicesTests)', 'test_invalid_definition (model_enums.tests.ChoicesTests)', 'test_textchoices_auto_label (model_enums.tests.ChoicesTests)', 'test_textchoices_blank_value (model_enums.tests.ChoicesTests)', 'test_textchoices_containment (model_enums.tests.ChoicesTests)', 'test_textchoices_empty_label (model_enums.tests.ChoicesTests)', 'test_textchoices_functional_api (model_enums.tests.ChoicesTests)', 'test_bool_unsupported (model_enums.tests.CustomChoicesTests)', 'test_labels_valid (model_enums.tests.CustomChoicesTests)', 'test_timezone_unsupported (model_enums.tests.CustomChoicesTests)', 'test_uuid_unsupported (model_enums.tests.CustomChoicesTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-11964: resolved: False
+2025-02-12 15:02:17,103 - INFO - Attempting to stop container sweb.eval.django__django-11964.20250212_145457...
+2025-02-12 15:02:32,439 - INFO - Attempting to remove container sweb.eval.django__django-11964.20250212_145457...
+2025-02-12 15:02:32,468 - INFO - Container sweb.eval.django__django-11964.20250212_145457 removed.

@@ -1,0 +1,62 @@
+2025-02-12 13:17:48,688 - INFO - Environment image sweb.env.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-13241
+Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-13241:latest for scikit-learn__scikit-learn-13241
+2025-02-12 13:17:48,691 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-13241:latest already exists, skipping build.
+2025-02-12 13:17:48,691 - INFO - Creating container for scikit-learn__scikit-learn-13241...
+2025-02-12 13:17:48,724 - INFO - Container for scikit-learn__scikit-learn-13241 created: d4f3f260396c9a8e2edcf0acddbbd8d2c776e1d07a34607697d868e6b7ee6e3d
+2025-02-12 13:17:49,397 - INFO - Container for scikit-learn__scikit-learn-13241 started: d4f3f260396c9a8e2edcf0acddbbd8d2c776e1d07a34607697d868e6b7ee6e3d
+2025-02-12 13:17:49,397 - INFO - Intermediate patch for scikit-learn__scikit-learn-13241 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-13241/patch.diff, now applying to container...
+2025-02-12 13:17:49,643 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 13:17:49,708 - INFO - >>>>> Applied Patch:
+patching file sklearn/decomposition/kernel_pca.py
+
+2025-02-12 13:17:50,354 - INFO - Git diff before:
+diff --git a/sklearn/decomposition/kernel_pca.py b/sklearn/decomposition/kernel_pca.py
+index bb91d0cbb..843455817 100644
+--- a/sklearn/decomposition/kernel_pca.py
++++ b/sklearn/decomposition/kernel_pca.py
+@@ -215,9 +215,15 @@ class KernelPCA(BaseEstimator, TransformerMixin, _UnstableOn32BitMixin):
+         self.lambdas_ = self.lambdas_[indices]
+         self.alphas_ = self.alphas_[:, indices]
+ 
++        # flip eigenvectors' sign to enforce deterministic output
++        max_abs_cols = np.argmax(np.abs(self.alphas_), axis=0)
++        signs = np.sign(self.alphas_[max_abs_cols, range(self.alphas_.shape[1])])
++        self.alphas_ *= signs
++
+         # remove eigenvectors with a zero eigenvalue
+         if self.remove_zero_eig or self.n_components is None:
+             self.alphas_ = self.alphas_[:, self.lambdas_ > 0]
++
+             self.lambdas_ = self.lambdas_[self.lambdas_ > 0]
+ 
+         return K
+2025-02-12 13:17:50,356 - INFO - Eval script for scikit-learn__scikit-learn-13241 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-13241/eval.sh; copying to container...
+2025-02-12 13:17:59,968 - INFO - Test runtime: 9.41 seconds
+2025-02-12 13:17:59,968 - INFO - Test output for scikit-learn__scikit-learn-13241 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-13241/test_output.txt
+2025-02-12 13:18:00,032 - INFO - Git diff after:
+diff --git a/sklearn/decomposition/kernel_pca.py b/sklearn/decomposition/kernel_pca.py
+index bb91d0cbb..843455817 100644
+--- a/sklearn/decomposition/kernel_pca.py
++++ b/sklearn/decomposition/kernel_pca.py
+@@ -215,9 +215,15 @@ class KernelPCA(BaseEstimator, TransformerMixin, _UnstableOn32BitMixin):
+         self.lambdas_ = self.lambdas_[indices]
+         self.alphas_ = self.alphas_[:, indices]
+ 
++        # flip eigenvectors' sign to enforce deterministic output
++        max_abs_cols = np.argmax(np.abs(self.alphas_), axis=0)
++        signs = np.sign(self.alphas_[max_abs_cols, range(self.alphas_.shape[1])])
++        self.alphas_ *= signs
++
+         # remove eigenvectors with a zero eigenvalue
+         if self.remove_zero_eig or self.n_components is None:
+             self.alphas_ = self.alphas_[:, self.lambdas_ > 0]
++
+             self.lambdas_ = self.lambdas_[self.lambdas_ > 0]
+ 
+         return K
+2025-02-12 13:18:00,032 - INFO - Grading answer for scikit-learn__scikit-learn-13241...
+2025-02-12 13:18:00,041 - INFO - report: {'scikit-learn__scikit-learn-13241': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_deterministic_output'], 'failure': []}, 'PASS_TO_PASS': {'success': ['sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca', 'sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_invalid_parameters', 'sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_consistent_transform', 'sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_sparse', 'sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_linear_kernel', 'sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_n_components', 'sklearn/decomposition/tests/test_kernel_pca.py::test_remove_zero_eig', 'sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_precomputed', 'sklearn/decomposition/tests/test_kernel_pca.py::test_kernel_pca_invalid_kernel', 'sklearn/decomposition/tests/test_kernel_pca.py::test_gridsearch_pipeline', 'sklearn/decomposition/tests/test_kernel_pca.py::test_gridsearch_pipeline_precomputed', 'sklearn/decomposition/tests/test_kernel_pca.py::test_nested_circles', 'sklearn/decomposition/tests/test_pca.py::test_pca', 'sklearn/decomposition/tests/test_pca.py::test_pca_arpack_solver', 'sklearn/decomposition/tests/test_pca.py::test_pca_randomized_solver', 'sklearn/decomposition/tests/test_pca.py::test_no_empty_slice_warning', 'sklearn/decomposition/tests/test_pca.py::test_whitening', 'sklearn/decomposition/tests/test_pca.py::test_explained_variance', 'sklearn/decomposition/tests/test_pca.py::test_singular_values', 'sklearn/decomposition/tests/test_pca.py::test_pca_check_projection', 'sklearn/decomposition/tests/test_pca.py::test_pca_inverse', 'sklearn/decomposition/tests/test_pca.py::test_pca_validation[full]', 'sklearn/decomposition/tests/test_pca.py::test_pca_validation[arpack]', 'sklearn/decomposition/tests/test_pca.py::test_pca_validation[randomized]', 'sklearn/decomposition/tests/test_pca.py::test_pca_validation[auto]', 'sklearn/decomposition/tests/test_pca.py::test_n_components_none[full]', 'sklearn/decomposition/tests/test_pca.py::test_n_components_none[arpack]', 'sklearn/decomposition/tests/test_pca.py::test_n_components_none[randomized]', 'sklearn/decomposition/tests/test_pca.py::test_n_components_none[auto]', 'sklearn/decomposition/tests/test_pca.py::test_randomized_pca_check_projection', 'sklearn/decomposition/tests/test_pca.py::test_randomized_pca_check_list', 'sklearn/decomposition/tests/test_pca.py::test_randomized_pca_inverse', 'sklearn/decomposition/tests/test_pca.py::test_n_components_mle', 'sklearn/decomposition/tests/test_pca.py::test_pca_dim', 'sklearn/decomposition/tests/test_pca.py::test_infer_dim_1', 'sklearn/decomposition/tests/test_pca.py::test_infer_dim_2', 'sklearn/decomposition/tests/test_pca.py::test_infer_dim_3', 'sklearn/decomposition/tests/test_pca.py::test_infer_dim_by_explained_variance', 'sklearn/decomposition/tests/test_pca.py::test_pca_score', 'sklearn/decomposition/tests/test_pca.py::test_pca_score2', 'sklearn/decomposition/tests/test_pca.py::test_pca_score3', 'sklearn/decomposition/tests/test_pca.py::test_pca_score_with_different_solvers', 'sklearn/decomposition/tests/test_pca.py::test_pca_zero_noise_variance_edge_cases', 'sklearn/decomposition/tests/test_pca.py::test_svd_solver_auto', 'sklearn/decomposition/tests/test_pca.py::test_pca_sparse_input[full]', 'sklearn/decomposition/tests/test_pca.py::test_pca_sparse_input[arpack]', 'sklearn/decomposition/tests/test_pca.py::test_pca_sparse_input[randomized]', 'sklearn/decomposition/tests/test_pca.py::test_pca_sparse_input[auto]', 'sklearn/decomposition/tests/test_pca.py::test_pca_bad_solver', 'sklearn/decomposition/tests/test_pca.py::test_pca_dtype_preservation[full]', 'sklearn/decomposition/tests/test_pca.py::test_pca_dtype_preservation[arpack]', 'sklearn/decomposition/tests/test_pca.py::test_pca_dtype_preservation[randomized]', 'sklearn/decomposition/tests/test_pca.py::test_pca_dtype_preservation[auto]', 'sklearn/decomposition/tests/test_pca.py::test_pca_deterministic_output'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for scikit-learn__scikit-learn-13241: resolved: True
+2025-02-12 13:18:00,042 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-13241.20250212_130622...
+2025-02-12 13:18:15,471 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-13241.20250212_130622...
+2025-02-12 13:18:15,484 - INFO - Container sweb.eval.scikit-learn__scikit-learn-13241.20250212_130622 removed.

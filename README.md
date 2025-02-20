@@ -35,10 +35,21 @@
 SWE-Fixer is a simple yet effective solution for addressing real-world GitHub issues by training open-source LLMs. It features a streamlined retrieve-then-edit pipeline with two core components:  
 🔍 **A Code File Retriever** and ✏️ **A Code Editor**.
 
-For implementation, we finetune **Qwen2.5-7b** and **Qwen2.5-72b** for the retriever and the editor respectively, leveraging a curated dataset of **110K instances**. SWE-Fixer achieves **state-of-the-art performance** among open-source solutions with open-source models achieving:
+For implementation, we finetune **Qwen2.5-7b** and **Qwen2.5-72b** for the retriever and the editor respectively, leveraging a curated dataset of **110K instances**. SWE-Fixer achieves **state-of-the-art performance** among open-source solutions with open-source models.
 
-- 🔹 **23.3%** on SWE-Bench Lite
-- 🔹 **30.2%** on SWE-Bench Verified
+
+| **Method** | **Model** | **Type** | **Verified** | **Lite** | **#Model Calls** |
+|------------|------------|------------|------------|------------|------------|
+| AutoCodeRover [[Liu et al., 2024]](https://arxiv.org/pdf/2408.03910) | Qwen2-72B-Instruct | Agent | - | 9.3 | 4<sup>†</sup> |
+| SWE-Gym (Best@1) [[Pan et al., 2024]](https://arxiv.org/abs/2412.21139) | SWE-Gym-32B | Agent | 20.6 | 15.3 | 29.3<sup>‡</sup> |
+| SWE-SynInfer [[Ma et al., 2024]](https://arxiv.org/pdf/2411.00622) | Lingma-SWE-GPT-72B | Agent | 30.2 | 22.0 | 6<sup>†</sup> |
+| SWE-Search [[Antoniades et al., 2024]](https://arxiv.org/pdf/2410.20285) | Qwen2.5-72b-Instruct | Agent | - | 24.7 | 200<sup>*</sup> |
+| SWE-Gym (Best@8 w/ Verifier) [[Pan et al., 2024]](https://arxiv.org/abs/2412.21139) | SWE-Gym-32B | Agent | 29.8 | **26.0** | 29.3 |
+| **SWE-Fixer (Ours)** | SWE-Fixer-72B | Pipeline | **32.8** | 24.7 | 2 |
+
+<sup>†</sup>: The minimum number of model calls needed.  
+<sup>‡</sup>: The average number of model calls needed.  
+<sup>*</sup>: See Appendix in our paper for detailed calculation.
 
 
 

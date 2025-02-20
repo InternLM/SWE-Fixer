@@ -1,0 +1,56 @@
+2025-02-12 15:43:44,095 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15017
+Building instance image sweb.eval.x86_64.sympy__sympy-15017:latest for sympy__sympy-15017
+2025-02-12 15:43:44,097 - INFO - Image sweb.eval.x86_64.sympy__sympy-15017:latest already exists, skipping build.
+2025-02-12 15:43:44,097 - INFO - Creating container for sympy__sympy-15017...
+2025-02-12 15:43:44,128 - INFO - Container for sympy__sympy-15017 created: 17573801ee2989c29c01132e5921b50cd4ce444d7550b9565a4cca7a865d2779
+2025-02-12 15:43:44,611 - INFO - Container for sympy__sympy-15017 started: 17573801ee2989c29c01132e5921b50cd4ce444d7550b9565a4cca7a865d2779
+2025-02-12 15:43:44,611 - INFO - Intermediate patch for sympy__sympy-15017 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-15017/patch.diff, now applying to container...
+2025-02-12 15:43:44,873 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 15:43:44,945 - INFO - >>>>> Applied Patch:
+patching file sympy/tensor/array/ndim_array.py
+
+2025-02-12 15:43:45,488 - INFO - Git diff before:
+diff --git a/sympy/tensor/array/ndim_array.py b/sympy/tensor/array/ndim_array.py
+index 099b291167..b2b782e371 100644
+--- a/sympy/tensor/array/ndim_array.py
++++ b/sympy/tensor/array/ndim_array.py
+@@ -175,10 +175,13 @@ def __len__(self):
+         9
+ 
+         """
++        if self._rank == 0:
++            return 1
+         return self._loop_size
+ 
+     @property
+     def shape(self):
++
+         """
+         Returns array shape (dimension).
+2025-02-12 15:43:45,489 - INFO - Eval script for sympy__sympy-15017 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-15017/eval.sh; copying to container...
+2025-02-12 15:43:49,513 - INFO - Test runtime: 3.80 seconds
+2025-02-12 15:43:49,513 - INFO - Test output for sympy__sympy-15017 written to logs/run_evaluation/20250212_145457/SWE-Fixer/sympy__sympy-15017/test_output.txt
+2025-02-12 15:43:49,592 - INFO - Git diff after:
+diff --git a/sympy/tensor/array/ndim_array.py b/sympy/tensor/array/ndim_array.py
+index 099b291167..b2b782e371 100644
+--- a/sympy/tensor/array/ndim_array.py
++++ b/sympy/tensor/array/ndim_array.py
+@@ -175,10 +175,13 @@ def __len__(self):
+         9
+ 
+         """
++        if self._rank == 0:
++            return 1
+         return self._loop_size
+ 
+     @property
+     def shape(self):
++
+         """
+         Returns array shape (dimension).
+2025-02-12 15:43:49,592 - INFO - Grading answer for sympy__sympy-15017...
+2025-02-12 15:43:49,594 - INFO - report: {'sympy__sympy-15017': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_ndim_array_initiation']}, 'PASS_TO_PASS': {'success': ['test_reshape', 'test_iterator', 'test_sparse', 'test_calculation', 'test_ndim_array_converting', 'test_converting_functions', 'test_equality', 'test_arithmetic', 'test_higher_dimenions', 'test_rebuild_immutable_arrays', 'test_slices', 'test_diff_and_applyfunc', 'test_op_priority', 'test_symbolic_indexing'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-15017: resolved: False
+2025-02-12 15:43:49,594 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15017.20250212_145457...
+2025-02-12 15:44:04,917 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15017.20250212_145457...
+2025-02-12 15:44:04,933 - INFO - Container sweb.eval.sympy__sympy-15017.20250212_145457 removed.

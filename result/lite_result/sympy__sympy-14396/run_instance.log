@@ -1,0 +1,92 @@
+2025-02-12 13:19:55,051 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-14396
+Building instance image sweb.eval.x86_64.sympy__sympy-14396:latest for sympy__sympy-14396
+2025-02-12 13:19:55,053 - INFO - Image sweb.eval.x86_64.sympy__sympy-14396:latest already exists, skipping build.
+2025-02-12 13:19:55,053 - INFO - Creating container for sympy__sympy-14396...
+2025-02-12 13:19:55,083 - INFO - Container for sympy__sympy-14396 created: 0ce5e95ce25a9d116ba62a14eb0a6e4b2438e9aa51f87db368a1f0ad65ffca39
+2025-02-12 13:19:55,604 - INFO - Container for sympy__sympy-14396 started: 0ce5e95ce25a9d116ba62a14eb0a6e4b2438e9aa51f87db368a1f0ad65ffca39
+2025-02-12 13:19:55,604 - INFO - Intermediate patch for sympy__sympy-14396 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-14396/patch.diff, now applying to container...
+2025-02-12 13:19:55,865 - INFO - Failed to apply patch to container, trying again...
+2025-02-12 13:19:55,928 - INFO - >>>>> Applied Patch:
+patching file sympy/polys/polyoptions.py
+patching file sympy/polys/polyoptions.py
+Hunk #1 succeeded at 481 (offset 1 line).
+
+2025-02-12 13:19:56,392 - INFO - Git diff before:
+diff --git a/sympy/polys/polyoptions.py b/sympy/polys/polyoptions.py
+index 6e504a3057..3abf293a8b 100644
+--- a/sympy/polys/polyoptions.py
++++ b/sympy/polys/polyoptions.py
+@@ -402,11 +402,12 @@ class Domain(with_metaclass(OptionType, Option)):
+ 
+     after = ['gens']
+ 
+-    _re_realfield = re.compile(r"^(R|RR)(_(\d+))?$")
+-    _re_complexfield = re.compile(r"^(C|CC)(_(\d+))?$")
++    _re_realfield = re.compile(r"^(R|RR)(_(\d+))?\[.+\]?$")
++    _re_complexfield = re.compile(r"^(C|CC)(_(\d+))?\[.+\]?$")
+     _re_finitefield = re.compile(r"^(FF|GF)\((\d+)\)$")
+     _re_polynomial = re.compile(r"^(Z|ZZ|Q|QQ)\[(.+)\]$")
+     _re_fraction = re.compile(r"^(Z|ZZ|Q|QQ)\((.+)\)$")
++
+     _re_algebraic = re.compile(r"^(Q|QQ)\<(.+)\>$")
+ 
+     @classmethod
+@@ -480,10 +481,13 @@ def preprocess(cls, domain):
+                 gens = list(map(sympify, r.groups()[1].split(',')))
+                 return sympy.polys.domains.QQ.algebraic_field(*gens)
+ 
+-        raise OptionError('expected a valid domain specification, got %s' % domain)
++        raise OptionError(
++            'expected a valid domain specification, got %s; '
++            'see the docstring for `Poly` for more information' % domain)
+ 
+     @classmethod
+     def postprocess(cls, options):
++
+         if 'gens' in options and 'domain' in options and options['domain'].is_Composite and \
+                 (set(options['domain'].symbols) & set(options['gens'])):
+             raise GeneratorsError(
+2025-02-12 13:19:56,392 - INFO - Eval script for sympy__sympy-14396 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-14396/eval.sh; copying to container...
+2025-02-12 13:20:04,563 - INFO - Test runtime: 7.96 seconds
+2025-02-12 13:20:04,564 - INFO - Test output for sympy__sympy-14396 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-14396/test_output.txt
+2025-02-12 13:20:04,634 - INFO - Git diff after:
+diff --git a/sympy/polys/polyoptions.py b/sympy/polys/polyoptions.py
+index 6e504a3057..3abf293a8b 100644
+--- a/sympy/polys/polyoptions.py
++++ b/sympy/polys/polyoptions.py
+@@ -402,11 +402,12 @@ class Domain(with_metaclass(OptionType, Option)):
+ 
+     after = ['gens']
+ 
+-    _re_realfield = re.compile(r"^(R|RR)(_(\d+))?$")
+-    _re_complexfield = re.compile(r"^(C|CC)(_(\d+))?$")
++    _re_realfield = re.compile(r"^(R|RR)(_(\d+))?\[.+\]?$")
++    _re_complexfield = re.compile(r"^(C|CC)(_(\d+))?\[.+\]?$")
+     _re_finitefield = re.compile(r"^(FF|GF)\((\d+)\)$")
+     _re_polynomial = re.compile(r"^(Z|ZZ|Q|QQ)\[(.+)\]$")
+     _re_fraction = re.compile(r"^(Z|ZZ|Q|QQ)\((.+)\)$")
++
+     _re_algebraic = re.compile(r"^(Q|QQ)\<(.+)\>$")
+ 
+     @classmethod
+@@ -480,10 +481,13 @@ def preprocess(cls, domain):
+                 gens = list(map(sympify, r.groups()[1].split(',')))
+                 return sympy.polys.domains.QQ.algebraic_field(*gens)
+ 
+-        raise OptionError('expected a valid domain specification, got %s' % domain)
++        raise OptionError(
++            'expected a valid domain specification, got %s; '
++            'see the docstring for `Poly` for more information' % domain)
+ 
+     @classmethod
+     def postprocess(cls, options):
++
+         if 'gens' in options and 'domain' in options and options['domain'].is_Composite and \
+                 (set(options['domain'].symbols) & set(options['gens'])):
+             raise GeneratorsError(
+2025-02-12 13:20:04,634 - INFO - Grading answer for sympy__sympy-14396...
+2025-02-12 13:20:04,637 - INFO - report: {'sympy__sympy-14396': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Domain_preprocess']}, 'PASS_TO_PASS': {'success': ['test_Options_clone', 'test_Expand_preprocess', 'test_Expand_postprocess', 'test_Gens_preprocess', 'test_Gens_postprocess', 'test_Wrt_preprocess', 'test_Wrt_postprocess', 'test_Sort_preprocess', 'test_Sort_postprocess', 'test_Order_preprocess', 'test_Order_postprocess', 'test_Field_preprocess', 'test_Field_postprocess', 'test_Greedy_preprocess', 'test_Greedy_postprocess', 'test_Domain_postprocess', 'test_Split_preprocess', 'test_Split_postprocess', 'test_Gaussian_preprocess', 'test_Gaussian_postprocess', 'test_Extension_preprocess', 'test_Extension_postprocess', 'test_Modulus_preprocess', 'test_Modulus_postprocess', 'test_Symmetric_preprocess', 'test_Symmetric_postprocess', 'test_Strict_preprocess', 'test_Strict_postprocess', 'test_Auto_preprocess', 'test_Auto_postprocess', 'test_Frac_preprocess', 'test_Frac_postprocess', 'test_Formal_preprocess', 'test_Formal_postprocess', 'test_Polys_preprocess', 'test_Polys_postprocess', 'test_Include_preprocess', 'test_Include_postprocess', 'test_All_preprocess', 'test_All_postprocess', 'test_Gen_postprocess', 'test_Symbols_preprocess', 'test_Symbols_postprocess', 'test_Method_preprocess'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-14396: resolved: False
+2025-02-12 13:20:04,638 - INFO - Attempting to stop container sweb.eval.sympy__sympy-14396.20250212_130622...
+2025-02-12 13:20:19,909 - INFO - Attempting to remove container sweb.eval.sympy__sympy-14396.20250212_130622...
+2025-02-12 13:20:19,930 - INFO - Container sweb.eval.sympy__sympy-14396.20250212_130622 removed.
