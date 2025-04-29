@@ -37,7 +37,7 @@ SWE-Fixer is a simple yet effective solution for addressing real-world GitHub is
 
 For implementation, we finetune **Qwen2.5-7b** and **Qwen2.5-72b** for the retriever and the editor respectively, leveraging a curated dataset of **110K instances**. SWE-Fixer achieves **state-of-the-art performance** among open-source solutions with open-source models. 
 
-This result is the filtered outcome using the **p2p** tests in SWE-Bench. The unfiltered results will be updated soon.
+This **result** is the filtered outcome using the **p2p** tests in SWE-Bench. The unfiltered results will be updated soon. We will update our paper further to improve its clarity.
 
 
 | **Method** | **Model** | **Type** | **Verified** | **Lite** | **#Model Calls** |
