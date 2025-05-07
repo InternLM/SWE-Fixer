@@ -353,8 +353,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        92795723
-hash randomization: on (PYTHONHASHSEED=3057803362)
+random seed:        29036906
+hash randomization: on (PYTHONHASHSEED=3045846069)
 
 sympy/geometry/tests/test_point.py[12] 
 test_point ok
@@ -372,7 +372,7 @@ test_direction_cosine ok                                                    [OK]
 
 
 ________________________________ slowest tests _________________________________
-test_point - Took 11.124 seconds
-================= tests finished: 12 passed, in 11.92 seconds ==================
+test_point - Took 11.422 seconds
+================= tests finished: 12 passed, in 12.21 seconds ==================
 + git checkout f5e965947af2410ded92cfad987aaf45262ea434 sympy/geometry/tests/test_point.py
 Updated 1 path from 0389123d3e

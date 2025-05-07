@@ -1,0 +1,71 @@
+
+diff --git a/sphinx/ext/autosummary/generate.py b/sphinx/ext/autosummary/generate.py
+index 9925546..cae57ae 100644
+--- a/sphinx/ext/autosummary/generate.py
++++ b/sphinx/ext/autosummary/generate.py
+@@ -219,24 +219,10 @@ def generate_autosummary_content(name: str, obj: Any, parent: Any,
+                             public.append(name)
+         return public, items
+ 
+-    def get_module_attrs(members: Any) -> Tuple[List[str], List[str]]:
+-        """Find module attributes with docstrings."""
+-        attrs, public = [], []
+-        try:
+-            analyzer = ModuleAnalyzer.for_module(name)
+-            attr_docs = analyzer.find_attr_docs()
+-            for namespace, attr_name in attr_docs:
+-                if namespace == '' and attr_name in members:
+-                    attrs.append(attr_name)
+-                    if not attr_name.startswith('_'):
+-                        public.append(attr_name)
+-        except PycodeError:
+-            pass    # give up if ModuleAnalyzer fails to parse code
+-        return public, attrs
+-
+     def get_modules(obj: Any) -> Tuple[List[str], List[str]]:
+         items = []  # type: List[str]
+         for _, modname, ispkg in pkgutil.iter_modules(obj.__path__):
++
+             fullname = name + '.' + modname
+             items.append(fullname)
+         public = [x for x in items if not x.split('.')[-1].startswith('_')]
+
+diff --git a/sphinx/ext/autosummary/generate.py b/sphinx/ext/autosummary/generate.py
+index 9925546..a5c9bf6 100644
+--- a/sphinx/ext/autosummary/generate.py
++++ b/sphinx/ext/autosummary/generate.py
+@@ -253,11 +253,32 @@ def generate_autosummary_content(name: str, obj: Any, parent: Any,
+             get_members(obj, {'class'}, imported=imported_members)
+         ns['exceptions'], ns['all_exceptions'] = \
+             get_members(obj, {'exception'}, imported=imported_members)
+-        ns['attributes'], ns['all_attributes'] = \
+-            get_module_attrs(ns['members'])
++        ns['attributes'], ns['all_attributes'] = [], []
++        if imported_members:
++            ns['attributes'], ns['all_attributes'] = \
++                get_module_attrs(ns['members'])
++        else:
++            def _get_module_attrs(members: Any) -> Tuple[List[str], List[str]]:
++                attrs, public = [], []
++                try:
++                    analyzer = ModuleAnalyzer.for_module(name)
++                    attr_docs = analyzer.find_attr_docs()
++                    for namespace, attr_name in attr_docs:
++                        if namespace == '' and attr_name in members:
++                            attrs.append(attr_name)
++                            if not attr_name.startswith('_'):
++                                public.append(attr_name)
++                except PycodeError:
++                    pass    # give up if ModuleAnalyzer fails to parse code
++                return public, attrs
++
++            ns['attributes'], ns['all_attributes'] = \
++                _get_module_attrs(ns['members'])
++
+         ispackage = hasattr(obj, '__path__')
+         if ispackage and recursive:
+             ns['modules'], ns['all_modules'] = get_modules(obj)
++
+     elif doc.objtype == 'class':
+         ns['members'] = dir(obj)
+         ns['inherited_members'] = \

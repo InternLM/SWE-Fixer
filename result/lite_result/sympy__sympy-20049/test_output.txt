@@ -326,8 +326,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        77012543
-hash randomization: on (PYTHONHASHSEED=1726863624)
+random seed:        77948865
+hash randomization: on (PYTHONHASHSEED=3391329606)
 
 sympy/physics/vector/tests/test_point.py[14] 
 test_point_v1pt_theorys ok
@@ -363,7 +363,7 @@ Traceback (most recent call last):
     raise ValueError('Velocity of point ' + self.name + ' has not been'
 ValueError: Velocity of point P4 has not been defined in ReferenceFrame B
 
-=========== tests finished: 12 passed, 2 exceptions, in 0.50 seconds ===========
+=========== tests finished: 12 passed, 2 exceptions, in 0.58 seconds ===========
 DO *NOT* COMMIT!
 + git checkout d57aaf064041fe52c0fa357639b069100f8b28e1 sympy/physics/vector/tests/test_point.py
 Updated 1 path from 479269d1df

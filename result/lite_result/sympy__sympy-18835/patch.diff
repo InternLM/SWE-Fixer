@@ -1,109 +1,58 @@
 
 diff --git a/sympy/utilities/iterables.py b/sympy/utilities/iterables.py
-index 57371bf..2c6a21b 100644
+index 57371bf..088c174 100644
 --- a/sympy/utilities/iterables.py
 +++ b/sympy/utilities/iterables.py
-@@ -2085,9 +2085,109 @@ def has_variety(seq):
+@@ -2085,9 +2085,58 @@ def has_variety(seq):
      return False
  
  
 +class ModificationDetector(list):
-+    """A list that raises an error if it is modified."""
-+    def _check(self, *args, **kwargs):
-+        if len(self) != self._original_len:
-+            raise RuntimeError('The list was modified during iteration.')
++    def __init__(self, data, callback):
++        super().__init__(data)
++        self.callback = callback
 +
-+    def __setitem__(self, *args, **kwargs):
-+        self._check()
-+        super().__setitem__(*args, **kwargs)
++    def __setitem__(self, key, value):
++        super().__setitem__(key, value)
++        self.callback()
 +
-+    def __delitem__(self, *args, **kwargs):
-+        self._check()
-+        super().__delitem__(*args, **kwargs)
++    def __delitem__(self, key):
++        super().__delitem__(key)
++        self.callback()
 +
-+    def __iadd__(self, *args, **kwargs):
-+        self._check()
-+        super().__iadd__(*args, **kwargs)
++    def append(self, value):
++        super().append(value)
++        self.callback()
 +
-+    def __imul__(self, *args, **kwargs):
-+        self._check()
-+        super().__imul__(*args, **kwargs)
++    def pop(self, index=-1):
++        super().pop(index)
++        self.callback()
 +
-+    def __ior__(self, *args, **kwargs):
-+        self._check()
-+        super().__ior__(*args, **kwargs)
++    def remove(self, value):
++        super().remove(value)
++        self.callback()
 +
-+    def __ixor__(self, *args, **kwargs):
-+        self._check()
-+        super().__ixor__(*args, **kwargs)
++    def extend(self, other):
++        super().extend(other)
++        self.callback()
 +
-+    def __iand__(self, *args, **kwargs):
-+        self._check()
-+        super().__iand__(*args, **kwargs)
++    def insert(self, index, value):
++        super().insert(index, value)
++        self.callback()
 +
-+    def __itruediv__(self, *args, **kwargs):
-+        self._check()
-+        super().__itruediv__(*args, **kwargs)
++    def clear(self):
++        super().clear()
++        self.callback()
 +
-+    def __ifloordiv__(self, *args, **kwargs):
-+        self._check()
-+        super().__ifloordiv__(*args, **kwargs)
++    def __iadd__(self, other):
++        super().__iadd__(other)
++        self.callback()
++        return self
 +
-+    def __imod__(self, *args, **kwargs):
-+        self._check()
-+        super().__imod__(*args, **kwargs)
-+
-+    def __ipow__(self, *args, **kwargs):
-+        self._check()
-+        super().__ipow__(*args, **kwargs)
-+
-+    def __ilshift__(self, *args, **kwargs):
-+        self._check()
-+        super().__ilshift__(*args, **kwargs)
-+
-+    def __irshift__(self, *args, **kwargs):
-+        self._check()
-+        super().__irshift__(*args, **kwargs)
-+
-+    def __iadd__(self, *args, **kwargs):
-+        self._check()
-+        super().__iadd__(*args, **kwargs)
-+
-+    def __isub__(self, *args, **kwargs):
-+        self._check()
-+        super().__isub__(*args, **kwargs)
-+
-+    def append(self, *args, **kwargs):
-+        self._check()
-+        super().append(*args, **kwargs)
-+
-+    def extend(self, *args, **kwargs):
-+        self._check()
-+        super().extend(*args, **kwargs)
-+
-+    def insert(self, *args, **kwargs):
-+        self._check()
-+        super().insert(*args, **kwargs)
-+
-+    def pop(self, *args, **kwargs):
-+        self._check()
-+        super().pop(*args, **kwargs)
-+
-+    def remove(self, *args, **kwargs):
-+        self._check()
-+        super().remove(*args, **kwargs)
-+
-+    def reverse(self, *args, **kwargs):
-+        self._check()
-+        super().reverse(*args, **kwargs)
-+
-+    def sort(self, *args, **kwargs):
-+        self._check()
-+        super().sort(*args, **kwargs)
-+
-+    def __init__(self, *args, **kwargs):
-+        super().__init__(*args, **kwargs)
-+        self._original_len = len(self)
++    def __imul__(self, other):
++        super().__imul__(other)
++        self.callback()
++        return self
 +
 +
  def uniq(seq, result=None):
@@ -115,43 +64,46 @@ index 57371bf..2c6a21b 100644
  
 
 diff --git a/sympy/utilities/iterables.py b/sympy/utilities/iterables.py
-index 57371bf..4315c37 100644
+index 57371bf..f8c632a 100644
 --- a/sympy/utilities/iterables.py
 +++ b/sympy/utilities/iterables.py
-@@ -2105,13 +2105,36 @@ def uniq(seq, result=None):
-     [1, 4, 5, 2]
+@@ -2106,26 +2106,29 @@ def uniq(seq, result=None):
      >>> list(uniq([[1], [2, 1], [1]]))
      [[1], [2, 1]]
-+
-+    If you want to modify the sequence during iteration, you can
-+    do so but you must return the sequence to its original state
-+    before the iteration completes or a ``RuntimeError`` will be
-+    raised:
-+
-+    >>> from sympy.utilities.iterables import uniq
-+    >>> dat = [1, 4, 1, 5, 4, 2, 1, 2]
-+    >>> it = uniq(dat)
-+    >>> next(it)
-+    1
-+    >>> dat[1] = 1
-+    >>> next(it)
-+    5
-+    >>> next(it)
-+    2
-+    >>> next(it)
-+    Traceback (most recent call last):
-+    ...
-+    RuntimeError: The list was modified during iteration.
-+
      """
++    if result is None:
++        result = []
++
++    def raise_error():
++        raise RuntimeError('sequence changed size during iteration')
++
++    seq = ModificationDetector(seq, raise_error)
++
      try:
          seen = set()
-         result = result or []
-+        seq = ModificationDetector(seq)
-         for i, s in enumerate(seq):
+-        result = result or []
+-        for i, s in enumerate(seq):
++        for s in seq:
              if not (s in seen or seen.add(s)):
                  yield s
-+
      except TypeError:
-         if s not in result:
-             yield s
+-        if s not in result:
+-            yield s
+-            result.append(s)
+-        if hasattr(seq, '__getitem__'):
+-            for s in uniq(seq[i + 1:], result):
+-                yield s
+-        else:
+-            for s in uniq(seq, result):
++        for s in seq:
++            if s not in result:
+                 yield s
++                result.append(s)
+ 
+ 
+ def generate_bell(n):
+     """Return permutations of [0, 1, ..., n - 1] such that each permutation
++
+     differs from the last by the exchange of a single pair of neighbors.
+     The ``n!`` permutations are returned as an iterator. In order to obtain
+     the next permutation from a random starting permutation, use the

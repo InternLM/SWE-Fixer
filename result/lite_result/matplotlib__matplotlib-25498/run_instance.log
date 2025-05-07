@@ -1,23 +1,26 @@
-2025-02-12 13:13:10,974 - INFO - Environment image sweb.env.x86_64.efa6065ed5bf204410fd53:latest found for matplotlib__matplotlib-25498
+2025-05-06 12:34:45,775 - INFO - Environment image sweb.env.x86_64.efa6065ed5bf204410fd53:latest found for matplotlib__matplotlib-25498
 Building instance image sweb.eval.x86_64.matplotlib__matplotlib-25498:latest for matplotlib__matplotlib-25498
-2025-02-12 13:13:10,976 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-25498:latest already exists, skipping build.
-2025-02-12 13:13:10,976 - INFO - Creating container for matplotlib__matplotlib-25498...
-2025-02-12 13:13:11,014 - INFO - Container for matplotlib__matplotlib-25498 created: ad7ebd5b5547372533f5ea939f6b0344915b6d1f20b3fc7fb65b4a99eb7034a0
-2025-02-12 13:13:11,313 - INFO - Container for matplotlib__matplotlib-25498 started: ad7ebd5b5547372533f5ea939f6b0344915b6d1f20b3fc7fb65b4a99eb7034a0
-2025-02-12 13:13:11,313 - INFO - Intermediate patch for matplotlib__matplotlib-25498 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-25498/patch.diff, now applying to container...
-2025-02-12 13:13:11,560 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:13:11,619 - INFO - >>>>> Applied Patch:
+2025-05-06 12:34:45,779 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-25498:latest already exists, skipping build.
+2025-05-06 12:34:45,779 - INFO - Creating container for matplotlib__matplotlib-25498...
+2025-05-06 12:34:45,844 - INFO - Container for matplotlib__matplotlib-25498 created: 43e121d7dd50586bfdd4007c09d6bdea3d7cc01e779523e75fed4abb386ec0d6
+2025-05-06 12:34:46,082 - INFO - Container for matplotlib__matplotlib-25498 started: 43e121d7dd50586bfdd4007c09d6bdea3d7cc01e779523e75fed4abb386ec0d6
+2025-05-06 12:34:46,082 - INFO - Intermediate patch for matplotlib__matplotlib-25498 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-25498/patch.diff, now applying to container...
+2025-05-06 12:34:46,282 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:34:46,325 - INFO - >>>>> Applied Patch:
 patching file lib/matplotlib/colorbar.py
 patching file lib/matplotlib/colorbar.py
-Hunk #1 succeeded at 526 (offset 2 lines).
-Hunk #2 succeeded at 537 (offset 2 lines).
+Hunk #1 succeeded at 520 (offset 2 lines).
+patching file lib/matplotlib/colorbar.py
+Hunk #1 succeeded at 532 (offset -5 lines).
+patching file lib/matplotlib/colorbar.py
+Hunk #1 succeeded at 1156 (offset -8 lines).
 
-2025-02-12 13:13:13,095 - INFO - Git diff before:
+2025-05-06 12:34:47,576 - INFO - Git diff before:
 diff --git a/lib/matplotlib/colorbar.py b/lib/matplotlib/colorbar.py
-index d3d53e3d98..a76ab8be1b 100644
+index d3d53e3d98..5e87dd0681 100644
 --- a/lib/matplotlib/colorbar.py
 +++ b/lib/matplotlib/colorbar.py
-@@ -507,12 +507,14 @@ class Colorbar:
+@@ -507,28 +507,23 @@ class Colorbar:
          self.mappable = mappable
          self.set_alpha(mappable.get_alpha())
          self.cmap = mappable.cmap
@@ -32,31 +35,74 @@ index d3d53e3d98..a76ab8be1b 100644
              CS = self.mappable
              if not CS.filled:
                  self.add_lines(CS)
-@@ -524,6 +526,7 @@ class Colorbar:
+         self.stale = True
+ 
+-    @_api.deprecated("3.6", alternative="fig.draw_without_rendering()")
+-    def draw_all(self):
+-        """
+-        Calculate any free parameters based on the current cmap and norm,
+-        and do all the drawing.
+-        """
+-        self._draw_all()
+-
+     def _draw_all(self):
+         """
          Calculate any free parameters based on the current cmap and norm,
++
          and do all the drawing.
          """
-+        self._process_values()
-         self._draw_all()
- 
-     def _draw_all(self):
-@@ -534,6 +537,7 @@ class Colorbar:
          if self.orientation == 'vertical':
-             if mpl.rcParams['ytick.minor.visible']:
-                 self.minorticks_on()
-+
+@@ -537,19 +532,16 @@ class Colorbar:
          else:
              if mpl.rcParams['xtick.minor.visible']:
                  self.minorticks_on()
-2025-02-12 13:13:13,095 - INFO - Eval script for matplotlib__matplotlib-25498 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-25498/eval.sh; copying to container...
-2025-02-12 13:14:34,069 - INFO - Test runtime: 80.79 seconds
-2025-02-12 13:14:34,069 - INFO - Test output for matplotlib__matplotlib-25498 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-25498/test_output.txt
-2025-02-12 13:14:34,154 - INFO - Git diff after:
++
+         self._long_axis().set(label_position=self.ticklocation,
+                               ticks_position=self.ticklocation)
+         self._short_axis().set_ticks([])
+         self._short_axis().set_ticks([], minor=True)
+ 
+-        # Set self._boundaries and self._values, including extensions.
+-        # self._boundaries are the edges of each square of color, and
+-        # self._values are the value to map into the norm to get the
+-        # color:
+-        self._process_values()
+         # Set self.vmin and self.vmax to first and last boundary, excluding
+         # extensions:
+         self.vmin, self.vmax = self._boundaries[self._inside][[0, -1]]
++
+         # Compute the X/Y mesh.
+         X, Y = self._mesh()
+         # draw the extend triangles, and shrink the inner axes to accommodate.
+@@ -1164,9 +1156,19 @@ class Colorbar:
+         b = self._boundaries
+         return np.interp(x, np.linspace(0, 1, len(b)), b)
+ 
++    @_api.deprecated("3.6", alternative="Colorbar.update_normal()")
++    def update_bruteforce(self, mappable):
++        """
++        Update the colorbar to match the mappable's properties.
++
++        This is a deprecated alias for `Colorbar.update_normal`.
++        """
++        self.update_normal(mappable)
++
+     def _reset_locator_formatter_scale(self):
+         """
+         Reset the locator et al to defaults.  Any user-hardcoded changes
++
+         need to be re-entered if this gets called (either at init, or when
+         the mappable normal gets changed: Colorbar.update_normal)
+         """
+2025-05-06 12:34:47,577 - INFO - Eval script for matplotlib__matplotlib-25498 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-25498/eval.sh; copying to container...
+2025-05-06 12:36:09,632 - INFO - Test runtime: 81.89 seconds
+2025-05-06 12:36:09,632 - INFO - Test output for matplotlib__matplotlib-25498 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-25498/test_output.txt
+2025-05-06 12:36:09,706 - INFO - Git diff after:
 diff --git a/lib/matplotlib/colorbar.py b/lib/matplotlib/colorbar.py
-index d3d53e3d98..a76ab8be1b 100644
+index d3d53e3d98..5e87dd0681 100644
 --- a/lib/matplotlib/colorbar.py
 +++ b/lib/matplotlib/colorbar.py
-@@ -507,12 +507,14 @@ class Colorbar:
+@@ -507,28 +507,23 @@ class Colorbar:
          self.mappable = mappable
          self.set_alpha(mappable.get_alpha())
          self.cmap = mappable.cmap
@@ -71,25 +117,68 @@ index d3d53e3d98..a76ab8be1b 100644
              CS = self.mappable
              if not CS.filled:
                  self.add_lines(CS)
-@@ -524,6 +526,7 @@ class Colorbar:
+         self.stale = True
+ 
+-    @_api.deprecated("3.6", alternative="fig.draw_without_rendering()")
+-    def draw_all(self):
+-        """
+-        Calculate any free parameters based on the current cmap and norm,
+-        and do all the drawing.
+-        """
+-        self._draw_all()
+-
+     def _draw_all(self):
+         """
          Calculate any free parameters based on the current cmap and norm,
++
          and do all the drawing.
          """
-+        self._process_values()
-         self._draw_all()
- 
-     def _draw_all(self):
-@@ -534,6 +537,7 @@ class Colorbar:
          if self.orientation == 'vertical':
-             if mpl.rcParams['ytick.minor.visible']:
-                 self.minorticks_on()
-+
+@@ -537,19 +532,16 @@ class Colorbar:
          else:
              if mpl.rcParams['xtick.minor.visible']:
                  self.minorticks_on()
-2025-02-12 13:14:34,154 - INFO - Grading answer for matplotlib__matplotlib-25498...
-2025-02-12 13:14:34,157 - INFO - report: {'matplotlib__matplotlib-25498': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_colorbar.py::test_colorbar_scale_reset']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_shape[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_length[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[min-expected0-horizontal]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[min-expected0-vertical]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[max-expected1-horizontal]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[max-expected1-vertical]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[both-expected2-horizontal]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[both-expected2-vertical]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_positioning[png-True]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_positioning[png-False]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_ax_panchor_false', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_ax_panchor_east[standard]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_ax_panchor_east[constrained]', 'lib/matplotlib/tests/test_colorbar.py::test_contour_colorbar[png]', 'lib/matplotlib/tests/test_colorbar.py::test_gridspec_make_colorbar[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_scatter[png]', 'lib/matplotlib/tests/test_colorbar.py::test_remove_from_figure[no', 'lib/matplotlib/tests/test_colorbar.py::test_remove_from_figure[with', 'lib/matplotlib/tests/test_colorbar.py::test_remove_from_figure_cl', 'lib/matplotlib/tests/test_colorbar.py::test_colorbarbase', 'lib/matplotlib/tests/test_colorbar.py::test_parentless_mappable', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_closed_patch[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_ticks', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_minorticks_on_off', 'lib/matplotlib/tests/test_colorbar.py::test_cbar_minorticks_for_rc_xyminortickvisible', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_autoticks', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_autotickslog', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_get_ticks', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_lognorm_extension[both]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_lognorm_extension[min]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_lognorm_extension[max]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_powernorm_extension', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_axes_kw', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_log_minortick_labels', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_renorm', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_format[%4.2e]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_format[{x:.2e}]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_get_ticks_2', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_inverted_ticks', 'lib/matplotlib/tests/test_colorbar.py::test_mappable_no_alpha', 'lib/matplotlib/tests/test_colorbar.py::test_mappable_2d_alpha', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_label', 'lib/matplotlib/tests/test_colorbar.py::test_keeping_xlabel[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_int[clim0]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_int[clim1]', 'lib/matplotlib/tests/test_colorbar.py::test_anchored_cbar_position_using_specgrid', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_change_lim_scale[png]', 'lib/matplotlib/tests/test_colorbar.py::test_axes_handles_same_functions[png]', 'lib/matplotlib/tests/test_colorbar.py::test_inset_colorbar_layout', 'lib/matplotlib/tests/test_colorbar.py::test_twoslope_colorbar[png]', 'lib/matplotlib/tests/test_colorbar.py::test_remove_cb_whose_mappable_has_no_figure[png]', 'lib/matplotlib/tests/test_colorbar.py::test_aspects', 'lib/matplotlib/tests/test_colorbar.py::test_proportional_colorbars[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extend_drawedges[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_contourf_extend_patches[png]', 'lib/matplotlib/tests/test_colorbar.py::test_negative_boundarynorm', 'lib/matplotlib/tests/test_colorbar.py::test_centerednorm', 'lib/matplotlib/tests/test_colorbar.py::test_boundaries[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_no_warning_rcparams_grid_true', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_set_formatter_locator', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extend_alpha[png]', 'lib/matplotlib/tests/test_colorbar.py::test_offset_text_loc', 'lib/matplotlib/tests/test_colorbar.py::test_title_text_loc', 'lib/matplotlib/tests/test_colorbar.py::test_passing_location[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs0-TypeError-location', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs1-TypeError-location', "lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs2-ValueError-'top'", 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs3-ValueError-invalid', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_axes_parmeters'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
++
+         self._long_axis().set(label_position=self.ticklocation,
+                               ticks_position=self.ticklocation)
+         self._short_axis().set_ticks([])
+         self._short_axis().set_ticks([], minor=True)
+ 
+-        # Set self._boundaries and self._values, including extensions.
+-        # self._boundaries are the edges of each square of color, and
+-        # self._values are the value to map into the norm to get the
+-        # color:
+-        self._process_values()
+         # Set self.vmin and self.vmax to first and last boundary, excluding
+         # extensions:
+         self.vmin, self.vmax = self._boundaries[self._inside][[0, -1]]
++
+         # Compute the X/Y mesh.
+         X, Y = self._mesh()
+         # draw the extend triangles, and shrink the inner axes to accommodate.
+@@ -1164,9 +1156,19 @@ class Colorbar:
+         b = self._boundaries
+         return np.interp(x, np.linspace(0, 1, len(b)), b)
+ 
++    @_api.deprecated("3.6", alternative="Colorbar.update_normal()")
++    def update_bruteforce(self, mappable):
++        """
++        Update the colorbar to match the mappable's properties.
++
++        This is a deprecated alias for `Colorbar.update_normal`.
++        """
++        self.update_normal(mappable)
++
+     def _reset_locator_formatter_scale(self):
+         """
+         Reset the locator et al to defaults.  Any user-hardcoded changes
++
+         need to be re-entered if this gets called (either at init, or when
+         the mappable normal gets changed: Colorbar.update_normal)
+         """
+2025-05-06 12:36:09,706 - INFO - Grading answer for matplotlib__matplotlib-25498...
+2025-05-06 12:36:09,707 - INFO - report: {'matplotlib__matplotlib-25498': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_colorbar.py::test_colorbar_scale_reset']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_shape[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_length[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[min-expected0-horizontal]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[min-expected0-vertical]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[max-expected1-horizontal]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[max-expected1-vertical]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[both-expected2-horizontal]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extension_inverted_axis[both-expected2-vertical]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_positioning[png-True]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_positioning[png-False]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_ax_panchor_false', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_ax_panchor_east[standard]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_ax_panchor_east[constrained]', 'lib/matplotlib/tests/test_colorbar.py::test_contour_colorbar[png]', 'lib/matplotlib/tests/test_colorbar.py::test_gridspec_make_colorbar[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_single_scatter[png]', 'lib/matplotlib/tests/test_colorbar.py::test_remove_from_figure[no', 'lib/matplotlib/tests/test_colorbar.py::test_remove_from_figure[with', 'lib/matplotlib/tests/test_colorbar.py::test_remove_from_figure_cl', 'lib/matplotlib/tests/test_colorbar.py::test_colorbarbase', 'lib/matplotlib/tests/test_colorbar.py::test_parentless_mappable', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_closed_patch[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_ticks', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_minorticks_on_off', 'lib/matplotlib/tests/test_colorbar.py::test_cbar_minorticks_for_rc_xyminortickvisible', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_autoticks', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_autotickslog', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_get_ticks', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_lognorm_extension[both]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_lognorm_extension[min]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_lognorm_extension[max]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_powernorm_extension', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_axes_kw', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_log_minortick_labels', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_renorm', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_format[%4.2e]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_format[{x:.2e}]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_get_ticks_2', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_inverted_ticks', 'lib/matplotlib/tests/test_colorbar.py::test_mappable_no_alpha', 'lib/matplotlib/tests/test_colorbar.py::test_mappable_2d_alpha', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_label', 'lib/matplotlib/tests/test_colorbar.py::test_keeping_xlabel[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_int[clim0]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_int[clim1]', 'lib/matplotlib/tests/test_colorbar.py::test_anchored_cbar_position_using_specgrid', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_change_lim_scale[png]', 'lib/matplotlib/tests/test_colorbar.py::test_axes_handles_same_functions[png]', 'lib/matplotlib/tests/test_colorbar.py::test_inset_colorbar_layout', 'lib/matplotlib/tests/test_colorbar.py::test_twoslope_colorbar[png]', 'lib/matplotlib/tests/test_colorbar.py::test_remove_cb_whose_mappable_has_no_figure[png]', 'lib/matplotlib/tests/test_colorbar.py::test_aspects', 'lib/matplotlib/tests/test_colorbar.py::test_proportional_colorbars[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extend_drawedges[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_contourf_extend_patches[png]', 'lib/matplotlib/tests/test_colorbar.py::test_negative_boundarynorm', 'lib/matplotlib/tests/test_colorbar.py::test_centerednorm', 'lib/matplotlib/tests/test_colorbar.py::test_boundaries[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_no_warning_rcparams_grid_true', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_set_formatter_locator', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_extend_alpha[png]', 'lib/matplotlib/tests/test_colorbar.py::test_offset_text_loc', 'lib/matplotlib/tests/test_colorbar.py::test_title_text_loc', 'lib/matplotlib/tests/test_colorbar.py::test_passing_location[png]', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs0-TypeError-location', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs1-TypeError-location', "lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs2-ValueError-'top'", 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_errors[kwargs3-ValueError-invalid', 'lib/matplotlib/tests/test_colorbar.py::test_colorbar_axes_parmeters'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for matplotlib__matplotlib-25498: resolved: False
-2025-02-12 13:14:34,157 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-25498.20250212_130622...
-2025-02-12 13:14:49,443 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-25498.20250212_130622...
-2025-02-12 13:14:49,461 - INFO - Container sweb.eval.matplotlib__matplotlib-25498.20250212_130622 removed.
+2025-05-06 12:36:09,708 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-25498.20250506_122807...
+2025-05-06 12:36:25,058 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-25498.20250506_122807...
+2025-05-06 12:36:25,088 - INFO - Container sweb.eval.matplotlib__matplotlib-25498.20250506_122807 removed.

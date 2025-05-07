@@ -1,66 +1,62 @@
-2025-02-12 13:08:55,785 - INFO - Environment image sweb.env.x86_64.e83e37f52c09532c62acfb:latest found for django__django-13220
+2025-05-06 12:30:34,438 - INFO - Environment image sweb.env.x86_64.e83e37f52c09532c62acfb:latest found for django__django-13220
 Building instance image sweb.eval.x86_64.django__django-13220:latest for django__django-13220
-2025-02-12 13:08:55,788 - INFO - Image sweb.eval.x86_64.django__django-13220:latest already exists, skipping build.
-2025-02-12 13:08:55,789 - INFO - Creating container for django__django-13220...
-2025-02-12 13:08:55,823 - INFO - Container for django__django-13220 created: d16f6a16126bc02e434c5e9e053ebf8cbe74d5dc7392612659b11ce7d7e0ef27
-2025-02-12 13:08:56,180 - INFO - Container for django__django-13220 started: d16f6a16126bc02e434c5e9e053ebf8cbe74d5dc7392612659b11ce7d7e0ef27
-2025-02-12 13:08:56,180 - INFO - Intermediate patch for django__django-13220 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-13220/patch.diff, now applying to container...
-2025-02-12 13:08:56,423 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:08:56,487 - INFO - >>>>> Applied Patch:
+2025-05-06 12:30:34,440 - INFO - Image sweb.eval.x86_64.django__django-13220:latest already exists, skipping build.
+2025-05-06 12:30:34,440 - INFO - Creating container for django__django-13220...
+2025-05-06 12:30:34,471 - INFO - Container for django__django-13220 created: 211aefa486517f61ad70fc53b96dc8d8d59b97e9b5e8376689e3f022b13a86f1
+2025-05-06 12:30:35,570 - INFO - Container for django__django-13220 started: 211aefa486517f61ad70fc53b96dc8d8d59b97e9b5e8376689e3f022b13a86f1
+2025-05-06 12:30:35,570 - INFO - Intermediate patch for django__django-13220 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-13220/patch.diff, now applying to container...
+2025-05-06 12:30:35,773 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:30:35,819 - INFO - >>>>> Applied Patch:
 patching file django/core/exceptions.py
 
-2025-02-12 13:08:58,176 - INFO - Git diff before:
+2025-05-06 12:30:37,021 - INFO - Git diff before:
 diff --git a/django/core/exceptions.py b/django/core/exceptions.py
-index dc084b8692..c27be3ec86 100644
+index dc084b8692..c36d921a20 100644
 --- a/django/core/exceptions.py
 +++ b/django/core/exceptions.py
-@@ -182,9 +182,19 @@ class ValidationError(Exception):
+@@ -182,9 +182,17 @@ class ValidationError(Exception):
      def __repr__(self):
          return 'ValidationError(%s)' % self
  
 +    def __eq__(self, other):
 +        if not isinstance(other, ValidationError):
 +            return NotImplemented
-+        if hasattr(self, 'error_dict'):
-+            return self.error_dict == other.error_dict
-+        if hasattr(self, 'error_list'):
-+            return sorted(self.error_list) == sorted(other.error_list)
-+        return self.message == other.message
++        if hasattr(self, 'message_dict'):
++            return self.message_dict == other.message_dict
++        return self.messages == other.messages
 +
  
  class EmptyResultSet(Exception):
      """A database query predicate is impossible."""
 +
      pass
-2025-02-12 13:08:58,176 - INFO - Eval script for django__django-13220 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-13220/eval.sh; copying to container...
-2025-02-12 13:09:06,617 - INFO - Test runtime: 8.25 seconds
-2025-02-12 13:09:06,618 - INFO - Test output for django__django-13220 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-13220/test_output.txt
-2025-02-12 13:09:06,703 - INFO - Git diff after:
+2025-05-06 12:30:37,022 - INFO - Eval script for django__django-13220 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-13220/eval.sh; copying to container...
+2025-05-06 12:30:44,894 - INFO - Test runtime: 7.70 seconds
+2025-05-06 12:30:44,895 - INFO - Test output for django__django-13220 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-13220/test_output.txt
+2025-05-06 12:30:44,981 - INFO - Git diff after:
 diff --git a/django/core/exceptions.py b/django/core/exceptions.py
-index dc084b8692..c27be3ec86 100644
+index dc084b8692..c36d921a20 100644
 --- a/django/core/exceptions.py
 +++ b/django/core/exceptions.py
-@@ -182,9 +182,19 @@ class ValidationError(Exception):
+@@ -182,9 +182,17 @@ class ValidationError(Exception):
      def __repr__(self):
          return 'ValidationError(%s)' % self
  
 +    def __eq__(self, other):
 +        if not isinstance(other, ValidationError):
 +            return NotImplemented
-+        if hasattr(self, 'error_dict'):
-+            return self.error_dict == other.error_dict
-+        if hasattr(self, 'error_list'):
-+            return sorted(self.error_list) == sorted(other.error_list)
-+        return self.message == other.message
++        if hasattr(self, 'message_dict'):
++            return self.message_dict == other.message_dict
++        return self.messages == other.messages
 +
  
  class EmptyResultSet(Exception):
      """A database query predicate is impossible."""
 +
      pass
-2025-02-12 13:09:06,703 - INFO - Grading answer for django__django-13220...
-2025-02-12 13:09:06,716 - INFO - report: {'django__django-13220': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_eq (test_exceptions.test_validation_error.TestValidationError)', 'test_eq_nested (test_exceptions.test_validation_error.TestValidationError)', 'test_hash (test_exceptions.test_validation_error.TestValidationError)', 'test_hash_nested (test_exceptions.test_validation_error.TestValidationError)']}, 'PASS_TO_PASS': {'success': ['test_messages_concatenates_error_dict_values (test_exceptions.test_validation_error.TestValidationError)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:30:44,981 - INFO - Grading answer for django__django-13220...
+2025-05-06 12:30:44,990 - INFO - report: {'django__django-13220': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_eq (test_exceptions.test_validation_error.TestValidationError)', 'test_eq_nested (test_exceptions.test_validation_error.TestValidationError)', 'test_hash (test_exceptions.test_validation_error.TestValidationError)', 'test_hash_nested (test_exceptions.test_validation_error.TestValidationError)']}, 'PASS_TO_PASS': {'success': ['test_messages_concatenates_error_dict_values (test_exceptions.test_validation_error.TestValidationError)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-13220: resolved: False
-2025-02-12 13:09:06,717 - INFO - Attempting to stop container sweb.eval.django__django-13220.20250212_130622...
-2025-02-12 13:09:22,060 - INFO - Attempting to remove container sweb.eval.django__django-13220.20250212_130622...
-2025-02-12 13:09:22,082 - INFO - Container sweb.eval.django__django-13220.20250212_130622 removed.
+2025-05-06 12:30:44,990 - INFO - Attempting to stop container sweb.eval.django__django-13220.20250506_122807...
+2025-05-06 12:31:01,071 - INFO - Attempting to remove container sweb.eval.django__django-13220.20250506_122807...
+2025-05-06 12:31:01,094 - INFO - Container sweb.eval.django__django-13220.20250506_122807 removed.

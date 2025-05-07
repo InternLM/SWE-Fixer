@@ -344,8 +344,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        99706925
-hash randomization: on (PYTHONHASHSEED=2736520904)
+random seed:        67686403
+hash randomization: on (PYTHONHASHSEED=1393583343)
 
 sympy/assumptions/tests/test_refine.py[15] 
 test_Abs ok
@@ -372,7 +372,7 @@ Traceback (most recent call last):
     assert refine(arg(x), Q.negative(x)) == pi
 AssertionError
 
-============= tests finished: 14 passed, 1 failed, in 3.48 seconds =============
+============= tests finished: 14 passed, 1 failed, in 3.47 seconds =============
 DO *NOT* COMMIT!
 + git checkout 748ce73479ee2cd5c861431091001cc18943c735 sympy/assumptions/tests/test_refine.py
 Updated 1 path from f0fbbde5fc

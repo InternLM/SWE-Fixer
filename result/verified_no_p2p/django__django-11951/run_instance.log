@@ -1,0 +1,58 @@
+2025-05-06 06:26:11,867 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-11951
+Building instance image sweb.eval.x86_64.django__django-11951:latest for django__django-11951
+2025-05-06 06:26:11,870 - INFO - Image sweb.eval.x86_64.django__django-11951:latest already exists, skipping build.
+2025-05-06 06:26:11,870 - INFO - Creating container for django__django-11951...
+2025-05-06 06:26:11,901 - INFO - Container for django__django-11951 created: 4625f6bb173845c935381eb2ac5974e48860472621875b3d774260e0249ab36f
+2025-05-06 06:26:12,175 - INFO - Container for django__django-11951 started: 4625f6bb173845c935381eb2ac5974e48860472621875b3d774260e0249ab36f
+2025-05-06 06:26:12,175 - INFO - Intermediate patch for django__django-11951 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-11951/patch.diff, now applying to container...
+2025-05-06 06:26:12,445 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:26:12,509 - INFO - >>>>> Applied Patch:
+patching file django/db/models/query.py
+
+2025-05-06 06:26:13,140 - INFO - Git diff before:
+diff --git a/django/db/models/query.py b/django/db/models/query.py
+index 794e0faae7..c4d88e1f4e 100644
+--- a/django/db/models/query.py
++++ b/django/db/models/query.py
+@@ -1209,10 +1209,12 @@ class QuerySet:
+         if ignore_conflicts and not connections[self.db].features.supports_ignore_conflicts:
+             raise NotSupportedError('This database backend does not support ignoring conflicts.')
+         ops = connections[self.db].ops
+-        batch_size = (batch_size or max(ops.bulk_batch_size(fields, objs), 1))
++        max_batch_size = max(ops.bulk_batch_size(fields, objs), 1)
++        batch_size = min(batch_size, max_batch_size) if batch_size else max_batch_size
+         inserted_rows = []
+         bulk_return = connections[self.db].features.can_return_rows_from_bulk_insert
+         for item in [objs[i:i + batch_size] for i in range(0, len(objs), batch_size)]:
++
+             if bulk_return and not ignore_conflicts:
+                 inserted_columns = self._insert(
+                     item, fields=fields, using=self.db,
+2025-05-06 06:26:13,141 - INFO - Eval script for django__django-11951 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-11951/eval.sh; copying to container...
+2025-05-06 06:26:20,211 - INFO - Test runtime: 6.87 seconds
+2025-05-06 06:26:20,212 - INFO - Test output for django__django-11951 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-11951/test_output.txt
+2025-05-06 06:26:20,294 - INFO - Git diff after:
+diff --git a/django/db/models/query.py b/django/db/models/query.py
+index 794e0faae7..c4d88e1f4e 100644
+--- a/django/db/models/query.py
++++ b/django/db/models/query.py
+@@ -1209,10 +1209,12 @@ class QuerySet:
+         if ignore_conflicts and not connections[self.db].features.supports_ignore_conflicts:
+             raise NotSupportedError('This database backend does not support ignoring conflicts.')
+         ops = connections[self.db].ops
+-        batch_size = (batch_size or max(ops.bulk_batch_size(fields, objs), 1))
++        max_batch_size = max(ops.bulk_batch_size(fields, objs), 1)
++        batch_size = min(batch_size, max_batch_size) if batch_size else max_batch_size
+         inserted_rows = []
+         bulk_return = connections[self.db].features.can_return_rows_from_bulk_insert
+         for item in [objs[i:i + batch_size] for i in range(0, len(objs), batch_size)]:
++
+             if bulk_return and not ignore_conflicts:
+                 inserted_columns = self._insert(
+                     item, fields=fields, using=self.db,
+2025-05-06 06:26:20,294 - INFO - Grading answer for django__django-11951...
+2025-05-06 06:26:20,302 - INFO - report: {'django__django-11951': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_explicit_batch_size_respects_max_batch_size (bulk_create.tests.BulkCreateTests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_batch_same_vals (bulk_create.tests.BulkCreateTests)', 'test_bulk_insert_expressions (bulk_create.tests.BulkCreateTests)', 'test_bulk_insert_nullable_fields (bulk_create.tests.BulkCreateTests)', 'test_efficiency (bulk_create.tests.BulkCreateTests)', 'test_empty_model (bulk_create.tests.BulkCreateTests)', 'test_explicit_batch_size (bulk_create.tests.BulkCreateTests)', 'test_explicit_batch_size_efficiency (bulk_create.tests.BulkCreateTests)', 'test_ignore_conflicts_ignore (bulk_create.tests.BulkCreateTests)', 'test_large_batch (bulk_create.tests.BulkCreateTests)', 'test_large_batch_efficiency (bulk_create.tests.BulkCreateTests)', 'test_large_batch_mixed (bulk_create.tests.BulkCreateTests)', 'test_large_batch_mixed_efficiency (bulk_create.tests.BulkCreateTests)', 'test_large_single_field_batch (bulk_create.tests.BulkCreateTests)', 'test_long_and_short_text (bulk_create.tests.BulkCreateTests)', 'test_long_non_ascii_text (bulk_create.tests.BulkCreateTests)', 'test_multi_table_inheritance_unsupported (bulk_create.tests.BulkCreateTests)', 'test_non_auto_increment_pk (bulk_create.tests.BulkCreateTests)', 'test_non_auto_increment_pk_efficiency (bulk_create.tests.BulkCreateTests)', 'test_proxy_inheritance_supported (bulk_create.tests.BulkCreateTests)', 'test_set_state_with_pk_specified (bulk_create.tests.BulkCreateTests)', 'test_simple (bulk_create.tests.BulkCreateTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-11951: resolved: True
+2025-05-06 06:26:20,303 - INFO - Attempting to stop container sweb.eval.django__django-11951.20250506_061805...
+2025-05-06 06:26:35,601 - INFO - Attempting to remove container sweb.eval.django__django-11951.20250506_061805...
+2025-05-06 06:26:35,627 - INFO - Container sweb.eval.django__django-11951.20250506_061805 removed.

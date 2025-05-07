@@ -1,0 +1,74 @@
+2025-05-06 07:05:27,876 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13551
+Building instance image sweb.eval.x86_64.sympy__sympy-13551:latest for sympy__sympy-13551
+2025-05-06 07:05:27,877 - INFO - Image sweb.eval.x86_64.sympy__sympy-13551:latest already exists, skipping build.
+2025-05-06 07:05:27,877 - INFO - Creating container for sympy__sympy-13551...
+2025-05-06 07:05:27,927 - INFO - Container for sympy__sympy-13551 created: 6a0442b002f327ca2ac784c953becd6bf65e8d70997a8b9e801272736f5e46bd
+2025-05-06 07:05:29,077 - INFO - Container for sympy__sympy-13551 started: 6a0442b002f327ca2ac784c953becd6bf65e8d70997a8b9e801272736f5e46bd
+2025-05-06 07:05:29,077 - INFO - Intermediate patch for sympy__sympy-13551 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-13551/patch.diff, now applying to container...
+2025-05-06 07:05:29,417 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:05:29,472 - INFO - >>>>> Applied Patch:
+patching file sympy/concrete/products.py
+
+2025-05-06 07:05:29,831 - INFO - Git diff before:
+diff --git a/sympy/concrete/products.py b/sympy/concrete/products.py
+index 66aafde2d6..6a96f42a38 100644
+--- a/sympy/concrete/products.py
++++ b/sympy/concrete/products.py
+@@ -277,17 +277,17 @@ def _eval_product(self, term, limits):
+         elif term.is_Add:
+             p, q = term.as_numer_denom()
+             q = self._eval_product(q, (k, a, n))
+-            if q.is_Number:
+-
+-                # There is expression, which couldn't change by
+-                # as_numer_denom(). E.g. n**(2/3) + 1 --> (n**(2/3) + 1, 1).
+-                # We have to catch this case.
+ 
++            # There is expression, which couldn't change by
++            # as_numer_denom(). E.g. n**(2/3) + 1 --> (n**(2/3) + 1, 1).
++            # We have to catch this case.
++            if q.is_Number:
+                 p = sum([self._eval_product(i, (k, a, n)) for i in p.as_coeff_Add()])
+             else:
+                 p = self._eval_product(p, (k, a, n))
+             return p / q
+ 
++
+         elif term.is_Mul:
+             exclude, include = [], []
+2025-05-06 07:05:29,832 - INFO - Eval script for sympy__sympy-13551 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-13551/eval.sh; copying to container...
+2025-05-06 07:05:53,751 - INFO - Test runtime: 23.73 seconds
+2025-05-06 07:05:53,752 - INFO - Test output for sympy__sympy-13551 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-13551/test_output.txt
+2025-05-06 07:05:53,845 - INFO - Git diff after:
+diff --git a/sympy/concrete/products.py b/sympy/concrete/products.py
+index 66aafde2d6..6a96f42a38 100644
+--- a/sympy/concrete/products.py
++++ b/sympy/concrete/products.py
+@@ -277,17 +277,17 @@ def _eval_product(self, term, limits):
+         elif term.is_Add:
+             p, q = term.as_numer_denom()
+             q = self._eval_product(q, (k, a, n))
+-            if q.is_Number:
+-
+-                # There is expression, which couldn't change by
+-                # as_numer_denom(). E.g. n**(2/3) + 1 --> (n**(2/3) + 1, 1).
+-                # We have to catch this case.
+ 
++            # There is expression, which couldn't change by
++            # as_numer_denom(). E.g. n**(2/3) + 1 --> (n**(2/3) + 1, 1).
++            # We have to catch this case.
++            if q.is_Number:
+                 p = sum([self._eval_product(i, (k, a, n)) for i in p.as_coeff_Add()])
+             else:
+                 p = self._eval_product(p, (k, a, n))
+             return p / q
+ 
++
+         elif term.is_Mul:
+             exclude, include = [], []
+2025-05-06 07:05:53,845 - INFO - Grading answer for sympy__sympy-13551...
+2025-05-06 07:05:53,847 - INFO - report: {'sympy__sympy-13551': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_13546']}, 'PASS_TO_PASS': {'success': ['test_karr_convention', 'test_karr_proposition_2a', 'test_karr_proposition_2b', 'test_simple_products', 'test_multiple_products', 'test_rational_products', 'test_special_products', 'test__eval_product', 'test_product_pow', 'test_infinite_product', 'test_conjugate_transpose', 'test_simplify', 'test_change_index', 'test_reorder', 'test_Product_is_convergent', 'test_reverse_order', 'test_issue_9983'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-13551: resolved: False
+2025-05-06 07:05:53,847 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13551.20250506_061805...
+2025-05-06 07:06:09,212 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13551.20250506_061805...
+2025-05-06 07:06:09,226 - INFO - Container sweb.eval.sympy__sympy-13551.20250506_061805 removed.

@@ -1,0 +1,62 @@
+2025-05-06 07:08:53,684 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-17630
+Building instance image sweb.eval.x86_64.sympy__sympy-17630:latest for sympy__sympy-17630
+2025-05-06 07:08:53,685 - INFO - Image sweb.eval.x86_64.sympy__sympy-17630:latest already exists, skipping build.
+2025-05-06 07:08:53,686 - INFO - Creating container for sympy__sympy-17630...
+2025-05-06 07:08:53,729 - INFO - Container for sympy__sympy-17630 created: 60381aa4f1c4d963b41001357cb608ff6944319cee7377a0f6fb5ae6b51d7ff1
+2025-05-06 07:08:54,154 - INFO - Container for sympy__sympy-17630 started: 60381aa4f1c4d963b41001357cb608ff6944319cee7377a0f6fb5ae6b51d7ff1
+2025-05-06 07:08:54,154 - INFO - Intermediate patch for sympy__sympy-17630 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-17630/patch.diff, now applying to container...
+2025-05-06 07:08:54,484 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:08:54,551 - INFO - >>>>> Applied Patch:
+patching file sympy/matrices/expressions/blockmatrix.py
+patching file sympy/matrices/expressions/blockmatrix.py
+Hunk #1 succeeded at 165 (offset 1 line).
+
+2025-05-06 07:08:54,974 - INFO - Git diff before:
+diff --git a/sympy/matrices/expressions/blockmatrix.py b/sympy/matrices/expressions/blockmatrix.py
+index 95302a05ca..6d871a0660 100644
+--- a/sympy/matrices/expressions/blockmatrix.py
++++ b/sympy/matrices/expressions/blockmatrix.py
+@@ -1,9 +1,10 @@
+ from __future__ import print_function, division
+ 
+-from sympy import ask, Q
++from sympy import ask, Q, S
+ from sympy.core import Basic, Add
+ from sympy.core.compatibility import range
+ from sympy.strategies import typed, exhaust, condition, do_one, unpack
++
+ from sympy.strategies.traverse import bottom_up
+ from sympy.utilities import sift
+ from sympy.utilities.misc import filldedent
+@@ -164,10 +165,18 @@ def structurally_equal(self, other):
+     def _blockmul(self, other):
+         if (isinstance(other, BlockMatrix) and
+                 self.colblocksizes == other.rowblocksizes):
+-            return BlockMatrix(self.blocks*other.blocks)
++            result = self.blocks*other.blocks
++            # convert any Zeros to ZeroMatrix
++            for i, ri in enumerate(result):
++                for j, e in enumerate(ri):
++                    if e is S.Zero:
++                        result[i, j] = ZeroMatrix(self.rowblocksizes[i], other.colblocksizes[j])
++            return BlockMatrix(result)
+ 
+         return self * other
+ 
++
++
+     def _blockadd(self, other):
+         if (isinstance(other, BlockMatrix)
+                 and self.structurally_equal(other)):
+2025-05-06 07:08:54,975 - INFO - Eval script for sympy__sympy-17630 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-17630/eval.sh; copying to container...
+2025-05-06 07:38:55,248 - INFO - Test runtime: 1_800.07 seconds
+2025-05-06 07:38:55,248 - INFO - Test output for sympy__sympy-17630 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-17630/test_output.txt
+2025-05-06 07:38:55,249 - INFO - Traceback (most recent call last):
+  File "/home/xiechengxing/.cache/pypoetry/virtualenvs/openhands-ai-M59Uq3oZ-py3.12/lib/python3.12/site-packages/swebench/harness/run_evaluation.py", line 166, in run_instance
+    raise EvaluationError(
+EvaluationError: Evaluation error for sympy__sympy-17630: Test timed out after 1800 seconds.
+Check (logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-17630/run_instance.log) for more information.
+
+2025-05-06 07:38:55,249 - INFO - Attempting to stop container sweb.eval.sympy__sympy-17630.20250506_061805...
+2025-05-06 07:39:10,517 - INFO - Attempting to remove container sweb.eval.sympy__sympy-17630.20250506_061805...
+2025-05-06 07:39:10,536 - INFO - Container sweb.eval.sympy__sympy-17630.20250506_061805 removed.

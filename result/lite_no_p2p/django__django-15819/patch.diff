@@ -1,0 +1,18 @@
+
+diff --git a/django/core/management/commands/inspectdb.py b/django/core/management/commands/inspectdb.py
+index c5ea5ea..7da5423 100644
+--- a/django/core/management/commands/inspectdb.py
++++ b/django/core/management/commands/inspectdb.py
+@@ -186,9 +186,12 @@ class Command(BaseCommand):
+                             field_type = "%s(%s" % (rel_type, rel_to)
+                         else:
+                             field_type = "%s('%s'" % (rel_type, rel_to)
++                        if rel_to == "self" or rel_to in known_models:
++                            extra_params["related_name"] = att_name + "_set"
+                     else:
+                         # Calling `get_field_type` to get the field type string and any
+                         # additional parameters and notes.
++
+                         field_type, field_params, field_notes = self.get_field_type(
+                             connection, table_name, row
+                         )

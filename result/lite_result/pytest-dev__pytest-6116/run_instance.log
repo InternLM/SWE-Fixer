@@ -1,58 +1,56 @@
-2025-02-12 13:16:47,761 - INFO - Environment image sweb.env.x86_64.1c1a6945f732f9391228c5:latest found for pytest-dev__pytest-6116
+2025-05-06 12:38:31,106 - INFO - Environment image sweb.env.x86_64.1c1a6945f732f9391228c5:latest found for pytest-dev__pytest-6116
 Building instance image sweb.eval.x86_64.pytest-dev__pytest-6116:latest for pytest-dev__pytest-6116
-2025-02-12 13:16:47,764 - INFO - Image sweb.eval.x86_64.pytest-dev__pytest-6116:latest already exists, skipping build.
-2025-02-12 13:16:47,764 - INFO - Creating container for pytest-dev__pytest-6116...
-2025-02-12 13:16:47,798 - INFO - Container for pytest-dev__pytest-6116 created: a33f2dd1cd194f077e73634e545fa61d047eb95eff24e4ec35fec5aef2e7bb19
-2025-02-12 13:16:48,105 - INFO - Container for pytest-dev__pytest-6116 started: a33f2dd1cd194f077e73634e545fa61d047eb95eff24e4ec35fec5aef2e7bb19
-2025-02-12 13:16:48,105 - INFO - Intermediate patch for pytest-dev__pytest-6116 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-6116/patch.diff, now applying to container...
-2025-02-12 13:16:48,355 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:16:48,402 - INFO - >>>>> Applied Patch:
+2025-05-06 12:38:31,109 - INFO - Image sweb.eval.x86_64.pytest-dev__pytest-6116:latest already exists, skipping build.
+2025-05-06 12:38:31,109 - INFO - Creating container for pytest-dev__pytest-6116...
+2025-05-06 12:38:31,136 - INFO - Container for pytest-dev__pytest-6116 created: 5140d82ba12ae9da5d3b019fc44fd784419e3ed70f157b9354dcc1d7741affce
+2025-05-06 12:38:31,396 - INFO - Container for pytest-dev__pytest-6116 started: 5140d82ba12ae9da5d3b019fc44fd784419e3ed70f157b9354dcc1d7741affce
+2025-05-06 12:38:31,396 - INFO - Intermediate patch for pytest-dev__pytest-6116 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-6116/patch.diff, now applying to container...
+2025-05-06 12:38:31,641 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:38:31,697 - INFO - >>>>> Applied Patch:
 patching file src/_pytest/config/__init__.py
 
-2025-02-12 13:16:48,565 - INFO - Git diff before:
+2025-05-06 12:38:31,821 - INFO - Git diff before:
 diff --git a/src/_pytest/config/__init__.py b/src/_pytest/config/__init__.py
-index 8e11b56e5..ac1dd03a8 100644
+index 8e11b56e5..a5cad202e 100644
 --- a/src/_pytest/config/__init__.py
 +++ b/src/_pytest/config/__init__.py
-@@ -740,9 +740,13 @@ class Config:
+@@ -794,10 +794,13 @@ class Config:
+         return config
  
-     def pytest_cmdline_parse(self, pluginmanager, args):
-         try:
-+            if "-c" in args:
-+                self.option.collectonly = True
-             self.parse(args)
-         except UsageError:
+     def _processopt(self, opt):
++        if "-c" in opt._short_opts and "--collect-only" in opt._long_opts:
++            self._opt2dest["-c"] = self._opt2dest["--collect-only"]
+         for name in opt._short_opts + opt._long_opts:
+             self._opt2dest[name] = opt.dest
  
+         if hasattr(opt, "default") and opt.dest:
 +
-+
-             # Handle --version and --help here in a minimal fashion.
-             # This gets done via helpconfig normally, but its
-             # pytest_cmdline_main is not called in case of errors.
-2025-02-12 13:16:48,566 - INFO - Eval script for pytest-dev__pytest-6116 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-6116/eval.sh; copying to container...
-2025-02-12 13:17:01,983 - INFO - Test runtime: 13.22 seconds
-2025-02-12 13:17:01,984 - INFO - Test output for pytest-dev__pytest-6116 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-6116/test_output.txt
-2025-02-12 13:17:02,053 - INFO - Git diff after:
+             if not hasattr(self.option, opt.dest):
+                 setattr(self.option, opt.dest, opt.default)
+2025-05-06 12:38:31,821 - INFO - Eval script for pytest-dev__pytest-6116 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-6116/eval.sh; copying to container...
+2025-05-06 12:38:43,089 - INFO - Test runtime: 11.10 seconds
+2025-05-06 12:38:43,090 - INFO - Test output for pytest-dev__pytest-6116 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-6116/test_output.txt
+2025-05-06 12:38:43,150 - INFO - Git diff after:
 diff --git a/src/_pytest/config/__init__.py b/src/_pytest/config/__init__.py
-index 8e11b56e5..ac1dd03a8 100644
+index 8e11b56e5..a5cad202e 100644
 --- a/src/_pytest/config/__init__.py
 +++ b/src/_pytest/config/__init__.py
-@@ -740,9 +740,13 @@ class Config:
+@@ -794,10 +794,13 @@ class Config:
+         return config
  
-     def pytest_cmdline_parse(self, pluginmanager, args):
-         try:
-+            if "-c" in args:
-+                self.option.collectonly = True
-             self.parse(args)
-         except UsageError:
+     def _processopt(self, opt):
++        if "-c" in opt._short_opts and "--collect-only" in opt._long_opts:
++            self._opt2dest["-c"] = self._opt2dest["--collect-only"]
+         for name in opt._short_opts + opt._long_opts:
+             self._opt2dest[name] = opt.dest
  
+         if hasattr(opt, "default") and opt.dest:
 +
-+
-             # Handle --version and --help here in a minimal fashion.
-             # This gets done via helpconfig normally, but its
-             # pytest_cmdline_main is not called in case of errors.
-2025-02-12 13:17:02,053 - INFO - Grading answer for pytest-dev__pytest-6116...
-2025-02-12 13:17:02,069 - INFO - report: {'pytest-dev__pytest-6116': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['testing/test_collection.py::TestCustomConftests::test_pytest_fs_collect_hooks_are_seen', 'testing/test_collection.py::TestCustomConftests::test_pytest_collect_file_from_sister_dir']}, 'PASS_TO_PASS': {'success': ['testing/test_collection.py::TestCollector::test_collect_versus_item', 'testing/test_collection.py::TestCollector::test_check_equality', 'testing/test_collection.py::TestCollector::test_getparent', 'testing/test_collection.py::TestCollector::test_getcustomfile_roundtrip', 'testing/test_collection.py::TestCollector::test_can_skip_class_with_test_attr', 'testing/test_collection.py::TestCollectFS::test_ignored_certain_directories', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[activate.csh]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[activate.fish]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[Activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[Activate.bat]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[Activate.ps1]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[activate.csh]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[activate.fish]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[Activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[Activate.bat]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[Activate.ps1]', 'testing/test_collection.py::TestCollectFS::test__in_venv[activate]', 'testing/test_collection.py::TestCollectFS::test__in_venv[activate.csh]', 'testing/test_collection.py::TestCollectFS::test__in_venv[activate.fish]', 'testing/test_collection.py::TestCollectFS::test__in_venv[Activate]', 'testing/test_collection.py::TestCollectFS::test__in_venv[Activate.bat]', 'testing/test_collection.py::TestCollectFS::test__in_venv[Activate.ps1]', 'testing/test_collection.py::TestCollectFS::test_custom_norecursedirs', 'testing/test_collection.py::TestCollectFS::test_testpaths_ini', 'testing/test_collection.py::TestCollectPluginHookRelay::test_pytest_collect_file', 'testing/test_collection.py::TestCollectPluginHookRelay::test_pytest_collect_directory', 'testing/test_collection.py::TestPrunetraceback::test_custom_repr_failure', 'testing/test_collection.py::TestCustomConftests::test_ignore_collect_path', 'testing/test_collection.py::TestCustomConftests::test_ignore_collect_not_called_on_argument', 'testing/test_collection.py::TestCustomConftests::test_collectignore_exclude_on_option', 'testing/test_collection.py::TestCustomConftests::test_collectignoreglob_exclude_on_option', 'testing/test_collection.py::TestSession::test_parsearg', 'testing/test_collection.py::TestSession::test_collect_topdir', 'testing/test_collection.py::TestSession::test_collect_protocol_single_function', 'testing/test_collection.py::TestSession::test_collect_protocol_method', 'testing/test_collection.py::TestSession::test_collect_custom_nodes_multi_id', 'testing/test_collection.py::TestSession::test_collect_subdir_event_ordering', 'testing/test_collection.py::TestSession::test_collect_two_commandline_args', 'testing/test_collection.py::TestSession::test_serialization_byid', 'testing/test_collection.py::TestSession::test_find_byid_without_instance_parents', 'testing/test_collection.py::Test_getinitialnodes::test_global_file', 'testing/test_collection.py::Test_getinitialnodes::test_pkgfile', 'testing/test_collection.py::Test_genitems::test_check_collect_hashes', 'testing/test_collection.py::Test_genitems::test_example_items1', 'testing/test_collection.py::Test_genitems::test_class_and_functions_discovery_using_glob', 'testing/test_collection.py::test_matchnodes_two_collections_same_file', 'testing/test_collection.py::TestNodekeywords::test_no_under', 'testing/test_collection.py::TestNodekeywords::test_issue345', 'testing/test_collection.py::test_exit_on_collection_error', 'testing/test_collection.py::test_exit_on_collection_with_maxfail_smaller_than_n_errors', 'testing/test_collection.py::test_exit_on_collection_with_maxfail_bigger_than_n_errors', 'testing/test_collection.py::test_continue_on_collection_errors', 'testing/test_collection.py::test_continue_on_collection_errors_maxfail', 'testing/test_collection.py::test_fixture_scope_sibling_conftests', 'testing/test_collection.py::test_collect_init_tests', 'testing/test_collection.py::test_collect_invalid_signature_message', 'testing/test_collection.py::test_collect_handles_raising_on_dunder_class', 'testing/test_collection.py::test_collect_with_chdir_during_import', 'testing/test_collection.py::test_collect_symlink_file_arg', 'testing/test_collection.py::test_collect_symlink_out_of_tree', 'testing/test_collection.py::test_collectignore_via_conftest', 'testing/test_collection.py::test_collect_pkg_init_and_file_in_args', 'testing/test_collection.py::test_collect_pkg_init_only', 'testing/test_collection.py::test_collect_sub_with_symlinks[True]', 'testing/test_collection.py::test_collect_sub_with_symlinks[False]', 'testing/test_collection.py::test_collector_respects_tbstyle', 'testing/test_collection.py::test_collect_pyargs_with_testpaths'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+             if not hasattr(self.option, opt.dest):
+                 setattr(self.option, opt.dest, opt.default)
+2025-05-06 12:38:43,151 - INFO - Grading answer for pytest-dev__pytest-6116...
+2025-05-06 12:38:43,165 - INFO - report: {'pytest-dev__pytest-6116': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['testing/test_collection.py::TestCustomConftests::test_pytest_fs_collect_hooks_are_seen', 'testing/test_collection.py::TestCustomConftests::test_pytest_collect_file_from_sister_dir']}, 'PASS_TO_PASS': {'success': ['testing/test_collection.py::TestCollector::test_collect_versus_item', 'testing/test_collection.py::TestCollector::test_check_equality', 'testing/test_collection.py::TestCollector::test_getparent', 'testing/test_collection.py::TestCollector::test_getcustomfile_roundtrip', 'testing/test_collection.py::TestCollector::test_can_skip_class_with_test_attr', 'testing/test_collection.py::TestCollectFS::test_ignored_certain_directories', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[activate.csh]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[activate.fish]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[Activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[Activate.bat]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs[Activate.ps1]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[activate.csh]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[activate.fish]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[Activate]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[Activate.bat]', 'testing/test_collection.py::TestCollectFS::test_ignored_virtualenvs_norecursedirs_precedence[Activate.ps1]', 'testing/test_collection.py::TestCollectFS::test__in_venv[activate]', 'testing/test_collection.py::TestCollectFS::test__in_venv[activate.csh]', 'testing/test_collection.py::TestCollectFS::test__in_venv[activate.fish]', 'testing/test_collection.py::TestCollectFS::test__in_venv[Activate]', 'testing/test_collection.py::TestCollectFS::test__in_venv[Activate.bat]', 'testing/test_collection.py::TestCollectFS::test__in_venv[Activate.ps1]', 'testing/test_collection.py::TestCollectFS::test_custom_norecursedirs', 'testing/test_collection.py::TestCollectFS::test_testpaths_ini', 'testing/test_collection.py::TestCollectPluginHookRelay::test_pytest_collect_file', 'testing/test_collection.py::TestCollectPluginHookRelay::test_pytest_collect_directory', 'testing/test_collection.py::TestPrunetraceback::test_custom_repr_failure', 'testing/test_collection.py::TestCustomConftests::test_ignore_collect_path', 'testing/test_collection.py::TestCustomConftests::test_ignore_collect_not_called_on_argument', 'testing/test_collection.py::TestCustomConftests::test_collectignore_exclude_on_option', 'testing/test_collection.py::TestCustomConftests::test_collectignoreglob_exclude_on_option', 'testing/test_collection.py::TestSession::test_parsearg', 'testing/test_collection.py::TestSession::test_collect_topdir', 'testing/test_collection.py::TestSession::test_collect_protocol_single_function', 'testing/test_collection.py::TestSession::test_collect_protocol_method', 'testing/test_collection.py::TestSession::test_collect_custom_nodes_multi_id', 'testing/test_collection.py::TestSession::test_collect_subdir_event_ordering', 'testing/test_collection.py::TestSession::test_collect_two_commandline_args', 'testing/test_collection.py::TestSession::test_serialization_byid', 'testing/test_collection.py::TestSession::test_find_byid_without_instance_parents', 'testing/test_collection.py::Test_getinitialnodes::test_global_file', 'testing/test_collection.py::Test_getinitialnodes::test_pkgfile', 'testing/test_collection.py::Test_genitems::test_check_collect_hashes', 'testing/test_collection.py::Test_genitems::test_example_items1', 'testing/test_collection.py::Test_genitems::test_class_and_functions_discovery_using_glob', 'testing/test_collection.py::test_matchnodes_two_collections_same_file', 'testing/test_collection.py::TestNodekeywords::test_no_under', 'testing/test_collection.py::TestNodekeywords::test_issue345', 'testing/test_collection.py::test_exit_on_collection_error', 'testing/test_collection.py::test_exit_on_collection_with_maxfail_smaller_than_n_errors', 'testing/test_collection.py::test_exit_on_collection_with_maxfail_bigger_than_n_errors', 'testing/test_collection.py::test_continue_on_collection_errors', 'testing/test_collection.py::test_continue_on_collection_errors_maxfail', 'testing/test_collection.py::test_fixture_scope_sibling_conftests', 'testing/test_collection.py::test_collect_init_tests', 'testing/test_collection.py::test_collect_invalid_signature_message', 'testing/test_collection.py::test_collect_handles_raising_on_dunder_class', 'testing/test_collection.py::test_collect_with_chdir_during_import', 'testing/test_collection.py::test_collect_symlink_file_arg', 'testing/test_collection.py::test_collect_symlink_out_of_tree', 'testing/test_collection.py::test_collectignore_via_conftest', 'testing/test_collection.py::test_collect_pkg_init_and_file_in_args', 'testing/test_collection.py::test_collect_pkg_init_only', 'testing/test_collection.py::test_collect_sub_with_symlinks[True]', 'testing/test_collection.py::test_collect_sub_with_symlinks[False]', 'testing/test_collection.py::test_collector_respects_tbstyle', 'testing/test_collection.py::test_collect_pyargs_with_testpaths'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for pytest-dev__pytest-6116: resolved: False
-2025-02-12 13:17:02,070 - INFO - Attempting to stop container sweb.eval.pytest-dev__pytest-6116.20250212_130622...
-2025-02-12 13:17:17,388 - INFO - Attempting to remove container sweb.eval.pytest-dev__pytest-6116.20250212_130622...
-2025-02-12 13:17:17,427 - INFO - Container sweb.eval.pytest-dev__pytest-6116.20250212_130622 removed.
+2025-05-06 12:38:43,165 - INFO - Attempting to stop container sweb.eval.pytest-dev__pytest-6116.20250506_122807...
+2025-05-06 12:38:58,463 - INFO - Attempting to remove container sweb.eval.pytest-dev__pytest-6116.20250506_122807...
+2025-05-06 12:38:58,510 - INFO - Container sweb.eval.pytest-dev__pytest-6116.20250506_122807 removed.

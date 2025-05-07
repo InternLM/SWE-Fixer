@@ -150,32 +150,40 @@ Date:   Mon Mar 5 09:50:44 2018 +0200
 
 + git diff f35ad6411f86a15dd78db39c29d1e5291f66f9b5
 diff --git a/sympy/polys/polyoptions.py b/sympy/polys/polyoptions.py
-index 6e504a3057..3abf293a8b 100644
+index 6e504a3057..4f91d617a7 100644
 --- a/sympy/polys/polyoptions.py
 +++ b/sympy/polys/polyoptions.py
-@@ -402,11 +402,12 @@ class Domain(with_metaclass(OptionType, Option)):
+@@ -402,15 +402,16 @@ class Domain(with_metaclass(OptionType, Option)):
  
      after = ['gens']
  
 -    _re_realfield = re.compile(r"^(R|RR)(_(\d+))?$")
 -    _re_complexfield = re.compile(r"^(C|CC)(_(\d+))?$")
-+    _re_realfield = re.compile(r"^(R|RR)(_(\d+))?\[.+\]?$")
-+    _re_complexfield = re.compile(r"^(C|CC)(_(\d+))?\[.+\]?$")
++    _re_realfield = re.compile(r"^(R|RR)(_(\d+))?\[?(.+)?\]?")
++    _re_complexfield = re.compile(r"^(C|CC)(_(\d+))?\[?(.+)?\]?")
      _re_finitefield = re.compile(r"^(FF|GF)\((\d+)\)$")
-     _re_polynomial = re.compile(r"^(Z|ZZ|Q|QQ)\[(.+)\]$")
-     _re_fraction = re.compile(r"^(Z|ZZ|Q|QQ)\((.+)\)$")
-+
-     _re_algebraic = re.compile(r"^(Q|QQ)\<(.+)\>$")
+-    _re_polynomial = re.compile(r"^(Z|ZZ|Q|QQ)\[(.+)\]$")
+-    _re_fraction = re.compile(r"^(Z|ZZ|Q|QQ)\((.+)\)$")
+-    _re_algebraic = re.compile(r"^(Q|QQ)\<(.+)\>$")
++    _re_polynomial = re.compile(r"^(Z|ZZ|Q|QQ)\[(.+)?\]$")
++    _re_fraction = re.compile(r"^(Z|ZZ|Q|QQ)\((.+)?\)$")
++    _re_algebraic = re.compile(r"^(Q|QQ)\<(.+)?\>$")
  
      @classmethod
-@@ -480,10 +481,13 @@ def preprocess(cls, domain):
+     def preprocess(cls, domain):
++
+         if isinstance(domain, sympy.polys.domains.Domain):
+             return domain
+         elif hasattr(domain, 'to_domain'):
+@@ -480,10 +481,14 @@ def preprocess(cls, domain):
                  gens = list(map(sympify, r.groups()[1].split(',')))
                  return sympy.polys.domains.QQ.algebraic_field(*gens)
  
 -        raise OptionError('expected a valid domain specification, got %s' % domain)
 +        raise OptionError(
-+            'expected a valid domain specification, got %s; '
-+            'see the docstring for `Poly` for more information' % domain)
++            'expected a valid domain specification, got %s' % domain +
++            ' (for more information see the docstring for Domain in sympy.polys.domains)'
++        )
  
      @classmethod
      def postprocess(cls, options):
@@ -349,8 +357,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        23102558
-hash randomization: on (PYTHONHASHSEED=914000457)
+random seed:        17602170
+hash randomization: on (PYTHONHASHSEED=1717529734)
 
 sympy/polys/tests/test_polyoptions.py[46] 
 test_Options_clone ok
@@ -368,7 +376,7 @@ test_Field_preprocess ok
 test_Field_postprocess ok
 test_Greedy_preprocess ok
 test_Greedy_postprocess ok
-test_Domain_preprocess F
+test_Domain_preprocess E
 test_Domain_postprocess ok
 test_Split_preprocess ok
 test_Split_postprocess ok
@@ -403,11 +411,17 @@ test_Method_postprocess ok                                                [FAIL]
 
 ________________________________________________________________________________
 _________ sympy/polys/tests/test_polyoptions.py:test_Domain_preprocess _________
-  File "/testbed/sympy/polys/tests/test_polyoptions.py", line 179, in test_Domain_preprocess
-    assert Domain.preprocess('R[x]') == RR[x]
-AssertionError
+  File "/testbed/sympy/polys/tests/test_polyoptions.py", line 175, in test_Domain_preprocess
+    raises(OptionError, lambda: Domain.preprocess('Z[]'))
+  File "/testbed/sympy/utilities/pytest.py", line 78, in raises
+    code()
+  File "/testbed/sympy/polys/tests/test_polyoptions.py", line 175, in <lambda>
+    raises(OptionError, lambda: Domain.preprocess('Z[]'))
+  File "/testbed/sympy/polys/polyoptions.py", line 459, in preprocess
+    gens = list(map(sympify, gens.split(',')))
+AttributeError: 'NoneType' object has no attribute 'split'
 
-============= tests finished: 45 passed, 1 failed, in 0.04 seconds =============
+=========== tests finished: 45 passed, 1 exceptions, in 0.03 seconds ===========
 DO *NOT* COMMIT!
 + git checkout f35ad6411f86a15dd78db39c29d1e5291f66f9b5 sympy/polys/tests/test_polyoptions.py
 Updated 1 path from 9e8cd5e8c6

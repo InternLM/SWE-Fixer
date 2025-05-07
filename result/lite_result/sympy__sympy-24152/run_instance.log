@@ -1,17 +1,17 @@
-2025-02-12 13:22:27,396 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-24152
+2025-05-06 12:44:21,857 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-24152
 Building instance image sweb.eval.x86_64.sympy__sympy-24152:latest for sympy__sympy-24152
-2025-02-12 13:22:27,400 - INFO - Image sweb.eval.x86_64.sympy__sympy-24152:latest already exists, skipping build.
-2025-02-12 13:22:27,400 - INFO - Creating container for sympy__sympy-24152...
-2025-02-12 13:22:27,432 - INFO - Container for sympy__sympy-24152 created: e7f66e8777caaa79bdea1d143d1c2f8595cd02477be53de0cc86a9fd56b31a28
-2025-02-12 13:22:27,750 - INFO - Container for sympy__sympy-24152 started: e7f66e8777caaa79bdea1d143d1c2f8595cd02477be53de0cc86a9fd56b31a28
-2025-02-12 13:22:27,751 - INFO - Intermediate patch for sympy__sympy-24152 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-24152/patch.diff, now applying to container...
-2025-02-12 13:22:27,987 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:22:28,051 - INFO - >>>>> Applied Patch:
+2025-05-06 12:44:21,860 - INFO - Image sweb.eval.x86_64.sympy__sympy-24152:latest already exists, skipping build.
+2025-05-06 12:44:21,860 - INFO - Creating container for sympy__sympy-24152...
+2025-05-06 12:44:21,895 - INFO - Container for sympy__sympy-24152 created: 7e4eee17a02f6703347889ba75c5f55725bc07a1b9b8d36061c9e4e2ff67fa22
+2025-05-06 12:44:22,166 - INFO - Container for sympy__sympy-24152 started: 7e4eee17a02f6703347889ba75c5f55725bc07a1b9b8d36061c9e4e2ff67fa22
+2025-05-06 12:44:22,167 - INFO - Intermediate patch for sympy__sympy-24152 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-24152/patch.diff, now applying to container...
+2025-05-06 12:44:22,428 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:44:22,491 - INFO - >>>>> Applied Patch:
 patching file sympy/physics/quantum/tensorproduct.py
 
-2025-02-12 13:22:28,681 - INFO - Git diff before:
+2025-05-06 12:44:22,953 - INFO - Git diff before:
 diff --git a/sympy/physics/quantum/tensorproduct.py b/sympy/physics/quantum/tensorproduct.py
-index 78accaf295..31d817ce14 100644
+index 78accaf295..d36cdb1709 100644
 --- a/sympy/physics/quantum/tensorproduct.py
 +++ b/sympy/physics/quantum/tensorproduct.py
 @@ -246,12 +246,14 @@ def _eval_expand_tensorproduct(self, **hints):
@@ -22,9 +22,9 @@ index 78accaf295..31d817ce14 100644
 -                        tp = tp._eval_expand_tensorproduct()
 -                    add_args.append(tp)
 +                    c_part, nc_part = tp.args_cnc()
-+                    if len(nc_part)==1 and isinstance(nc_part[0], TensorProduct):
++                    if len(nc_part) == 1 and isinstance(nc_part[0], TensorProduct):
 +                        nc_part = (nc_part[0]._eval_expand_tensorproduct(),)
-+                    add_args.append(Mul(*c_part)*Mul(*nc_part))
++                    add_args.append(Mul(*c_part) * Mul(*nc_part))
                  break
  
          if add_args:
@@ -32,12 +32,12 @@ index 78accaf295..31d817ce14 100644
              return Add(*add_args)
          else:
              return self
-2025-02-12 13:22:28,682 - INFO - Eval script for sympy__sympy-24152 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-24152/eval.sh; copying to container...
-2025-02-12 13:22:32,690 - INFO - Test runtime: 3.82 seconds
-2025-02-12 13:22:32,690 - INFO - Test output for sympy__sympy-24152 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-24152/test_output.txt
-2025-02-12 13:22:32,748 - INFO - Git diff after:
+2025-05-06 12:44:22,954 - INFO - Eval script for sympy__sympy-24152 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-24152/eval.sh; copying to container...
+2025-05-06 12:44:28,671 - INFO - Test runtime: 5.52 seconds
+2025-05-06 12:44:28,671 - INFO - Test output for sympy__sympy-24152 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-24152/test_output.txt
+2025-05-06 12:44:28,754 - INFO - Git diff after:
 diff --git a/sympy/physics/quantum/tensorproduct.py b/sympy/physics/quantum/tensorproduct.py
-index 78accaf295..31d817ce14 100644
+index 78accaf295..d36cdb1709 100644
 --- a/sympy/physics/quantum/tensorproduct.py
 +++ b/sympy/physics/quantum/tensorproduct.py
 @@ -246,12 +246,14 @@ def _eval_expand_tensorproduct(self, **hints):
@@ -48,9 +48,9 @@ index 78accaf295..31d817ce14 100644
 -                        tp = tp._eval_expand_tensorproduct()
 -                    add_args.append(tp)
 +                    c_part, nc_part = tp.args_cnc()
-+                    if len(nc_part)==1 and isinstance(nc_part[0], TensorProduct):
++                    if len(nc_part) == 1 and isinstance(nc_part[0], TensorProduct):
 +                        nc_part = (nc_part[0]._eval_expand_tensorproduct(),)
-+                    add_args.append(Mul(*c_part)*Mul(*nc_part))
++                    add_args.append(Mul(*c_part) * Mul(*nc_part))
                  break
  
          if add_args:
@@ -58,9 +58,9 @@ index 78accaf295..31d817ce14 100644
              return Add(*add_args)
          else:
              return self
-2025-02-12 13:22:32,748 - INFO - Grading answer for sympy__sympy-24152...
-2025-02-12 13:22:32,750 - INFO - report: {'sympy__sympy-24152': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_tensor_product_expand'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_sparse_matrices', 'test_tensor_product_dagger', 'test_tensor_product_abstract', 'test_tensor_product_commutator', 'test_tensor_product_simp', 'test_issue_5923'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:44:28,755 - INFO - Grading answer for sympy__sympy-24152...
+2025-05-06 12:44:28,757 - INFO - report: {'sympy__sympy-24152': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_tensor_product_expand'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_sparse_matrices', 'test_tensor_product_dagger', 'test_tensor_product_abstract', 'test_tensor_product_commutator', 'test_tensor_product_simp', 'test_issue_5923'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-24152: resolved: True
-2025-02-12 13:22:32,751 - INFO - Attempting to stop container sweb.eval.sympy__sympy-24152.20250212_130622...
-2025-02-12 13:22:48,178 - INFO - Attempting to remove container sweb.eval.sympy__sympy-24152.20250212_130622...
-2025-02-12 13:22:48,204 - INFO - Container sweb.eval.sympy__sympy-24152.20250212_130622 removed.
+2025-05-06 12:44:28,758 - INFO - Attempting to stop container sweb.eval.sympy__sympy-24152.20250506_122807...
+2025-05-06 12:44:44,088 - INFO - Attempting to remove container sweb.eval.sympy__sympy-24152.20250506_122807...
+2025-05-06 12:44:44,119 - INFO - Container sweb.eval.sympy__sympy-24152.20250506_122807 removed.

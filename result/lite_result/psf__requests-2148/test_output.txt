@@ -150,14 +150,26 @@ Date:   Tue Jul 22 16:21:05 2014 -0400
 
 + git diff fe693c492242ae532211e0c173324f09ca8cf227
 diff --git a/requests/packages/urllib3/response.py b/requests/packages/urllib3/response.py
-index 7e0d47fa..4e41368f 100644
+index 7e0d47fa..28494d8c 100644
 --- a/requests/packages/urllib3/response.py
 +++ b/requests/packages/urllib3/response.py
-@@ -210,9 +210,13 @@ class HTTPResponse(io.IOBase):
+@@ -1,9 +1,10 @@
+ import zlib
+ import io
+-from socket import timeout as SocketTimeout
++from socket import timeout as SocketTimeout, error as SocketError
+ 
+ from ._collections import HTTPHeaderDict
+ from .exceptions import ProtocolError, DecodeError, ReadTimeoutError
++
+ from .packages.six import string_types as basestring, binary_type
+ from .connection import HTTPException, BaseSSLError
+ from .util.response import is_fp_closed
+@@ -210,9 +211,13 @@ class HTTPResponse(io.IOBase):
                  # This includes IncompleteRead.
                  raise ProtocolError('Connection broken: %r' % e, e)
  
-+            except socket.error as e:
++            except SocketError as e:
 +                raise ProtocolError('Connection broken: %r' % e, e)
 +
              self._fp_bytes_read += len(data)
@@ -299,8 +311,8 @@ Requirement already satisfied: certifi in /opt/miniconda3/envs/testbed/lib/pytho
 Building wheels for collected packages: requests
   Building wheel for requests (setup.py): started
   Building wheel for requests (setup.py): finished with status 'done'
-  Created wheel for requests: filename=requests-2.3.0-py2.py3-none-any.whl size=450506 sha256=837c3af3764992340009c3e54c14589235279be42f40f3c12b41bb219d51e656
-  Stored in directory: /tmp/pip-ephem-wheel-cache-ocmv0nst/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for requests: filename=requests-2.3.0-py2.py3-none-any.whl size=450508 sha256=7edafe46f00bd1330cbd03546512f78ed61fa6b3672b3344c2c49e0f3310e164
+  Stored in directory: /tmp/pip-ephem-wheel-cache-61tcu4zh/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built requests
 Installing collected packages: requests
   Attempting uninstall: requests
@@ -358,7 +370,7 @@ requests/models.py:637: in generate
     for chunk in self.raw.stream(chunk_size, decode_content=True):
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <test_requests.RequestsTestCase.test_iter_content_handles_socket_error.<locals>.RawMock object at 0x7fcb50b08d00>
+self = <test_requests.RequestsTestCase.test_iter_content_handles_socket_error.<locals>.RawMock object at 0x7fdf1caded00>
 chunk_size = 1, decode_content = True
 
     def stream(self, chunk_size, decode_content=None):
@@ -512,6 +524,6 @@ PASSED test_requests.py::test_prepared_request_no_cookies_copy
 PASSED test_requests.py::test_prepared_request_complete_copy
 FAILED test_requests.py::RequestsTestCase::test_conflicting_post_params - Typ...
 FAILED test_requests.py::RequestsTestCase::test_iter_content_handles_socket_error
-============ 2 failed, 131 passed, 3 warnings in 141.12s (0:02:21) =============
+============ 2 failed, 131 passed, 3 warnings in 128.66s (0:02:08) =============
 + git checkout fe693c492242ae532211e0c173324f09ca8cf227 test_requests.py
 Updated 1 path from 319437ae

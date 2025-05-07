@@ -150,17 +150,15 @@ Date:   Thu Jul 8 18:35:02 2021 -0400
 
 + git diff b7d05919865fc0c37a0164cf467d5d5513bd0ede
 diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
-index b657a35cf7..acad3903bd 100644
+index b657a35cf7..a3ac75455e 100644
 --- a/lib/matplotlib/__init__.py
 +++ b/lib/matplotlib/__init__.py
-@@ -147,10 +147,15 @@ def __getattr__(name):
-             )
+@@ -148,9 +148,14 @@ def __getattr__(name):
          else:  # Get the version from the _version.py setuptools_scm file.
              __version__ = _version.version
--        return __version__
-+        version_info = tuple(
-+            int(num) for num in __version__.split(".")[:3])
-+        return locals()[name]
+         return __version__
++    elif name == "version_info":
++        return tuple(parse_version(__version__).release)
      raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
  
  
@@ -298,24 +296,24 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (0.12.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (1.4.7)
-Requirement already satisfied: numpy>=1.17 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (1.24.4)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (24.2)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (10.4.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (3.1.4)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (2.9.0.post0)
-Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (8.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from python-dateutil>=2.7->matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (1.17.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from setuptools_scm>=4->matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (75.1.0)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from setuptools_scm>=4->matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (4.12.2)
-Requirement already satisfied: tomli>=1 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from setuptools_scm>=4->matplotlib==3.5.0.dev1324+gb7d0591986.d20250212) (2.2.1)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (0.12.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (1.4.7)
+Requirement already satisfied: numpy>=1.17 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (1.24.4)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (24.2)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (10.4.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (3.1.4)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (2.9.0.post0)
+Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (8.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from python-dateutil>=2.7->matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (1.17.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from setuptools_scm>=4->matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (75.1.0)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from setuptools_scm>=4->matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (4.12.2)
+Requirement already satisfied: tomli>=1 in /opt/miniconda3/envs/testbed/lib/python3.8/site-packages (from setuptools_scm>=4->matplotlib==3.5.0.dev1324+gb7d0591986.d20250506) (2.2.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.5.0.dev1324+gb7d0591986
     Uninstalling matplotlib-3.5.0.dev1324+gb7d0591986:
       Successfully uninstalled matplotlib-3.5.0.dev1324+gb7d0591986
-  DEPRECATION: Legacy editable install of matplotlib==3.5.0.dev1324+gb7d0591986.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.5.0.dev1324+gb7d0591986.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
 Successfully installed matplotlib
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
@@ -370,9 +368,9 @@ name = '_parse_to_version_info'
                 )
             else:  # Get the version from the _version.py setuptools_scm file.
                 __version__ = _version.version
-            version_info = tuple(
-                int(num) for num in __version__.split(".")[:3])
-            return locals()[name]
+            return __version__
+        elif name == "version_info":
+            return tuple(parse_version(__version__).release)
 >       raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 E       AttributeError: module 'matplotlib' has no attribute '_parse_to_version_info'
 
@@ -412,9 +410,9 @@ name = '_parse_to_version_info'
                 )
             else:  # Get the version from the _version.py setuptools_scm file.
                 __version__ = _version.version
-            version_info = tuple(
-                int(num) for num in __version__.split(".")[:3])
-            return locals()[name]
+            return __version__
+        elif name == "version_info":
+            return tuple(parse_version(__version__).release)
 >       raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 E       AttributeError: module 'matplotlib' has no attribute '_parse_to_version_info'
 
@@ -455,9 +453,9 @@ name = '_parse_to_version_info'
                 )
             else:  # Get the version from the _version.py setuptools_scm file.
                 __version__ = _version.version
-            version_info = tuple(
-                int(num) for num in __version__.split(".")[:3])
-            return locals()[name]
+            return __version__
+        elif name == "version_info":
+            return tuple(parse_version(__version__).release)
 >       raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 E       AttributeError: module 'matplotlib' has no attribute '_parse_to_version_info'
 
@@ -498,9 +496,9 @@ name = '_parse_to_version_info'
                 )
             else:  # Get the version from the _version.py setuptools_scm file.
                 __version__ = _version.version
-            version_info = tuple(
-                int(num) for num in __version__.split(".")[:3])
-            return locals()[name]
+            return __version__
+        elif name == "version_info":
+            return tuple(parse_version(__version__).release)
 >       raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 E       AttributeError: module 'matplotlib' has no attribute '_parse_to_version_info'
 
@@ -515,6 +513,6 @@ FAILED lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0
 FAILED lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0rc2-version_tuple1]
 FAILED lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.dev820+g6768ef8c4c-version_tuple2]
 FAILED lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.post820+g6768ef8c4c-version_tuple3]
-==================== 4 failed, 3 passed, 1 skipped in 7.64s ====================
+==================== 4 failed, 3 passed, 1 skipped in 7.46s ====================
 + git checkout b7d05919865fc0c37a0164cf467d5d5513bd0ede lib/matplotlib/tests/test_matplotlib.py
 Updated 1 path from 564838cd4b

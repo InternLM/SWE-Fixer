@@ -178,14 +178,30 @@ Date:   Thu Sep 15 22:00:04 2022 +0200
 
 + git diff 5c4595267ccd3daf78f5fd05693b7ecbcd575c1e
 diff --git a/lib/matplotlib/legend.py b/lib/matplotlib/legend.py
-index 9e5b903d59..4f72f18959 100644
+index 9e5b903d59..086153ee97 100644
 --- a/lib/matplotlib/legend.py
 +++ b/lib/matplotlib/legend.py
-@@ -341,9 +341,11 @@ class Legend(Artist):
+@@ -286,9 +286,15 @@ handler_map : dict or None
+     The custom dictionary mapping instances or types to a legend
+     handler. This *handler_map* updates the default handler map
+     found at `matplotlib.legend.Legend.get_legend_handler_map`.
++
++draggable : bool, default: False
++    Whether the legend can be dragged with the mouse.
+ """)
+ 
+ 
++
++
++
+ class Legend(Artist):
+     """
+     Place a legend on the axes at location loc.
+@@ -341,9 +347,11 @@ class Legend(Artist):
          handler_map=None,
          title_fontproperties=None,  # properties for the legend title
          alignment="center",       # control the alignment within the legend box
-+        draggable=False,          # whether the legend can be dragged by the user
++        draggable=False,          # whether the legend can be dragged with the mouse
          *,
          ncol=1  # synonym for ncols (backward compatibility)
      ):
@@ -193,21 +209,7 @@ index 9e5b903d59..4f72f18959 100644
          """
          Parameters
          ----------
-@@ -362,9 +364,13 @@ class Legend(Artist):
-         ----------------
-         %(_legend_kw_doc)s
- 
-+        draggable : bool, default: False
-+            Whether the legend can be dragged by the user.
-+
-         Notes
-         -----
-         Users can specify any arbitrary location for the legend using the
-+
-         *bbox_to_anchor* keyword argument. *bbox_to_anchor* can be a
-         `.BboxBase` (or derived there from) or a tuple of 2 or 4 floats.
-         See `set_bbox_to_anchor` for more detail.
-@@ -537,10 +543,15 @@ class Legend(Artist):
+@@ -537,10 +545,15 @@ class Legend(Artist):
              title_prop_fp.set_size(title_fontsize)
  
          self.set_title(title, prop=title_prop_fp)
@@ -394,27 +396,27 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.6.0.dev3200+g5c4595267c.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.6.0.dev3200+g5c4595267c.d20250506) (4.7.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.6.0.dev3200+g5c4595267c
     Uninstalling matplotlib-3.6.0.dev3200+g5c4595267c:
       Successfully uninstalled matplotlib-3.6.0.dev3200+g5c4595267c
-  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev3200+g5c4595267c.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev3200+g5c4595267c.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
-Successfully installed matplotlib-3.6.0.dev3200+g5c4595267c.d20250212
+Successfully installed matplotlib-3.6.0.dev3200+g5c4595267c.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 5c4595267ccd3daf78f5fd05693b7ecbcd575c1e lib/matplotlib/tests/test_legend.py
 Updated 0 paths from cd3128f993
@@ -436,23 +438,23 @@ lib/matplotlib/tests/test_legend.py ...s..s..s..s.......s..s..s..s..s... [ 31%]
 ==================================== PASSES ====================================
 _________________________ test_text_nohandler_warning __________________________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 ___________________________ test_legend_title_empty ____________________________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 _____________________ test_legend_title_fontprop_fontsize ______________________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 ____________________________ test_get_set_draggable ____________________________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.legend:legend.py:1247 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1249 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 =========================== short test summary info ============================
 PASSED lib/matplotlib/tests/test_legend.py::test_legend_ordereddict
 PASSED lib/matplotlib/tests/test_legend.py::test_legend_auto1[png]
@@ -560,6 +562,6 @@ PASSED lib/matplotlib/tests/test_legend.py::test_ncol_ncols[png]
 PASSED lib/matplotlib/tests/test_legend.py::test_ncol_ncols[pdf]
 SKIPPED [9] ../opt/miniconda3/envs/testbed/lib/python3.11/contextlib.py:81: Cannot compare svg files because Inkscape is not installed
 SKIPPED [1] lib/matplotlib/testing/compare.py:285: Don't know how to convert .svg files to png
-======================= 104 passed, 10 skipped in 18.79s =======================
+======================= 104 passed, 10 skipped in 18.83s =======================
 + git checkout 5c4595267ccd3daf78f5fd05693b7ecbcd575c1e lib/matplotlib/tests/test_legend.py
 Updated 1 path from cd3128f993

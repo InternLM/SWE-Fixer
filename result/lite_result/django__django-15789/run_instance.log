@@ -1,20 +1,20 @@
-2025-02-12 13:10:53,550 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-15789
+2025-05-06 12:32:36,948 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-15789
 Building instance image sweb.eval.x86_64.django__django-15789:latest for django__django-15789
-2025-02-12 13:10:53,552 - INFO - Image sweb.eval.x86_64.django__django-15789:latest already exists, skipping build.
-2025-02-12 13:10:53,552 - INFO - Creating container for django__django-15789...
-2025-02-12 13:10:53,584 - INFO - Container for django__django-15789 created: 62a37dfdfc8a81e8e6d1b58541e33a59ae2d17ebf46efe2f1fe713fa1701c520
-2025-02-12 13:10:53,989 - INFO - Container for django__django-15789 started: 62a37dfdfc8a81e8e6d1b58541e33a59ae2d17ebf46efe2f1fe713fa1701c520
-2025-02-12 13:10:53,989 - INFO - Intermediate patch for django__django-15789 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15789/patch.diff, now applying to container...
-2025-02-12 13:10:54,232 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:10:54,289 - INFO - >>>>> Applied Patch:
+2025-05-06 12:32:36,951 - INFO - Image sweb.eval.x86_64.django__django-15789:latest already exists, skipping build.
+2025-05-06 12:32:36,951 - INFO - Creating container for django__django-15789...
+2025-05-06 12:32:36,985 - INFO - Container for django__django-15789 created: 4cee23532d1da11d03b0de889804ac4c4978513d7cf47dfce25457a456f0915e
+2025-05-06 12:32:37,324 - INFO - Container for django__django-15789 started: 4cee23532d1da11d03b0de889804ac4c4978513d7cf47dfce25457a456f0915e
+2025-05-06 12:32:37,324 - INFO - Intermediate patch for django__django-15789 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15789/patch.diff, now applying to container...
+2025-05-06 12:32:37,576 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:32:37,636 - INFO - >>>>> Applied Patch:
 patching file django/utils/html.py
 
-2025-02-12 13:10:55,752 - INFO - Git diff before:
+2025-05-06 12:32:38,457 - INFO - Git diff before:
 diff --git a/django/utils/html.py b/django/utils/html.py
-index d0bc97be80..09bced3779 100644
+index d0bc97be80..e8337dfcdf 100644
 --- a/django/utils/html.py
 +++ b/django/utils/html.py
-@@ -59,18 +59,25 @@ _json_script_escapes = {
+@@ -59,18 +59,24 @@ _json_script_escapes = {
  }
  
  
@@ -25,9 +25,8 @@ index d0bc97be80..09bced3779 100644
      value is safe to be output anywhere except for inside a tag attribute. Wrap
      the escaped JSON in a script tag.
 +
-+    If encoder is provided, it must be a callable that accepts a Python object
-+    and returns a JSON-encoded string. By default, the DjangoJSONEncoder is used
-+    to serialize the value.
++    If encoder is provided, it must be a callable that accepts a value and
++    returns a JSON encoded string. The default encoder is DjangoJSONEncoder.
      """
      from django.core.serializers.json import DjangoJSONEncoder
  
@@ -42,15 +41,15 @@ index d0bc97be80..09bced3779 100644
      else:
          template = '<script type="application/json">{}</script>'
          args = (mark_safe(json_str),)
-2025-02-12 13:10:55,752 - INFO - Eval script for django__django-15789 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15789/eval.sh; copying to container...
-2025-02-12 13:11:14,938 - INFO - Test runtime: 19.01 seconds
-2025-02-12 13:11:14,938 - INFO - Test output for django__django-15789 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15789/test_output.txt
-2025-02-12 13:11:15,014 - INFO - Git diff after:
+2025-05-06 12:32:38,457 - INFO - Eval script for django__django-15789 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15789/eval.sh; copying to container...
+2025-05-06 12:32:48,558 - INFO - Test runtime: 9.95 seconds
+2025-05-06 12:32:48,559 - INFO - Test output for django__django-15789 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15789/test_output.txt
+2025-05-06 12:32:48,634 - INFO - Git diff after:
 diff --git a/django/utils/html.py b/django/utils/html.py
-index d0bc97be80..09bced3779 100644
+index d0bc97be80..e8337dfcdf 100644
 --- a/django/utils/html.py
 +++ b/django/utils/html.py
-@@ -59,18 +59,25 @@ _json_script_escapes = {
+@@ -59,18 +59,24 @@ _json_script_escapes = {
  }
  
  
@@ -61,9 +60,8 @@ index d0bc97be80..09bced3779 100644
      value is safe to be output anywhere except for inside a tag attribute. Wrap
      the escaped JSON in a script tag.
 +
-+    If encoder is provided, it must be a callable that accepts a Python object
-+    and returns a JSON-encoded string. By default, the DjangoJSONEncoder is used
-+    to serialize the value.
++    If encoder is provided, it must be a callable that accepts a value and
++    returns a JSON encoded string. The default encoder is DjangoJSONEncoder.
      """
      from django.core.serializers.json import DjangoJSONEncoder
  
@@ -78,9 +76,9 @@ index d0bc97be80..09bced3779 100644
      else:
          template = '<script type="application/json">{}</script>'
          args = (mark_safe(json_str),)
-2025-02-12 13:11:15,014 - INFO - Grading answer for django__django-15789...
-2025-02-12 13:11:15,021 - INFO - report: {'django__django-15789': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_json_script_custom_encoder (utils_tests.test_html.TestUtilsHtml)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_conditional_escape (utils_tests.test_html.TestUtilsHtml)', 'test_escape (utils_tests.test_html.TestUtilsHtml)', 'test_escapejs (utils_tests.test_html.TestUtilsHtml)', 'test_format_html (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_defines_html_error (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_doesnt_define_str (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_subclass (utils_tests.test_html.TestUtilsHtml)', 'test_json_script (utils_tests.test_html.TestUtilsHtml)', 'test_json_script_without_id (utils_tests.test_html.TestUtilsHtml)', 'test_linebreaks (utils_tests.test_html.TestUtilsHtml)', 'test_smart_urlquote (utils_tests.test_html.TestUtilsHtml)', 'test_strip_spaces_between_tags (utils_tests.test_html.TestUtilsHtml)', 'test_strip_tags (utils_tests.test_html.TestUtilsHtml)', 'test_strip_tags_files (utils_tests.test_html.TestUtilsHtml)', 'test_urlize (utils_tests.test_html.TestUtilsHtml)', 'test_urlize_unchanged_inputs (utils_tests.test_html.TestUtilsHtml)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:32:48,634 - INFO - Grading answer for django__django-15789...
+2025-05-06 12:32:48,642 - INFO - report: {'django__django-15789': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_json_script_custom_encoder (utils_tests.test_html.TestUtilsHtml)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_conditional_escape (utils_tests.test_html.TestUtilsHtml)', 'test_escape (utils_tests.test_html.TestUtilsHtml)', 'test_escapejs (utils_tests.test_html.TestUtilsHtml)', 'test_format_html (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_defines_html_error (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_doesnt_define_str (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_subclass (utils_tests.test_html.TestUtilsHtml)', 'test_json_script (utils_tests.test_html.TestUtilsHtml)', 'test_json_script_without_id (utils_tests.test_html.TestUtilsHtml)', 'test_linebreaks (utils_tests.test_html.TestUtilsHtml)', 'test_smart_urlquote (utils_tests.test_html.TestUtilsHtml)', 'test_strip_spaces_between_tags (utils_tests.test_html.TestUtilsHtml)', 'test_strip_tags (utils_tests.test_html.TestUtilsHtml)', 'test_strip_tags_files (utils_tests.test_html.TestUtilsHtml)', 'test_urlize (utils_tests.test_html.TestUtilsHtml)', 'test_urlize_unchanged_inputs (utils_tests.test_html.TestUtilsHtml)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-15789: resolved: True
-2025-02-12 13:11:15,021 - INFO - Attempting to stop container sweb.eval.django__django-15789.20250212_130622...
-2025-02-12 13:11:30,431 - INFO - Attempting to remove container sweb.eval.django__django-15789.20250212_130622...
-2025-02-12 13:11:30,452 - INFO - Container sweb.eval.django__django-15789.20250212_130622 removed.
+2025-05-06 12:32:48,643 - INFO - Attempting to stop container sweb.eval.django__django-15789.20250506_122807...
+2025-05-06 12:33:04,026 - INFO - Attempting to remove container sweb.eval.django__django-15789.20250506_122807...
+2025-05-06 12:33:04,065 - INFO - Container sweb.eval.django__django-15789.20250506_122807 removed.

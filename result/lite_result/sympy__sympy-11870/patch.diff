@@ -1,0 +1,37 @@
+
+diff --git a/sympy/simplify/trigsimp.py b/sympy/simplify/trigsimp.py
+index bd243c1..4bbf91b 100644
+--- a/sympy/simplify/trigsimp.py
++++ b/sympy/simplify/trigsimp.py
+@@ -473,9 +473,13 @@ def trigsimp(expr, **opts):
+     """
+     from sympy.simplify.fu import fu
+ 
++    if expr.has(*_trigs):
++        return expr.rewrite(exp).rewrite(cos).rewrite(exp)
++
+     expr = sympify(expr)
+ 
+     try:
++
+         return expr._eval_trigsimp(**opts)
+     except AttributeError:
+         pass
+
+diff --git a/sympy/simplify/trigsimp.py b/sympy/simplify/trigsimp.py
+index bd243c1..0774ce7 100644
+--- a/sympy/simplify/trigsimp.py
++++ b/sympy/simplify/trigsimp.py
+@@ -510,10 +510,11 @@ def trigsimp(expr, **opts):
+         'old': lambda x: trigsimp_old(x, **opts),
+                    }[method]
+ 
+-    return trigsimpfunc(expr)
++    return trigsimpfunc(expr).rewrite(cos)
+ 
+ 
+ def exptrigsimp(expr):
++
+     """
+     Simplifies exponential / trigonometric / hyperbolic functions.
+ 

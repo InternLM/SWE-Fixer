@@ -1,0 +1,92 @@
+2025-05-06 07:14:22,819 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-21930
+Building instance image sweb.eval.x86_64.sympy__sympy-21930:latest for sympy__sympy-21930
+2025-05-06 07:14:22,820 - INFO - Image sweb.eval.x86_64.sympy__sympy-21930:latest already exists, skipping build.
+2025-05-06 07:14:22,820 - INFO - Creating container for sympy__sympy-21930...
+2025-05-06 07:14:23,118 - INFO - Container for sympy__sympy-21930 created: 80abc957d75a489cbbdd1d52a24c02a5a00692d6ad7cd9562e7779853e9fe4f2
+2025-05-06 07:14:25,204 - INFO - Container for sympy__sympy-21930 started: 80abc957d75a489cbbdd1d52a24c02a5a00692d6ad7cd9562e7779853e9fe4f2
+2025-05-06 07:14:25,204 - INFO - Intermediate patch for sympy__sympy-21930 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-21930/patch.diff, now applying to container...
+2025-05-06 07:14:25,514 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:14:25,590 - INFO - >>>>> Applied Patch:
+patching file sympy/physics/secondquant.py
+patching file sympy/physics/secondquant.py
+Hunk #1 succeeded at 940 (offset 1 line).
+
+2025-05-06 07:14:26,021 - INFO - Git diff before:
+diff --git a/sympy/physics/secondquant.py b/sympy/physics/secondquant.py
+index d19ee2fc63..f938f6adf2 100644
+--- a/sympy/physics/secondquant.py
++++ b/sympy/physics/secondquant.py
+@@ -478,12 +478,13 @@ def __repr__(self):
+         return "CreateBoson(%s)" % self.state
+ 
+     def _latex(self, printer):
+-        return "b^\\dagger_{%s}" % self.state.name
++        return "{b^\\dagger_{%s}}" % self.state.name
+ 
+ B = AnnihilateBoson
+ Bd = CreateBoson
+ 
+ 
++
+ class FermionicOperator(SqOperator):
+ 
+     @property
+@@ -939,12 +940,13 @@ def __repr__(self):
+         return "CreateFermion(%s)" % self.state
+ 
+     def _latex(self, printer):
+-        return "a^\\dagger_{%s}" % self.state.name
++        return "{a^\\dagger_{%s}}" % self.state.name
+ 
+ Fd = CreateFermion
+ F = AnnihilateFermion
+ 
+ 
++
+ class FockState(Expr):
+     """
+     Many particle Fock state with a sequence of occupation numbers.
+2025-05-06 07:14:26,021 - INFO - Eval script for sympy__sympy-21930 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-21930/eval.sh; copying to container...
+2025-05-06 07:14:48,314 - INFO - Test runtime: 22.11 seconds
+2025-05-06 07:14:48,315 - INFO - Test output for sympy__sympy-21930 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-21930/test_output.txt
+2025-05-06 07:14:48,383 - INFO - Git diff after:
+diff --git a/sympy/physics/secondquant.py b/sympy/physics/secondquant.py
+index d19ee2fc63..f938f6adf2 100644
+--- a/sympy/physics/secondquant.py
++++ b/sympy/physics/secondquant.py
+@@ -478,12 +478,13 @@ def __repr__(self):
+         return "CreateBoson(%s)" % self.state
+ 
+     def _latex(self, printer):
+-        return "b^\\dagger_{%s}" % self.state.name
++        return "{b^\\dagger_{%s}}" % self.state.name
+ 
+ B = AnnihilateBoson
+ Bd = CreateBoson
+ 
+ 
++
+ class FermionicOperator(SqOperator):
+ 
+     @property
+@@ -939,12 +940,13 @@ def __repr__(self):
+         return "CreateFermion(%s)" % self.state
+ 
+     def _latex(self, printer):
+-        return "a^\\dagger_{%s}" % self.state.name
++        return "{a^\\dagger_{%s}}" % self.state.name
+ 
+ Fd = CreateFermion
+ F = AnnihilateFermion
+ 
+ 
++
+ class FockState(Expr):
+     """
+     Many particle Fock state with a sequence of occupation numbers.
+2025-05-06 07:14:48,383 - INFO - Grading answer for sympy__sympy-21930...
+2025-05-06 07:14:48,384 - INFO - report: {'sympy__sympy-21930': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_create', 'test_commutation', 'test_create_f', 'test_NO', 'test_issue_19661'], 'failure': ['test_Tensors']}, 'PASS_TO_PASS': {'success': ['test_PermutationOperator', 'test_index_permutations_with_dummies', 'test_dagger', 'test_operator', 'test_annihilate', 'test_basic_state', 'test_basic_apply', 'test_complex_apply', 'test_number_operator', 'test_inner_product', 'test_symbolic_matrix_elements', 'test_matrix_elements', 'test_fixed_bosonic_basis', 'test_annihilate_f', 'test_create_b', 'test_annihilate_b', 'test_wicks', 'test_sorting', 'test_contraction', 'test_evaluate_deltas', 'test_fully_contracted', 'test_substitute_dummies_without_dummies', 'test_substitute_dummies_NO_operator', 'test_substitute_dummies_SQ_operator', 'test_substitute_dummies_new_indices', 'test_substitute_dummies_substitution_order', 'test_dummy_order_inner_outer_lines_VT1T1T1', 'test_dummy_order_inner_outer_lines_VT1T1T1T1', 'test_get_subNO', 'test_equivalent_internal_lines_VT1T1', 'test_equivalent_internal_lines_VT2conjT2', 'test_equivalent_internal_lines_VT2conjT2_ambiguous_order', 'test_equivalent_internal_lines_VT2', 'test_internal_external_VT2T2', 'test_internal_external_pqrs', 'test_dummy_order_well_defined', 'test_dummy_order_ambiguous', 'test_dummy_order_inner_outer_lines_VT1T1T1_AT', 'test_dummy_order_inner_outer_lines_VT1T1T1T1_AT', 'test_equivalent_internal_lines_VT1T1_AT', 'test_equivalent_internal_lines_VT2conjT2_AT', 'test_equivalent_internal_lines_VT2conjT2_ambiguous_order_AT', 'test_equivalent_internal_lines_VT2_AT', 'test_internal_external_VT2T2_AT', 'test_internal_external_pqrs_AT'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-21930: resolved: False
+2025-05-06 07:14:48,384 - INFO - Attempting to stop container sweb.eval.sympy__sympy-21930.20250506_061805...
+2025-05-06 07:15:03,715 - INFO - Attempting to remove container sweb.eval.sympy__sympy-21930.20250506_061805...
+2025-05-06 07:15:03,730 - INFO - Container sweb.eval.sympy__sympy-21930.20250506_061805 removed.

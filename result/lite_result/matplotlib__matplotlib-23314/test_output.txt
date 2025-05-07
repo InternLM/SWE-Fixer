@@ -178,23 +178,24 @@ Date:   Mon Jun 20 18:18:00 2022 +0200
 
 + git diff 97fc1154992f64cfb2f86321155a7404efeb2d8a
 diff --git a/lib/mpl_toolkits/mplot3d/axes3d.py b/lib/mpl_toolkits/mplot3d/axes3d.py
-index 9db44b7994..f82e40ed14 100644
+index 9db44b7994..cafd0886e6 100644
 --- a/lib/mpl_toolkits/mplot3d/axes3d.py
 +++ b/lib/mpl_toolkits/mplot3d/axes3d.py
-@@ -391,10 +391,12 @@ class Axes3D(Axes):
+@@ -389,10 +389,14 @@ class Axes3D(Axes):
+     def draw(self, renderer):
+         self._unstale_viewLim()
  
-         # draw the background patch
-         self.patch.draw(renderer)
--        self._frameon = False
 +        if not self.get_visible():
 +            return
++
+         # draw the background patch
+         self.patch.draw(renderer)
+         self._frameon = False
  
++
          # first, set the aspect
          # this is duplicated from `axes._base._AxesBase.draw`
-+
          # but must be called before any of the artist are drawn as
-         # it adjusts the view limits and the size of the bounding box
-         # of the Axes
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -365,27 +366,27 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2513+g97fc115499.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2513+g97fc115499.d20250506) (4.7.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.6.0.dev2513+g97fc115499
     Uninstalling matplotlib-3.6.0.dev2513+g97fc115499:
       Successfully uninstalled matplotlib-3.6.0.dev2513+g97fc115499
-  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2513+g97fc115499.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2513+g97fc115499.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
-Successfully installed matplotlib-3.6.0.dev2513+g97fc115499.d20250212
+Successfully installed matplotlib-3.6.0.dev2513+g97fc115499.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 97fc1154992f64cfb2f86321155a7404efeb2d8a lib/matplotlib/tests/test_axes.py lib/mpl_toolkits/tests/test_mplot3d.py
 Updated 0 paths from 4dace76824
@@ -1295,6 +1296,6 @@ PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[y-pr
 PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[x-proj_expected2-axis_lines_expected2-tickdirs_expected2]
 SKIPPED [10] lib/matplotlib/testing/compare.py:285: Don't know how to convert .svg files to png
 SKIPPED [53] ../opt/miniconda3/envs/testbed/lib/python3.11/contextlib.py:81: Cannot compare svg files on this system
-================= 864 passed, 63 skipped in 104.09s (0:01:44) ==================
+================= 864 passed, 63 skipped in 103.16s (0:01:43) ==================
 + git checkout 97fc1154992f64cfb2f86321155a7404efeb2d8a lib/matplotlib/tests/test_axes.py lib/mpl_toolkits/tests/test_mplot3d.py
 Updated 2 paths from 4dace76824

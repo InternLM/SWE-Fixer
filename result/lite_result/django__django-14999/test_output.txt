@@ -317,8 +317,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20211027083502-0.editable-py3-none-any.whl size=26780 sha256=6f0eb8cb3ff19b65ad4d0b5e5d5150066865e39030fd9628b5c51095bb2d1967
-  Stored in directory: /tmp/pip-ephem-wheel-cache-jgb568d3/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20211027083502-0.editable-py3-none-any.whl size=26851 sha256=a1826159dd32bba59e1319edcdd5bd66c295177c8d13630c0ee497a125fd4441
+  Stored in directory: /tmp/pip-ephem-wheel-cache-1bme6qyw/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -833,7 +833,7 @@ Traceback (most recent call last):
 AssertionError: 'test_rmwsc_shetlandpony' unexpectedly found in ['auth_group', 'auth_group_permissions', 'auth_permission', 'auth_user', 'auth_user_groups', 'auth_user_user_permissions', 'django_admin_log', 'django_content_type', 'django_migrations', 'django_session', 'django_site', 'migrations_modelwithcustombase', 'migrations_unmigratedmodel', 'test_rmwsc_pony', 'test_rmwsc_rider', 'test_rmwsc_shetlandpony']
 
 ----------------------------------------------------------------------
-Ran 120 tests in 1.107s
+Ran 120 tests in 0.978s
 
 FAILED (failures=3, errors=5, skipped=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

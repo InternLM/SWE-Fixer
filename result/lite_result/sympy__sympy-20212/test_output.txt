@@ -316,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        33227115
-hash randomization: on (PYTHONHASHSEED=1333752060)
+random seed:        87307409
+hash randomization: on (PYTHONHASHSEED=3205722352)
 
 sympy/core/tests/test_power.py[34] 
 test_rational ok
@@ -356,6 +356,6 @@ test_issue_18762 ok
 test_power_dispatcher ok                                                    [OK]
 
 
-================= tests finished: 34 passed, in 21.11 seconds ==================
+================= tests finished: 34 passed, in 21.44 seconds ==================
 + git checkout a106f4782a9dbe7f8fd16030f15401d977e03ae9 sympy/core/tests/test_power.py
 Updated 1 path from 6d5f0f379a

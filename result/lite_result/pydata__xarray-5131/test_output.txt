@@ -544,8 +544,8 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 +++ '[' '' = 1 ']'
 +++ _la_log '  content of that folder:'
 +++ '[' '' = 1 ']'
-++++ sed 's/^/      /'
 ++++ ls -al /opt/miniconda3/envs/testbed/share/gdb/auto-load/replace_this_section_with_absolute_slashed_path_to_CONDA_PREFIX/lib
+++++ sed 's/^/      /'
 +++ _la_log '      total 12
       drwxr-xr-x 2 root root 4096 Dec  5 11:42 .
       drwxr-xr-x 3 root root 4096 Dec  5 11:42 ..
@@ -620,24 +620,24 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: numpy>=1.17 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.17.1.dev52+ge5690588.d20250212) (1.23.0)
-Requirement already satisfied: pandas>=1.0 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.17.1.dev52+ge5690588.d20250212) (1.5.3)
-Requirement already satisfied: setuptools>=40.4 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.17.1.dev52+ge5690588.d20250212) (68.0.0)
-Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=1.0->xarray==0.17.1.dev52+ge5690588.d20250212) (2.8.2)
-Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=1.0->xarray==0.17.1.dev52+ge5690588.d20250212) (2023.3)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=1.0->xarray==0.17.1.dev52+ge5690588.d20250212) (1.16.0)
+Requirement already satisfied: numpy>=1.17 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.17.1.dev52+ge5690588.d20250506) (1.23.0)
+Requirement already satisfied: pandas>=1.0 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.17.1.dev52+ge5690588.d20250506) (1.5.3)
+Requirement already satisfied: setuptools>=40.4 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.17.1.dev52+ge5690588.d20250506) (68.0.0)
+Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=1.0->xarray==0.17.1.dev52+ge5690588.d20250506) (2.8.2)
+Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=1.0->xarray==0.17.1.dev52+ge5690588.d20250506) (2023.3)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=1.0->xarray==0.17.1.dev52+ge5690588.d20250506) (1.16.0)
 Building wheels for collected packages: xarray
   Building editable for xarray (pyproject.toml): started
   Building editable for xarray (pyproject.toml): finished with status 'done'
-  Created wheel for xarray: filename=xarray-0.17.1.dev52+ge5690588.d20250212-0.editable-py3-none-any.whl size=9077 sha256=93db22b95442f74017f8f60d7398e749fb4e2084799e7ada00d55887c1a4ddb6
-  Stored in directory: /tmp/pip-ephem-wheel-cache-flt1jegp/wheels/0d/a6/cb/465a7b303d624cc531250fa27c75d038ddc29430bdb6ba7c9f
+  Created wheel for xarray: filename=xarray-0.17.1.dev52+ge5690588.d20250506-0.editable-py3-none-any.whl size=9114 sha256=99d3e10c243a125b9d6d56f0f3638df6b64f6d736105430672dbc2ff9e706346
+  Stored in directory: /tmp/pip-ephem-wheel-cache-m760e7i6/wheels/0d/a6/cb/465a7b303d624cc531250fa27c75d038ddc29430bdb6ba7c9f
 Successfully built xarray
 Installing collected packages: xarray
   Attempting uninstall: xarray
     Found existing installation: xarray 0.17.1.dev52+ge5690588
     Uninstalling xarray-0.17.1.dev52+ge5690588:
       Successfully uninstalled xarray-0.17.1.dev52+ge5690588
-Successfully installed xarray-0.17.1.dev52+ge5690588.d20250212
+Successfully installed xarray-0.17.1.dev52+ge5690588.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout e56905889c836c736152b11a7e6117a229715975 xarray/tests/test_groupby.py
 Updated 0 paths from 1c2ce001
@@ -751,6 +751,6 @@ PASSED xarray/tests/test_groupby.py::test_groupby_multiple_string_args
 PASSED xarray/tests/test_groupby.py::test_groupby_bins_timeseries
 PASSED xarray/tests/test_groupby.py::test_groupby_none_group_name
 PASSED xarray/tests/test_groupby.py::test_groupby_getitem
-======================= 34 passed, 113 warnings in 3.47s =======================
+======================= 34 passed, 113 warnings in 3.48s =======================
 + git checkout e56905889c836c736152b11a7e6117a229715975 xarray/tests/test_groupby.py
 Updated 1 path from 1c2ce001

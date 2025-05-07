@@ -178,16 +178,17 @@ Date:   Fri Sep 23 02:45:08 2022 -0400
 
 + git diff 269c0b94b4fcf8b1135011c1556eac29dc09de15
 diff --git a/lib/matplotlib/backends/backend_ps.py b/lib/matplotlib/backends/backend_ps.py
-index f209e811f1..49baa9d74a 100644
+index f209e811f1..a1acb8d368 100644
 --- a/lib/matplotlib/backends/backend_ps.py
 +++ b/lib/matplotlib/backends/backend_ps.py
-@@ -665,11 +665,13 @@ grestore
+@@ -665,11 +665,14 @@ grestore
                  curr_stream[1].append(
                      (item.x, item.ft_object.get_glyph_name(item.glyph_idx))
                  )
 -            # append the last entry
 -            stream.append(curr_stream)
-+            if curr_stream:  # skip empty lines
++            # Ignore empty lines.
++            if curr_stream:
 +                stream.append(curr_stream)
  
          self.set_color(*gc.get_rgb())
@@ -367,27 +368,27 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev235+g269c0b94b4.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev235+g269c0b94b4.d20250506) (4.7.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.7.0.dev235+g269c0b94b4
     Uninstalling matplotlib-3.7.0.dev235+g269c0b94b4:
       Successfully uninstalled matplotlib-3.7.0.dev235+g269c0b94b4
-  DEPRECATION: Legacy editable install of matplotlib==3.7.0.dev235+g269c0b94b4.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.7.0.dev235+g269c0b94b4.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
-Successfully installed matplotlib-3.7.0.dev235+g269c0b94b4.d20250212
+Successfully installed matplotlib-3.7.0.dev235+g269c0b94b4.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 269c0b94b4fcf8b1135011c1556eac29dc09de15 lib/matplotlib/tests/test_backend_ps.py
 Updated 0 paths from 248630441c
@@ -408,12 +409,12 @@ lib/matplotlib/tests/test_backend_ps.py ................................ [ 88%]
 ==================================== PASSES ====================================
 __________ test_savefig_to_stringio[ps with distiller=xpdf-portrait] ___________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.backends.backend_ps:backend_ps.py:1167 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
-WARNING  matplotlib.backends.backend_ps:backend_ps.py:1167 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
+WARNING  matplotlib.backends.backend_ps:backend_ps.py:1168 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
+WARNING  matplotlib.backends.backend_ps:backend_ps.py:1168 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
 __________ test_savefig_to_stringio[ps with distiller=xpdf-landscape] __________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.backends.backend_ps:backend_ps.py:1167 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
-WARNING  matplotlib.backends.backend_ps:backend_ps.py:1167 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
+WARNING  matplotlib.backends.backend_ps:backend_ps.py:1168 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
+WARNING  matplotlib.backends.backend_ps:backend_ps.py:1168 [Errno 2] No such file or directory: 'pdftops'.  Distillation step skipped.
 _____________________________ test_partial_usetex ______________________________
 ------------------------------ Captured log call -------------------------------
 WARNING  matplotlib.backends.backend_ps:backend_ps.py:583 The PS backend determines usetex status solely based on rcParams['text.usetex'] and does not support having usetex=True only for some elements; this element will thus be rendered as if usetex=False.
@@ -457,6 +458,6 @@ PASSED lib/matplotlib/tests/test_backend_ps.py::test_no_duplicate_definition
 PASSED lib/matplotlib/tests/test_backend_ps.py::test_path_collection[eps]
 SKIPPED [1] lib/matplotlib/tests/test_backend_ps.py:292: Font may be missing
 SKIPPED [1] lib/matplotlib/tests/test_backend_ps.py:305: Font may be missing
-======================== 34 passed, 2 skipped in 30.40s ========================
+======================== 34 passed, 2 skipped in 29.30s ========================
 + git checkout 269c0b94b4fcf8b1135011c1556eac29dc09de15 lib/matplotlib/tests/test_backend_ps.py
 Updated 1 path from 248630441c

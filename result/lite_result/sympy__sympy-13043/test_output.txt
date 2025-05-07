@@ -150,22 +150,25 @@ Date:   Tue Jul 25 18:53:05 2017 -0500
 
 + git diff a3389a25ec84d36f5cf04a4f2562d820f131db64
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 34e0ecb786..d39d31d365 100644
+index 34e0ecb786..a273a357e2 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -831,10 +831,11 @@ def _eval_interval(self, x, a, b):
-                 domain = Interval(a, b)
-             else:
-                 domain = Interval(b, a)
--            singularities = list(solveset(self.cancel().as_numer_denom()[1], x, domain = domain))
-+            singularities = list(solveset(self.cancel().as_numer_denom()[1], x, domain=domain))
-             for s in singularities:
-                 if a < s < b:
-                     value += -limit(self, x, s, "+") + limit(self, x, s, "-")
-+
-                 elif b < s < a:
-                     value += limit(self, x, s, "+") - limit(self, x, s, "-")
+@@ -1006,12 +1006,13 @@ def as_terms(self):
+         for i, g in enumerate(gens):
+             indices[g] = i
  
+-        result = []
++        result = [0]*len(terms)
+ 
+-        for term, (coeff, cpart, ncpart) in terms:
++        for i, (term, (coeff, cpart, ncpart)) in enumerate(terms):
+             monom = [0]*k
+ 
+             for base, exp in cpart.items():
++
+                 monom[indices[base]] = exp
+ 
+             result.append((term, (coeff, tuple(monom), ncpart)))
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -323,8 +326,8 @@ executable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.19-final-0) [C
 architecture:       64-bit
 cache:              no
 ground types:       python 
-random seed:        23981468
-hash randomization: on (PYTHONHASHSEED=3823145429)
+random seed:        58488719
+hash randomization: on (PYTHONHASHSEED=782623088)
 
 sympy/integrals/tests/test_intpoly.py[4] 
 test_decompose F
@@ -337,12 +340,14 @@ ________________________________________________________________________________
 ________ sympy/integrals/tests/test_intpoly.py:test_polytope_integrate _________
   File "/testbed/sympy/integrals/tests/test_intpoly.py", line 70, in test_polytope_integrate
     assert polytope_integrate(Polygon(Point(0, 0), Point(0, sqrt(3)),
-  File "/testbed/sympy/geometry/polygon.py", line 176, in __new__
-    convex = rv.is_convex()
-  File "/testbed/sympy/geometry/polygon.py", line 485, in is_convex
-    cw = self._isright(args[-2], args[-1], args[0])
-  File "/testbed/sympy/geometry/polygon.py", line 252, in _isright
-    ca = c - a
+  File "/testbed/sympy/geometry/polygon.py", line 149, in __new__
+    if b not in shared and Point.is_collinear(a, b, c):
+  File "/testbed/sympy/geometry/point.py", line 540, in is_collinear
+    return Point.affine_rank(*points) <= 1
+  File "/testbed/sympy/geometry/point.py", line 327, in affine_rank
+    points = [i - origin for i in points[1:]]
+  File "/testbed/sympy/geometry/point.py", line 327, in <listcomp>
+    points = [i - origin for i in points[1:]]
   File "/testbed/sympy/geometry/point.py", line 292, in __sub__
     return self + [-x for x in other]
   File "/testbed/sympy/geometry/point.py", line 224, in __add__
@@ -377,6 +382,7 @@ ________ sympy/integrals/tests/test_intpoly.py:test_polytope_integrate _________
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 302, in _ask
     _ask(pk, obj)
+  [Previous line repeated 2 more times]
   File "/testbed/sympy/core/assumptions.py", line 290, in _ask
     a = evaluate(obj)
   File "/testbed/sympy/core/mul.py", line 1224, in _eval_is_irrational
@@ -385,12 +391,6 @@ ________ sympy/integrals/tests/test_intpoly.py:test_polytope_integrate _________
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 302, in _ask
     _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 290, in _ask
-    a = evaluate(obj)
-  File "/testbed/sympy/core/power.py", line 551, in _eval_is_prime
-    return self.doit().is_prime
-  File "/testbed/sympy/core/assumptions.py", line 247, in getit
-    return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 290, in _ask
     a = evaluate(obj)
   File "/testbed/sympy/core/power.py", line 551, in _eval_is_prime
@@ -2328,7 +2328,7 @@ _____________ sympy/integrals/tests/test_intpoly.py:test_decompose _____________
 AssertionError
 
  tests finished: 1 passed, 1 failed, 1 expected to fail, 1 exceptions, 
-in 1.95 seconds 
+in 0.90 seconds 
 DO *NOT* COMMIT!
 + git checkout a3389a25ec84d36f5cf04a4f2562d820f131db64 sympy/integrals/tests/test_intpoly.py
 Updated 1 path from 2f08aa52e9

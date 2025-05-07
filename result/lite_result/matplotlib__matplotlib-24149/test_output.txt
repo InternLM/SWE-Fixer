@@ -178,23 +178,28 @@ Date:   Wed Oct 12 18:07:46 2022 -0400
 
 + git diff af39f1edffcd828f05cfdd04f2e59506bb4a27bc
 diff --git a/lib/matplotlib/axes/_axes.py b/lib/matplotlib/axes/_axes.py
-index fdac0f3560..36b2c8c6ba 100644
+index fdac0f3560..946102c530 100644
 --- a/lib/matplotlib/axes/_axes.py
 +++ b/lib/matplotlib/axes/_axes.py
-@@ -4543,9 +4543,13 @@ default: :rc:`scatter.edgecolors`
-         x = np.ma.ravel(x)
-         y = np.ma.ravel(y)
-         if x.size != y.size:
-+            if x.size == 0 == y.size:
-+                # Return empty collection for all-nan input.
-+                return mcoll.BarContainer([], False)
-             raise ValueError("x and y must be the same size")
+@@ -4088,11 +4088,18 @@ class Axes(_AxesBase):
+         means = []
+         fliers = []
  
-         if s is None:
++        def _preprocess_data(*args, **kwargs):
++            # Disable the NaN->array conversion so that the bar plot
++            # can raise rather than returning an empty plot.
++            kwargs["allow_nan"] = False
++            return _preprocess_data(*args, **kwargs)
 +
-             s = (20 if mpl.rcParams['_internal.classic_mode'] else
-                  mpl.rcParams['lines.markersize'] ** 2.0)
-         s = np.ma.ravel(s)
+         # empty list of xticklabels
+         datalabels = []
+ 
+         # Use default zorder if none specified
+         if zorder is None:
++
+             zorder = mlines.Line2D.zorder
+ 
+         zdelta = 0.1
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -371,31 +376,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev342+gaf39f1edff.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev342+gaf39f1edff.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev342+gaf39f1edff.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23654 sha256=f27f213a42c7793cee341ad323ee33f63e5059d63a143320324ed59e5aff706a
-  Stored in directory: /tmp/pip-ephem-wheel-cache-0290tyh3/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev342+gaf39f1edff.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=24079 sha256=0fdec1f6718837c18d1a0f0a9421b15b07598b49e66fc33de0dd6f3a7fef4ddd
+  Stored in directory: /tmp/pip-ephem-wheel-cache-5yg9ycuf/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.7.0.dev342+gaf39f1edff
     Uninstalling matplotlib-3.7.0.dev342+gaf39f1edff:
       Successfully uninstalled matplotlib-3.7.0.dev342+gaf39f1edff
-Successfully installed matplotlib-3.7.0.dev342+gaf39f1edff.d20250212
+Successfully installed matplotlib-3.7.0.dev342+gaf39f1edff.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout af39f1edffcd828f05cfdd04f2e59506bb4a27bc lib/matplotlib/tests/test_axes.py
 Updated 0 paths from 18175687ab
@@ -509,7 +514,7 @@ lib/matplotlib/cbook/__init__.py:1749: StopIteration
 The above exception was the direct cause of the following exception:
 
 cls = <class '_pytest.runner.CallInfo'>
-func = <function call_and_report.<locals>.<lambda> at 0x7f7e699f56c0>
+func = <function call_and_report.<locals>.<lambda> at 0x7f9c6de44b80>
 when = 'call'
 reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
 
@@ -572,13 +577,13 @@ E           RuntimeError: generator raised StopIteration
 ==================================== PASSES ====================================
 ___________________ TestScatter.test_scatter_c[c_case9-None] ___________________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.axes._axes:_axes.py:4390 *c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+WARNING  matplotlib.axes._axes:_axes.py:4397 *c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
 __________________________ test_color_length_mismatch __________________________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.axes._axes:_axes.py:4390 *c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+WARNING  matplotlib.axes._axes:_axes.py:4397 *c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
 ____________________________ test_2dcolor_plot[pdf] ____________________________
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.axes._axes:_axes.py:4390 *c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
+WARNING  matplotlib.axes._axes:_axes.py:4397 *c* argument looks like a single numeric RGB or RGBA sequence, which should be avoided as value-mapping will have precedence in case its length matches with *x* & *y*.  Please use the *color* keyword-argument or provide a 2D array with a single row if you intend to specify the same RGB or RGBA value for all points.
 =========================== short test summary info ============================
 PASSED lib/matplotlib/tests/test_axes.py::test_invisible_axes[png]
 PASSED lib/matplotlib/tests/test_axes.py::test_get_labels
@@ -1350,6 +1355,6 @@ PASSED lib/matplotlib/tests/test_axes.py::test_bar_leading_nan
 SKIPPED [10] lib/matplotlib/testing/compare.py:285: Don't know how to convert .svg files to png
 SKIPPED [54] ../opt/miniconda3/envs/testbed/lib/python3.11/contextlib.py:81: Cannot compare svg files because Inkscape is not installed
 FAILED lib/matplotlib/tests/test_axes.py::test_bar_all_nan[png] - RuntimeErro...
-============= 1 failed, 767 passed, 64 skipped in 87.28s (0:01:27) =============
+============= 1 failed, 767 passed, 64 skipped in 81.46s (0:01:21) =============
 + git checkout af39f1edffcd828f05cfdd04f2e59506bb4a27bc lib/matplotlib/tests/test_axes.py
 Updated 1 path from 18175687ab

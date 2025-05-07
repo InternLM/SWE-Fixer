@@ -353,8 +353,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20211220054634-0.editable-py3-none-any.whl size=26873 sha256=47f35afbc0b71cd5227f227ee12b1cee5a9fb0d29f8fef30991a8d922513110b
-  Stored in directory: /tmp/pip-ephem-wheel-cache-w0tqgxq1/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20211220054634-0.editable-py3-none-any.whl size=26943 sha256=aa4a32d4a416ec22ddf8e18ddb30e9cb2c5677fecd52336ba7a384d2e306aaf1
+  Stored in directory: /tmp/pip-ephem-wheel-cache-rrmmebvl/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -408,7 +408,7 @@ Traceback (most recent call last):
 TypeError: object of type 'NoneType' has no len()
 
 ----------------------------------------------------------------------
-Ran 8 tests in 0.048s
+Ran 8 tests in 0.058s
 
 FAILED (errors=2)
 Testing against Django installed in '/testbed/django'

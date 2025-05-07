@@ -232,60 +232,22 @@ index 4616aad10a..7fb57fbce4 100644
  # This is written in such a way that it'll always pass on platforms
 + git diff ef85b6bf0bc5a8b194f0724cf5bbedbcee402b96
 diff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py
-index 0aa07e0b99..a214111b0c 100644
+index 0aa07e0b99..1076b18b6b 100644
 --- a/django/db/models/sql/query.py
 +++ b/django/db/models/sql/query.py
-@@ -1771,10 +1771,12 @@ class Query(BaseExpression):
-         # Try resolving all the names as fields first. If there's an error,
-         # treat trailing names as lookups until a field can be resolved.
-         last_field_exception = None
-+        filtered_relation = None
-         for pivot in range(len(names), 0, -1):
-             try:
-                 path, final_field, targets, rest = self.names_to_path(
-                     names[:pivot],
-+
-                     opts,
-                     allow_many,
-                     fail_on_missing=True,
-@@ -1787,16 +1789,21 @@ class Query(BaseExpression):
-                 else:
-                     last_field_exception = exc
-             else:
-+                if filtered_relation:
-+                    path = path[:-1] + (path[-1].clone(filtered_relation),)
-                 # The transforms are the remaining items that couldn't be
-                 # resolved into fields.
-                 transforms = names[pivot:]
-+
-                 break
-         for name in transforms:
- 
-             def transform(field, alias, *, name, previous):
-+                nonlocal filtered_relation
-                 try:
-                     wrapped = previous(field, alias)
-                     return self.try_transform(wrapped, name)
-+
-                 except FieldError:
-                     # FieldError is raised if the transform doesn't exist.
-                     if isinstance(final_field, Field) and last_field_exception:
-@@ -1804,9 +1811,15 @@ class Query(BaseExpression):
-                     else:
-                         raise
- 
-+                if filtered_relation:
-+                    filtered_relation = filtered_relation.clone()
-+                    filtered_relation.relation_name = name
-+                    filtered_relation.path = path[:]
-+
-             final_transformer = functools.partial(
-                 transform, name=name, previous=final_transformer
-             )
-+
-             final_transformer.has_transforms = True
-         # Then, add the path to the query's joins. Note that we can't trim
+@@ -1812,10 +1812,11 @@ class Query(BaseExpression):
          # joins at this stage - we will need the information about join type
+         # of the trimmed joins.
+         for join in path:
+-            if join.filtered_relation:
++            if join.filtered_relation and join.filtered_relation.path:
+                 filtered_relation = join.filtered_relation.clone()
+                 table_alias = filtered_relation.alias
+             else:
++
+                 filtered_relation = None
+                 table_alias = None
+             opts = join.to_opts
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -425,8 +387,8 @@ Requirement already satisfied: sqlparse>=0.2.2 in /opt/miniconda3/envs/testbed/l
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-5.0.dev20230123092917-0.editable-py3-none-any.whl size=27305 sha256=11c624e6fa9523a32c1a463ba24daf57661f5dd4eb8b1a2ba7a80eb81127eb7f
-  Stored in directory: /tmp/pip-ephem-wheel-cache-e71loy66/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for Django: filename=django-5.0.dev20230123092917-0.editable-py3-none-any.whl size=27374 sha256=b3b0c9add82febcc5022b1db9aa75de0b2787822f1f691221d144e592fd876e3
+  Stored in directory: /tmp/pip-ephem-wheel-cache-3t183mql/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -506,7 +468,7 @@ Traceback (most recent call last):
 AssertionError: <Tournament: Tournament object (2)> != <Pool: Pool object (3)>
 
 ----------------------------------------------------------------------
-Ran 20 tests in 0.028s
+Ran 20 tests in 0.023s
 
 FAILED (failures=2)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

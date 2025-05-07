@@ -1,0 +1,130 @@
+2025-05-06 11:28:22,561 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-17655
+Building instance image sweb.eval.x86_64.sympy__sympy-17655:latest for sympy__sympy-17655
+2025-05-06 11:28:22,565 - INFO - Image sweb.eval.x86_64.sympy__sympy-17655:latest already exists, skipping build.
+2025-05-06 11:28:22,565 - INFO - Creating container for sympy__sympy-17655...
+2025-05-06 11:28:22,605 - INFO - Container for sympy__sympy-17655 created: 8c7164c1f0a267c164143b836a29ccd02a88fc1193e06bc25b62c0977ea5e2c8
+2025-05-06 11:28:22,887 - INFO - Container for sympy__sympy-17655 started: 8c7164c1f0a267c164143b836a29ccd02a88fc1193e06bc25b62c0977ea5e2c8
+2025-05-06 11:28:22,888 - INFO - Intermediate patch for sympy__sympy-17655 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-17655/patch.diff, now applying to container...
+2025-05-06 11:28:23,144 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:28:23,208 - INFO - >>>>> Applied Patch:
+patching file sympy/geometry/point.py
+patching file sympy/geometry/point.py
+Hunk #1 succeeded at 307 (offset 33 lines).
+
+2025-05-06 11:28:23,690 - INFO - Git diff before:
+diff --git a/sympy/geometry/point.py b/sympy/geometry/point.py
+index 7c978c47be..9a08c6deb5 100644
+--- a/sympy/geometry/point.py
++++ b/sympy/geometry/point.py
+@@ -247,7 +247,7 @@ def __iter__(self):
+     def __len__(self):
+         return len(self.args)
+ 
+-    def __mul__(self, factor):
++    def __rmul__(self, factor):
+         """Multiply point's coordinates by a factor.
+ 
+         Notes
+@@ -278,8 +278,40 @@ def __mul__(self, factor):
+         coords = [simplify(x*factor) for x in self.args]
+         return Point(coords, evaluate=False)
+ 
++    def __mul__(self, factor):
++        """Multiply point's coordinates by a factor.
++
++
++
++        Notes
++        =====
++
++        >>> from sympy.geometry.point import Point
++
++        When multiplying a Point by a floating point number,
++        the coordinates of the Point will be changed to Floats:
++
++        >>> Point(1, 2)*0.1
++        Point2D(0.1, 0.2)
++
++        If this is not desired, the `scale` method can be used or
++        else only multiply or divide by integers:
++
++        >>> Point(1, 2).scale(1.1, 1.1)
++        Point2D(11/10, 11/5)
++        >>> Point(1, 2)*11/10
++        Point2D(11/10, 11/5)
++
++        See Also
++        ========
++
++        sympy.geometry.point.Point.scale
++        """
++        return self.__rmul__(factor)
++
+     def __neg__(self):
+         """Negate the point."""
++
+         coords = [-x for x in self.args]
+         return Point(coords, evaluate=False)
+2025-05-06 11:28:23,690 - INFO - Eval script for sympy__sympy-17655 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-17655/eval.sh; copying to container...
+2025-05-06 11:28:39,893 - INFO - Test runtime: 16.00 seconds
+2025-05-06 11:28:39,894 - INFO - Test output for sympy__sympy-17655 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-17655/test_output.txt
+2025-05-06 11:28:39,961 - INFO - Git diff after:
+diff --git a/sympy/geometry/point.py b/sympy/geometry/point.py
+index 7c978c47be..9a08c6deb5 100644
+--- a/sympy/geometry/point.py
++++ b/sympy/geometry/point.py
+@@ -247,7 +247,7 @@ def __iter__(self):
+     def __len__(self):
+         return len(self.args)
+ 
+-    def __mul__(self, factor):
++    def __rmul__(self, factor):
+         """Multiply point's coordinates by a factor.
+ 
+         Notes
+@@ -278,8 +278,40 @@ def __mul__(self, factor):
+         coords = [simplify(x*factor) for x in self.args]
+         return Point(coords, evaluate=False)
+ 
++    def __mul__(self, factor):
++        """Multiply point's coordinates by a factor.
++
++
++
++        Notes
++        =====
++
++        >>> from sympy.geometry.point import Point
++
++        When multiplying a Point by a floating point number,
++        the coordinates of the Point will be changed to Floats:
++
++        >>> Point(1, 2)*0.1
++        Point2D(0.1, 0.2)
++
++        If this is not desired, the `scale` method can be used or
++        else only multiply or divide by integers:
++
++        >>> Point(1, 2).scale(1.1, 1.1)
++        Point2D(11/10, 11/5)
++        >>> Point(1, 2)*11/10
++        Point2D(11/10, 11/5)
++
++        See Also
++        ========
++
++        sympy.geometry.point.Point.scale
++        """
++        return self.__rmul__(factor)
++
+     def __neg__(self):
+         """Negate the point."""
++
+         coords = [-x for x in self.args]
+         return Point(coords, evaluate=False)
+2025-05-06 11:28:39,961 - INFO - Grading answer for sympy__sympy-17655...
+2025-05-06 11:28:39,964 - INFO - report: {'sympy__sympy-17655': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_point', 'test_point3D'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_Point2D', 'test_issue_9214', 'test_issue_11617', 'test_transform', 'test_concyclic_doctest_bug', 'test_arguments', 'test_unit', 'test_dot', 'test__normalize_dimension'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-17655: resolved: True
+2025-05-06 11:28:39,964 - INFO - Attempting to stop container sweb.eval.sympy__sympy-17655.20250506_111427...
+2025-05-06 11:28:55,230 - INFO - Attempting to remove container sweb.eval.sympy__sympy-17655.20250506_111427...
+2025-05-06 11:28:55,249 - INFO - Container sweb.eval.sympy__sympy-17655.20250506_111427 removed.

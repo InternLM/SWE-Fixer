@@ -242,24 +242,17 @@ index 83f1b6b2a..74a36c41b 100644
  
 + git diff 56bf819c2f4eaf8b36bd8c42c06bb59d5a3bfc0f
 diff --git a/src/_pytest/nodes.py b/src/_pytest/nodes.py
-index 4a79bc861..3af98cbe6 100644
+index 4a79bc861..2daa18868 100644
 --- a/src/_pytest/nodes.py
 +++ b/src/_pytest/nodes.py
-@@ -597,11 +597,6 @@ class Item(Node):
- 
-     @cached_property
-     def location(self) -> Tuple[str, Optional[int], str]:
--        location = self.reportinfo()
--        if isinstance(location[0], py.path.local):
--            fspath = location[0]
--        else:
--            fspath = py.path.local(location[0])
+@@ -602,6 +602,6 @@ class Item(Node):
+             fspath = location[0]
+         else:
+             fspath = py.path.local(location[0])
 -        relfspath = self.session._node_location_to_relpath(fspath)
--        assert type(location[2]) is str
--        return (relfspath, location[1], location[2])
-+        relfspath = self.session._node_location_to_relpath(self.fspath)
-+        _, lineno, message = self.reportinfo()
-+        return (relfspath, lineno, message)
++        relfspath = fspath.relto(self.session.config.rootdir)
+         assert type(location[2]) is str
+         return (relfspath, location[1], location[2])
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -394,24 +387,24 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250212) (1.11.0)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250212) (23.1)
-Requirement already satisfied: attrs>=17.4.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250212) (23.1.0)
-Requirement already satisfied: more-itertools>=4.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250212) (10.1.0)
-Requirement already satisfied: pluggy<1.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250212) (0.13.1)
-Requirement already satisfied: wcwidth in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250212) (0.2.13)
+Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250506) (1.11.0)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250506) (23.1)
+Requirement already satisfied: attrs>=17.4.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250506) (23.1.0)
+Requirement already satisfied: more-itertools>=4.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250506) (10.1.0)
+Requirement already satisfied: pluggy<1.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250506) (0.13.1)
+Requirement already satisfied: wcwidth in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev380+g56bf819c2.d20250506) (0.2.13)
 Building wheels for collected packages: pytest
   Building editable for pytest (pyproject.toml): started
   Building editable for pytest (pyproject.toml): finished with status 'done'
-  Created wheel for pytest: filename=pytest-5.4.1.dev380+g56bf819c2.d20250212-0.editable-py3-none-any.whl size=8153 sha256=3143ed7619d4092901a2733a850732803d13bc8eeb70478252da60dd26cfe883
-  Stored in directory: /tmp/pip-ephem-wheel-cache-u8gwhjtf/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for pytest: filename=pytest-5.4.1.dev380+g56bf819c2.d20250506-0.editable-py3-none-any.whl size=8201 sha256=4464c74bad43b46bc06fe335e80b422a8ef8549bd3faadd73a867c1099d6d654
+  Stored in directory: /tmp/pip-ephem-wheel-cache-pqw4zu5x/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built pytest
 Installing collected packages: pytest
   Attempting uninstall: pytest
     Found existing installation: pytest 5.4.1.dev380+g56bf819c2
     Uninstalling pytest-5.4.1.dev380+g56bf819c2:
       Successfully uninstalled pytest-5.4.1.dev380+g56bf819c2
-Successfully installed pytest-5.4.1.dev380+g56bf819c2.d20250212
+Successfully installed pytest-5.4.1.dev380+g56bf819c2.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout 56bf819c2f4eaf8b36bd8c42c06bb59d5a3bfc0f testing/test_nodes.py
 Updated 0 paths from 817d02661
@@ -420,7 +413,7 @@ Checking patch testing/test_nodes.py...
 Applied patch testing/test_nodes.py cleanly.
 + pytest -rA testing/test_nodes.py
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /testbed, inifile: tox.ini
 collected 12 items
 
@@ -458,7 +451,7 @@ testdir = <Testdir local('/tmp/pytest-of-root/pytest-0/test_failure_with_changed
 >       result.stdout.fnmatch_lines([str(p) + ":*: AssertionError", "*1 failed in *"])
 E       Failed: nomatch: '/tmp/pytest-of-root/pytest-0/test_failure_with_changed_cwd0/test_failure_with_changed_cwd.py:*: AssertionError'
 E           and: '============================= test session starts =============================='
-E           and: 'platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250212, py-1.11.0, pluggy-0.13.1'
+E           and: 'platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250506, py-1.11.0, pluggy-0.13.1'
 E           and: 'rootdir: /tmp/pytest-of-root/pytest-0/test_failure_with_changed_cwd0'
 E           and: 'collected 1 item'
 E           and: ''
@@ -476,13 +469,13 @@ E           and: ''
 E           and: '../test_failure_with_changed_cwd.py:14: AssertionError'
 E           and: '=========================== short test summary info ============================'
 E           and: 'FAILED test_failure_with_changed_cwd.py::test_show_wrong_path - assert False'
-E           and: '============================== 1 failed in 0.02s ==============================='
+E           and: '============================== 1 failed in 0.01s ==============================='
 E       remains unmatched: '/tmp/pytest-of-root/pytest-0/test_failure_with_changed_cwd0/test_failure_with_changed_cwd.py:*: AssertionError'
 
 /testbed/testing/test_nodes.py:87: Failed
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_failure_with_changed_cwd0
 collected 1 item
 
@@ -500,12 +493,12 @@ E       assert False
 ../test_failure_with_changed_cwd.py:14: AssertionError
 =========================== short test summary info ============================
 FAILED test_failure_with_changed_cwd.py::test_show_wrong_path - assert False
-============================== 1 failed in 0.02s ===============================
+============================== 1 failed in 0.01s ===============================
 ==================================== PASSES ====================================
 _______________________ test_std_warn_not_pytestwarning ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-5.4.1.dev380+g56bf819c2.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_std_warn_not_pytestwarning0
 collected 0 items
 
@@ -523,6 +516,6 @@ PASSED testing/test_nodes.py::test_node_from_parent_disallowed_arguments
 PASSED testing/test_nodes.py::test__check_initialpaths_for_relpath
 PASSED testing/test_nodes.py::test_std_warn_not_pytestwarning
 FAILED testing/test_nodes.py::test_failure_with_changed_cwd - Failed: nomatch...
-========================= 1 failed, 11 passed in 0.10s =========================
+========================= 1 failed, 11 passed in 0.06s =========================
 + git checkout 56bf819c2f4eaf8b36bd8c42c06bb59d5a3bfc0f testing/test_nodes.py
 Updated 1 path from 817d02661

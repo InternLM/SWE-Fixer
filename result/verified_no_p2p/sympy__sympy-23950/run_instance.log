@@ -1,0 +1,58 @@
+2025-05-06 07:15:44,380 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-23950
+Building instance image sweb.eval.x86_64.sympy__sympy-23950:latest for sympy__sympy-23950
+2025-05-06 07:15:44,382 - INFO - Image sweb.eval.x86_64.sympy__sympy-23950:latest already exists, skipping build.
+2025-05-06 07:15:44,382 - INFO - Creating container for sympy__sympy-23950...
+2025-05-06 07:15:44,406 - INFO - Container for sympy__sympy-23950 created: fdb721c8e932d4a3a663da5efbe6165319f9bfe7be2f8c63cdd4a5d2fb98193c
+2025-05-06 07:15:44,926 - INFO - Container for sympy__sympy-23950 started: fdb721c8e932d4a3a663da5efbe6165319f9bfe7be2f8c63cdd4a5d2fb98193c
+2025-05-06 07:15:44,926 - INFO - Intermediate patch for sympy__sympy-23950 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-23950/patch.diff, now applying to container...
+2025-05-06 07:15:45,206 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:15:45,281 - INFO - >>>>> Applied Patch:
+patching file sympy/functions/elementary/piecewise.py
+
+2025-05-06 07:15:45,749 - INFO - Git diff before:
+diff --git a/sympy/functions/elementary/piecewise.py b/sympy/functions/elementary/piecewise.py
+index f8e6c44def..ce251d16f9 100644
+--- a/sympy/functions/elementary/piecewise.py
++++ b/sympy/functions/elementary/piecewise.py
+@@ -950,10 +950,13 @@ def as_expr_set_pairs(self, domain=None):
+                             Inequalities in the complex domain are
+                             not supported. Try the real domain by
+                             setting domain=S.Reals'''))
++            if not hasattr(cond, 'as_set'):
++                continue
+             cond_int = U.intersect(cond.as_set())
+             U = U - cond_int
+             if cond_int != S.EmptySet:
+                 exp_sets.append((expr, cond_int))
++
+         return exp_sets
+ 
+     def _eval_rewrite_as_ITE(self, *args, **kwargs):
+2025-05-06 07:15:45,749 - INFO - Eval script for sympy__sympy-23950 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-23950/eval.sh; copying to container...
+2025-05-06 07:15:51,651 - INFO - Test runtime: 5.73 seconds
+2025-05-06 07:15:51,652 - INFO - Test output for sympy__sympy-23950 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-23950/test_output.txt
+2025-05-06 07:15:51,704 - INFO - Git diff after:
+diff --git a/sympy/functions/elementary/piecewise.py b/sympy/functions/elementary/piecewise.py
+index f8e6c44def..ce251d16f9 100644
+--- a/sympy/functions/elementary/piecewise.py
++++ b/sympy/functions/elementary/piecewise.py
+@@ -950,10 +950,13 @@ def as_expr_set_pairs(self, domain=None):
+                             Inequalities in the complex domain are
+                             not supported. Try the real domain by
+                             setting domain=S.Reals'''))
++            if not hasattr(cond, 'as_set'):
++                continue
+             cond_int = U.intersect(cond.as_set())
+             U = U - cond_int
+             if cond_int != S.EmptySet:
+                 exp_sets.append((expr, cond_int))
++
+         return exp_sets
+ 
+     def _eval_rewrite_as_ITE(self, *args, **kwargs):
+2025-05-06 07:15:51,704 - INFO - Grading answer for sympy__sympy-23950...
+2025-05-06 07:15:51,706 - INFO - report: {'sympy__sympy-23950': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_as_set']}, 'PASS_TO_PASS': {'success': ['test_contains_basic', 'test_issue_6194', 'test_issue_10326', 'test_binary_symbols'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-23950: resolved: False
+2025-05-06 07:15:51,706 - INFO - Attempting to stop container sweb.eval.sympy__sympy-23950.20250506_061805...
+2025-05-06 07:16:07,050 - INFO - Attempting to remove container sweb.eval.sympy__sympy-23950.20250506_061805...
+2025-05-06 07:16:07,065 - INFO - Container sweb.eval.sympy__sympy-23950.20250506_061805 removed.

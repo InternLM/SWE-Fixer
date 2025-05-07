@@ -1,0 +1,153 @@
+
+diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
+index 721709f..2b13a49 100644
+--- a/sklearn/mixture/base.py
++++ b/sklearn/mixture/base.py
+@@ -17,10 +17,13 @@ from ..base import BaseEstimator
+ from ..base import DensityMixin
+ from ..externals import six
+ from ..exceptions import ConvergenceWarning
+-from ..utils import check_array, check_random_state
++from ..utils import check_array, check_random_state, check_is_fitted
+ from ..utils.fixes import logsumexp
+ 
+ 
++
++
++
+ def _check_shape(param, param_shape, name):
+     """Validate the shape of the input parameter 'param'.
+ 
+
+diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
+index 721709f..5d292f9 100644
+--- a/sklearn/mixture/base.py
++++ b/sklearn/mixture/base.py
+@@ -240,9 +240,14 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
+         self._set_parameters(best_params)
+         self.n_iter_ = best_n_iter
+ 
++        # Because we use `np.exp(log_resp)` afterwards, we need to clamp the
++        # values of `log_resp` to avoid `nan`s.
++        log_resp = np.maximum(log_resp, -10)
++
+         return self
+ 
+     def _e_step(self, X):
++
+         """E step.
+ 
+         Parameters
+
+diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
+index 721709f..b0dcc65 100644
+--- a/sklearn/mixture/base.py
++++ b/sklearn/mixture/base.py
+@@ -322,9 +322,34 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
+         """
+         return self.score_samples(X).mean()
+ 
++    def fit_predict(self, X, y=None):
++        """Estimate model parameters with the EM algorithm and predict the
++        labels for the data samples in X using trained model.
++
++        The method fit the model `n_init` times and set the parameters with
++        which the model has the largest likelihood or lower bound. Within each
++        trial, the method iterates between E-step and M-step for `max_iter`
++        times until the change of likelihood or lower bound is less than
++        `tol`, otherwise, a `ConvergenceWarning` is raised.
++
++        Parameters
++        ----------
++        X : array-like, shape (n_samples, n_features)
++            List of n_features-dimensional data points. Each row
++            corresponds to a single data point.
++
++        Returns
++        -------
++        labels : array, shape (n_samples,)
++            Component labels.
++        """
++        return self.fit(X, y).predict(X)
++
+     def predict(self, X):
+         """Predict the labels for the data samples in X using trained model.
+ 
++
++
+         Parameters
+         ----------
+         X : array-like, shape (n_samples, n_features)
+
+diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
+index 721709f..6bcd444 100644
+--- a/sklearn/mixture/base.py
++++ b/sklearn/mixture/base.py
+@@ -336,10 +336,12 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
+         labels : array, shape (n_samples,)
+             Component labels.
+         """
+-        self._check_is_fitted()
++        check_is_fitted(self, 'means_')
+         X = _check_X(X, None, self.means_.shape[1])
+         return self._estimate_weighted_log_prob(X).argmax(axis=1)
+ 
++
++
+     def predict_proba(self, X):
+         """Predict posterior probability of each component given the data.
+ 
+
+diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
+index 721709f..6a67754 100644
+--- a/sklearn/mixture/base.py
++++ b/sklearn/mixture/base.py
+@@ -355,11 +355,12 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
+             Returns the probability each Gaussian (state) in
+             the model given each sample.
+         """
+-        self._check_is_fitted()
++        check_is_fitted(self, 'means_')
+         X = _check_X(X, None, self.means_.shape[1])
+         _, log_resp = self._estimate_log_prob_resp(X)
+         return np.exp(log_resp)
+ 
++
+     def sample(self, n_samples=1):
+         """Generate random samples from the fitted Gaussian distribution.
+ 
+
+diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
+index 721709f..96f6ced 100644
+--- a/sklearn/mixture/base.py
++++ b/sklearn/mixture/base.py
+@@ -377,10 +377,11 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
+             Component labels
+ 
+         """
+-        self._check_is_fitted()
++        check_is_fitted(self, 'means_')
+ 
+         if n_samples < 1:
+             raise ValueError(
++
+                 "Invalid value for 'n_samples': %d . The sampling requires at "
+                 "least one sample." % (self.n_components))
+ 
+
+diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
+index 721709f..9b7b2dd 100644
+--- a/sklearn/mixture/base.py
++++ b/sklearn/mixture/base.py
+@@ -420,9 +420,11 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
+         -------
+         weighted_log_prob : array, shape (n_samples, n_component)
+         """
++        check_is_fitted(self, 'means_')
+         return self._estimate_log_prob(X) + self._estimate_log_weights()
+ 
+     @abstractmethod
++
+     def _estimate_log_weights(self):
+         """Estimate log-weights in EM algorithm, E[ log pi ] in VB algorithm.
+ 

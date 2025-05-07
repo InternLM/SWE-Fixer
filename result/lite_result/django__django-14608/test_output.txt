@@ -318,8 +318,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210714182821-0.editable-py3-none-any.whl size=26217 sha256=36860a0677df506f6db4a063b8c5dbe3853b161f46ecaa1173df1738fc8d8d2d
-  Stored in directory: /tmp/pip-ephem-wheel-cache-5wncn63k/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210714182821-0.editable-py3-none-any.whl size=26216 sha256=3dd9cb580d4a76dc1fd1b4c16ecb1f117375594ef1921d2feaac2c26b6683314
+  Stored in directory: /tmp/pip-ephem-wheel-cache-1dthnhwv/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -492,8 +492,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
- OK
+  Applying sites.0002_alter_domain_unique... OK
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 System check identified no issues (1 silenced).
 test_add_model_modeladmin_defer_qs (admin_views.tests.AdminCustomQuerysetTest) ... ok
 test_add_model_modeladmin_only_qs (admin_views.tests.AdminCustomQuerysetTest) ... ok
@@ -1190,7 +1190,7 @@ Traceback (most recent call last):
 AssertionError: '<tr>[36 chars] nonform"><li>(Hidden field TOTAL_FORMS) This [389 chars]r>\n' != '<tr>[36 chars] nonfield"><li>(Hidden field TOTAL_FORMS) This[390 chars]r>\n'
 
 ----------------------------------------------------------------------
-Ran 417 tests in 30.880s
+Ran 417 tests in 30.512s
 
 FAILED (failures=6, skipped=15)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

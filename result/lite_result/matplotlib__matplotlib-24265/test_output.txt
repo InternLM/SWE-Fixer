@@ -178,10 +178,10 @@ Date:   Tue Oct 25 00:14:44 2022 -0400
 
 + git diff e148998d9bed9d1b53a91587ad48f9bb43c7737f
 diff --git a/lib/matplotlib/style/core.py b/lib/matplotlib/style/core.py
-index fb0a5426e6..0a142b5dbc 100644
+index fb0a5426e6..8ee3adc77f 100644
 --- a/lib/matplotlib/style/core.py
 +++ b/lib/matplotlib/style/core.py
-@@ -108,10 +108,15 @@ def use(style):
+@@ -108,10 +108,30 @@ def use(style):
      else:
          styles = style
  
@@ -189,7 +189,22 @@ index fb0a5426e6..0a142b5dbc 100644
 +    style_alias = {
 +        'mpl20': 'default',
 +        'mpl15': 'classic',
++        'seaborn': 'seaborn-v0_8',
++        'seaborn-bright': 'seaborn-v0_8-bright',
 +        'seaborn-colorblind': 'seaborn-v0_8-colorblind',
++        'seaborn-dark': 'seaborn-v0_8-dark',
++        'seaborn-darkgrid': 'seaborn-v0_8-darkgrid',
++        'seaborn-dark-palette': 'seaborn-v0_8-dark-palette',
++        'seaborn-deep': 'seaborn-v0_8-deep',
++        'seaborn-muted': 'seaborn-v0_8-muted',
++        'seaborn-notebook': 'seaborn-v0_8-notebook',
++        'seaborn-paper': 'seaborn-v0_8-paper',
++        'seaborn-pastel': 'seaborn-v0_8-pastel',
++        'seaborn-poster': 'seaborn-v0_8-poster',
++        'seaborn-talk': 'seaborn-v0_8-talk',
++        'seaborn-ticks': 'seaborn-v0_8-ticks',
++        'seaborn-white': 'seaborn-v0_8-white',
++        'seaborn-whitegrid': 'seaborn-v0_8-whitegrid',
 +    }
  
      def fix_style(s):
@@ -374,31 +389,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev487+ge148998d9b.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev487+ge148998d9b.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev487+ge148998d9b.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23655 sha256=b76d4c39dc88b84439d11982005abbfa1003293b2098f9eab3b22ed810809d9e
-  Stored in directory: /tmp/pip-ephem-wheel-cache-_bnehgyi/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev487+ge148998d9b.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=24081 sha256=1b3a87ef8edb3d51957974defae00bb3b39ea0bb29afd42726d1180d3d50a0d0
+  Stored in directory: /tmp/pip-ephem-wheel-cache-sba9r1ga/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.7.0.dev487+ge148998d9b
     Uninstalling matplotlib-3.7.0.dev487+ge148998d9b:
       Successfully uninstalled matplotlib-3.7.0.dev487+ge148998d9b
-Successfully installed matplotlib-3.7.0.dev487+ge148998d9b.d20250212
+Successfully installed matplotlib-3.7.0.dev487+ge148998d9b.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout e148998d9bed9d1b53a91587ad48f9bb43c7737f lib/matplotlib/tests/test_style.py
 Updated 0 paths from 8d6d315e4a
@@ -422,36 +437,18 @@ ________________________ test_deprecated_seaborn_styles ________________________
         with mpl.style.context("seaborn-v0_8-bright"):
             seaborn_bright = mpl.rcParams.copy()
         assert mpl.rcParams != seaborn_bright
-        with pytest.warns(mpl._api.MatplotlibDeprecationWarning):
-            mpl.style.use("seaborn-bright")
-        assert mpl.rcParams == seaborn_bright
-        with pytest.warns(mpl._api.MatplotlibDeprecationWarning):
->           mpl.style.library["seaborn-bright"]
-E           KeyError: 'seaborn-bright'
-
-lib/matplotlib/tests/test_style.py:188: KeyError
-
-During handling of the above exception, another exception occurred:
-
-    def test_deprecated_seaborn_styles():
-        with mpl.style.context("seaborn-v0_8-bright"):
-            seaborn_bright = mpl.rcParams.copy()
-        assert mpl.rcParams != seaborn_bright
-        with pytest.warns(mpl._api.MatplotlibDeprecationWarning):
-            mpl.style.use("seaborn-bright")
-        assert mpl.rcParams == seaborn_bright
 >       with pytest.warns(mpl._api.MatplotlibDeprecationWarning):
 E       Failed: DID NOT WARN. No warnings of type (<class 'matplotlib._api.deprecation.MatplotlibDeprecationWarning'>,) were emitted.
 E        Emitted warnings: [].
 
-lib/matplotlib/tests/test_style.py:187: Failed
+lib/matplotlib/tests/test_style.py:184: Failed
 ==================================== PASSES ====================================
 __________________ test_invalid_rc_warning_includes_filename ___________________
 ------------------------------ Captured log call -------------------------------
 WARNING  matplotlib:__init__.py:855 
-Bad key foo in file /tmp/tmpzhkxqr6l/basename.mplstyle, line 1 ('foo: bar')
+Bad key foo in file /tmp/tmpj8nymjmw/basename.mplstyle, line 1 ('foo: bar')
 You probably need to get an updated matplotlibrc file from
-https://github.com/matplotlib/matplotlib/blob/v3.7.0.dev487+ge148998d9b.d20250212/matplotlibrc.template
+https://github.com/matplotlib/matplotlib/blob/v3.7.0.dev487+ge148998d9b.d20250506/matplotlibrc.template
 or from the matplotlib source distribution
 =========================== short test summary info ============================
 PASSED lib/matplotlib/tests/test_style.py::test_invalid_rc_warning_includes_filename
@@ -471,6 +468,6 @@ PASSED lib/matplotlib/tests/test_style.py::test_xkcd_no_cm
 PASSED lib/matplotlib/tests/test_style.py::test_xkcd_cm
 PASSED lib/matplotlib/tests/test_style.py::test_up_to_date_blacklist
 FAILED lib/matplotlib/tests/test_style.py::test_deprecated_seaborn_styles - F...
-========================= 1 failed, 16 passed in 3.10s =========================
+========================= 1 failed, 16 passed in 3.11s =========================
 + git checkout e148998d9bed9d1b53a91587ad48f9bb43c7737f lib/matplotlib/tests/test_style.py
 Updated 1 path from 8d6d315e4a

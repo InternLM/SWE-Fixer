@@ -1,6 +1,6 @@
 
 diff --git a/sympy/printing/pretty/pretty.py b/sympy/printing/pretty/pretty.py
-index 0ddba33..8cf9d90 100644
+index 0ddba33..230eb7f 100644
 --- a/sympy/printing/pretty/pretty.py
 +++ b/sympy/printing/pretty/pretty.py
 @@ -821,19 +821,20 @@ class PrettyPrinter(Printer):
@@ -15,14 +15,16 @@ index 0ddba33..8cf9d90 100644
 -                if S(item.args[0]).is_negative:
 +                if item.is_negative:
                      s = prettyForm(*stringPict.next(s, ' '))
-                     pform = self._print(item)
+-                    pform = self._print(item)
++                    s = prettyForm(*stringPict.next(s, self._print(item)))
                  else:
                      s = prettyForm(*stringPict.next(s, ' + '))
-+                    pform = self._print(item)
-                 s = prettyForm(*stringPict.next(s, pform))
+-                s = prettyForm(*stringPict.next(s, pform))
++                    s = prettyForm(*stringPict.next(s, self._print(item)))
  
          return s
  
++
 +
      def _print_MatMul(self, expr):
          args = list(expr.args)

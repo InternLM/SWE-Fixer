@@ -299,14 +299,14 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info
-    writing /tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/dependency_links.txt
-    writing entry points to /tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/entry_points.txt
-    writing requirements to /tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info
+    writing /tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/dependency_links.txt
+    writing entry points to /tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/entry_points.txt
+    writing requirements to /tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     warning: no files found matching 'ez_setup.py'
     warning: no files found matching 'astropy/utils/misc/data/.hidden_file.txt'
@@ -321,19 +321,19 @@ Obtaining file:///testbed
     no previously-included directories found matching 'astropy_helpers/build'
     warning: no previously-included files matching '*.pyc' found anywhere in distribution
     warning: no previously-included files matching '*.o' found anywhere in distribution
-    writing manifest file '/tmp/pip-pip-egg-info-kj0a79es/astropy.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-u9k58cqh/astropy.egg-info/SOURCES.txt'
 Requirement already satisfied: numpy>=1.13.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from astropy==3.1.dev22336) (1.16.0)
 Requirement already satisfied: pytest-astropy in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from astropy==3.1.dev22336) (0.2.1)
-Requirement already satisfied: pytest-arraydiff in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.1)
-Requirement already satisfied: pytest-doctestplus>=0.1.2 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.1.2)
-Requirement already satisfied: pytest-remotedata>=0.2.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.2.0)
-Requirement already satisfied: pytest-openfiles>=0.2.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.2.0)
 Requirement already satisfied: pytest>=3.1.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (3.3.1)
-Requirement already satisfied: attrs>=17.2.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (17.3.0)
-Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (1.11.0)
-Requirement already satisfied: pluggy<0.7,>=0.5 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (0.6.0)
-Requirement already satisfied: six>=1.10.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (1.17.0)
+Requirement already satisfied: pytest-doctestplus>=0.1.2 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.1.2)
+Requirement already satisfied: pytest-arraydiff in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.1)
+Requirement already satisfied: pytest-openfiles>=0.2.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.2.0)
+Requirement already satisfied: pytest-remotedata>=0.2.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-astropy->astropy==3.1.dev22336) (0.2.0)
 Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (38.2.4)
+Requirement already satisfied: six>=1.10.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (1.17.0)
+Requirement already satisfied: attrs>=17.2.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (17.3.0)
+Requirement already satisfied: pluggy<0.7,>=0.5 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (0.6.0)
+Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest>=3.1.0->pytest-astropy->astropy==3.1.dev22336) (1.11.0)
 Requirement already satisfied: psutil in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from pytest-openfiles>=0.2.0->pytest-astropy->astropy==3.1.dev22336) (5.4.2)
 Installing collected packages: astropy
   Attempting uninstall: astropy
@@ -478,6 +478,10 @@ Successfully installed astropy-3.1.dev22336
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5 astropy/wcs/tests/test_wcs.py
 Updated 0 paths from 9b09445a86
 + git apply -v -
@@ -492,7 +496,7 @@ cachedir: .
 Running tests with Astropy version 3.1.dev22336.
 Running tests in astropy/wcs/tests/test_wcs.py.
 
-Date: 2025-02-12T05:07:19
+Date: 2025-05-06T04:28:57
 
 Platform: Linux-5.15.0-125-generic-x86_64-with-debian-bookworm-sid
 
@@ -582,6 +586,6 @@ None
   Module already imported so cannot be rewritten: astropy.tests.plugins.display
 
 -- Docs: http://doc.pytest.org/en/latest/warnings.html
-=============== 25 failed, 32 passed, 1 warnings in 2.62 seconds ===============
+=============== 25 failed, 32 passed, 1 warnings in 2.75 seconds ===============
 + git checkout d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5 astropy/wcs/tests/test_wcs.py
 Updated 1 path from 9b09445a86

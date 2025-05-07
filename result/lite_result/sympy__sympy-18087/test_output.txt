@@ -150,24 +150,22 @@ Date:   Thu Dec 19 22:51:49 2019 -0500
 
 + git diff 9da013ad0ddc3cd96fe505f2e47c63e372040916
 diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
-index 612bc0bb69..0db7f81f8b 100644
+index 612bc0bb69..85508e1c9d 100644
 --- a/sympy/simplify/fu.py
 +++ b/sympy/simplify/fu.py
-@@ -507,11 +507,14 @@ def _f(rv):
+@@ -500,10 +500,11 @@ def _f(rv):
+         # change is not going to allow a simplification as far as I can tell.
+         if not (rv.is_Pow and rv.base.func == f):
+             return rv
+-        if not rv.exp.is_real:
++        if not (rv.base.is_positive or rv.exp.is_integer):
+             return rv
+ 
+         if (rv.exp < 0) == True:
++
              return rv
          if (rv.exp > max) == True:
              return rv
-+        if rv.exp == 2 and rv.base.is_Pow and rv.base.exp is S.Half:
-+            return Abs(rv.base.base)
-         if rv.exp == 2:
-             return h(g(rv.base.args[0])**2)
-         else:
-             if rv.exp == 4:
-                 e = 2
-+
-             elif not pow:
-                 if rv.exp % 2:
-                     return rv
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -320,8 +318,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        52340645
-hash randomization: on (PYTHONHASHSEED=3466061643)
+random seed:        99542465
+hash randomization: on (PYTHONHASHSEED=3852726251)
 
 sympy/core/tests/test_exprtools.py[12] 
 test_decompose_power ok
@@ -380,7 +378,7 @@ Traceback (most recent call last):
     assert fu(cos(x) + sqrt(sin(x)**2)) == cos(x) + sqrt(sin(x)**2)
 AssertionError
 
-============ tests finished: 37 passed, 2 failed, in 17.30 seconds =============
+============ tests finished: 37 passed, 2 failed, in 17.38 seconds =============
 DO *NOT* COMMIT!
 + git checkout 9da013ad0ddc3cd96fe505f2e47c63e372040916 sympy/core/tests/test_exprtools.py sympy/simplify/tests/test_fu.py
 Updated 2 paths from 26c4b1e41b

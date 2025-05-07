@@ -175,23 +175,43 @@ index 7927b89e63..ea935501c6 100644
  
 + git diff e02f67ef2d03d48128e7a118bf75f0418e24e8ac
 diff --git a/django/db/models/enums.py b/django/db/models/enums.py
-index bbe362a6ab..69afb761d8 100644
+index bbe362a6ab..fee3a395cf 100644
 --- a/django/db/models/enums.py
 +++ b/django/db/models/enums.py
-@@ -26,10 +26,12 @@ class ChoicesMeta(enum.EnumMeta):
-             # assignment in enum's classdict.
-             dict.__setitem__(classdict, key, value)
-         cls = super().__new__(metacls, classname, bases, classdict)
--        cls._value2label_map_ = dict(zip(cls._value2member_map_, labels))
-+        cls._value2label_map_ = dict(zip(cls._value2member_map_.keys(), labels))
-+        cls._name2value_map_ = dict(zip(cls._value2member_map_.values(), cls._value2member_map_.keys()))
-         # Add a label property to instances of enum which uses the enum member
-         # that is passed in as "self" as the value to use when looking up the
-         # label in the choices.
+@@ -1,10 +1,10 @@
+ import enum
+ 
+-from django.utils.functional import Promise
+-
+ __all__ = ['Choices', 'IntegerChoices', 'TextChoices']
+ 
+ 
 +
-         cls.label = property(lambda self: cls._value2label_map_.get(self.value))
++
+ class ChoicesMeta(enum.EnumMeta):
+     """A metaclass for creating a enum choices."""
+ 
+@@ -12,11 +12,7 @@ class ChoicesMeta(enum.EnumMeta):
+         labels = []
+         for key in classdict._member_names:
+             value = classdict[key]
+-            if (
+-                isinstance(value, (list, tuple)) and
+-                len(value) > 1 and
+-                isinstance(value[-1], (Promise, str))
+-            ):
++            if isinstance(value, (list, tuple)):
+                 *value, label = value
+                 value = tuple(value)
+             else:
+@@ -34,6 +30,7 @@ class ChoicesMeta(enum.EnumMeta):
          return enum.unique(cls)
  
+     def __contains__(cls, member):
++
+         if not isinstance(member, enum.Enum):
+             # Allow non-enums to match against member values.
+             return member in {x.value for x in cls}
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -417,7 +437,7 @@ First differing element 0:
 -  {'import migrations.test_writer'})
 
 ----------------------------------------------------------------------
-Ran 46 tests in 0.033s
+Ran 46 tests in 0.038s
 
 FAILED (failures=2)
 Testing against Django installed in '/testbed/django'

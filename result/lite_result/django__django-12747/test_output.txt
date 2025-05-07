@@ -588,7 +588,60 @@ test_setdefault_none (delete.tests.OnDeleteTests) ... ok
 test_setnull (delete.tests.OnDeleteTests) ... ok
 test_setnull_from_child (delete.tests.OnDeleteTests) ... ok
 test_setnull_from_parent (delete.tests.OnDeleteTests) ... ok
-test_setvalue (delete.tests.OnDeleteTests) ... Testing against Django installed in '/testbed/django'
+test_setvalue (delete.tests.OnDeleteTests) ... ok
+
+======================================================================
+ERROR: test_large_delete (delete.tests.DeletionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/delete/tests.py", line 459, in test_large_delete
+    self.assertNumQueries(queries, Avatar.objects.all().delete)
+  File "/testbed/django/test/testcases.py", line 1062, in assertNumQueries
+    func(*args, **kwargs)
+  File "/testbed/django/db/models/query.py", line 739, in delete
+    if model_label not in _rows_count:
+UnboundLocalError: local variable '_rows_count' referenced before assignment
+
+======================================================================
+ERROR: test_queryset_delete_returns_num_rows (delete.tests.DeletionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/delete/tests.py", line 514, in test_queryset_delete_returns_num_rows
+    deleted, rows_count = Avatar.objects.all().delete()
+  File "/testbed/django/db/models/query.py", line 739, in delete
+    if model_label not in _rows_count:
+UnboundLocalError: local variable '_rows_count' referenced before assignment
+
+======================================================================
+FAIL: test_model_delete_returns_num_rows (delete.tests.DeletionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/delete/tests.py", line 558, in test_model_delete_returns_num_rows
+    self.assertCountEqual(deleted_objs.keys(), existed_objs.keys())
+AssertionError: Element counts were not equal:
+First has 1, Second has 0:  'delete.A'
+
+======================================================================
+FAIL: test_fast_delete_empty_no_update_can_self_select (delete.tests.FastDeleteTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/delete/tests.py", line 696, in test_fast_delete_empty_no_update_can_self_select
+    (0, {}),
+AssertionError: Tuples differ: (0, {'delete.User': 0}) != (0, {})
+
+First differing element 1:
+{'delete.User': 0}
+{}
+
+- (0, {'delete.User': 0})
++ (0, {})
+
+----------------------------------------------------------------------
+Ran 53 tests in 1.129s
+
+FAILED (failures=2, errors=2, skipped=1)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Testing against Django installed in '/testbed/django'
 Importing application delete
 Skipping setup of unused database(s): other.
 Operations to perform:
@@ -643,58 +696,5 @@ Running migrations:
   Applying sites.0001_initial... OK
   Applying sites.0002_alter_domain_unique... OK
 System check identified no issues (0 silenced).
-ok
-
-======================================================================
-ERROR: test_large_delete (delete.tests.DeletionTests)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/testbed/tests/delete/tests.py", line 459, in test_large_delete
-    self.assertNumQueries(queries, Avatar.objects.all().delete)
-  File "/testbed/django/test/testcases.py", line 1062, in assertNumQueries
-    func(*args, **kwargs)
-  File "/testbed/django/db/models/query.py", line 739, in delete
-    if model_label not in _rows_count:
-UnboundLocalError: local variable '_rows_count' referenced before assignment
-
-======================================================================
-ERROR: test_queryset_delete_returns_num_rows (delete.tests.DeletionTests)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/testbed/tests/delete/tests.py", line 514, in test_queryset_delete_returns_num_rows
-    deleted, rows_count = Avatar.objects.all().delete()
-  File "/testbed/django/db/models/query.py", line 739, in delete
-    if model_label not in _rows_count:
-UnboundLocalError: local variable '_rows_count' referenced before assignment
-
-======================================================================
-FAIL: test_model_delete_returns_num_rows (delete.tests.DeletionTests)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/testbed/tests/delete/tests.py", line 558, in test_model_delete_returns_num_rows
-    self.assertCountEqual(deleted_objs.keys(), existed_objs.keys())
-AssertionError: Element counts were not equal:
-First has 1, Second has 0:  'delete.A'
-
-======================================================================
-FAIL: test_fast_delete_empty_no_update_can_self_select (delete.tests.FastDeleteTests)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/testbed/tests/delete/tests.py", line 696, in test_fast_delete_empty_no_update_can_self_select
-    (0, {}),
-AssertionError: Tuples differ: (0, {'delete.User': 0}) != (0, {})
-
-First differing element 1:
-{'delete.User': 0}
-{}
-
-- (0, {'delete.User': 0})
-+ (0, {})
-
-----------------------------------------------------------------------
-Ran 53 tests in 1.096s
-
-FAILED (failures=2, errors=2, skipped=1)
-Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 + git checkout c86201b6ed4f8256b0a0520c08aa674f623d4127 tests/delete/tests.py
 Updated 1 path from 27448bbd64

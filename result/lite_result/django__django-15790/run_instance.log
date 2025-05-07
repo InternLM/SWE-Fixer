@@ -1,15 +1,15 @@
-2025-02-12 13:10:54,010 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-15790
+2025-05-06 12:32:38,524 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-15790
 Building instance image sweb.eval.x86_64.django__django-15790:latest for django__django-15790
-2025-02-12 13:10:54,012 - INFO - Image sweb.eval.x86_64.django__django-15790:latest already exists, skipping build.
-2025-02-12 13:10:54,012 - INFO - Creating container for django__django-15790...
-2025-02-12 13:10:54,049 - INFO - Container for django__django-15790 created: bea1867ac87142f0ab22a0b33ba077bc68e81e2d658e6baffeaf7b8d498dca3f
-2025-02-12 13:10:54,430 - INFO - Container for django__django-15790 started: bea1867ac87142f0ab22a0b33ba077bc68e81e2d658e6baffeaf7b8d498dca3f
-2025-02-12 13:10:54,431 - INFO - Intermediate patch for django__django-15790 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15790/patch.diff, now applying to container...
-2025-02-12 13:10:54,627 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:10:54,687 - INFO - >>>>> Applied Patch:
+2025-05-06 12:32:38,527 - INFO - Image sweb.eval.x86_64.django__django-15790:latest already exists, skipping build.
+2025-05-06 12:32:38,527 - INFO - Creating container for django__django-15790...
+2025-05-06 12:32:38,558 - INFO - Container for django__django-15790 created: c68d3378f312195b00d070131c5ae76fcc73fc80734f744e15fb82ba7c8f3184
+2025-05-06 12:32:38,867 - INFO - Container for django__django-15790 started: c68d3378f312195b00d070131c5ae76fcc73fc80734f744e15fb82ba7c8f3184
+2025-05-06 12:32:38,868 - INFO - Intermediate patch for django__django-15790 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15790/patch.diff, now applying to container...
+2025-05-06 12:32:39,105 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:32:39,167 - INFO - >>>>> Applied Patch:
 patching file django/core/checks/templates.py
 
-2025-02-12 13:10:56,068 - INFO - Git diff before:
+2025-05-06 12:32:40,171 - INFO - Git diff before:
 diff --git a/django/core/checks/templates.py b/django/core/checks/templates.py
 index 5214276987..50e3cf2bdd 100644
 --- a/django/core/checks/templates.py
@@ -33,10 +33,10 @@ index 5214276987..50e3cf2bdd 100644
              errors.append(
                  Error(
                      E003.msg.format(
-2025-02-12 13:10:56,068 - INFO - Eval script for django__django-15790 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15790/eval.sh; copying to container...
-2025-02-12 13:11:14,860 - INFO - Test runtime: 18.62 seconds
-2025-02-12 13:11:14,860 - INFO - Test output for django__django-15790 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15790/test_output.txt
-2025-02-12 13:11:14,944 - INFO - Git diff after:
+2025-05-06 12:32:40,172 - INFO - Eval script for django__django-15790 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15790/eval.sh; copying to container...
+2025-05-06 12:32:49,958 - INFO - Test runtime: 9.61 seconds
+2025-05-06 12:32:49,958 - INFO - Test output for django__django-15790 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15790/test_output.txt
+2025-05-06 12:32:50,042 - INFO - Git diff after:
 diff --git a/django/core/checks/templates.py b/django/core/checks/templates.py
 index 5214276987..50e3cf2bdd 100644
 --- a/django/core/checks/templates.py
@@ -60,9 +60,9 @@ index 5214276987..50e3cf2bdd 100644
              errors.append(
                  Error(
                      E003.msg.format(
-2025-02-12 13:11:14,944 - INFO - Grading answer for django__django-15790...
-2025-02-12 13:11:14,948 - INFO - report: {'django__django-15790': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_template_tags_same_library_in_installed_apps_libraries (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['Error if template loaders are specified and APP_DIRS is True.', 'test_app_dirs_removed (check_framework.test_templates.CheckTemplateSettingsAppDirsTest)', 'test_loaders_removed (check_framework.test_templates.CheckTemplateSettingsAppDirsTest)', 'test_string_if_invalid_both_are_strings (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_string_if_invalid_first_is_string (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_string_if_invalid_not_specified (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_string_if_invalid_not_string (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_template_tags_with_different_library_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_different_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_same_library_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_same_library_name_and_module_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_same_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:32:50,042 - INFO - Grading answer for django__django-15790...
+2025-05-06 12:32:50,046 - INFO - report: {'django__django-15790': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_template_tags_same_library_in_installed_apps_libraries (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['Error if template loaders are specified and APP_DIRS is True.', 'test_app_dirs_removed (check_framework.test_templates.CheckTemplateSettingsAppDirsTest)', 'test_loaders_removed (check_framework.test_templates.CheckTemplateSettingsAppDirsTest)', 'test_string_if_invalid_both_are_strings (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_string_if_invalid_first_is_string (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_string_if_invalid_not_specified (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_string_if_invalid_not_string (check_framework.test_templates.CheckTemplateStringIfInvalidTest)', 'test_template_tags_with_different_library_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_different_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_same_library_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_same_library_name_and_module_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)', 'test_template_tags_with_same_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-15790: resolved: True
-2025-02-12 13:11:14,949 - INFO - Attempting to stop container sweb.eval.django__django-15790.20250212_130622...
-2025-02-12 13:11:30,348 - INFO - Attempting to remove container sweb.eval.django__django-15790.20250212_130622...
-2025-02-12 13:11:30,376 - INFO - Container sweb.eval.django__django-15790.20250212_130622 removed.
+2025-05-06 12:32:50,047 - INFO - Attempting to stop container sweb.eval.django__django-15790.20250506_122807...
+2025-05-06 12:33:05,460 - INFO - Attempting to remove container sweb.eval.django__django-15790.20250506_122807...
+2025-05-06 12:33:05,481 - INFO - Container sweb.eval.django__django-15790.20250506_122807 removed.

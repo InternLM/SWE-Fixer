@@ -1,0 +1,42 @@
+2024-12-05 21:07:40,922 - INFO - Building image sweb.eval.x86_64.pylint-dev__pylint-5859:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.5faa8703bea0617794d64e:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-05 21:07:40,922 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/pylint-dev/pylint /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard 182cc539b8154c0710fcea7e522267e42eba8899
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+python -m pip install -e .
+
+2024-12-05 21:07:40,922 - INFO - Building docker image sweb.eval.x86_64.pylint-dev__pylint-5859:latest in logs/build_images/instances/sweb.eval.x86_64.pylint-dev__pylint-5859__latest with platform linux/x86_64
+2024-12-05 21:07:40,930 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.5faa8703bea0617794d64e:latest
+2024-12-05 21:07:40,930 - INFO - 
+2024-12-05 21:07:40,931 - INFO - ---> 8c63163c21dd
+2024-12-05 21:07:40,931 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-05 21:07:40,931 - INFO - 
+2024-12-05 21:07:40,931 - INFO - ---> Using cache
+2024-12-05 21:07:40,931 - INFO - ---> 9c1fc0249465
+2024-12-05 21:07:40,931 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-05 21:07:40,931 - INFO - 
+2024-12-05 21:07:40,931 - INFO - ---> Using cache
+2024-12-05 21:07:40,932 - INFO - ---> bb63ec106af7
+2024-12-05 21:07:40,932 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-05 21:07:40,932 - INFO - 
+2024-12-05 21:07:40,932 - INFO - ---> Using cache
+2024-12-05 21:07:40,932 - INFO - ---> 4d43e2a52ee2
+2024-12-05 21:07:40,932 - INFO - Successfully built 4d43e2a52ee2
+2024-12-05 21:07:40,938 - INFO - Successfully tagged sweb.eval.x86_64.pylint-dev__pylint-5859:latest
+2024-12-05 21:07:40,938 - INFO - Image built successfully!

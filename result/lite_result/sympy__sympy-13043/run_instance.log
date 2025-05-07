@@ -1,54 +1,62 @@
-2025-02-12 13:19:17,449 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13043
+2025-05-06 12:40:50,669 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13043
 Building instance image sweb.eval.x86_64.sympy__sympy-13043:latest for sympy__sympy-13043
-2025-02-12 13:19:17,452 - INFO - Image sweb.eval.x86_64.sympy__sympy-13043:latest already exists, skipping build.
-2025-02-12 13:19:17,453 - INFO - Creating container for sympy__sympy-13043...
-2025-02-12 13:19:17,485 - INFO - Container for sympy__sympy-13043 created: 72d8da5ef88021ac13ac9a20954e35aa14fd1c3f2fafb7af32321c940faba121
-2025-02-12 13:19:18,104 - INFO - Container for sympy__sympy-13043 started: 72d8da5ef88021ac13ac9a20954e35aa14fd1c3f2fafb7af32321c940faba121
-2025-02-12 13:19:18,104 - INFO - Intermediate patch for sympy__sympy-13043 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-13043/patch.diff, now applying to container...
-2025-02-12 13:19:18,331 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:19:18,398 - INFO - >>>>> Applied Patch:
+2025-05-06 12:40:50,675 - INFO - Image sweb.eval.x86_64.sympy__sympy-13043:latest already exists, skipping build.
+2025-05-06 12:40:50,675 - INFO - Creating container for sympy__sympy-13043...
+2025-05-06 12:40:50,703 - INFO - Container for sympy__sympy-13043 created: 7a513620c11eeec630a4b561e68dd89eccc72d9796f3e1c36ceb01ca29079521
+2025-05-06 12:40:51,021 - INFO - Container for sympy__sympy-13043 started: 7a513620c11eeec630a4b561e68dd89eccc72d9796f3e1c36ceb01ca29079521
+2025-05-06 12:40:51,022 - INFO - Intermediate patch for sympy__sympy-13043 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-13043/patch.diff, now applying to container...
+2025-05-06 12:40:51,264 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:40:51,327 - INFO - >>>>> Applied Patch:
 patching file sympy/core/expr.py
 
-2025-02-12 13:19:18,982 - INFO - Git diff before:
+2025-05-06 12:40:51,621 - INFO - Git diff before:
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 34e0ecb786..d39d31d365 100644
+index 34e0ecb786..a273a357e2 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -831,10 +831,11 @@ def _eval_interval(self, x, a, b):
-                 domain = Interval(a, b)
-             else:
-                 domain = Interval(b, a)
--            singularities = list(solveset(self.cancel().as_numer_denom()[1], x, domain = domain))
-+            singularities = list(solveset(self.cancel().as_numer_denom()[1], x, domain=domain))
-             for s in singularities:
-                 if a < s < b:
-                     value += -limit(self, x, s, "+") + limit(self, x, s, "-")
+@@ -1006,12 +1006,13 @@ def as_terms(self):
+         for i, g in enumerate(gens):
+             indices[g] = i
+ 
+-        result = []
++        result = [0]*len(terms)
+ 
+-        for term, (coeff, cpart, ncpart) in terms:
++        for i, (term, (coeff, cpart, ncpart)) in enumerate(terms):
+             monom = [0]*k
+ 
+             for base, exp in cpart.items():
 +
-                 elif b < s < a:
-                     value += limit(self, x, s, "+") - limit(self, x, s, "-")
-2025-02-12 13:19:18,983 - INFO - Eval script for sympy__sympy-13043 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-13043/eval.sh; copying to container...
-2025-02-12 13:19:24,395 - INFO - Test runtime: 5.23 seconds
-2025-02-12 13:19:24,396 - INFO - Test output for sympy__sympy-13043 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-13043/test_output.txt
-2025-02-12 13:19:24,468 - INFO - Git diff after:
+                 monom[indices[base]] = exp
+ 
+             result.append((term, (coeff, tuple(monom), ncpart)))
+2025-05-06 12:40:51,622 - INFO - Eval script for sympy__sympy-13043 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-13043/eval.sh; copying to container...
+2025-05-06 12:40:55,926 - INFO - Test runtime: 4.10 seconds
+2025-05-06 12:40:55,927 - INFO - Test output for sympy__sympy-13043 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-13043/test_output.txt
+2025-05-06 12:40:56,003 - INFO - Git diff after:
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 34e0ecb786..d39d31d365 100644
+index 34e0ecb786..a273a357e2 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -831,10 +831,11 @@ def _eval_interval(self, x, a, b):
-                 domain = Interval(a, b)
-             else:
-                 domain = Interval(b, a)
--            singularities = list(solveset(self.cancel().as_numer_denom()[1], x, domain = domain))
-+            singularities = list(solveset(self.cancel().as_numer_denom()[1], x, domain=domain))
-             for s in singularities:
-                 if a < s < b:
-                     value += -limit(self, x, s, "+") + limit(self, x, s, "-")
+@@ -1006,12 +1006,13 @@ def as_terms(self):
+         for i, g in enumerate(gens):
+             indices[g] = i
+ 
+-        result = []
++        result = [0]*len(terms)
+ 
+-        for term, (coeff, cpart, ncpart) in terms:
++        for i, (term, (coeff, cpart, ncpart)) in enumerate(terms):
+             monom = [0]*k
+ 
+             for base, exp in cpart.items():
 +
-                 elif b < s < a:
-                     value += limit(self, x, s, "+") - limit(self, x, s, "-")
-2025-02-12 13:19:24,469 - INFO - Grading answer for sympy__sympy-13043...
-2025-02-12 13:19:24,485 - INFO - report: {'sympy__sympy-13043': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_decompose']}, 'PASS_TO_PASS': {'success': ['test_best_origin'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+                 monom[indices[base]] = exp
+ 
+             result.append((term, (coeff, tuple(monom), ncpart)))
+2025-05-06 12:40:56,004 - INFO - Grading answer for sympy__sympy-13043...
+2025-05-06 12:40:56,020 - INFO - report: {'sympy__sympy-13043': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_decompose']}, 'PASS_TO_PASS': {'success': ['test_best_origin'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-13043: resolved: False
-2025-02-12 13:19:24,486 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13043.20250212_130622...
-2025-02-12 13:19:39,758 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13043.20250212_130622...
-2025-02-12 13:19:39,785 - INFO - Container sweb.eval.sympy__sympy-13043.20250212_130622 removed.
+2025-05-06 12:40:56,021 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13043.20250506_122807...
+2025-05-06 12:41:11,328 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13043.20250506_122807...
+2025-05-06 12:41:11,355 - INFO - Container sweb.eval.sympy__sympy-13043.20250506_122807 removed.

@@ -637,18 +637,18 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: numpy>=1.15 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.15.2.dev110+ga64cf2d5.d20250212) (1.23.0)
-Requirement already satisfied: pandas>=0.25 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.15.2.dev110+ga64cf2d5.d20250212) (1.5.3)
-Requirement already satisfied: setuptools>=41.2 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.15.2.dev110+ga64cf2d5.d20250212) (68.0.0)
-Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.15.2.dev110+ga64cf2d5.d20250212) (2.8.2)
-Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.15.2.dev110+ga64cf2d5.d20250212) (2023.3)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=0.25->xarray==0.15.2.dev110+ga64cf2d5.d20250212) (1.16.0)
+Requirement already satisfied: numpy>=1.15 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.15.2.dev110+ga64cf2d5.d20250506) (1.23.0)
+Requirement already satisfied: pandas>=0.25 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.15.2.dev110+ga64cf2d5.d20250506) (1.5.3)
+Requirement already satisfied: setuptools>=41.2 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.15.2.dev110+ga64cf2d5.d20250506) (68.0.0)
+Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.15.2.dev110+ga64cf2d5.d20250506) (2.8.2)
+Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.15.2.dev110+ga64cf2d5.d20250506) (2023.3)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=0.25->xarray==0.15.2.dev110+ga64cf2d5.d20250506) (1.16.0)
 Installing collected packages: xarray
   Attempting uninstall: xarray
     Found existing installation: xarray 0.15.2.dev110+ga64cf2d5
     Uninstalling xarray-0.15.2.dev110+ga64cf2d5:
       Successfully uninstalled xarray-0.15.2.dev110+ga64cf2d5
-  DEPRECATION: Legacy editable install of xarray==0.15.2.dev110+ga64cf2d5.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of xarray==0.15.2.dev110+ga64cf2d5.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for xarray
 Successfully installed xarray
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
@@ -682,7 +682,7 @@ xarray/tests/test_dataset.py ........................................... [  4%]
 =================================== FAILURES ===================================
 _______________________ TestDataset.test_sel_categorical _______________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7ff7b9d02ef0>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f871c446f80>
 
     def test_sel_categorical(self):
         ind = pd.Series(["foo", "bar"], dtype="category")
@@ -779,12 +779,12 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 ____________________ TestDataset.test_sel_categorical_error ____________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7ff7b9d03070>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f871c447100>
 
     def test_sel_categorical_error(self):
         ind = pd.Series(["foo", "bar"], dtype="category")
@@ -881,12 +881,12 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 ___________________ TestDataset.test_categorical_multiindex ____________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7ff7b9d034f0>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f871c447580>
 
     def test_categorical_multiindex(self):
         i1 = pd.Series([0, 0])
@@ -988,12 +988,12 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 ____________ TestDataset.test_to_stacked_array_to_unstacked_dataset ____________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7ff7ba050c10>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f871d93f250>
 
     def test_to_stacked_array_to_unstacked_dataset(self):
     
@@ -1093,7 +1093,7 @@ E           xarray.core.merge.MergeError: conflicting values for variable 'y' on
 xarray/core/merge.py:142: MergeError
 _________________ TestDataset.test_from_dataframe_categorical __________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7ff7ba04cac0>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f871d90cb50>
 
     def test_from_dataframe_categorical(self):
         cat = pd.CategoricalDtype(
@@ -1195,7 +1195,7 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.15.2.dev110+ga64cf2d5.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 =============================== warnings summary ===============================
@@ -1417,7 +1417,7 @@ b'raw'
 2000-01-01
 2000-01-01 12:00:00
 2000-01-01 12:00:00
-<xarray.tests.test_dataset.TestDataset.test_constructor_0d.<locals>.Arbitrary object at 0x7ff7b9f20550>
+<xarray.tests.test_dataset.TestDataset.test_constructor_0d.<locals>.Arbitrary object at 0x7f871c7431c0>
 =========================== short test summary info ============================
 PASSED xarray/tests/test_dataset.py::TestDataset::test_repr
 PASSED xarray/tests/test_dataset.py::TestDataset::test_repr_multiindex
@@ -2293,6 +2293,6 @@ FAILED xarray/tests/test_dataset.py::TestDataset::test_sel_categorical_error
 FAILED xarray/tests/test_dataset.py::TestDataset::test_categorical_multiindex
 FAILED xarray/tests/test_dataset.py::TestDataset::test_to_stacked_array_to_unstacked_dataset
 FAILED xarray/tests/test_dataset.py::TestDataset::test_from_dataframe_categorical
-= 5 failed, 866 passed, 16 skipped, 1 xfailed, 1 xpassed, 2926 warnings in 18.29s =
+= 5 failed, 866 passed, 16 skipped, 1 xfailed, 1 xpassed, 2926 warnings in 16.01s =
 + git checkout a64cf2d5476e7bbda099b34c40b7be1880dbd39a xarray/tests/test_dataset.py
 Updated 1 path from 73db3771

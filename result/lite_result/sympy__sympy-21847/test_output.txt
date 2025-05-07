@@ -329,8 +329,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        65547606
-hash randomization: on (PYTHONHASHSEED=4051424611)
+random seed:        47929208
+hash randomization: on (PYTHONHASHSEED=3514883031)
 
 sympy/polys/tests/test_monomials.py[11] 
 test_monomials ok

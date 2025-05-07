@@ -1,0 +1,45 @@
+2024-12-07 00:00:01,405 - INFO - Building image sweb.eval.x86_64.django__django-10097:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.56a3bf2c8561bd901139b0:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-07 00:00:01,405 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/django/django /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard b9cf764be62e77b4777b3a75ec256f6209a57671
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+apt-get update && apt-get install -y locales
+echo 'en_US UTF-8' > /etc/locale.gen
+locale-gen en_US.UTF-8
+python setup.py install
+
+2024-12-07 00:00:01,405 - INFO - Building docker image sweb.eval.x86_64.django__django-10097:latest in logs/build_images/instances/sweb.eval.x86_64.django__django-10097__latest with platform linux/x86_64
+2024-12-07 00:00:01,415 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.56a3bf2c8561bd901139b0:latest
+2024-12-07 00:00:01,415 - INFO - 
+2024-12-07 00:00:01,415 - INFO - ---> c86838d5803b
+2024-12-07 00:00:01,415 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-07 00:00:01,415 - INFO - 
+2024-12-07 00:00:01,416 - INFO - ---> Using cache
+2024-12-07 00:00:01,416 - INFO - ---> 1122c80ca6c5
+2024-12-07 00:00:01,416 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-07 00:00:01,416 - INFO - 
+2024-12-07 00:00:01,416 - INFO - ---> Using cache
+2024-12-07 00:00:01,416 - INFO - ---> 5bba72669211
+2024-12-07 00:00:01,416 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-07 00:00:01,416 - INFO - 
+2024-12-07 00:00:01,416 - INFO - ---> Using cache
+2024-12-07 00:00:01,416 - INFO - ---> 64d803864b7e
+2024-12-07 00:00:01,417 - INFO - Successfully built 64d803864b7e
+2024-12-07 00:00:01,426 - INFO - Successfully tagged sweb.eval.x86_64.django__django-10097:latest
+2024-12-07 00:00:01,426 - INFO - Image built successfully!

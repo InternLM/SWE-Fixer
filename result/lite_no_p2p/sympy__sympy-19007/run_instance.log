@@ -1,0 +1,56 @@
+2025-05-06 11:28:55,253 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-19007
+Building instance image sweb.eval.x86_64.sympy__sympy-19007:latest for sympy__sympy-19007
+2025-05-06 11:28:55,256 - INFO - Image sweb.eval.x86_64.sympy__sympy-19007:latest already exists, skipping build.
+2025-05-06 11:28:55,256 - INFO - Creating container for sympy__sympy-19007...
+2025-05-06 11:28:55,287 - INFO - Container for sympy__sympy-19007 created: de9b9e88cd6660159b7e97987dcf292252bac8cd41b2a62870744cb1ff918965
+2025-05-06 11:28:55,608 - INFO - Container for sympy__sympy-19007 started: de9b9e88cd6660159b7e97987dcf292252bac8cd41b2a62870744cb1ff918965
+2025-05-06 11:28:55,609 - INFO - Intermediate patch for sympy__sympy-19007 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-19007/patch.diff, now applying to container...
+2025-05-06 11:28:55,846 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:28:55,905 - INFO - >>>>> Applied Patch:
+patching file sympy/matrices/expressions/blockmatrix.py
+
+2025-05-06 11:28:56,396 - INFO - Git diff before:
+diff --git a/sympy/matrices/expressions/blockmatrix.py b/sympy/matrices/expressions/blockmatrix.py
+index b821c42845..bbc1837a73 100644
+--- a/sympy/matrices/expressions/blockmatrix.py
++++ b/sympy/matrices/expressions/blockmatrix.py
+@@ -234,9 +234,12 @@ def transpose(self):
+ 
+     def _entry(self, i, j, **kwargs):
+         # Find row entry
++        if isinstance(i, Basic) or isinstance(j, Basic):
++            return self.blocks[i, j]
+         for row_block, numrows in enumerate(self.rowblocksizes):
+             if (i < numrows) != False:
+                 break
++
+             else:
+                 i -= numrows
+         for col_block, numcols in enumerate(self.colblocksizes):
+2025-05-06 11:28:56,396 - INFO - Eval script for sympy__sympy-19007 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-19007/eval.sh; copying to container...
+2025-05-06 11:29:00,682 - INFO - Test runtime: 4.11 seconds
+2025-05-06 11:29:00,683 - INFO - Test output for sympy__sympy-19007 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-19007/test_output.txt
+2025-05-06 11:29:00,750 - INFO - Git diff after:
+diff --git a/sympy/matrices/expressions/blockmatrix.py b/sympy/matrices/expressions/blockmatrix.py
+index b821c42845..bbc1837a73 100644
+--- a/sympy/matrices/expressions/blockmatrix.py
++++ b/sympy/matrices/expressions/blockmatrix.py
+@@ -234,9 +234,12 @@ def transpose(self):
+ 
+     def _entry(self, i, j, **kwargs):
+         # Find row entry
++        if isinstance(i, Basic) or isinstance(j, Basic):
++            return self.blocks[i, j]
+         for row_block, numrows in enumerate(self.rowblocksizes):
+             if (i < numrows) != False:
+                 break
++
+             else:
+                 i -= numrows
+         for col_block, numcols in enumerate(self.colblocksizes):
+2025-05-06 11:29:00,751 - INFO - Grading answer for sympy__sympy-19007...
+2025-05-06 11:29:00,756 - INFO - report: {'sympy__sympy-19007': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_block_index_symbolic', 'test_block_index_symbolic_nonzero', 'test_block_index_large']}, 'PASS_TO_PASS': {'success': ['test_bc_matmul', 'test_bc_matadd', 'test_bc_transpose', 'test_bc_dist_diag', 'test_block_plus_ident', 'test_BlockMatrix', 'test_block_collapse_explicit_matrices', 'test_issue_17624', 'test_BlockMatrix_trace', 'test_BlockMatrix_Determinant', 'test_squareBlockMatrix', 'test_BlockDiagMatrix', 'test_deblock', 'test_symbolic_indexing', 'test_add_index', 'test_mul_index', 'test_pow_index', 'test_transpose_index', 'test_Identity_index', 'test_slicing', 'test_errors', 'test_matrix_expression_to_indices'], 'failure': ['test_issue_18618', 'test_blockcut', 'test_reblock_2x2', 'test_block_index']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-19007: resolved: False
+2025-05-06 11:29:00,756 - INFO - Attempting to stop container sweb.eval.sympy__sympy-19007.20250506_111427...
+2025-05-06 11:29:16,105 - INFO - Attempting to remove container sweb.eval.sympy__sympy-19007.20250506_111427...
+2025-05-06 11:29:16,123 - INFO - Container sweb.eval.sympy__sympy-19007.20250506_111427 removed.

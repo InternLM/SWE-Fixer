@@ -1,0 +1,572 @@
+2024-12-06 19:58:48,793 - INFO - Building image sweb.eval.x86_64.sphinx-doc__sphinx-10614:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.c6d251a05e0af7688b64fd:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-06 19:58:48,793 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/sphinx-doc/sphinx /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard ac2b7599d212af7d04649959ce6926c63c3133fa
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+sed -i 's/pytest/pytest -rA/' tox.ini
+apt-get update && apt-get install -y graphviz
+python -m pip install -e .[test]
+
+2024-12-06 19:58:48,794 - INFO - Building docker image sweb.eval.x86_64.sphinx-doc__sphinx-10614:latest in logs/build_images/instances/sweb.eval.x86_64.sphinx-doc__sphinx-10614__latest with platform linux/x86_64
+2024-12-06 19:58:48,808 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.c6d251a05e0af7688b64fd:latest
+2024-12-06 19:58:48,808 - INFO - 
+2024-12-06 19:58:48,809 - INFO - ---> e07fd98c5f7f
+2024-12-06 19:58:48,809 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-06 19:58:48,809 - INFO - 
+2024-12-06 19:58:48,822 - INFO - ---> Using cache
+2024-12-06 19:58:48,822 - INFO - ---> 3d46ca182e01
+2024-12-06 19:58:48,822 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-06 19:58:48,823 - INFO - 
+2024-12-06 19:58:48,862 - INFO - ---> Running in 5c6cfb30d658
+2024-12-06 19:58:49,584 - INFO - + git clone -o origin https://github.com/sphinx-doc/sphinx /testbed
+2024-12-06 19:58:49,585 - INFO - Cloning into '/testbed'...
+2024-12-06 19:59:21,340 - INFO - + chmod -R 777 /testbed
+2024-12-06 19:59:21,358 - INFO - + cd /testbed
++ git reset --hard ac2b7599d212af7d04649959ce6926c63c3133fa
+2024-12-06 19:59:21,547 - INFO - HEAD is now at ac2b7599d autosummary: Extract summary line after "e.g." (#11196)
+2024-12-06 19:59:21,553 - INFO - + git remote remove origin
+2024-12-06 19:59:21,561 - INFO - + source /opt/miniconda3/bin/activate
+2024-12-06 19:59:21,561 - INFO - ++ _CONDA_ROOT=/opt/miniconda3
+2024-12-06 19:59:21,561 - INFO - ++ . /opt/miniconda3/etc/profile.d/conda.sh
+2024-12-06 19:59:21,562 - INFO - +++ export CONDA_EXE=/opt/miniconda3/bin/conda
+2024-12-06 19:59:21,562 - INFO - +++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ '[' -z '' ']'
++++ export CONDA_SHLVL=0
++++ CONDA_SHLVL=0
++++ '[' -n '' ']'
+2024-12-06 19:59:21,565 - INFO - +++++ dirname /opt/miniconda3/bin/conda
+2024-12-06 19:59:21,567 - INFO - ++++ dirname /opt/miniconda3/bin
+2024-12-06 19:59:21,568 - INFO - +++ PATH=/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2024-12-06 19:59:21,568 - INFO - +++ export PATH
+2024-12-06 19:59:21,568 - INFO - +++ '[' -z '' ']'
+2024-12-06 19:59:21,568 - INFO - +++ PS1=
+2024-12-06 19:59:21,568 - INFO - ++ conda activate
+2024-12-06 19:59:21,569 - INFO - ++ local cmd=activate
+2024-12-06 19:59:21,569 - INFO - ++ case "$cmd" in
+2024-12-06 19:59:21,569 - INFO - ++ __conda_activate activate
+2024-12-06 19:59:21,569 - INFO - ++ '[' -n '' ']'
+2024-12-06 19:59:21,569 - INFO - ++ local ask_conda
+2024-12-06 19:59:21,569 - INFO - +++ PS1=
+2024-12-06 19:59:21,570 - INFO - +++ __conda_exe shell.posix activate
+2024-12-06 19:59:21,570 - INFO - +++ /opt/miniconda3/bin/conda shell.posix activate
+2024-12-06 19:59:21,676 - INFO - ++ ask_conda='PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+2024-12-06 19:59:21,676 - INFO - export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+2024-12-06 19:59:21,677 - INFO - ++ eval 'PS1='\''(base) '\''
+export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3'\''
+export CONDA_SHLVL='\''1'\''
+export CONDA_DEFAULT_ENV='\''base'\''
+export CONDA_PROMPT_MODIFIER='\''(base) '\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+2024-12-06 19:59:21,677 - INFO - export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+2024-12-06 19:59:21,677 - INFO - +++ PS1='(base) '
+2024-12-06 19:59:21,677 - INFO - +++ export PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2024-12-06 19:59:21,677 - INFO - +++ PATH=/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2024-12-06 19:59:21,677 - INFO - +++ export CONDA_PREFIX=/opt/miniconda3
+2024-12-06 19:59:21,677 - INFO - +++ CONDA_PREFIX=/opt/miniconda3
+2024-12-06 19:59:21,677 - INFO - +++ export CONDA_SHLVL=1
+2024-12-06 19:59:21,677 - INFO - +++ CONDA_SHLVL=1
+2024-12-06 19:59:21,677 - INFO - +++ export CONDA_DEFAULT_ENV=base
+2024-12-06 19:59:21,677 - INFO - +++ CONDA_DEFAULT_ENV=base
+2024-12-06 19:59:21,677 - INFO - +++ export 'CONDA_PROMPT_MODIFIER=(base) '
+2024-12-06 19:59:21,677 - INFO - +++ CONDA_PROMPT_MODIFIER='(base) '
+2024-12-06 19:59:21,677 - INFO - +++ export CONDA_EXE=/opt/miniconda3/bin/conda
+2024-12-06 19:59:21,677 - INFO - +++ CONDA_EXE=/opt/miniconda3/bin/conda
+2024-12-06 19:59:21,677 - INFO - +++ export _CE_M=
+2024-12-06 19:59:21,677 - INFO - +++ _CE_M=
+2024-12-06 19:59:21,677 - INFO - +++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ __conda_hashr
+++ '[' -n '' ']'
+++ '[' -n '' ']'
+++ hash -r
++ conda activate testbed
++ local cmd=activate
++ case "$cmd" in
++ __conda_activate activate testbed
++ '[' -n '' ']'
++ local ask_conda
+++ PS1='(base) '
+++ __conda_exe shell.posix activate testbed
+2024-12-06 19:59:21,678 - INFO - ++ /opt/miniconda3/bin/conda shell.posix activate testbed
+2024-12-06 19:59:21,821 - INFO - + ask_conda='PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
++ eval 'PS1='\''(testbed) '\''
+export PATH='\''/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
+export CONDA_PREFIX='\''/opt/miniconda3/envs/testbed'\''
+export CONDA_SHLVL='\''2'\''
+export CONDA_DEFAULT_ENV='\''testbed'\''
+export CONDA_PROMPT_MODIFIER='\''(testbed) '\''
+export CONDA_PREFIX_1='\''/opt/miniconda3'\''
+export CONDA_EXE='\''/opt/miniconda3/bin/conda'\''
+export _CE_M='\'''\''
+export _CE_CONDA='\'''\''
+export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
+++ PS1='(testbed) '
+++ export PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+++ PATH=/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+2024-12-06 19:59:21,821 - INFO - ++ export CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ CONDA_PREFIX=/opt/miniconda3/envs/testbed
+++ export CONDA_SHLVL=2
+++ CONDA_SHLVL=2
+++ export CONDA_DEFAULT_ENV=testbed
+++ CONDA_DEFAULT_ENV=testbed
+++ export 'CONDA_PROMPT_MODIFIER=(testbed) '
+++ CONDA_PROMPT_MODIFIER='(testbed) '
+++ export CONDA_PREFIX_1=/opt/miniconda3
+++ CONDA_PREFIX_1=/opt/miniconda3
+++ export CONDA_EXE=/opt/miniconda3/bin/conda
+++ CONDA_EXE=/opt/miniconda3/bin/conda
+2024-12-06 19:59:21,821 - INFO - ++ export _CE_M=
+++ _CE_M=
+++ export _CE_CONDA=
+++ _CE_CONDA=
+2024-12-06 19:59:21,821 - INFO - ++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
+2024-12-06 19:59:21,821 - INFO - + __conda_hashr
+2024-12-06 19:59:21,821 - INFO - + '[' -n '' ']'
+2024-12-06 19:59:21,821 - INFO - + '[' -n '' ']'
++ hash -r
+2024-12-06 19:59:21,821 - INFO - + echo 'Current environment: testbed'
+2024-12-06 19:59:21,822 - INFO - Current environment: testbed
+2024-12-06 19:59:21,822 - INFO - + sed -i 's/pytest/pytest -rA/' tox.ini
+2024-12-06 19:59:21,825 - INFO - + apt-get update
+2024-12-06 19:59:22,385 - INFO - Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+2024-12-06 19:59:22,528 - INFO - Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+2024-12-06 19:59:23,482 - INFO - Get:3 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1225 kB]
+2024-12-06 19:59:23,865 - INFO - Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+2024-12-06 19:59:24,179 - INFO - Get:5 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+2024-12-06 19:59:24,485 - INFO - Get:6 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [45.2 kB]
+2024-12-06 19:59:24,490 - INFO - Get:7 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [3323 kB]
+2024-12-06 19:59:24,504 - INFO - Get:8 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+2024-12-06 19:59:24,677 - INFO - Get:9 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+2024-12-06 19:59:24,920 - INFO - Get:10 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [2454 kB]
+2024-12-06 19:59:26,633 - INFO - Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+2024-12-06 19:59:26,780 - INFO - Get:12 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+2024-12-06 19:59:26,794 - INFO - Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1514 kB]
+2024-12-06 19:59:26,921 - INFO - Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [2738 kB]
+2024-12-06 19:59:27,152 - INFO - Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [3446 kB]
+2024-12-06 19:59:27,444 - INFO - Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [53.3 kB]
+2024-12-06 19:59:27,447 - INFO - Get:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [81.4 kB]
+2024-12-06 19:59:27,454 - INFO - Get:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [33.8 kB]
+2024-12-06 19:59:27,842 - INFO - Fetched 35.3 MB in 6s (5899 kB/s)
+Reading package lists...
+2024-12-06 19:59:28,827 - INFO - 
+2024-12-06 19:59:28,847 - INFO - + apt-get install -y graphviz
+2024-12-06 19:59:28,887 - INFO - Reading package lists...
+2024-12-06 19:59:29,852 - INFO - 
+2024-12-06 19:59:29,872 - INFO - Building dependency tree...
+2024-12-06 19:59:30,087 - INFO - Reading state information...
+2024-12-06 19:59:30,087 - INFO - 
+2024-12-06 19:59:30,319 - INFO - The following additional packages will be installed:
+2024-12-06 19:59:30,320 - INFO - fontconfig fonts-liberation libann0 libcairo2 libcdt5 libcgraph6 libdatrie1
+2024-12-06 19:59:30,320 - INFO - libfribidi0 libglib2.0-0 libglib2.0-data libgraphite2-3 libgts-0.7-5
+2024-12-06 19:59:30,320 - INFO - libgts-bin libgvc6 libgvpr2 libharfbuzz0b libice6 libicu70 liblab-gamut1
+  libltdl7 libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 libpathplan4
+2024-12-06 19:59:30,320 - INFO - libpixman-1-0 libsm6 libthai-data libthai0 libxaw7 libxcb-render0
+2024-12-06 19:59:30,321 - INFO - libxcb-shm0 libxml2 libxmu6 libxrender1 libxt6 shared-mime-info x11-common
+2024-12-06 19:59:30,321 - INFO - xdg-user-dirs
+2024-12-06 19:59:30,323 - INFO - Suggested packages:
+  gsfonts graphviz-doc
+2024-12-06 19:59:30,393 - INFO - The following NEW packages will be installed:
+2024-12-06 19:59:30,393 - INFO - fontconfig fonts-liberation graphviz libann0 libcairo2 libcdt5 libcgraph6
+2024-12-06 19:59:30,393 - INFO - libdatrie1 libfribidi0 libglib2.0-0 libglib2.0-data libgraphite2-3
+2024-12-06 19:59:30,393 - INFO - libgts-0.7-5 libgts-bin libgvc6 libgvpr2 libharfbuzz0b libice6 libicu70
+2024-12-06 19:59:30,393 - INFO - liblab-gamut1 libltdl7 libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0
+2024-12-06 19:59:30,394 - INFO - libpathplan4 libpixman-1-0 libsm6 libthai-data libthai0 libxaw7
+2024-12-06 19:59:30,395 - INFO - libxcb-render0 libxcb-shm0 libxml2 libxmu6 libxrender1 libxt6
+2024-12-06 19:59:30,395 - INFO - shared-mime-info x11-common xdg-user-dirs
+2024-12-06 19:59:30,936 - INFO - 0 upgraded, 39 newly installed, 0 to remove and 40 not upgraded.
+Need to get 20.6 MB of archives.
+After this operation, 63.4 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libfribidi0 amd64 1.0.8-2ubuntu3.1 [26.1 kB]
+2024-12-06 19:59:31,401 - INFO - Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libglib2.0-0 amd64 2.72.4-0ubuntu2.4 [1465 kB]
+2024-12-06 19:59:32,603 - INFO - Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libglib2.0-data all 2.72.4-0ubuntu2.4 [4582 B]
+2024-12-06 19:59:32,604 - INFO - Get:4 http://archive.ubuntu.com/ubuntu jammy/main amd64 libicu70 amd64 70.1-2 [10.6 MB]
+2024-12-06 19:59:34,037 - INFO - Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libxml2 amd64 2.9.13+dfsg-1ubuntu0.4 [763 kB]
+Get:6 http://archive.ubuntu.com/ubuntu jammy/main amd64 shared-mime-info amd64 2.1-2 [454 kB]
+2024-12-06 19:59:34,449 - INFO - Get:7 http://archive.ubuntu.com/ubuntu jammy/main amd64 xdg-user-dirs amd64 0.17-2ubuntu4 [53.9 kB]
+2024-12-06 19:59:35,126 - INFO - Get:8 http://archive.ubuntu.com/ubuntu jammy/main amd64 fontconfig amd64 2.13.1-4.2ubuntu5 [177 kB]
+2024-12-06 19:59:35,768 - INFO - Get:9 http://archive.ubuntu.com/ubuntu jammy/main amd64 fonts-liberation all 1:1.07.4-11 [822 kB]
+2024-12-06 19:59:36,479 - INFO - Get:10 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libann0 amd64 1.1.2+doc-7build1 [26.0 kB]
+2024-12-06 19:59:36,688 - INFO - Get:11 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libcdt5 amd64 2.42.2-6ubuntu0.1 [21.1 kB]
+2024-12-06 19:59:36,897 - INFO - Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libcgraph6 amd64 2.42.2-6ubuntu0.1 [45.4 kB]
+2024-12-06 19:59:37,116 - INFO - Get:13 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libgts-0.7-5 amd64 0.7.6+darcs121130-5 [164 kB]
+2024-12-06 19:59:37,601 - INFO - Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libpixman-1-0 amd64 0.40.0-1ubuntu0.22.04.1 [264 kB]
+2024-12-06 19:59:37,847 - INFO - Get:15 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxcb-render0 amd64 1.14-3ubuntu3 [16.4 kB]
+2024-12-06 19:59:38,056 - INFO - Get:16 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxcb-shm0 amd64 1.14-3ubuntu3 [5780 B]
+2024-12-06 19:59:38,262 - INFO - Get:17 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxrender1 amd64 1:0.9.10-1build4 [19.7 kB]
+2024-12-06 19:59:38,471 - INFO - Get:18 http://archive.ubuntu.com/ubuntu jammy/main amd64 libcairo2 amd64 1.16.0-5ubuntu2 [628 kB]
+2024-12-06 19:59:38,774 - INFO - Get:19 http://archive.ubuntu.com/ubuntu jammy/main amd64 libltdl7 amd64 2.4.6-15build2 [39.6 kB]
+2024-12-06 19:59:38,987 - INFO - Get:20 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgraphite2-3 amd64 1.3.14-1build2 [71.3 kB]
+2024-12-06 19:59:39,203 - INFO - Get:21 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libharfbuzz0b amd64 2.7.4-1ubuntu3.1 [352 kB]
+2024-12-06 19:59:39,464 - INFO - Get:22 http://archive.ubuntu.com/ubuntu jammy/main amd64 libthai-data all 0.1.29-1build1 [162 kB]
+2024-12-06 19:59:39,694 - INFO - Get:23 http://archive.ubuntu.com/ubuntu jammy/main amd64 libdatrie1 amd64 0.2.13-2 [19.9 kB]
+2024-12-06 19:59:39,902 - INFO - Get:24 http://archive.ubuntu.com/ubuntu jammy/main amd64 libthai0 amd64 0.1.29-1build1 [19.2 kB]
+2024-12-06 19:59:40,110 - INFO - Get:25 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libpango-1.0-0 amd64 1.50.6+ds-2ubuntu1 [230 kB]
+2024-12-06 19:59:40,351 - INFO - Get:26 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libpangoft2-1.0-0 amd64 1.50.6+ds-2ubuntu1 [54.0 kB]
+2024-12-06 19:59:40,565 - INFO - Get:27 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libpangocairo-1.0-0 amd64 1.50.6+ds-2ubuntu1 [39.8 kB]
+2024-12-06 19:59:40,777 - INFO - Get:28 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libpathplan4 amd64 2.42.2-6ubuntu0.1 [23.4 kB]
+2024-12-06 19:59:40,986 - INFO - Get:29 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libgvc6 amd64 2.42.2-6ubuntu0.1 [724 kB]
+2024-12-06 19:59:41,309 - INFO - Get:30 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libgvpr2 amd64 2.42.2-6ubuntu0.1 [192 kB]
+2024-12-06 19:59:41,545 - INFO - Get:31 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 liblab-gamut1 amd64 2.42.2-6ubuntu0.1 [1965 kB]
+2024-12-06 19:59:42,054 - INFO - Get:32 http://archive.ubuntu.com/ubuntu jammy/main amd64 x11-common all 1:7.7+23ubuntu2 [23.4 kB]
+2024-12-06 19:59:42,507 - INFO - Get:33 http://archive.ubuntu.com/ubuntu jammy/main amd64 libice6 amd64 2:1.0.10-1build2 [42.6 kB]
+2024-12-06 19:59:42,717 - INFO - Get:34 http://archive.ubuntu.com/ubuntu jammy/main amd64 libsm6 amd64 2:1.2.3-1build2 [16.7 kB]
+2024-12-06 19:59:42,930 - INFO - Get:35 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxt6 amd64 1:1.2.1-1 [177 kB]
+2024-12-06 19:59:43,146 - INFO - Get:36 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxmu6 amd64 2:1.1.3-3 [49.6 kB]
+2024-12-06 19:59:43,354 - INFO - Get:37 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxaw7 amd64 2:1.0.14-1 [191 kB]
+2024-12-06 19:59:43,569 - INFO - Get:38 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 graphviz amd64 2.42.2-6ubuntu0.1 [653 kB]
+2024-12-06 19:59:43,821 - INFO - Get:39 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libgts-bin amd64 0.7.6+darcs121130-5 [44.3 kB]
+2024-12-06 19:59:44,020 - INFO - debconf: delaying package configuration, since apt-utils is not installed
+2024-12-06 19:59:44,064 - INFO - Fetched 20.6 MB in 13s (1537 kB/s)
+2024-12-06 19:59:44,094 - INFO - Selecting previously unselected package libfribidi0:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%
+2024-12-06 19:59:44,112 - INFO - (Reading database ... 70%
+2024-12-06 19:59:44,116 - INFO - (Reading database ... 75%
+2024-12-06 19:59:44,122 - INFO - (Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%
+2024-12-06 19:59:44,125 - INFO - (Reading database ... 100%(Reading database ... 27005 files and directories currently installed.)
+2024-12-06 19:59:44,126 - INFO - Preparing to unpack .../00-libfribidi0_1.0.8-2ubuntu3.1_amd64.deb ...
+2024-12-06 19:59:44,130 - INFO - Unpacking libfribidi0:amd64 (1.0.8-2ubuntu3.1) ...
+2024-12-06 19:59:44,164 - INFO - Selecting previously unselected package libglib2.0-0:amd64.
+2024-12-06 19:59:44,166 - INFO - Preparing to unpack .../01-libglib2.0-0_2.72.4-0ubuntu2.4_amd64.deb ...
+2024-12-06 19:59:44,168 - INFO - Unpacking libglib2.0-0:amd64 (2.72.4-0ubuntu2.4) ...
+2024-12-06 19:59:44,206 - INFO - Selecting previously unselected package libglib2.0-data.
+2024-12-06 19:59:44,209 - INFO - Preparing to unpack .../02-libglib2.0-data_2.72.4-0ubuntu2.4_all.deb ...
+2024-12-06 19:59:44,211 - INFO - Unpacking libglib2.0-data (2.72.4-0ubuntu2.4) ...
+2024-12-06 19:59:44,211 - INFO - 
+2024-12-06 19:59:44,233 - INFO - Selecting previously unselected package libicu70:amd64.
+2024-12-06 19:59:44,235 - INFO - Preparing to unpack .../03-libicu70_70.1-2_amd64.deb ...
+2024-12-06 19:59:44,237 - INFO - Unpacking libicu70:amd64 (70.1-2) ...
+2024-12-06 19:59:44,413 - INFO - Selecting previously unselected package libxml2:amd64.
+2024-12-06 19:59:44,416 - INFO - Preparing to unpack .../04-libxml2_2.9.13+dfsg-1ubuntu0.4_amd64.deb ...
+2024-12-06 19:59:44,418 - INFO - Unpacking libxml2:amd64 (2.9.13+dfsg-1ubuntu0.4) ...
+2024-12-06 19:59:44,448 - INFO - Selecting previously unselected package shared-mime-info.
+2024-12-06 19:59:44,451 - INFO - Preparing to unpack .../05-shared-mime-info_2.1-2_amd64.deb ...
+2024-12-06 19:59:44,453 - INFO - Unpacking shared-mime-info (2.1-2) ...
+2024-12-06 19:59:44,498 - INFO - Selecting previously unselected package xdg-user-dirs.
+2024-12-06 19:59:44,501 - INFO - Preparing to unpack .../06-xdg-user-dirs_0.17-2ubuntu4_amd64.deb ...
+2024-12-06 19:59:44,509 - INFO - Unpacking xdg-user-dirs (0.17-2ubuntu4) ...
+2024-12-06 19:59:44,561 - INFO - Selecting previously unselected package fontconfig.
+2024-12-06 19:59:44,564 - INFO - Preparing to unpack .../07-fontconfig_2.13.1-4.2ubuntu5_amd64.deb ...
+2024-12-06 19:59:44,566 - INFO - Unpacking fontconfig (2.13.1-4.2ubuntu5) ...
+2024-12-06 19:59:44,593 - INFO - Selecting previously unselected package fonts-liberation.
+2024-12-06 19:59:44,596 - INFO - Preparing to unpack .../08-fonts-liberation_1%3a1.07.4-11_all.deb ...
+2024-12-06 19:59:44,598 - INFO - Unpacking fonts-liberation (1:1.07.4-11) ...
+2024-12-06 19:59:44,687 - INFO - Selecting previously unselected package libann0.
+2024-12-06 19:59:44,690 - INFO - Preparing to unpack .../09-libann0_1.1.2+doc-7build1_amd64.deb ...
+2024-12-06 19:59:44,692 - INFO - Unpacking libann0 (1.1.2+doc-7build1) ...
+2024-12-06 19:59:44,716 - INFO - Selecting previously unselected package libcdt5:amd64.
+2024-12-06 19:59:44,719 - INFO - Preparing to unpack .../10-libcdt5_2.42.2-6ubuntu0.1_amd64.deb ...
+2024-12-06 19:59:44,721 - INFO - Unpacking libcdt5:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:44,739 - INFO - Selecting previously unselected package libcgraph6:amd64.
+2024-12-06 19:59:44,741 - INFO - Preparing to unpack .../11-libcgraph6_2.42.2-6ubuntu0.1_amd64.deb ...
+2024-12-06 19:59:44,743 - INFO - Unpacking libcgraph6:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:44,763 - INFO - Selecting previously unselected package libgts-0.7-5:amd64.
+2024-12-06 19:59:44,765 - INFO - Preparing to unpack .../12-libgts-0.7-5_0.7.6+darcs121130-5_amd64.deb ...
+2024-12-06 19:59:44,767 - INFO - Unpacking libgts-0.7-5:amd64 (0.7.6+darcs121130-5) ...
+2024-12-06 19:59:44,793 - INFO - Selecting previously unselected package libpixman-1-0:amd64.
+2024-12-06 19:59:44,796 - INFO - Preparing to unpack .../13-libpixman-1-0_0.40.0-1ubuntu0.22.04.1_amd64.deb ...
+2024-12-06 19:59:44,797 - INFO - Unpacking libpixman-1-0:amd64 (0.40.0-1ubuntu0.22.04.1) ...
+2024-12-06 19:59:44,819 - INFO - Selecting previously unselected package libxcb-render0:amd64.
+2024-12-06 19:59:44,819 - INFO - 
+2024-12-06 19:59:44,821 - INFO - Preparing to unpack .../14-libxcb-render0_1.14-3ubuntu3_amd64.deb ...
+2024-12-06 19:59:44,822 - INFO - 
+2024-12-06 19:59:44,823 - INFO - Unpacking libxcb-render0:amd64 (1.14-3ubuntu3) ...
+2024-12-06 19:59:44,843 - INFO - Selecting previously unselected package libxcb-shm0:amd64.
+2024-12-06 19:59:44,845 - INFO - Preparing to unpack .../15-libxcb-shm0_1.14-3ubuntu3_amd64.deb ...
+2024-12-06 19:59:44,847 - INFO - Unpacking libxcb-shm0:amd64 (1.14-3ubuntu3) ...
+2024-12-06 19:59:44,876 - INFO - Selecting previously unselected package libxrender1:amd64.
+2024-12-06 19:59:44,878 - INFO - Preparing to unpack .../16-libxrender1_1%3a0.9.10-1build4_amd64.deb ...
+2024-12-06 19:59:44,887 - INFO - Unpacking libxrender1:amd64 (1:0.9.10-1build4) ...
+2024-12-06 19:59:44,909 - INFO - Selecting previously unselected package libcairo2:amd64.
+2024-12-06 19:59:44,912 - INFO - Preparing to unpack .../17-libcairo2_1.16.0-5ubuntu2_amd64.deb ...
+2024-12-06 19:59:44,914 - INFO - Unpacking libcairo2:amd64 (1.16.0-5ubuntu2) ...
+2024-12-06 19:59:44,936 - INFO - Selecting previously unselected package libltdl7:amd64.
+2024-12-06 19:59:44,937 - INFO - 
+2024-12-06 19:59:44,940 - INFO - Preparing to unpack .../18-libltdl7_2.4.6-15build2_amd64.deb ...
+2024-12-06 19:59:44,942 - INFO - Unpacking libltdl7:amd64 (2.4.6-15build2) ...
+2024-12-06 19:59:44,985 - INFO - Selecting previously unselected package libgraphite2-3:amd64.
+2024-12-06 19:59:44,989 - INFO - Preparing to unpack .../19-libgraphite2-3_1.3.14-1build2_amd64.deb ...
+2024-12-06 19:59:44,990 - INFO - Unpacking libgraphite2-3:amd64 (1.3.14-1build2) ...
+2024-12-06 19:59:45,025 - INFO - Selecting previously unselected package libharfbuzz0b:amd64.
+2024-12-06 19:59:45,028 - INFO - Preparing to unpack .../20-libharfbuzz0b_2.7.4-1ubuntu3.1_amd64.deb ...
+2024-12-06 19:59:45,033 - INFO - Unpacking libharfbuzz0b:amd64 (2.7.4-1ubuntu3.1) ...
+2024-12-06 19:59:45,063 - INFO - Selecting previously unselected package libthai-data.
+2024-12-06 19:59:45,066 - INFO - Preparing to unpack .../21-libthai-data_0.1.29-1build1_all.deb ...
+2024-12-06 19:59:45,067 - INFO - Unpacking libthai-data (0.1.29-1build1) ...
+2024-12-06 19:59:45,086 - INFO - Selecting previously unselected package libdatrie1:amd64.
+2024-12-06 19:59:45,089 - INFO - Preparing to unpack .../22-libdatrie1_0.2.13-2_amd64.deb ...
+2024-12-06 19:59:45,091 - INFO - Unpacking libdatrie1:amd64 (0.2.13-2) ...
+2024-12-06 19:59:45,110 - INFO - Selecting previously unselected package libthai0:amd64.
+2024-12-06 19:59:45,113 - INFO - Preparing to unpack .../23-libthai0_0.1.29-1build1_amd64.deb ...
+2024-12-06 19:59:45,119 - INFO - Unpacking libthai0:amd64 (0.1.29-1build1) ...
+2024-12-06 19:59:45,153 - INFO - Selecting previously unselected package libpango-1.0-0:amd64.
+2024-12-06 19:59:45,155 - INFO - Preparing to unpack .../24-libpango-1.0-0_1.50.6+ds-2ubuntu1_amd64.deb ...
+2024-12-06 19:59:45,157 - INFO - Unpacking libpango-1.0-0:amd64 (1.50.6+ds-2ubuntu1) ...
+2024-12-06 19:59:45,182 - INFO - Selecting previously unselected package libpangoft2-1.0-0:amd64.
+2024-12-06 19:59:45,185 - INFO - Preparing to unpack .../25-libpangoft2-1.0-0_1.50.6+ds-2ubuntu1_amd64.deb ...
+2024-12-06 19:59:45,187 - INFO - Unpacking libpangoft2-1.0-0:amd64 (1.50.6+ds-2ubuntu1) ...
+2024-12-06 19:59:45,212 - INFO - Selecting previously unselected package libpangocairo-1.0-0:amd64.
+Preparing to unpack .../26-libpangocairo-1.0-0_1.50.6+ds-2ubuntu1_amd64.deb ...
+2024-12-06 19:59:45,212 - INFO - Unpacking libpangocairo-1.0-0:amd64 (1.50.6+ds-2ubuntu1) ...
+2024-12-06 19:59:45,239 - INFO - Selecting previously unselected package libpathplan4:amd64.
+2024-12-06 19:59:45,242 - INFO - Preparing to unpack .../27-libpathplan4_2.42.2-6ubuntu0.1_amd64.deb ...
+2024-12-06 19:59:45,244 - INFO - Unpacking libpathplan4:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:45,270 - INFO - Selecting previously unselected package libgvc6.
+2024-12-06 19:59:45,273 - INFO - Preparing to unpack .../28-libgvc6_2.42.2-6ubuntu0.1_amd64.deb ...
+2024-12-06 19:59:45,275 - INFO - Unpacking libgvc6 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:45,305 - INFO - Selecting previously unselected package libgvpr2:amd64.
+2024-12-06 19:59:45,305 - INFO - 
+2024-12-06 19:59:45,307 - INFO - Preparing to unpack .../29-libgvpr2_2.42.2-6ubuntu0.1_amd64.deb ...
+2024-12-06 19:59:45,307 - INFO - 
+2024-12-06 19:59:45,309 - INFO - Unpacking libgvpr2:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:45,309 - INFO - 
+2024-12-06 19:59:45,334 - INFO - Selecting previously unselected package liblab-gamut1:amd64.
+2024-12-06 19:59:45,335 - INFO - 
+2024-12-06 19:59:45,337 - INFO - Preparing to unpack .../30-liblab-gamut1_2.42.2-6ubuntu0.1_amd64.deb ...
+2024-12-06 19:59:45,337 - INFO - 
+2024-12-06 19:59:45,339 - INFO - Unpacking liblab-gamut1:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:45,339 - INFO - 
+2024-12-06 19:59:45,375 - INFO - Selecting previously unselected package x11-common.
+2024-12-06 19:59:45,376 - INFO - Preparing to unpack .../31-x11-common_1%3a7.7+23ubuntu2_all.deb ...
+2024-12-06 19:59:45,378 - INFO - Unpacking x11-common (1:7.7+23ubuntu2) ...
+2024-12-06 19:59:45,396 - INFO - Selecting previously unselected package libice6:amd64.
+2024-12-06 19:59:45,399 - INFO - Preparing to unpack .../32-libice6_2%3a1.0.10-1build2_amd64.deb ...
+2024-12-06 19:59:45,401 - INFO - Unpacking libice6:amd64 (2:1.0.10-1build2) ...
+2024-12-06 19:59:45,430 - INFO - Selecting previously unselected package libsm6:amd64.
+2024-12-06 19:59:45,432 - INFO - Preparing to unpack .../33-libsm6_2%3a1.2.3-1build2_amd64.deb ...
+2024-12-06 19:59:45,434 - INFO - Unpacking libsm6:amd64 (2:1.2.3-1build2) ...
+2024-12-06 19:59:45,452 - INFO - Selecting previously unselected package libxt6:amd64.
+2024-12-06 19:59:45,455 - INFO - Preparing to unpack .../34-libxt6_1%3a1.2.1-1_amd64.deb ...
+2024-12-06 19:59:45,456 - INFO - Unpacking libxt6:amd64 (1:1.2.1-1) ...
+2024-12-06 19:59:45,481 - INFO - Selecting previously unselected package libxmu6:amd64.
+2024-12-06 19:59:45,484 - INFO - Preparing to unpack .../35-libxmu6_2%3a1.1.3-3_amd64.deb ...
+2024-12-06 19:59:45,486 - INFO - Unpacking libxmu6:amd64 (2:1.1.3-3) ...
+2024-12-06 19:59:45,530 - INFO - Selecting previously unselected package libxaw7:amd64.
+2024-12-06 19:59:45,533 - INFO - Preparing to unpack .../36-libxaw7_2%3a1.0.14-1_amd64.deb ...
+2024-12-06 19:59:45,534 - INFO - Unpacking libxaw7:amd64 (2:1.0.14-1) ...
+2024-12-06 19:59:45,562 - INFO - Selecting previously unselected package graphviz.
+2024-12-06 19:59:45,564 - INFO - Preparing to unpack .../37-graphviz_2.42.2-6ubuntu0.1_amd64.deb ...
+2024-12-06 19:59:45,566 - INFO - Unpacking graphviz (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:45,599 - INFO - Selecting previously unselected package libgts-bin.
+2024-12-06 19:59:45,602 - INFO - Preparing to unpack .../38-libgts-bin_0.7.6+darcs121130-5_amd64.deb ...
+2024-12-06 19:59:45,604 - INFO - Unpacking libgts-bin (0.7.6+darcs121130-5) ...
+2024-12-06 19:59:45,638 - INFO - Setting up libgraphite2-3:amd64 (1.3.14-1build2) ...
+2024-12-06 19:59:45,647 - INFO - Setting up libpixman-1-0:amd64 (0.40.0-1ubuntu0.22.04.1) ...
+2024-12-06 19:59:45,651 - INFO - Setting up fontconfig (2.13.1-4.2ubuntu5) ...
+2024-12-06 19:59:45,663 - INFO - Regenerating fonts cache...
+2024-12-06 19:59:47,679 - INFO - done.
+2024-12-06 19:59:47,684 - INFO - Setting up libxrender1:amd64 (1:0.9.10-1build4) ...
+2024-12-06 19:59:47,685 - INFO - 
+2024-12-06 19:59:47,690 - INFO - Setting up libdatrie1:amd64 (0.2.13-2) ...
+2024-12-06 19:59:47,690 - INFO - 
+2024-12-06 19:59:47,694 - INFO - Setting up xdg-user-dirs (0.17-2ubuntu4) ...
+2024-12-06 19:59:47,711 - INFO - Setting up libxcb-render0:amd64 (1.14-3ubuntu3) ...
+2024-12-06 19:59:47,715 - INFO - Setting up libglib2.0-0:amd64 (2.72.4-0ubuntu2.4) ...
+2024-12-06 19:59:47,722 - INFO - No schema files found: doing nothing.
+2024-12-06 19:59:47,725 - INFO - Setting up liblab-gamut1:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:47,730 - INFO - Setting up x11-common (1:7.7+23ubuntu2) ...
+2024-12-06 19:59:47,832 - INFO - debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+2024-12-06 19:59:47,850 - INFO - invoke-rc.d: could not determine current runlevel
+2024-12-06 19:59:47,859 - INFO - invoke-rc.d: policy-rc.d denied execution of start.
+2024-12-06 19:59:47,867 - INFO - Setting up libxcb-shm0:amd64 (1.14-3ubuntu3) ...
+2024-12-06 19:59:47,872 - INFO - Setting up libcairo2:amd64 (1.16.0-5ubuntu2) ...
+2024-12-06 19:59:47,876 - INFO - Setting up libgts-0.7-5:amd64 (0.7.6+darcs121130-5) ...
+2024-12-06 19:59:47,881 - INFO - Setting up libglib2.0-data (2.72.4-0ubuntu2.4) ...
+2024-12-06 19:59:47,887 - INFO - Setting up libpathplan4:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:47,891 - INFO - Setting up libann0 (1.1.2+doc-7build1) ...
+2024-12-06 19:59:47,896 - INFO - Setting up libfribidi0:amd64 (1.0.8-2ubuntu3.1) ...
+2024-12-06 19:59:47,901 - INFO - Setting up libltdl7:amd64 (2.4.6-15build2) ...
+2024-12-06 19:59:47,906 - INFO - Setting up fonts-liberation (1:1.07.4-11) ...
+2024-12-06 19:59:47,911 - INFO - Setting up libharfbuzz0b:amd64 (2.7.4-1ubuntu3.1) ...
+2024-12-06 19:59:47,916 - INFO - Setting up libthai-data (0.1.29-1build1) ...
+2024-12-06 19:59:47,921 - INFO - Setting up libcdt5:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:47,930 - INFO - Setting up libcgraph6:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:47,934 - INFO - Setting up libicu70:amd64 (70.1-2) ...
+2024-12-06 19:59:47,939 - INFO - Setting up libgts-bin (0.7.6+darcs121130-5) ...
+2024-12-06 19:59:47,943 - INFO - Setting up libice6:amd64 (2:1.0.10-1build2) ...
+2024-12-06 19:59:47,948 - INFO - Setting up libthai0:amd64 (0.1.29-1build1) ...
+2024-12-06 19:59:47,952 - INFO - Setting up libgvpr2:amd64 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:47,957 - INFO - Setting up libsm6:amd64 (2:1.2.3-1build2) ...
+2024-12-06 19:59:47,961 - INFO - Setting up libxml2:amd64 (2.9.13+dfsg-1ubuntu0.4) ...
+2024-12-06 19:59:47,966 - INFO - Setting up libpango-1.0-0:amd64 (1.50.6+ds-2ubuntu1) ...
+2024-12-06 19:59:47,970 - INFO - Setting up shared-mime-info (2.1-2) ...
+2024-12-06 19:59:48,918 - INFO - Setting up libxt6:amd64 (1:1.2.1-1) ...
+2024-12-06 19:59:48,923 - INFO - Setting up libpangoft2-1.0-0:amd64 (1.50.6+ds-2ubuntu1) ...
+2024-12-06 19:59:48,928 - INFO - Setting up libpangocairo-1.0-0:amd64 (1.50.6+ds-2ubuntu1) ...
+2024-12-06 19:59:48,933 - INFO - Setting up libxmu6:amd64 (2:1.1.3-3) ...
+2024-12-06 19:59:48,938 - INFO - Setting up libxaw7:amd64 (2:1.0.14-1) ...
+2024-12-06 19:59:48,943 - INFO - Setting up libgvc6 (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:48,957 - INFO - Setting up graphviz (2.42.2-6ubuntu0.1) ...
+2024-12-06 19:59:48,965 - INFO - Processing triggers for libc-bin (2.35-0ubuntu3.8) ...
+2024-12-06 19:59:49,008 - INFO - + python -m pip install -e '.[test]'
+2024-12-06 19:59:49,320 - INFO - Obtaining file:///testbed
+2024-12-06 19:59:49,325 - INFO - Installing build dependencies: started
+2024-12-06 19:59:52,224 - INFO - Installing build dependencies: finished with status 'done'
+2024-12-06 19:59:52,225 - INFO - Checking if build backend supports build_editable: started
+2024-12-06 19:59:52,298 - INFO - Checking if build backend supports build_editable: finished with status 'done'
+2024-12-06 19:59:52,300 - INFO - Getting requirements to build editable: started
+2024-12-06 19:59:52,378 - INFO - Getting requirements to build editable: finished with status 'done'
+2024-12-06 19:59:52,380 - INFO - Preparing editable metadata (pyproject.toml): started
+2024-12-06 19:59:52,459 - INFO - Preparing editable metadata (pyproject.toml): finished with status 'done'
+2024-12-06 19:59:52,664 - INFO - Collecting sphinxcontrib-applehelp (from Sphinx==7.2.0)
+2024-12-06 19:59:52,839 - INFO - Downloading sphinxcontrib_applehelp-2.0.0-py3-none-any.whl.metadata (2.3 kB)
+2024-12-06 19:59:52,915 - INFO - Collecting sphinxcontrib-devhelp (from Sphinx==7.2.0)
+2024-12-06 19:59:52,973 - INFO - Downloading sphinxcontrib_devhelp-2.0.0-py3-none-any.whl.metadata (2.3 kB)
+2024-12-06 19:59:53,041 - INFO - Collecting sphinxcontrib-jsmath (from Sphinx==7.2.0)
+2024-12-06 19:59:53,099 - INFO - Downloading sphinxcontrib_jsmath-1.0.1-py2.py3-none-any.whl.metadata (1.4 kB)
+2024-12-06 19:59:53,171 - INFO - Collecting sphinxcontrib-htmlhelp>=2.0.0 (from Sphinx==7.2.0)
+2024-12-06 19:59:53,229 - INFO - Downloading sphinxcontrib_htmlhelp-2.1.0-py3-none-any.whl.metadata (2.3 kB)
+2024-12-06 19:59:53,304 - INFO - Collecting sphinxcontrib-serializinghtml>=1.1.5 (from Sphinx==7.2.0)
+2024-12-06 19:59:53,362 - INFO - Downloading sphinxcontrib_serializinghtml-2.0.0-py3-none-any.whl.metadata (2.4 kB)
+2024-12-06 19:59:53,434 - INFO - Collecting sphinxcontrib-qthelp (from Sphinx==7.2.0)
+2024-12-06 19:59:53,491 - INFO - Downloading sphinxcontrib_qthelp-2.0.0-py3-none-any.whl.metadata (2.3 kB)
+2024-12-06 19:59:53,578 - INFO - Collecting Jinja2>=3.0 (from Sphinx==7.2.0)
+2024-12-06 19:59:53,635 - INFO - Downloading jinja2-3.1.4-py3-none-any.whl.metadata (2.6 kB)
+2024-12-06 19:59:53,751 - INFO - Collecting Pygments>=2.13 (from Sphinx==7.2.0)
+2024-12-06 19:59:53,808 - INFO - Downloading pygments-2.18.0-py3-none-any.whl.metadata (2.5 kB)
+2024-12-06 19:59:53,892 - INFO - Collecting docutils<0.21,>=0.18.1 (from Sphinx==7.2.0)
+2024-12-06 19:59:53,952 - INFO - Downloading docutils-0.20.1-py3-none-any.whl.metadata (2.8 kB)
+2024-12-06 19:59:54,018 - INFO - Collecting snowballstemmer>=2.0 (from Sphinx==7.2.0)
+2024-12-06 19:59:54,081 - INFO - Downloading snowballstemmer-2.2.0-py2.py3-none-any.whl.metadata (6.5 kB)
+2024-12-06 19:59:54,159 - INFO - Collecting babel>=2.9 (from Sphinx==7.2.0)
+2024-12-06 19:59:54,221 - INFO - Downloading babel-2.16.0-py3-none-any.whl.metadata (1.5 kB)
+2024-12-06 19:59:54,296 - INFO - Collecting alabaster<0.8,>=0.7 (from Sphinx==7.2.0)
+2024-12-06 19:59:54,370 - INFO - Downloading alabaster-0.7.16-py3-none-any.whl.metadata (2.9 kB)
+2024-12-06 19:59:54,461 - INFO - Collecting imagesize>=1.3 (from Sphinx==7.2.0)
+2024-12-06 19:59:54,521 - INFO - Downloading imagesize-1.4.1-py2.py3-none-any.whl.metadata (1.5 kB)
+2024-12-06 19:59:54,632 - INFO - Collecting requests>=2.25.0 (from Sphinx==7.2.0)
+2024-12-06 19:59:54,689 - INFO - Downloading requests-2.32.3-py3-none-any.whl.metadata (4.6 kB)
+2024-12-06 19:59:54,697 - INFO - Requirement already satisfied: packaging>=21.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==7.2.0) (24.2)
+2024-12-06 19:59:54,821 - INFO - Collecting importlib-metadata>=4.8 (from Sphinx==7.2.0)
+2024-12-06 19:59:54,879 - INFO - Downloading importlib_metadata-8.5.0-py3-none-any.whl.metadata (4.8 kB)
+2024-12-06 19:59:55,032 - INFO - Collecting pytest>=4.6 (from Sphinx==7.2.0)
+2024-12-06 19:59:55,089 - INFO - Downloading pytest-8.3.4-py3-none-any.whl.metadata (7.5 kB)
+2024-12-06 19:59:55,169 - INFO - Collecting html5lib (from Sphinx==7.2.0)
+2024-12-06 19:59:55,227 - INFO - Downloading html5lib-1.1-py2.py3-none-any.whl.metadata (16 kB)
+2024-12-06 19:59:55,707 - INFO - Collecting cython (from Sphinx==7.2.0)
+2024-12-06 19:59:55,765 - INFO - Downloading Cython-3.0.11-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.2 kB)
+2024-12-06 19:59:55,773 - INFO - Requirement already satisfied: filelock in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==7.2.0) (3.16.1)
+2024-12-06 19:59:55,858 - INFO - Collecting zipp>=3.20 (from importlib-metadata>=4.8->Sphinx==7.2.0)
+2024-12-06 19:59:55,916 - INFO - Downloading zipp-3.21.0-py3-none-any.whl.metadata (3.7 kB)
+2024-12-06 19:59:56,050 - INFO - Collecting MarkupSafe>=2.0 (from Jinja2>=3.0->Sphinx==7.2.0)
+2024-12-06 19:59:56,108 - INFO - Downloading MarkupSafe-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+2024-12-06 19:59:56,190 - INFO - Collecting exceptiongroup>=1.0.0rc8 (from pytest>=4.6->Sphinx==7.2.0)
+2024-12-06 19:59:56,269 - INFO - Downloading exceptiongroup-1.2.2-py3-none-any.whl.metadata (6.6 kB)
+2024-12-06 19:59:56,336 - INFO - Collecting iniconfig (from pytest>=4.6->Sphinx==7.2.0)
+2024-12-06 19:59:56,393 - INFO - Downloading iniconfig-2.0.0-py3-none-any.whl.metadata (2.6 kB)
+2024-12-06 19:59:56,399 - INFO - Requirement already satisfied: pluggy<2,>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==7.2.0) (1.5.0)
+2024-12-06 19:59:56,399 - INFO - Requirement already satisfied: tomli>=1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==7.2.0) (2.2.1)
+2024-12-06 19:59:56,548 - INFO - Collecting charset-normalizer<4,>=2 (from requests>=2.25.0->Sphinx==7.2.0)
+2024-12-06 19:59:56,606 - INFO - Downloading charset_normalizer-3.4.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (34 kB)
+2024-12-06 19:59:56,707 - INFO - Collecting idna<4,>=2.5 (from requests>=2.25.0->Sphinx==7.2.0)
+2024-12-06 19:59:56,764 - INFO - Downloading idna-3.10-py3-none-any.whl.metadata (10 kB)
+2024-12-06 19:59:56,914 - INFO - Collecting urllib3<3,>=1.21.1 (from requests>=2.25.0->Sphinx==7.2.0)
+2024-12-06 19:59:56,972 - INFO - Downloading urllib3-2.2.3-py3-none-any.whl.metadata (6.5 kB)
+2024-12-06 19:59:57,061 - INFO - Collecting certifi>=2017.4.17 (from requests>=2.25.0->Sphinx==7.2.0)
+2024-12-06 19:59:57,119 - INFO - Downloading certifi-2024.8.30-py3-none-any.whl.metadata (2.2 kB)
+2024-12-06 19:59:57,204 - INFO - Collecting six>=1.9 (from html5lib->Sphinx==7.2.0)
+2024-12-06 19:59:57,263 - INFO - Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2024-12-06 19:59:57,330 - INFO - Collecting webencodings (from html5lib->Sphinx==7.2.0)
+2024-12-06 19:59:57,389 - INFO - Downloading webencodings-0.5.1-py2.py3-none-any.whl.metadata (2.1 kB)
+2024-12-06 19:59:57,482 - INFO - Downloading alabaster-0.7.16-py3-none-any.whl (13 kB)
+2024-12-06 19:59:57,583 - INFO - Downloading babel-2.16.0-py3-none-any.whl (9.6 MB)
+2024-12-06 19:59:58,600 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.6/9.6 MB 10.4 MB/s eta 0:00:00
+2024-12-06 19:59:58,600 - INFO - 
+2024-12-06 19:59:58,657 - INFO - Downloading docutils-0.20.1-py3-none-any.whl (572 kB)
+2024-12-06 19:59:58,726 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 572.7/572.7 kB 8.4 MB/s eta 0:00:00
+2024-12-06 19:59:58,726 - INFO - 
+2024-12-06 19:59:58,785 - INFO - Downloading imagesize-1.4.1-py2.py3-none-any.whl (8.8 kB)
+2024-12-06 19:59:58,847 - INFO - Downloading importlib_metadata-8.5.0-py3-none-any.whl (26 kB)
+2024-12-06 19:59:58,909 - INFO - Downloading jinja2-3.1.4-py3-none-any.whl (133 kB)
+2024-12-06 19:59:58,973 - INFO - Downloading pygments-2.18.0-py3-none-any.whl (1.2 MB)
+2024-12-06 19:59:59,073 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 10.9 MB/s eta 0:00:00
+2024-12-06 19:59:59,074 - INFO - 
+2024-12-06 19:59:59,132 - INFO - Downloading pytest-8.3.4-py3-none-any.whl (343 kB)
+2024-12-06 19:59:59,211 - INFO - Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+2024-12-06 19:59:59,274 - INFO - Downloading snowballstemmer-2.2.0-py2.py3-none-any.whl (93 kB)
+2024-12-06 19:59:59,337 - INFO - Downloading sphinxcontrib_htmlhelp-2.1.0-py3-none-any.whl (98 kB)
+2024-12-06 19:59:59,399 - INFO - Downloading sphinxcontrib_serializinghtml-2.0.0-py3-none-any.whl (92 kB)
+2024-12-06 19:59:59,462 - INFO - Downloading Cython-3.0.11-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.6 MB)
+2024-12-06 19:59:59,769 - INFO - ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.6/3.6 MB 11.6 MB/s eta 0:00:00
+2024-12-06 19:59:59,770 - INFO - 
+2024-12-06 19:59:59,828 - INFO - Downloading html5lib-1.1-py2.py3-none-any.whl (112 kB)
+2024-12-06 19:59:59,896 - INFO - Downloading sphinxcontrib_applehelp-2.0.0-py3-none-any.whl (119 kB)
+2024-12-06 19:59:59,960 - INFO - Downloading sphinxcontrib_devhelp-2.0.0-py3-none-any.whl (82 kB)
+2024-12-06 20:00:00,023 - INFO - Downloading sphinxcontrib_jsmath-1.0.1-py2.py3-none-any.whl (5.1 kB)
+2024-12-06 20:00:00,085 - INFO - Downloading sphinxcontrib_qthelp-2.0.0-py3-none-any.whl (88 kB)
+2024-12-06 20:00:00,147 - INFO - Downloading certifi-2024.8.30-py3-none-any.whl (167 kB)
+2024-12-06 20:00:00,213 - INFO - Downloading charset_normalizer-3.4.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (144 kB)
+2024-12-06 20:00:00,277 - INFO - Downloading exceptiongroup-1.2.2-py3-none-any.whl (16 kB)
+2024-12-06 20:00:00,337 - INFO - Downloading idna-3.10-py3-none-any.whl (70 kB)
+2024-12-06 20:00:00,400 - INFO - Downloading MarkupSafe-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
+2024-12-06 20:00:00,461 - INFO - Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2024-12-06 20:00:00,524 - INFO - Downloading urllib3-2.2.3-py3-none-any.whl (126 kB)
+2024-12-06 20:00:00,586 - INFO - Downloading zipp-3.21.0-py3-none-any.whl (9.6 kB)
+2024-12-06 20:00:00,649 - INFO - Downloading iniconfig-2.0.0-py3-none-any.whl (5.9 kB)
+2024-12-06 20:00:00,727 - INFO - Downloading webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+2024-12-06 20:00:00,845 - INFO - Building wheels for collected packages: Sphinx
+2024-12-06 20:00:00,846 - INFO - Building editable for Sphinx (pyproject.toml): started
+2024-12-06 20:00:00,929 - INFO - Building editable for Sphinx (pyproject.toml): finished with status 'done'
+2024-12-06 20:00:00,929 - INFO - Created wheel for Sphinx: filename=sphinx-7.2.0-py3-none-any.whl size=4348 sha256=23b3df88522da46925ab97a586cefcab835ff271a5268b83db54a76040af7a43
+2024-12-06 20:00:00,930 - INFO - Stored in directory: /tmp/pip-ephem-wheel-cache-ixk10yej/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+2024-12-06 20:00:00,932 - INFO - Successfully built Sphinx
+2024-12-06 20:00:01,018 - INFO - Installing collected packages: webencodings, snowballstemmer, zipp, urllib3, sphinxcontrib-serializinghtml, sphinxcontrib-qthelp, sphinxcontrib-jsmath, sphinxcontrib-htmlhelp, sphinxcontrib-devhelp, sphinxcontrib-applehelp, six, Pygments, MarkupSafe, iniconfig, imagesize, idna, exceptiongroup, docutils, cython, charset-normalizer, certifi, babel, alabaster, requests, pytest, Jinja2, importlib-metadata, html5lib, Sphinx
+2024-12-06 20:00:03,880 - INFO - Successfully installed Jinja2-3.1.4 MarkupSafe-3.0.2 Pygments-2.18.0 Sphinx-7.2.0 alabaster-0.7.16 babel-2.16.0 certifi-2024.8.30 charset-normalizer-3.4.0 cython-3.0.11 docutils-0.20.1 exceptiongroup-1.2.2 html5lib-1.1 idna-3.10 imagesize-1.4.1 importlib-metadata-8.5.0 iniconfig-2.0.0 pytest-8.3.4 requests-2.32.3 six-1.17.0 snowballstemmer-2.2.0 sphinxcontrib-applehelp-2.0.0 sphinxcontrib-devhelp-2.0.0 sphinxcontrib-htmlhelp-2.1.0 sphinxcontrib-jsmath-1.0.1 sphinxcontrib-qthelp-2.0.0 sphinxcontrib-serializinghtml-2.0.0 urllib3-2.2.3 webencodings-0.5.1 zipp-3.21.0
+2024-12-06 20:00:03,881 - INFO - WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+2024-12-06 20:00:07,862 - INFO - ---> Removed intermediate container 5c6cfb30d658
+2024-12-06 20:00:07,863 - INFO - ---> 8b0f71b824bd
+2024-12-06 20:00:07,863 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-06 20:00:07,863 - INFO - 
+2024-12-06 20:00:07,889 - INFO - ---> Running in 45fcd68007ac
+2024-12-06 20:00:07,931 - INFO - ---> Removed intermediate container 45fcd68007ac
+2024-12-06 20:00:07,931 - INFO - ---> f5108ee7076a
+2024-12-06 20:00:07,931 - INFO - Successfully built f5108ee7076a
+2024-12-06 20:00:07,933 - INFO - Successfully tagged sweb.eval.x86_64.sphinx-doc__sphinx-10614:latest
+2024-12-06 20:00:07,934 - INFO - Image built successfully!

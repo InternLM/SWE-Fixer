@@ -150,24 +150,23 @@ Date:   Thu Jan 25 22:05:05 2018 -0600
 
 + git diff b17abcb09cbcee80a90f6750e0f9b53f0247656c
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 3085a10279..4b92644b25 100644
+index 3085a10279..d1ccc8dcff 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -2005,10 +2005,14 @@ def extract_multiplicatively(self, c):
-             return S.One
- 
-         if c.is_Add:
-+            if c.is_negative:
-+                c = -c
-+                self = -self
-             cc, pc = c.primitive()
-             if cc is not S.One:
-                 c = Mul(cc, pc, evaluate=False)
- 
+@@ -624,10 +624,12 @@ def is_constant(self, *wrt, **flags):
+             if simplify:
+                 deriv = deriv.simplify()
+             if deriv != 0:
+-                if not (pure_complex(deriv, or_real=True)):
++                if not (pure_complex(deriv, or_real=True) or
++                        (deriv.is_Pow and deriv.base.is_negative)):
+                     if flags.get('failing_number', False):
+                         return failing_number
+                     elif deriv.free_symbols:
 +
-         if c.is_Mul:
-             a, b = c.as_two_terms()
-             x = self.extract_multiplicatively(a)
+                         # dead line provided _random returns None in such cases
+                         return None
+                 return False
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -330,8 +329,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        36682988
-hash randomization: on (PYTHONHASHSEED=1555435176)
+random seed:        91704355
+hash randomization: on (PYTHONHASHSEED=737305021)
 
 sympy/core/tests/test_numbers.py[87] 
 test_integers_cache ok
@@ -435,7 +434,7 @@ ____________ sympy/core/tests/test_numbers.py:test_powers_Rational _____________
 AssertionError
 
  tests finished: 83 passed, 2 failed, 1 skipped, 1 expected to fail, 
-in 1.00 seconds 
+in 0.99 seconds 
 DO *NOT* COMMIT!
 + git checkout b17abcb09cbcee80a90f6750e0f9b53f0247656c sympy/core/tests/test_numbers.py
 Updated 1 path from fc69010076

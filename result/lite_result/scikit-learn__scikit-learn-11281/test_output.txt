@@ -163,22 +163,37 @@ index a8f31c1b3..e712a7485 100644
  
 + git diff 4143356c3c51831300789e4fdf795d83716dbab6
 diff --git a/sklearn/mixture/base.py b/sklearn/mixture/base.py
-index a9f66740f..a8583eeba 100644
+index a9f66740f..0900b547a 100644
 --- a/sklearn/mixture/base.py
 +++ b/sklearn/mixture/base.py
-@@ -240,9 +240,12 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
-         self._set_parameters(best_params)
-         self.n_iter_ = best_n_iter
+@@ -242,9 +242,27 @@ class BaseMixture(six.with_metaclass(ABCMeta, DensityMixin, BaseEstimator)):
  
-+        self.labels_ = self.predict(X)
-+
          return self
  
-     def _e_step(self, X):
++    def fit_predict(self, X, y=None):
++        """Fit the model and predict labels for samples in X using trained model.
 +
++        Parameters
++        ----------
++        X : array-like, shape (n_samples, n_features)
++            List of n_features-dimensional data points. Each row
++            corresponds to a single data point.
++
++        Returns
++        -------
++        labels : array, shape (n_samples,)
++            Component labels.
++        """
++        return self.fit(X, y).predict(X)
++
+     def _e_step(self, X):
          """E step.
  
++
++
          Parameters
+         ----------
+         X : array-like, shape (n_samples, n_features)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -308,17 +323,17 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
     adding license file 'AUTHORS.rst'
-    writing manifest file '/tmp/pip-pip-egg-info-p0nlecof/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-av8o_d02/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.20.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.13.3 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.20.dev0) (1.5.2)
@@ -345,11 +360,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmpepeoze_m/tmp
-    creating /tmp/tmpepeoze_m/tmp/tmpepeoze_m
+    creating /tmp/tmpgehz_d71/tmp
+    creating /tmp/tmpgehz_d71/tmp/tmpgehz_d71
     compile options: '-c'
-    gcc: /tmp/tmpepeoze_m/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpepeoze_m/tmp/tmpepeoze_m/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpepeoze_m/a.out
+    gcc: /tmp/tmpgehz_d71/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpgehz_d71/tmp/tmpgehz_d71/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpgehz_d71/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -432,8 +447,8 @@ Installing collected packages: scikit-learn
 
     Installed /testbed
     Partial import of sklearn during the build process.
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 Successfully installed scikit-learn-0.20.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/9f/8b/a094f5da22d7abf5098205367b3296dd15b914f4232af5ca39ba6214d08c/pip-22.0-py3-none-any.whl#sha256=6cb1ea2bd7fda0668e26ae8c3e45188f301a7ef17ff22efe1f70f3643e56a822 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/4a/ca/e72b3b399d7a8cb34311aa8f52924108591c013b09f0268820afb4cd96fb/pip-22.0.tar.gz#sha256=d3fa5c3e42b33de52bddce89de40268c9a263cd6ef7c94c40774808dafb32c82 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/89/a1/2f4e58eda11e591fbfa518233378835679fc5ab766b690b3df85215014d5/pip-22.0.1-py3-none-any.whl#sha256=30739ac5fb973cfa4399b0afff0523d4fe6bed2f7a5229333f64d9c2ce0d1933 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
@@ -504,6 +519,10 @@ Successfully installed scikit-learn-0.20.dev0
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout 4143356c3c51831300789e4fdf795d83716dbab6 sklearn/mixture/tests/test_bayesian_mixture.py sklearn/mixture/tests/test_gaussian_mixture.py
 Updated 0 paths from 0a1de5d5e
 + git apply -v -
@@ -517,52 +536,10 @@ platform linux -- Python 3.6.13, pytest-6.2.4, py-1.11.0, pluggy-0.13.1
 rootdir: /testbed, configfile: setup.cfg
 collected 45 items
 
-sklearn/mixture/tests/test_bayesian_mixture.py .............F.           [ 33%]
-sklearn/mixture/tests/test_gaussian_mixture.py .............F........... [ 88%]
+sklearn/mixture/tests/test_bayesian_mixture.py ...............           [ 33%]
+sklearn/mixture/tests/test_gaussian_mixture.py ......................... [ 88%]
 .....                                                                    [100%]
 
-=================================== FAILURES ===================================
-______________________ test_bayesian_mixture_fit_predict _______________________
-
-    def test_bayesian_mixture_fit_predict():
-        rng = np.random.RandomState(0)
-        rand_data = RandomData(rng, scale=7)
-        n_components = 2 * rand_data.n_components
-    
-        for covar_type in COVARIANCE_TYPE:
-            bgmm1 = BayesianGaussianMixture(n_components=n_components,
-                                            max_iter=100, random_state=rng,
-                                            tol=1e-3, reg_covar=0)
-            bgmm1.covariance_type = covar_type
-            bgmm2 = copy.deepcopy(bgmm1)
-            X = rand_data.X[covar_type]
-    
-            Y_pred1 = bgmm1.fit(X).predict(X)
->           Y_pred2 = bgmm2.fit_predict(X)
-E           AttributeError: 'BayesianGaussianMixture' object has no attribute 'fit_predict'
-
-sklearn/mixture/tests/test_bayesian_mixture.py:442: AttributeError
-______________________ test_gaussian_mixture_fit_predict _______________________
-
-    def test_gaussian_mixture_fit_predict():
-        rng = np.random.RandomState(0)
-        rand_data = RandomData(rng)
-        for covar_type in COVARIANCE_TYPE:
-            X = rand_data.X[covar_type]
-            Y = rand_data.Y
-            g = GaussianMixture(n_components=rand_data.n_components,
-                                random_state=rng, weights_init=rand_data.weights,
-                                means_init=rand_data.means,
-                                precisions_init=rand_data.precisions[covar_type],
-                                covariance_type=covar_type)
-    
-            # check if fit_predict(X) is equivalent to fit(X).predict(X)
-            f = copy.deepcopy(g)
-            Y_pred1 = f.fit(X).predict(X)
->           Y_pred2 = g.fit_predict(X)
-E           AttributeError: 'GaussianMixture' object has no attribute 'fit_predict'
-
-sklearn/mixture/tests/test_gaussian_mixture.py:588: AttributeError
 ==================================== PASSES ====================================
 =========================== short test summary info ============================
 PASSED sklearn/mixture/tests/test_bayesian_mixture.py::test_log_dirichlet_norm
@@ -578,6 +555,7 @@ PASSED sklearn/mixture/tests/test_bayesian_mixture.py::test_monotonic_likelihood
 PASSED sklearn/mixture/tests/test_bayesian_mixture.py::test_compare_covar_type
 PASSED sklearn/mixture/tests/test_bayesian_mixture.py::test_check_covariance_precision
 PASSED sklearn/mixture/tests/test_bayesian_mixture.py::test_invariant_translation
+PASSED sklearn/mixture/tests/test_bayesian_mixture.py::test_bayesian_mixture_fit_predict
 PASSED sklearn/mixture/tests/test_bayesian_mixture.py::test_bayesian_mixture_predict_predict_proba
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_attributes
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_check_X
@@ -592,6 +570,7 @@ PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_compute_log_det_chol
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_log_probabilities
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_estimate_log_prob_resp
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_predict_predict_proba
+PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_fit_predict
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_fit
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_fit_best_params
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_fit_convergence_warning
@@ -608,8 +587,6 @@ PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_regularisation
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_property
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_sample
 PASSED sklearn/mixture/tests/test_gaussian_mixture.py::test_init
-FAILED sklearn/mixture/tests/test_bayesian_mixture.py::test_bayesian_mixture_fit_predict
-FAILED sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_fit_predict
-=================== 2 failed, 43 passed, 9 warnings in 4.69s ===================
+======================= 45 passed, 16 warnings in 4.80s ========================
 + git checkout 4143356c3c51831300789e4fdf795d83716dbab6 sklearn/mixture/tests/test_bayesian_mixture.py sklearn/mixture/tests/test_gaussian_mixture.py
 Updated 2 paths from 0a1de5d5e

@@ -1,96 +1,126 @@
-2025-02-12 13:22:25,028 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-24102
+2025-05-06 12:44:21,296 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-24102
 Building instance image sweb.eval.x86_64.sympy__sympy-24102:latest for sympy__sympy-24102
-2025-02-12 13:22:25,031 - INFO - Image sweb.eval.x86_64.sympy__sympy-24102:latest already exists, skipping build.
-2025-02-12 13:22:25,031 - INFO - Creating container for sympy__sympy-24102...
-2025-02-12 13:22:25,061 - INFO - Container for sympy__sympy-24102 created: bcc2a1e0a1760d10d5428eb2e9c31286aff36fdcc08967e300b33ecb4e22ce69
-2025-02-12 13:22:25,395 - INFO - Container for sympy__sympy-24102 started: bcc2a1e0a1760d10d5428eb2e9c31286aff36fdcc08967e300b33ecb4e22ce69
-2025-02-12 13:22:25,396 - INFO - Intermediate patch for sympy__sympy-24102 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-24102/patch.diff, now applying to container...
-2025-02-12 13:22:25,653 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:22:25,714 - INFO - >>>>> Applied Patch:
+2025-05-06 12:44:21,299 - INFO - Image sweb.eval.x86_64.sympy__sympy-24102:latest already exists, skipping build.
+2025-05-06 12:44:21,299 - INFO - Creating container for sympy__sympy-24102...
+2025-05-06 12:44:21,332 - INFO - Container for sympy__sympy-24102 created: a0007b34050f6e9c959a719c8add1e0a8b0e79bf66bb567e10fb40f06926c8b7
+2025-05-06 12:44:21,710 - INFO - Container for sympy__sympy-24102 started: a0007b34050f6e9c959a719c8add1e0a8b0e79bf66bb567e10fb40f06926c8b7
+2025-05-06 12:44:21,710 - INFO - Intermediate patch for sympy__sympy-24102 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-24102/patch.diff, now applying to container...
+2025-05-06 12:44:21,940 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:44:21,975 - INFO - >>>>> Applied Patch:
 patching file sympy/parsing/mathematica.py
 patching file sympy/parsing/mathematica.py
-Hunk #1 succeeded at 1074 (offset 7 lines).
+Hunk #1 succeeded at 783 (offset 4 lines).
 
-2025-02-12 13:22:26,335 - INFO - Git diff before:
+2025-05-06 12:44:22,510 - INFO - Git diff before:
 diff --git a/sympy/parsing/mathematica.py b/sympy/parsing/mathematica.py
-index 7ea14ce33a..1245df4dd7 100644
+index 7ea14ce33a..ea5c5f9af1 100644
 --- a/sympy/parsing/mathematica.py
 +++ b/sympy/parsing/mathematica.py
-@@ -1055,10 +1055,17 @@ def converter(expr):
-     _atom_conversions = {
-         "I": I,
-         "Pi": pi,
-+        "E": S.Exp1,
-+        "True": S.true,
-+        "False": S.false,
-+        "Infinity": S.Infinity,
-+        "ComplexInfinity": S.ComplexInfinity,
-+        "Indeterminate": S.NaN,
-     }
+@@ -666,18 +666,22 @@ def _from_mathematica_to_tokens(self, code: str):
  
-     def _from_fullformlist_to_sympy(self, full_form_list):
+         return tokens
  
+-    def _is_op(self, token: tUnion[str, list]) -> bool:
++    def _is_symbol(self, token: tUnion[str, list]) -> bool:
+         if isinstance(token, list):
+             return False
+         if re.match(self._literal, token):
+-            return False
++            return True
+         if re.match("-?" + self._number, token):
+             return False
+-        return True
++        return False
 +
-         def recurse(expr):
-             if isinstance(expr, list):
-                 if isinstance(expr[0], list):
-@@ -1067,10 +1074,12 @@ def recurse(expr):
-                     head = self._node_conversions.get(expr[0], Function(expr[0]))
-                 return head(*list(recurse(arg) for arg in expr[1:]))
-             else:
--                return self._atom_conversions.get(expr, sympify(expr))
-+                return self._atom_conversions.get(expr, expr)
++    def _is_op(self, token: tUnion[str, list]) -> bool:
++        return not self._is_symbol(token)
  
-         return recurse(full_form_list)
- 
+     def _is_valid_star1(self, token: tUnion[str, list]) -> bool:
+         if token in (")", "}"):
+             return True
 +
-+
-     def _from_fullformsympy_to_sympy(self, mform):
+         return not self._is_op(token)
  
-         expr = mform
-2025-02-12 13:22:26,335 - INFO - Eval script for sympy__sympy-24102 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-24102/eval.sh; copying to container...
-2025-02-12 13:22:31,929 - INFO - Test runtime: 5.41 seconds
-2025-02-12 13:22:31,929 - INFO - Test output for sympy__sympy-24102 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-24102/test_output.txt
-2025-02-12 13:22:31,994 - INFO - Git diff after:
+     def _is_valid_star2(self, token: tUnion[str, list]) -> bool:
+@@ -779,15 +783,16 @@ def _util_add_missing_asterisks(self, tokens: list):
+         pointer: int = 0
+         while pointer < size:
+             if (pointer > 0 and
+-                    self._is_valid_star1(tokens[pointer - 1]) and
+-                    self._is_valid_star2(tokens[pointer])):
++                    self._is_symbol(tokens[pointer - 1]) and
++                    self._is_symbol(tokens[pointer])):
+                 # This is a trick to add missing * operators in the expression,
+                 # `"*" in op_dict` makes sure the precedence level is the same as "*",
+-                # while `not self._is_op( ... )` makes sure this and the previous
+-                # expression are not operators.
++                # while `self._is_symbol( ... )` makes sure this and the previous
++                # expression are symbols.
+                 if tokens[pointer] == "(":
+                     # ( has already been processed by now, replace:
+                     tokens[pointer] = "*"
++
+                     tokens[pointer + 1] = tokens[pointer + 1][0]
+                 else:
+                     tokens.insert(pointer, "*")
+2025-05-06 12:44:22,510 - INFO - Eval script for sympy__sympy-24102 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-24102/eval.sh; copying to container...
+2025-05-06 12:44:28,428 - INFO - Test runtime: 5.74 seconds
+2025-05-06 12:44:28,428 - INFO - Test output for sympy__sympy-24102 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-24102/test_output.txt
+2025-05-06 12:44:28,498 - INFO - Git diff after:
 diff --git a/sympy/parsing/mathematica.py b/sympy/parsing/mathematica.py
-index 7ea14ce33a..1245df4dd7 100644
+index 7ea14ce33a..ea5c5f9af1 100644
 --- a/sympy/parsing/mathematica.py
 +++ b/sympy/parsing/mathematica.py
-@@ -1055,10 +1055,17 @@ def converter(expr):
-     _atom_conversions = {
-         "I": I,
-         "Pi": pi,
-+        "E": S.Exp1,
-+        "True": S.true,
-+        "False": S.false,
-+        "Infinity": S.Infinity,
-+        "ComplexInfinity": S.ComplexInfinity,
-+        "Indeterminate": S.NaN,
-     }
+@@ -666,18 +666,22 @@ def _from_mathematica_to_tokens(self, code: str):
  
-     def _from_fullformlist_to_sympy(self, full_form_list):
+         return tokens
  
+-    def _is_op(self, token: tUnion[str, list]) -> bool:
++    def _is_symbol(self, token: tUnion[str, list]) -> bool:
+         if isinstance(token, list):
+             return False
+         if re.match(self._literal, token):
+-            return False
++            return True
+         if re.match("-?" + self._number, token):
+             return False
+-        return True
++        return False
 +
-         def recurse(expr):
-             if isinstance(expr, list):
-                 if isinstance(expr[0], list):
-@@ -1067,10 +1074,12 @@ def recurse(expr):
-                     head = self._node_conversions.get(expr[0], Function(expr[0]))
-                 return head(*list(recurse(arg) for arg in expr[1:]))
-             else:
--                return self._atom_conversions.get(expr, sympify(expr))
-+                return self._atom_conversions.get(expr, expr)
++    def _is_op(self, token: tUnion[str, list]) -> bool:
++        return not self._is_symbol(token)
  
-         return recurse(full_form_list)
- 
+     def _is_valid_star1(self, token: tUnion[str, list]) -> bool:
+         if token in (")", "}"):
+             return True
 +
-+
-     def _from_fullformsympy_to_sympy(self, mform):
+         return not self._is_op(token)
  
-         expr = mform
-2025-02-12 13:22:31,994 - INFO - Grading answer for sympy__sympy-24102...
-2025-02-12 13:22:31,998 - INFO - report: {'sympy__sympy-24102': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_mathematica', 'test_parser_mathematica_tokenizer']}, 'PASS_TO_PASS': {'success': [], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+     def _is_valid_star2(self, token: tUnion[str, list]) -> bool:
+@@ -779,15 +783,16 @@ def _util_add_missing_asterisks(self, tokens: list):
+         pointer: int = 0
+         while pointer < size:
+             if (pointer > 0 and
+-                    self._is_valid_star1(tokens[pointer - 1]) and
+-                    self._is_valid_star2(tokens[pointer])):
++                    self._is_symbol(tokens[pointer - 1]) and
++                    self._is_symbol(tokens[pointer])):
+                 # This is a trick to add missing * operators in the expression,
+                 # `"*" in op_dict` makes sure the precedence level is the same as "*",
+-                # while `not self._is_op( ... )` makes sure this and the previous
+-                # expression are not operators.
++                # while `self._is_symbol( ... )` makes sure this and the previous
++                # expression are symbols.
+                 if tokens[pointer] == "(":
+                     # ( has already been processed by now, replace:
+                     tokens[pointer] = "*"
++
+                     tokens[pointer + 1] = tokens[pointer + 1][0]
+                 else:
+                     tokens.insert(pointer, "*")
+2025-05-06 12:44:28,498 - INFO - Grading answer for sympy__sympy-24102...
+2025-05-06 12:44:28,499 - INFO - report: {'sympy__sympy-24102': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_mathematica', 'test_parser_mathematica_tokenizer']}, 'PASS_TO_PASS': {'success': [], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-24102: resolved: False
-2025-02-12 13:22:31,998 - INFO - Attempting to stop container sweb.eval.sympy__sympy-24102.20250212_130622...
-2025-02-12 13:22:47,737 - INFO - Attempting to remove container sweb.eval.sympy__sympy-24102.20250212_130622...
-2025-02-12 13:22:47,763 - INFO - Container sweb.eval.sympy__sympy-24102.20250212_130622 removed.
+2025-05-06 12:44:28,500 - INFO - Attempting to stop container sweb.eval.sympy__sympy-24102.20250506_122807...
+2025-05-06 12:44:43,741 - INFO - Attempting to remove container sweb.eval.sympy__sympy-24102.20250506_122807...
+2025-05-06 12:44:43,772 - INFO - Container sweb.eval.sympy__sympy-24102.20250506_122807 removed.

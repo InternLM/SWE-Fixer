@@ -374,7 +374,7 @@ Traceback (most recent call last):
 AssertionError: no logs of level ERROR or higher triggered on django.dispatch
 
 ----------------------------------------------------------------------
-Ran 19 tests in 0.069s
+Ran 19 tests in 0.104s
 
 FAILED (failures=1)
 + git checkout 965d2d95c630939b53eb60d9c169f5dfc77ee0c6 tests/dispatch/tests.py

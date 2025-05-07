@@ -178,24 +178,22 @@ Date:   Sun Mar 12 04:56:44 2023 +0100
 
 + git diff 73394f2b11321e03a5df199ec0196f27a728b0b0
 diff --git a/lib/matplotlib/offsetbox.py b/lib/matplotlib/offsetbox.py
-index 77768e7383..4337a2d3d5 100644
+index 77768e7383..10b89af69b 100644
 --- a/lib/matplotlib/offsetbox.py
 +++ b/lib/matplotlib/offsetbox.py
-@@ -1541,11 +1541,13 @@ class DraggableBase:
-             self.save_offset()
+@@ -1558,9 +1558,12 @@ class DraggableBase:
  
-     def on_release(self, event):
--        if self._check_still_parented() and self.got_artist:
-+        if (self._check_still_parented() and self.got_artist
-+                and self.canvas is not None):
-             self.finalize_offset()
-             self.got_artist = False
-             self.canvas.mpl_disconnect(self._c1)
- 
+     def disconnect(self):
+         """Disconnect the callbacks."""
++        if self.canvas is None:
++            return
+         for cid in self.cids:
+             self.canvas.mpl_disconnect(cid)
+         try:
 +
-             if self._use_blit:
-                 self.ref_artist.set_animated(False)
- 
+             c1 = self._c1
+         except AttributeError:
+             pass
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -372,31 +370,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev578+g73394f2b11.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev578+g73394f2b11.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev578+g73394f2b11.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23383 sha256=8d83440d586447787c65943b58f017986558d19b3e8fb488f6aa64439b2d2e79
-  Stored in directory: /tmp/pip-ephem-wheel-cache-6ewqub6t/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev578+g73394f2b11.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=23810 sha256=c25a97ac5d030c14e4060450f7b3631b8d27297df50ec9500aff287ddf708eb0
+  Stored in directory: /tmp/pip-ephem-wheel-cache-z2oidgot/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.8.0.dev578+g73394f2b11
     Uninstalling matplotlib-3.8.0.dev578+g73394f2b11:
       Successfully uninstalled matplotlib-3.8.0.dev578+g73394f2b11
-Successfully installed matplotlib-3.8.0.dev578+g73394f2b11.d20250212
+Successfully installed matplotlib-3.8.0.dev578+g73394f2b11.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 73394f2b11321e03a5df199ec0196f27a728b0b0 lib/matplotlib/tests/test_offsetbox.py
 Updated 0 paths from 57db996a61
@@ -438,14 +436,14 @@ lib/matplotlib/cbook.py:80: in _exception_printer
 lib/matplotlib/cbook.py:288: in process
     func(*args, **kwargs)
 lib/matplotlib/offsetbox.py:1544: in on_release
-    if (self._check_still_parented() and self.got_artist
-lib/matplotlib/offsetbox.py:1556: in _check_still_parented
+    if self._check_still_parented() and self.got_artist:
+lib/matplotlib/offsetbox.py:1554: in _check_still_parented
     self.disconnect()
-lib/matplotlib/offsetbox.py:1564: in disconnect
-    self.canvas.mpl_disconnect(cid)
+lib/matplotlib/offsetbox.py:1561: in disconnect
+    if self.canvas is None:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <matplotlib.offsetbox.DraggableAnnotation object at 0x7f8d09b5b690>
+self = <matplotlib.offsetbox.DraggableAnnotation object at 0x7f09991c19d0>
 
 >   canvas = property(lambda self: self.ref_artist.figure.canvas)
 E   AttributeError: 'NoneType' object has no attribute 'canvas'
@@ -739,6 +737,6 @@ PASSED lib/matplotlib/tests/test_offsetbox.py::test_paddedbox[png]
 SKIPPED [1] ../opt/miniconda3/envs/testbed/lib/python3.11/contextlib.py:81: Cannot compare svg files because Inkscape is not installed
 SKIPPED [1] lib/matplotlib/testing/compare.py:285: Don't know how to convert .svg files to png
 FAILED lib/matplotlib/tests/test_offsetbox.py::test_remove_draggable - Attrib...
-=================== 1 failed, 283 passed, 2 skipped in 5.64s ===================
+=================== 1 failed, 283 passed, 2 skipped in 5.95s ===================
 + git checkout 73394f2b11321e03a5df199ec0196f27a728b0b0 lib/matplotlib/tests/test_offsetbox.py
 Updated 1 path from 57db996a61

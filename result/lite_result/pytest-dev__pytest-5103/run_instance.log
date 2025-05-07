@@ -1,186 +1,218 @@
-2025-02-12 13:16:29,670 - INFO - Environment image sweb.env.x86_64.756beac07713d7e8dc1129:latest found for pytest-dev__pytest-5103
+2025-05-06 12:38:06,466 - INFO - Environment image sweb.env.x86_64.756beac07713d7e8dc1129:latest found for pytest-dev__pytest-5103
 Building instance image sweb.eval.x86_64.pytest-dev__pytest-5103:latest for pytest-dev__pytest-5103
-2025-02-12 13:16:29,674 - INFO - Image sweb.eval.x86_64.pytest-dev__pytest-5103:latest already exists, skipping build.
-2025-02-12 13:16:29,674 - INFO - Creating container for pytest-dev__pytest-5103...
-2025-02-12 13:16:29,702 - INFO - Container for pytest-dev__pytest-5103 created: cbbf45e7c75393664690642e97994c5f87e929c52ca44a7d9486bef1047d9ff9
-2025-02-12 13:16:29,990 - INFO - Container for pytest-dev__pytest-5103 started: cbbf45e7c75393664690642e97994c5f87e929c52ca44a7d9486bef1047d9ff9
-2025-02-12 13:16:29,990 - INFO - Intermediate patch for pytest-dev__pytest-5103 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-5103/patch.diff, now applying to container...
-2025-02-12 13:16:30,231 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:16:30,295 - INFO - >>>>> Applied Patch:
+2025-05-06 12:38:06,470 - INFO - Image sweb.eval.x86_64.pytest-dev__pytest-5103:latest already exists, skipping build.
+2025-05-06 12:38:06,470 - INFO - Creating container for pytest-dev__pytest-5103...
+2025-05-06 12:38:06,501 - INFO - Container for pytest-dev__pytest-5103 created: 68dece8ce11364d662ed4e381c441416bbb267f285604f1da7d478201b9101ec
+2025-05-06 12:38:06,777 - INFO - Container for pytest-dev__pytest-5103 started: 68dece8ce11364d662ed4e381c441416bbb267f285604f1da7d478201b9101ec
+2025-05-06 12:38:06,777 - INFO - Intermediate patch for pytest-dev__pytest-5103 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-5103/patch.diff, now applying to container...
+2025-05-06 12:38:07,026 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:38:07,098 - INFO - >>>>> Applied Patch:
 patching file src/_pytest/assertion/rewrite.py
 patching file src/_pytest/assertion/rewrite.py
-Hunk #1 succeeded at 994 (offset 3 lines).
+Hunk #1 succeeded at 1091 (offset 64 lines).
 
-2025-02-12 13:16:30,430 - INFO - Git diff before:
+2025-05-06 12:38:07,225 - INFO - Git diff before:
 diff --git a/src/_pytest/assertion/rewrite.py b/src/_pytest/assertion/rewrite.py
-index 2903b8995..508a8319c 100644
+index 2903b8995..3498a01fe 100644
 --- a/src/_pytest/assertion/rewrite.py
 +++ b/src/_pytest/assertion/rewrite.py
-@@ -968,9 +968,12 @@ warn_explicit(
-         """
-         visit `ast.Call` nodes on Python3.5 and after
-         """
+@@ -964,9 +964,73 @@ warn_explicit(
+         res = self.assign(ast.BinOp(left_expr, binop.op, right_expr))
+         return res, explanation
+ 
++    def visit_Call(self, call):
++        """
++        visit `ast.Call` nodes
++        """
 +        if isinstance(call.func, ast.Name) and call.func.id in ("all", "any"):
 +            return self.visit_Call_all_any(call)
-         new_func, func_expl = self.visit(call.func)
-         arg_expls = []
-         new_args = []
++        elif sys.version_info >= (3, 5):
++            return self.visit_Call_35(call)
++        else:
++            return self.visit_Call_legacy(call)
 +
-         new_kwargs = []
-         for arg in call.args:
-             res, expl = self.visit(arg)
-@@ -991,9 +994,64 @@ warn_explicit(
-         outer_expl = "%s\n{%s = %s\n}" % (res_expl, res_expl, expl)
-         return res, outer_expl
- 
 +    def visit_Call_all_any(self, call):
 +        """
-+        visit `ast.Call` nodes on Python3.5 and after for `all` and `any`
++        visit `ast.Call` nodes for `all` and `any`
 +        """
 +        assert isinstance(call.func, ast.Name)
 +        assert call.func.id in ("all", "any")
 +        assert len(call.args) == 1
 +        assert not call.keywords
-+        assert not call.starargs
-+        assert not call.kwargs
++
++        it = call.args[0]
++        it_res, it_expl = self.visit(it)
++        it_name = self.assign(it_res)
 +
 +        is_all = call.func.id == "all"
 +        is_any = call.func.id == "any"
 +        assert is_all or is_any
 +
-+        iterable, iterable_expl = self.visit(call.args[0])
-+        if isinstance(iterable, ast.Name):
-+            iterable_name = iterable.id
-+        else:
-+            iterable_name = self.variable()
-+            self.statements.append(ast.Assign([ast.Name(iterable_name, ast.Store())], iterable))
-+            iterable = ast.Name(iterable_name, ast.Load())
-+
-+        item_name = self.variable()
-+        self.push_format_context()
-+        self.on_failure.append(
-+            ast.Assign(
-+                [ast.Name(item_name, ast.Store())],
-+                ast.Subscript(iterable, ast.Index(ast.Num(0)), ast.Load()),
-+            )
-+        )
-+        expl = self.pop_format_context(ast.Str(item_name))
-+        expl = "first item in {} is not {}\n{}".format(iterable_name, call.func.id, expl)
-+        expl = self.explanation_param(expl)
-+
-+        body = self.on_failure
-+        fail_save = self.on_failure
-+        self.on_failure = []
-+        self.push_format_context()
-+        item = ast.Name(item_name, ast.Load())
-+        item, item_expl = self.visit(item)
-+        expl = self.pop_format_context(item_expl)
-+        self.on_failure = fail_save
-+        self.on_failure.append(ast.Expr(ast_Call(self.helper("_format_explanation"), [expl], [])))
++        # build a list of (element, bool(element))
++        # if `all`, the bool(element) is inverted to show which element failed
++        # if `any`, the bool(element) is kept to show which element succeeded
++        # this is so the failure message can show which element caused the assertion to fail
++        # e.g. `assert all([1, 2, 0])` will show `[(1, False), (2, False), (0, True)]`
++        # e.g. `assert any([0, 0, 1])` will show `[(0, False), (0, False), (1, True)]`
++        bool_func = ast.Name("bool", ast.Load())
++        bool_call = ast.Call(bool_func, [ast.Name("el", ast.Load())], [])
 +        if is_all:
-+            test = item
-+        elif is_any:
-+            test = ast.UnaryOp(ast.Not(), item)
-+        else:
-+            assert False
-+        self.statements.append(ast.If(test, body, []))
-+        self.statements.append(ast.Assign([ast.Name(item_name, ast.Store())], iterable))
-+        return iterable, iterable_expl
++            bool_call = ast.UnaryOp(ast.Not(), bool_call)
++        el_and_bool = ast.Tuple([ast.Name("el", ast.Load()), bool_call], ast.Load())
++        list_comp = ast.ListComp(
++            el_and_bool,
++            [
++                ast.comprehension(
++                    target=ast.Name("el", ast.Store()),
++                    iter=it_name,
++                    ifs=[],
++                    is_async=0,
++                )
++            ],
++        )
++        list_comp_res = self.assign(list_comp)
++        list_comp_expl = self.explanation_param(self.display(list_comp_res))
 +
-     def visit_Starred(self, starred):
-         # From Python 3.5, a Starred node can appear in a function call
-         res, expl = self.visit(starred.value)
++        # build the call to `all` or `any` with the new list
++        call.args[0] = list_comp_res
++        call_res, call_expl = self.visit_Call_35(call)
 +
-         new_starred = ast.Starred(res, starred.ctx)
-         return new_starred, "*" + expl
-2025-02-12 13:16:30,430 - INFO - Eval script for pytest-dev__pytest-5103 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-5103/eval.sh; copying to container...
-2025-02-12 13:16:37,156 - INFO - Test runtime: 6.53 seconds
-2025-02-12 13:16:37,156 - INFO - Test output for pytest-dev__pytest-5103 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-5103/test_output.txt
-2025-02-12 13:16:37,224 - INFO - Git diff after:
-diff --git a/src/_pytest/assertion/rewrite.py b/src/_pytest/assertion/rewrite.py
-index 2903b8995..508a8319c 100644
---- a/src/_pytest/assertion/rewrite.py
-+++ b/src/_pytest/assertion/rewrite.py
-@@ -968,9 +968,12 @@ warn_explicit(
++        # build the explanation
++        expl = "{}({})\n{{{} = {}}}\n".format(
++            call_expl, it_expl, call_expl, list_comp_expl
++        )
++        return call_res, expl
++
+     def visit_Call_35(self, call):
          """
          visit `ast.Call` nodes on Python3.5 and after
++
          """
-+        if isinstance(call.func, ast.Name) and call.func.id in ("all", "any"):
-+            return self.visit_Call_all_any(call)
          new_func, func_expl = self.visit(call.func)
          arg_expls = []
-         new_args = []
-+
-         new_kwargs = []
-         for arg in call.args:
-             res, expl = self.visit(arg)
-@@ -991,9 +994,64 @@ warn_explicit(
+@@ -1027,17 +1091,10 @@ warn_explicit(
          outer_expl = "%s\n{%s = %s\n}" % (res_expl, res_expl, expl)
          return res, outer_expl
  
+-    # ast.Call signature changed on 3.5,
+-    # conditionally change  which methods is named
+-    # visit_Call depending on Python version
+-    if sys.version_info >= (3, 5):
+-        visit_Call = visit_Call_35
+-    else:
+-        visit_Call = visit_Call_legacy
+-
+     def visit_Attribute(self, attr):
+         if not isinstance(attr.ctx, ast.Load):
+             return self.generic_visit(attr)
++
+         value, value_expl = self.visit(attr.value)
+         res = self.assign(ast.Attribute(value, attr.attr, ast.Load()))
+         res_expl = self.explanation_param(self.display(res))
+2025-05-06 12:38:07,225 - INFO - Eval script for pytest-dev__pytest-5103 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-5103/eval.sh; copying to container...
+2025-05-06 12:38:19,466 - INFO - Test runtime: 12.04 seconds
+2025-05-06 12:38:19,467 - INFO - Test output for pytest-dev__pytest-5103 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-5103/test_output.txt
+2025-05-06 12:38:19,531 - INFO - Git diff after:
+diff --git a/src/_pytest/assertion/rewrite.py b/src/_pytest/assertion/rewrite.py
+index 2903b8995..3498a01fe 100644
+--- a/src/_pytest/assertion/rewrite.py
++++ b/src/_pytest/assertion/rewrite.py
+@@ -964,9 +964,73 @@ warn_explicit(
+         res = self.assign(ast.BinOp(left_expr, binop.op, right_expr))
+         return res, explanation
+ 
++    def visit_Call(self, call):
++        """
++        visit `ast.Call` nodes
++        """
++        if isinstance(call.func, ast.Name) and call.func.id in ("all", "any"):
++            return self.visit_Call_all_any(call)
++        elif sys.version_info >= (3, 5):
++            return self.visit_Call_35(call)
++        else:
++            return self.visit_Call_legacy(call)
++
 +    def visit_Call_all_any(self, call):
 +        """
-+        visit `ast.Call` nodes on Python3.5 and after for `all` and `any`
++        visit `ast.Call` nodes for `all` and `any`
 +        """
 +        assert isinstance(call.func, ast.Name)
 +        assert call.func.id in ("all", "any")
 +        assert len(call.args) == 1
 +        assert not call.keywords
-+        assert not call.starargs
-+        assert not call.kwargs
++
++        it = call.args[0]
++        it_res, it_expl = self.visit(it)
++        it_name = self.assign(it_res)
 +
 +        is_all = call.func.id == "all"
 +        is_any = call.func.id == "any"
 +        assert is_all or is_any
 +
-+        iterable, iterable_expl = self.visit(call.args[0])
-+        if isinstance(iterable, ast.Name):
-+            iterable_name = iterable.id
-+        else:
-+            iterable_name = self.variable()
-+            self.statements.append(ast.Assign([ast.Name(iterable_name, ast.Store())], iterable))
-+            iterable = ast.Name(iterable_name, ast.Load())
-+
-+        item_name = self.variable()
-+        self.push_format_context()
-+        self.on_failure.append(
-+            ast.Assign(
-+                [ast.Name(item_name, ast.Store())],
-+                ast.Subscript(iterable, ast.Index(ast.Num(0)), ast.Load()),
-+            )
-+        )
-+        expl = self.pop_format_context(ast.Str(item_name))
-+        expl = "first item in {} is not {}\n{}".format(iterable_name, call.func.id, expl)
-+        expl = self.explanation_param(expl)
-+
-+        body = self.on_failure
-+        fail_save = self.on_failure
-+        self.on_failure = []
-+        self.push_format_context()
-+        item = ast.Name(item_name, ast.Load())
-+        item, item_expl = self.visit(item)
-+        expl = self.pop_format_context(item_expl)
-+        self.on_failure = fail_save
-+        self.on_failure.append(ast.Expr(ast_Call(self.helper("_format_explanation"), [expl], [])))
++        # build a list of (element, bool(element))
++        # if `all`, the bool(element) is inverted to show which element failed
++        # if `any`, the bool(element) is kept to show which element succeeded
++        # this is so the failure message can show which element caused the assertion to fail
++        # e.g. `assert all([1, 2, 0])` will show `[(1, False), (2, False), (0, True)]`
++        # e.g. `assert any([0, 0, 1])` will show `[(0, False), (0, False), (1, True)]`
++        bool_func = ast.Name("bool", ast.Load())
++        bool_call = ast.Call(bool_func, [ast.Name("el", ast.Load())], [])
 +        if is_all:
-+            test = item
-+        elif is_any:
-+            test = ast.UnaryOp(ast.Not(), item)
-+        else:
-+            assert False
-+        self.statements.append(ast.If(test, body, []))
-+        self.statements.append(ast.Assign([ast.Name(item_name, ast.Store())], iterable))
-+        return iterable, iterable_expl
++            bool_call = ast.UnaryOp(ast.Not(), bool_call)
++        el_and_bool = ast.Tuple([ast.Name("el", ast.Load()), bool_call], ast.Load())
++        list_comp = ast.ListComp(
++            el_and_bool,
++            [
++                ast.comprehension(
++                    target=ast.Name("el", ast.Store()),
++                    iter=it_name,
++                    ifs=[],
++                    is_async=0,
++                )
++            ],
++        )
++        list_comp_res = self.assign(list_comp)
++        list_comp_expl = self.explanation_param(self.display(list_comp_res))
 +
-     def visit_Starred(self, starred):
-         # From Python 3.5, a Starred node can appear in a function call
-         res, expl = self.visit(starred.value)
++        # build the call to `all` or `any` with the new list
++        call.args[0] = list_comp_res
++        call_res, call_expl = self.visit_Call_35(call)
 +
-         new_starred = ast.Starred(res, starred.ctx)
-         return new_starred, "*" + expl
-2025-02-12 13:16:37,224 - INFO - Grading answer for pytest-dev__pytest-5103...
-2025-02-12 13:16:37,225 - INFO - report: {'pytest-dev__pytest-5103': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['testing/test_assertrewrite.py::TestAssertionRewrite::test_unroll_expression']}, 'PASS_TO_PASS': {'success': [], 'failure': ['testing/test_assertrewrite.py::TestAssertionRewrite::test_place_initial_imports', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_dont_rewrite', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_name', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_dont_rewrite_if_hasattr_fails', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assert_already_has_message', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_boolop', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_short_circuit_evaluation', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_unary_op', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_binary_op', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_boolop_percent', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_call', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_attribute', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_comparisons', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_len', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_custom_reprcompare', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assert_raising_nonzero_in_comparison', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_formatchar', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_custom_repr', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_custom_repr_non_ascii', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_read_pyc', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_dont_rewrite_plugin', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_multiline', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_tuple', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_expr', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_escape', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_messages_bytes', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_at_operator_issue1290', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_starred_with_side_effect', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_for_loop', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_pycache_is_a_file', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_pycache_is_readonly', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_zipfile', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_readonly', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_dont_write_bytecode', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_orphaned_pyc_file', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_pyc_vs_pyo', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_package', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_translate_newlines', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_package_without__init__py', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_warning', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_module_imported_from_conftest', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_remember_rewritten_modules', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_warning_using_pytest_plugins', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_warning_using_pytest_plugins_env_var', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_loader_is_package_false_for_module', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_loader_is_package_true_for_package', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_sys_meta_path_munged', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_write_pyc', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_resources_provider_for_loader', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_reload_is_same', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_reload_reloads', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_get_data_support', 'testing/test_assertrewrite.py::test_issue731', 'testing/test_assertrewrite.py::TestIssue925::test_simple_case', 'testing/test_assertrewrite.py::TestIssue925::test_long_case', 'testing/test_assertrewrite.py::TestIssue925::test_many_brackets', 'testing/test_assertrewrite.py::TestIssue2121::test_rewrite_python_files_contain_subdirs', 'testing/test_assertrewrite.py::test_source_mtime_long_long[-1]', 'testing/test_assertrewrite.py::test_source_mtime_long_long[1]', 'testing/test_assertrewrite.py::test_rewrite_infinite_recursion', 'testing/test_assertrewrite.py::TestEarlyRewriteBailout::test_basic', 'testing/test_assertrewrite.py::TestEarlyRewriteBailout::test_pattern_contains_subdirectories', 'testing/test_assertrewrite.py::TestEarlyRewriteBailout::test_cwd_changed']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
++        # build the explanation
++        expl = "{}({})\n{{{} = {}}}\n".format(
++            call_expl, it_expl, call_expl, list_comp_expl
++        )
++        return call_res, expl
++
+     def visit_Call_35(self, call):
+         """
+         visit `ast.Call` nodes on Python3.5 and after
++
+         """
+         new_func, func_expl = self.visit(call.func)
+         arg_expls = []
+@@ -1027,17 +1091,10 @@ warn_explicit(
+         outer_expl = "%s\n{%s = %s\n}" % (res_expl, res_expl, expl)
+         return res, outer_expl
+ 
+-    # ast.Call signature changed on 3.5,
+-    # conditionally change  which methods is named
+-    # visit_Call depending on Python version
+-    if sys.version_info >= (3, 5):
+-        visit_Call = visit_Call_35
+-    else:
+-        visit_Call = visit_Call_legacy
+-
+     def visit_Attribute(self, attr):
+         if not isinstance(attr.ctx, ast.Load):
+             return self.generic_visit(attr)
++
+         value, value_expl = self.visit(attr.value)
+         res = self.assign(ast.Attribute(value, attr.attr, ast.Load()))
+         res_expl = self.explanation_param(self.display(res))
+2025-05-06 12:38:19,531 - INFO - Grading answer for pytest-dev__pytest-5103...
+2025-05-06 12:38:19,543 - INFO - report: {'pytest-dev__pytest-5103': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['testing/test_assertrewrite.py::TestAssertionRewrite::test_unroll_expression']}, 'PASS_TO_PASS': {'success': ['testing/test_assertrewrite.py::TestAssertionRewrite::test_place_initial_imports', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_dont_rewrite', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_name', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_dont_rewrite_if_hasattr_fails', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assert_already_has_message', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_boolop', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_short_circuit_evaluation', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_unary_op', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_binary_op', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_boolop_percent', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_call', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_attribute', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_comparisons', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_len', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_custom_reprcompare', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assert_raising_nonzero_in_comparison', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_formatchar', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_custom_repr', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_custom_repr_non_ascii', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_read_pyc', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_dont_rewrite_plugin', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_multiline', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_tuple', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_expr', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_message_escape', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_assertion_messages_bytes', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_at_operator_issue1290', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_starred_with_side_effect', 'testing/test_assertrewrite.py::TestAssertionRewrite::test_for_loop', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_pycache_is_a_file', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_pycache_is_readonly', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_zipfile', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_readonly', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_dont_write_bytecode', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_orphaned_pyc_file', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_pyc_vs_pyo', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_package', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_translate_newlines', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_package_without__init__py', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_warning', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_module_imported_from_conftest', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_remember_rewritten_modules', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_warning_using_pytest_plugins', 'testing/test_assertrewrite.py::TestRewriteOnImport::test_rewrite_warning_using_pytest_plugins_env_var', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_loader_is_package_false_for_module', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_loader_is_package_true_for_package', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_sys_meta_path_munged', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_write_pyc', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_resources_provider_for_loader', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_reload_is_same', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_reload_reloads', 'testing/test_assertrewrite.py::TestAssertionRewriteHookDetails::test_get_data_support', 'testing/test_assertrewrite.py::test_issue731', 'testing/test_assertrewrite.py::TestIssue925::test_simple_case', 'testing/test_assertrewrite.py::TestIssue925::test_long_case', 'testing/test_assertrewrite.py::TestIssue925::test_many_brackets', 'testing/test_assertrewrite.py::TestIssue2121::test_rewrite_python_files_contain_subdirs', 'testing/test_assertrewrite.py::test_source_mtime_long_long[-1]', 'testing/test_assertrewrite.py::test_source_mtime_long_long[1]', 'testing/test_assertrewrite.py::test_rewrite_infinite_recursion', 'testing/test_assertrewrite.py::TestEarlyRewriteBailout::test_basic', 'testing/test_assertrewrite.py::TestEarlyRewriteBailout::test_pattern_contains_subdirectories', 'testing/test_assertrewrite.py::TestEarlyRewriteBailout::test_cwd_changed'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for pytest-dev__pytest-5103: resolved: False
-2025-02-12 13:16:37,226 - INFO - Attempting to stop container sweb.eval.pytest-dev__pytest-5103.20250212_130622...
-2025-02-12 13:16:52,508 - INFO - Attempting to remove container sweb.eval.pytest-dev__pytest-5103.20250212_130622...
-2025-02-12 13:16:52,520 - INFO - Container sweb.eval.pytest-dev__pytest-5103.20250212_130622 removed.
+2025-05-06 12:38:19,544 - INFO - Attempting to stop container sweb.eval.pytest-dev__pytest-5103.20250506_122807...
+2025-05-06 12:38:34,844 - INFO - Attempting to remove container sweb.eval.pytest-dev__pytest-5103.20250506_122807...
+2025-05-06 12:38:34,891 - INFO - Container sweb.eval.pytest-dev__pytest-5103.20250506_122807 removed.

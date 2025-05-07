@@ -369,10 +369,10 @@ index 2ba617dfc9..b2754b4ddb 100644
 +            self.assertEqual(parsed[1]["title"], expected_title)
 + git diff d4d5427571b4bf3a21c902276c2a00215c2a37cc
 diff --git a/django/utils/html.py b/django/utils/html.py
-index d0bc97be80..09bced3779 100644
+index d0bc97be80..e8337dfcdf 100644
 --- a/django/utils/html.py
 +++ b/django/utils/html.py
-@@ -59,18 +59,25 @@ _json_script_escapes = {
+@@ -59,18 +59,24 @@ _json_script_escapes = {
  }
  
  
@@ -383,9 +383,8 @@ index d0bc97be80..09bced3779 100644
      value is safe to be output anywhere except for inside a tag attribute. Wrap
      the escaped JSON in a script tag.
 +
-+    If encoder is provided, it must be a callable that accepts a Python object
-+    and returns a JSON-encoded string. By default, the DjangoJSONEncoder is used
-+    to serialize the value.
++    If encoder is provided, it must be a callable that accepts a value and
++    returns a JSON encoded string. The default encoder is DjangoJSONEncoder.
      """
      from django.core.serializers.json import DjangoJSONEncoder
  
@@ -540,8 +539,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20220628074247-0.editable-py3-none-any.whl size=27100 sha256=02dc5f70c930470b7f18b11665f489238003cadb15c7d2e4547a9bd4b83aaaa4
-  Stored in directory: /tmp/pip-ephem-wheel-cache-utnpfjx5/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20220628074247-0.editable-py3-none-any.whl size=27168 sha256=a23f37d9e4376547eac1c52b31bab9aef1054dd80c1025dffc632f3d7bed1115
+  Stored in directory: /tmp/pip-ephem-wheel-cache-oagglajw/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -576,7 +575,7 @@ test_urlize (utils_tests.test_html.TestUtilsHtml) ... ok
 test_urlize_unchanged_inputs (utils_tests.test_html.TestUtilsHtml) ... ok
 
 ----------------------------------------------------------------------
-Ran 18 tests in 0.154s
+Ran 18 tests in 0.166s
 
 OK
 Testing against Django installed in '/testbed/django'

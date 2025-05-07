@@ -150,22 +150,25 @@ Date:   Sun Feb 9 14:36:06 2020 -0600
 
 + git diff b17ef6effe278d5b861d65896cc53442a6370d8f
 diff --git a/sympy/matrices/expressions/blockmatrix.py b/sympy/matrices/expressions/blockmatrix.py
-index 11aebbc59f..f9e37ab91b 100644
+index 11aebbc59f..afbb5dda4e 100644
 --- a/sympy/matrices/expressions/blockmatrix.py
 +++ b/sympy/matrices/expressions/blockmatrix.py
-@@ -298,9 +298,12 @@ def diag(self):
+@@ -298,12 +298,15 @@ def diag(self):
      def blocks(self):
          from sympy.matrices.immutable import ImmutableDenseMatrix
          mats = self.args
 +        if len(mats) == 1:
-+            return ImmutableDenseMatrix(1, 1, [mats[0]])
++            return ImmutableDenseMatrix([[mats[0]]])
          data = [[mats[i] if i == j else ZeroMatrix(mats[i].rows, mats[j].cols)
                          for j in range(len(mats))]
                          for i in range(len(mats))]
-+
          return ImmutableDenseMatrix(data)
  
      @property
++
+     def shape(self):
+         return (sum(block.rows for block in self.args),
+                 sum(block.cols for block in self.args))
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -316,8 +319,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        61271625
-hash randomization: on (PYTHONHASHSEED=2340717342)
+random seed:        54179504
+hash randomization: on (PYTHONHASHSEED=692550236)
 
 sympy/matrices/expressions/tests/test_blockmatrix.py[17] 
 test_bc_matmul ok
@@ -328,7 +331,7 @@ test_block_plus_ident ok
 test_BlockMatrix ok
 test_block_collapse_explicit_matrices ok
 test_issue_17624 ok
-test_issue_18618 ok
+test_issue_18618 E
 test_BlockMatrix_trace ok
 test_BlockMatrix_Determinant ok
 test_squareBlockMatrix ok
@@ -336,9 +339,33 @@ test_BlockDiagMatrix ok
 test_blockcut ok
 test_reblock_2x2 ok
 test_deblock ok
-test_block_collapse_type ok                                                 [OK]
+test_block_collapse_type ok                                               [FAIL]
 
 
-================== tests finished: 17 passed, in 0.32 seconds ==================
+________________________________________________________________________________
+____ sympy/matrices/expressions/tests/test_blockmatrix.py:test_issue_18618 _____
+Traceback (most recent call last):
+  File "/testbed/sympy/matrices/expressions/tests/test_blockmatrix.py", line 115, in test_issue_18618
+    assert A == Matrix(BlockDiagMatrix(A))
+  File "/testbed/sympy/matrices/dense.py", line 296, in __new__
+    return cls._new(*args, **kwargs)
+  File "/testbed/sympy/matrices/dense.py", line 308, in _new
+    rows, cols, flat_list = cls._handle_creation_inputs(*args, **kwargs)
+  File "/testbed/sympy/matrices/matrices.py", line 964, in _handle_creation_inputs
+    return args[0].rows, args[0].cols, args[0].as_explicit()._mat
+  File "/testbed/sympy/matrices/expressions/matexpr.py", line 345, in as_explicit
+    return ImmutableDenseMatrix([[    self[i, j]
+  File "/testbed/sympy/matrices/expressions/matexpr.py", line 345, in <listcomp>
+    return ImmutableDenseMatrix([[    self[i, j]
+  File "/testbed/sympy/matrices/expressions/matexpr.py", line 345, in <listcomp>
+    return ImmutableDenseMatrix([[    self[i, j]
+  File "/testbed/sympy/matrices/expressions/matexpr.py", line 296, in __getitem__
+    return self._entry(i, j)
+  File "/testbed/sympy/matrices/expressions/blockmatrix.py", line 247, in _entry
+    return self.blocks[row_block, col_block][i, j]
+TypeError: 'One' object is not subscriptable
+
+=========== tests finished: 16 passed, 1 exceptions, in 0.35 seconds ===========
+DO *NOT* COMMIT!
 + git checkout b17ef6effe278d5b861d65896cc53442a6370d8f sympy/matrices/expressions/tests/test_blockmatrix.py
 Updated 1 path from ce131f42cb

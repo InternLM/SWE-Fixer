@@ -316,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        44536780
-hash randomization: on (PYTHONHASHSEED=4198339235)
+random seed:        403337
+hash randomization: on (PYTHONHASHSEED=4012941531)
 
 sympy/printing/tests/test_latex.py[126] 
 test_printmethod ok
@@ -485,7 +485,7 @@ Traceback (most recent call last):
 AssertionError
 
  tests finished: 119 passed, 3 failed, 2 expected to fail, 2 exceptions, 
-in 2.22 seconds 
+in 2.27 seconds 
 DO *NOT* COMMIT!
 + git checkout fb59d703e6863ed803c98177b59197b5513332e9 sympy/printing/tests/test_latex.py
 Updated 1 path from e1ae244c37

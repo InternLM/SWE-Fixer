@@ -1,25 +1,39 @@
 
 diff --git a/django/utils/decorators.py b/django/utils/decorators.py
-index 9a57ac9..6386ee4 100644
+index 9a57ac9..11eadc3 100644
 --- a/django/utils/decorators.py
 +++ b/django/utils/decorators.py
-@@ -13,6 +13,9 @@ class classonlymethod(classmethod):
- def _update_method_wrapper(_wrapper, decorator):
-     # _multi_decorate()'s bound_method isn't available in this scope. Cheat by
-     # using it on a dummy function.
-+    if isinstance(decorator, partial):
-+        # partial objects don't have a __name__ attribute.
-+        dummy.__name__ = ''
-     @decorator
-     def dummy(*args, **kwargs):
-         pass
-@@ -50,6 +53,9 @@ def _multi_decorate(decorators, method):
-     return _wrapper
+@@ -32,9 +32,14 @@ def _multi_decorate(decorators, method):
+     else:
+         decorators = [decorators]
  
++    # partial objects don't have a __name__, so we need to look for the original
++    # function to get the correct name for the bound method.
++    func = method.func if isinstance(method, partial) else method
++
+     def _wrapper(self, *args, **kwargs):
+         # bound_method has the signature that 'decorator' expects i.e. no
+         # 'self' argument, but it's a closure over self so it can call
++
+         # 'func'. Also, wrap method.__get__() in a function because new
+         # attributes can't be set on bound method objects, only on functions.
+         bound_method = partial(method.__get__(self, type(self)))
+
+diff --git a/django/utils/decorators.py b/django/utils/decorators.py
+index 9a57ac9..f4b4c7e 100644
+--- a/django/utils/decorators.py
++++ b/django/utils/decorators.py
+@@ -37,11 +37,12 @@ def _multi_decorate(decorators, method):
+         # 'self' argument, but it's a closure over self so it can call
+         # 'func'. Also, wrap method.__get__() in a function because new
+         # attributes can't be set on bound method objects, only on functions.
+-        bound_method = partial(method.__get__(self, type(self)))
++        bound_method = partial(func.__get__(self, type(self)))
+         for dec in decorators:
+             bound_method = dec(bound_method)
+         return bound_method(*args, **kwargs)
  
 +
-+
-+
- def method_decorator(decorator, name=''):
-     """
-     Convert a function decorator into a method decorator
+     # Copy any attributes that a decorator adds to the function it decorates.
+     for dec in decorators:
+         _update_method_wrapper(_wrapper, dec)

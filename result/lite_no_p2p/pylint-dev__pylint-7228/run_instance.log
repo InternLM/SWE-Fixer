@@ -1,0 +1,56 @@
+2025-05-06 11:23:51,773 - INFO - Environment image sweb.env.x86_64.0c609b65ef40b42410cb20:latest found for pylint-dev__pylint-7228
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-7228:latest for pylint-dev__pylint-7228
+2025-05-06 11:23:51,776 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-7228:latest already exists, skipping build.
+2025-05-06 11:23:51,776 - INFO - Creating container for pylint-dev__pylint-7228...
+2025-05-06 11:23:51,808 - INFO - Container for pylint-dev__pylint-7228 created: aefe1471decf0cb663b573bddddb4b7f7056f9a05dbcafae89c8c7da17c92195
+2025-05-06 11:23:52,127 - INFO - Container for pylint-dev__pylint-7228 started: aefe1471decf0cb663b573bddddb4b7f7056f9a05dbcafae89c8c7da17c92195
+2025-05-06 11:23:52,129 - INFO - Intermediate patch for pylint-dev__pylint-7228 written to logs/run_evaluation/20250506_111427/SWE-Fixer/pylint-dev__pylint-7228/patch.diff, now applying to container...
+2025-05-06 11:23:52,377 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:23:52,440 - INFO - >>>>> Applied Patch:
+patching file pylint/lint/base_options.py
+
+2025-05-06 11:23:52,825 - INFO - Git diff before:
+diff --git a/pylint/lint/base_options.py b/pylint/lint/base_options.py
+index 3ea95c745..da85745a7 100644
+--- a/pylint/lint/base_options.py
++++ b/pylint/lint/base_options.py
+@@ -55,10 +55,11 @@ def _make_linter_options(linter: PyLinter) -> Options:
+                 "type": "regexp_csv",
+                 "metavar": "<pattern>[,<pattern>...]",
+                 "dest": "black_list_re",
+-                "default": (re.compile(r"^\.#"),),
++                "default": (re.compile(r"^\.#", re.UNICODE),),
+                 "help": "Files or directories matching the regular expression patterns are"
+                 " skipped. The regex matches against base names, not paths. The default value "
+                 "ignores Emacs file locks",
++
+             },
+         ),
+         (
+2025-05-06 11:23:52,825 - INFO - Eval script for pylint-dev__pylint-7228 written to logs/run_evaluation/20250506_111427/SWE-Fixer/pylint-dev__pylint-7228/eval.sh; copying to container...
+2025-05-06 11:24:02,504 - INFO - Test runtime: 9.47 seconds
+2025-05-06 11:24:02,504 - INFO - Test output for pylint-dev__pylint-7228 written to logs/run_evaluation/20250506_111427/SWE-Fixer/pylint-dev__pylint-7228/test_output.txt
+2025-05-06 11:24:02,580 - INFO - Git diff after:
+diff --git a/pylint/lint/base_options.py b/pylint/lint/base_options.py
+index 3ea95c745..da85745a7 100644
+--- a/pylint/lint/base_options.py
++++ b/pylint/lint/base_options.py
+@@ -55,10 +55,11 @@ def _make_linter_options(linter: PyLinter) -> Options:
+                 "type": "regexp_csv",
+                 "metavar": "<pattern>[,<pattern>...]",
+                 "dest": "black_list_re",
+-                "default": (re.compile(r"^\.#"),),
++                "default": (re.compile(r"^\.#", re.UNICODE),),
+                 "help": "Files or directories matching the regular expression patterns are"
+                 " skipped. The regex matches against base names, not paths. The default value "
+                 "ignores Emacs file locks",
++
+             },
+         ),
+         (
+2025-05-06 11:24:02,580 - INFO - Grading answer for pylint-dev__pylint-7228...
+2025-05-06 11:24:02,587 - INFO - report: {'pylint-dev__pylint-7228': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/config/test_config.py::test_regex_error', 'tests/config/test_config.py::test_csv_regex_error']}, 'PASS_TO_PASS': {'success': ['tests/config/test_config.py::test_can_read_toml_env_variable', 'tests/config/test_config.py::test_unknown_message_id', 'tests/config/test_config.py::test_unknown_option_name', 'tests/config/test_config.py::test_unknown_short_option_name', 'tests/config/test_config.py::test_unknown_confidence', 'tests/config/test_config.py::test_empty_confidence', 'tests/config/test_config.py::test_unknown_yes_no', 'tests/config/test_config.py::test_unknown_py_version', 'tests/config/test_config.py::test_short_verbose', 'tests/config/test_config.py::test_argument_separator'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-7228: resolved: False
+2025-05-06 11:24:02,587 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-7228.20250506_111427...
+2025-05-06 11:24:17,889 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-7228.20250506_111427...
+2025-05-06 11:24:17,906 - INFO - Container sweb.eval.pylint-dev__pylint-7228.20250506_111427 removed.

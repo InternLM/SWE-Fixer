@@ -317,31 +317,33 @@ index aafaa2023..002db0d76 100644
 +undefined-variable:91:18:91:31:DerivedFrom:Undefined variable 'UnknownParent':UNDEFINED
 + git diff 397c1703e8ae6349d33f7b99f45b2ccaf581e666
 diff --git a/pylint/lint/pylinter.py b/pylint/lint/pylinter.py
-index bc227d2c4..545794fb9 100644
+index bc227d2c4..6ce8805de 100644
 --- a/pylint/lint/pylinter.py
 +++ b/pylint/lint/pylinter.py
-@@ -587,9 +587,15 @@ class PyLinter(
- 
+@@ -588,12 +588,11 @@ class PyLinter(
          Returns iterator of paths to discovered modules and packages.
          """
-+
-+        def module_name_collision(root: str, files: list[str]) -> bool:
-+            basename = os.path.basename(root)
-+            return any(Path(file).stem == basename for file in files)
-+
          for something in files_or_modules:
-             if os.path.isdir(something) and not os.path.isfile(
-                 os.path.join(something, "__init__.py")
-+
-             ):
+-            if os.path.isdir(something) and not os.path.isfile(
+-                os.path.join(something, "__init__.py")
+-            ):
++            if os.path.isdir(something):
                  skip_subtrees: list[str] = []
                  for root, _, files in os.walk(something):
-@@ -606,10 +612,11 @@ class PyLinter(
+                     if any(root.startswith(s) for s in skip_subtrees):
++
+                         # Skip subtree of already discovered package.
+                         continue
+ 
+@@ -606,10 +605,14 @@ class PyLinter(
                          skip_subtrees.append(root)
                          continue
  
 -                    if "__init__.py" in files:
-+                    if "__init__.py" in files or module_name_collision(root, files):
++                    if (
++                        "__init__.py" in files
++                        or os.path.basename(root) + ".py" in files
++                    ):
                          skip_subtrees.append(root)
                          yield root
                      else:
@@ -525,7 +527,7 @@ tests/lint/unittest_lint.py ............................................ [ 79%]
 =================================== FAILURES ===================================
 _________________ TestImportsChecker.test_wildcard_import_init _________________
 
-self = <checkers.unittest_imports.TestImportsChecker object at 0x7ff391693ee0>
+self = <checkers.unittest_imports.TestImportsChecker object at 0x7fca94c80550>
 
     def test_wildcard_import_init(self) -> None:
         module = astroid.MANAGER.ast_from_module_name("init_wildcard", REGR_DATA)
@@ -544,9 +546,9 @@ pylint/testutils/checker_test_case.py:40: in assertNoMessages
     next(self.gen)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <checkers.unittest_imports.TestImportsChecker object at 0x7ff391693ee0>
+self = <checkers.unittest_imports.TestImportsChecker object at 0x7fca94c80550>
 ignore_position = False, messages = ()
-got = [MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7ff3913f1340>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)]
+got = [MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7fca9479feb0>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)]
 no_msg = 'No message.'
 
     @contextlib.contextmanager
@@ -580,16 +582,16 @@ E         Expected:
 E         No message.
 E         
 E         Got:
-E         MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7ff3913f1340>, args="'empty'", confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
+E         MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7fca9479feb0>, args="'empty'", confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
 E         
 E       assert 0 == 1
 E        +  where 0 = len(())
-E        +  and   1 = len([MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7ff3913f1340>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)])
+E        +  and   1 = len([MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7fca9479feb0>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)])
 
 pylint/testutils/checker_test_case.py:66: AssertionError
 _______________ TestImportsChecker.test_wildcard_import_non_init _______________
 
-self = <checkers.unittest_imports.TestImportsChecker object at 0x7ff3916935b0>
+self = <checkers.unittest_imports.TestImportsChecker object at 0x7fca94c80dc0>
 
     def test_wildcard_import_non_init(self) -> None:
         module = astroid.MANAGER.ast_from_module_name("wildcard", REGR_DATA)
@@ -614,10 +616,10 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     next(self.gen)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <checkers.unittest_imports.TestImportsChecker object at 0x7ff3916935b0>
+self = <checkers.unittest_imports.TestImportsChecker object at 0x7fca94c80dc0>
 ignore_position = False
-messages = (MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7ff3914654c0>, args='empty', confidence=Confi...FINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19),)
-got = [MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7ff3914654c0>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)]
+messages = (MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7fca948c9b50>, args='empty', confidence=Confi...FINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19),)
+got = [MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7fca948c9b50>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)]
 no_msg = 'No message.'
 
     @contextlib.contextmanager
@@ -648,15 +650,15 @@ no_msg = 'No message.'
 E       AssertionError: Expected messages did not match actual.
 E         
 E         Expected:
-E         MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7ff3914654c0>, args='empty', confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
+E         MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7fca948c9b50>, args='empty', confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
 E         
 E         Got:
-E         MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7ff3914654c0>, args="'empty'", confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
-E         MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7ff3914654c0>, args='empty', confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
+E         MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7fca948c9b50>, args="'empty'", confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
+E         MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7fca948c9b50>, args='empty', confidence=Confidence(name='UNDEFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)
 E         
 E       assert 1 == 2
-E        +  where 1 = len((MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7ff3914654c0>, args='empty', confidence=Confi...FINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19),))
-E        +  and   2 = len([MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7ff3914654c0>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)])
+E        +  where 1 = len((MessageTest(msg_id='wildcard-import', line=1, node=<ImportFrom l.1 at 0x7fca948c9b50>, args='empty', confidence=Confi...FINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19),))
+E        +  and   2 = len([MessageTest(msg_id='import-error', line=1, node=<ImportFrom l.1 at 0x7fca948c9b50>, args="'empty'", confidence=Confid...EFINED', description='Warning without any associated confidence level.'), col_offset=0, end_line=1, end_col_offset=19)])
 
 pylint/testutils/checker_test_case.py:66: AssertionError
 _____________________ test_identically_named_nested_module _____________________
@@ -741,6 +743,6 @@ XPASS tests/checkers/unittest_imports.py::TestImportsChecker::test_relative_beyo
 FAILED tests/checkers/unittest_imports.py::TestImportsChecker::test_wildcard_import_init
 FAILED tests/checkers/unittest_imports.py::TestImportsChecker::test_wildcard_import_non_init
 FAILED tests/lint/unittest_lint.py::test_identically_named_nested_module - Ke...
-=================== 3 failed, 59 passed, 1 xpassed in 3.38s ====================
+=================== 3 failed, 59 passed, 1 xpassed in 3.64s ====================
 + git checkout 397c1703e8ae6349d33f7b99f45b2ccaf581e666 tests/checkers/unittest_imports.py tests/lint/unittest_lint.py
 Updated 2 paths from f8cd513ab

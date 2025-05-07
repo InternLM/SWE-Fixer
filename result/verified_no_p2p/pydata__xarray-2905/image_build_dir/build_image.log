@@ -1,0 +1,42 @@
+2024-12-06 19:46:54,643 - INFO - Building image sweb.eval.x86_64.pydata__xarray-2905:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.502d8fc6ebccd881244091:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-06 19:46:54,643 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/pydata/xarray /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard 7c4e2ac83f7b4306296ff9b7b51aaf016e5ad614
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+python -m pip install -e .
+
+2024-12-06 19:46:54,644 - INFO - Building docker image sweb.eval.x86_64.pydata__xarray-2905:latest in logs/build_images/instances/sweb.eval.x86_64.pydata__xarray-2905__latest with platform linux/x86_64
+2024-12-06 19:46:54,653 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.502d8fc6ebccd881244091:latest
+2024-12-06 19:46:54,654 - INFO - 
+2024-12-06 19:46:54,654 - INFO - ---> f725a3b75306
+2024-12-06 19:46:54,654 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-06 19:46:54,654 - INFO - 
+2024-12-06 19:46:54,659 - INFO - ---> Using cache
+2024-12-06 19:46:54,659 - INFO - ---> 393e8983e383
+2024-12-06 19:46:54,659 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-06 19:46:54,659 - INFO - 
+2024-12-06 19:46:54,659 - INFO - ---> Using cache
+2024-12-06 19:46:54,659 - INFO - ---> 7389c0dceaf0
+2024-12-06 19:46:54,660 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-06 19:46:54,660 - INFO - 
+2024-12-06 19:46:54,660 - INFO - ---> Using cache
+2024-12-06 19:46:54,660 - INFO - ---> 840fa976cd5f
+2024-12-06 19:46:54,660 - INFO - Successfully built 840fa976cd5f
+2024-12-06 19:46:54,669 - INFO - Successfully tagged sweb.eval.x86_64.pydata__xarray-2905:latest
+2024-12-06 19:46:54,670 - INFO - Image built successfully!

@@ -1,0 +1,24 @@
+
+diff --git a/django/db/models/base.py b/django/db/models/base.py
+index efe8580..13b3502 100644
+--- a/django/db/models/base.py
++++ b/django/db/models/base.py
+@@ -1308,11 +1308,16 @@ class Model(metaclass=ModelBase):
+                 isinstance(cls._meta.pk, OneToOneField) and
+                 cls._meta.pk.remote_field.parent_link
+             ) and
+-            not settings.is_overridden('DEFAULT_AUTO_FIELD') and
+-            not cls._meta.app_config._is_default_auto_field_overridden
++            not (
++                settings.is_overridden('DEFAULT_AUTO_FIELD') or
++                cls._meta.app_config._is_default_auto_field_overridden or
++                issubclass(cls._meta.pk.__class__, models.BigAutoField) or
++                issubclass(cls._meta.pk.__class__, models.SmallAutoField)
++            )
+         ):
+             return [
+                 checks.Warning(
++
+                     f"Auto-created primary key used when not defining a "
+                     f"primary key type, by default "
+                     f"'{settings.DEFAULT_AUTO_FIELD}'.",

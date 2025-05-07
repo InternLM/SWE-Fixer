@@ -314,16 +314,16 @@ Requirement already satisfied: sqlparse>=0.2.2 in /opt/miniconda3/envs/testbed/l
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-5.0.dev20230206094108-0.editable-py3-none-any.whl size=27344 sha256=db5a05ffd811e20856e097773621d2f2c9131fbd83dc41a8e3a38c4938fc1f01
-  Stored in directory: /tmp/pip-ephem-wheel-cache-cw1ycfdi/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for Django: filename=django-5.0.dev20230206094108-0.editable-py3-none-any.whl size=27416 sha256=41e000045ac39eb96b9fdd0e02e5bd16c6f575f7c61ec6ffdac09bd63d18c2ab
+  Stored in directory: /tmp/pip-ephem-wheel-cache-1ls3n8bo/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
     Found existing installation: Django 5.0.dev20230206094108
     Uninstalling Django-5.0.dev20230206094108:
       Successfully uninstalled Django-5.0.dev20230206094108
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 Successfully installed Django-5.0.dev20230206094108
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout bd366ca2aeffa869b7dbc0b0aa01caea75e6dc31 tests/admin_views/test_templatetags.py
 Updated 0 paths from b8f1457529
 + git apply -v -
@@ -496,7 +496,7 @@ test_choice_links (admin_views.test_templatetags.DateHierarchyTests.test_choice_
 test_choice_links_datetime (admin_views.test_templatetags.DateHierarchyTests.test_choice_links_datetime) ... ok
 
 ----------------------------------------------------------------------
-Ran 7 tests in 0.426s
+Ran 7 tests in 0.552s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

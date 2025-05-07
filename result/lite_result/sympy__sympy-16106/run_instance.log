@@ -1,15 +1,15 @@
-2025-02-12 13:20:17,064 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-16106
+2025-05-06 12:41:53,491 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-16106
 Building instance image sweb.eval.x86_64.sympy__sympy-16106:latest for sympy__sympy-16106
-2025-02-12 13:20:17,067 - INFO - Image sweb.eval.x86_64.sympy__sympy-16106:latest already exists, skipping build.
-2025-02-12 13:20:17,067 - INFO - Creating container for sympy__sympy-16106...
-2025-02-12 13:20:17,095 - INFO - Container for sympy__sympy-16106 created: a2f7cc1314a82043752a7b560976fc8ed8d5bb1f775d608758da1083381995f6
-2025-02-12 13:20:17,383 - INFO - Container for sympy__sympy-16106 started: a2f7cc1314a82043752a7b560976fc8ed8d5bb1f775d608758da1083381995f6
-2025-02-12 13:20:17,384 - INFO - Intermediate patch for sympy__sympy-16106 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-16106/patch.diff, now applying to container...
-2025-02-12 13:20:17,655 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:20:17,720 - INFO - >>>>> Applied Patch:
+2025-05-06 12:41:53,494 - INFO - Image sweb.eval.x86_64.sympy__sympy-16106:latest already exists, skipping build.
+2025-05-06 12:41:53,494 - INFO - Creating container for sympy__sympy-16106...
+2025-05-06 12:41:53,529 - INFO - Container for sympy__sympy-16106 created: f9ad7980a272a79d8d697d2e9064605892de102680cf594b1f04fda9e2743b5e
+2025-05-06 12:41:53,827 - INFO - Container for sympy__sympy-16106 started: f9ad7980a272a79d8d697d2e9064605892de102680cf594b1f04fda9e2743b5e
+2025-05-06 12:41:53,827 - INFO - Intermediate patch for sympy__sympy-16106 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-16106/patch.diff, now applying to container...
+2025-05-06 12:41:54,086 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:41:54,149 - INFO - >>>>> Applied Patch:
 patching file sympy/printing/mathml.py
 
-2025-02-12 13:20:18,245 - INFO - Git diff before:
+2025-05-06 12:41:54,626 - INFO - Git diff before:
 diff --git a/sympy/printing/mathml.py b/sympy/printing/mathml.py
 index 1aa0ee01a2..1fb357fdb6 100644
 --- a/sympy/printing/mathml.py
@@ -34,10 +34,10 @@ index 1aa0ee01a2..1fb357fdb6 100644
          x.appendChild(self._print(e.lhs))
          x.appendChild(self._print(e.rhs))
          return x
-2025-02-12 13:20:18,245 - INFO - Eval script for sympy__sympy-16106 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-16106/eval.sh; copying to container...
-2025-02-12 13:20:22,138 - INFO - Test runtime: 3.70 seconds
-2025-02-12 13:20:22,138 - INFO - Test output for sympy__sympy-16106 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-16106/test_output.txt
-2025-02-12 13:20:22,206 - INFO - Git diff after:
+2025-05-06 12:41:54,627 - INFO - Eval script for sympy__sympy-16106 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-16106/eval.sh; copying to container...
+2025-05-06 12:41:59,339 - INFO - Test runtime: 4.52 seconds
+2025-05-06 12:41:59,340 - INFO - Test output for sympy__sympy-16106 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-16106/test_output.txt
+2025-05-06 12:41:59,404 - INFO - Git diff after:
 diff --git a/sympy/printing/mathml.py b/sympy/printing/mathml.py
 index 1aa0ee01a2..1fb357fdb6 100644
 --- a/sympy/printing/mathml.py
@@ -62,9 +62,9 @@ index 1aa0ee01a2..1fb357fdb6 100644
          x.appendChild(self._print(e.lhs))
          x.appendChild(self._print(e.rhs))
          return x
-2025-02-12 13:20:22,207 - INFO - Grading answer for sympy__sympy-16106...
-2025-02-12 13:20:22,211 - INFO - report: {'sympy__sympy-16106': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_print_IndexedBase']}, 'PASS_TO_PASS': {'success': ['test_mathml_printer', 'test_content_printmethod', 'test_content_mathml_core', 'test_content_mathml_functions', 'test_content_mathml_limits', 'test_content_mathml_integrals', 'test_content_mathml_matrices', 'test_content_mathml_sums', 'test_content_mathml_tuples', 'test_content_mathml_add', 'test_content_mathml_Rational', 'test_content_mathml_constants', 'test_content_mathml_trig', 'test_content_mathml_relational', 'test_content_symbol', 'test_content_mathml_greek', 'test_content_mathml_order', 'test_content_settings', 'test_presentation_printmethod', 'test_presentation_mathml_core', 'test_presentation_mathml_functions', 'test_print_derivative', 'test_presentation_mathml_limits', 'test_presentation_mathml_integrals', 'test_presentation_mathml_matrices', 'test_presentation_mathml_sums', 'test_presentation_mathml_add', 'test_presentation_mathml_Rational', 'test_presentation_mathml_constants', 'test_presentation_mathml_trig', 'test_presentation_mathml_relational', 'test_presentation_symbol', 'test_presentation_mathml_greek', 'test_presentation_mathml_order', 'test_print_tuples', 'test_print_re_im', 'test_presentation_settings', 'test_toprettyxml_hooking', 'test_print_domains', 'test_print_expression_with_minus', 'test_print_AssocOp', 'test_print_basic', 'test_ln_notation_print', 'test_mul_symbol_print', 'test_print_lerchphi', 'test_print_polylog', 'test_print_logic', 'test_root_notation_print', 'test_fold_frac_powers_print', 'test_fold_short_frac_print', 'test_print_factorials', 'test_print_Lambda', 'test_print_conjugate', 'test_print_matrix_symbol', 'test_print_random_symbol'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:41:59,404 - INFO - Grading answer for sympy__sympy-16106...
+2025-05-06 12:41:59,409 - INFO - report: {'sympy__sympy-16106': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_print_IndexedBase']}, 'PASS_TO_PASS': {'success': ['test_mathml_printer', 'test_content_printmethod', 'test_content_mathml_core', 'test_content_mathml_functions', 'test_content_mathml_limits', 'test_content_mathml_integrals', 'test_content_mathml_matrices', 'test_content_mathml_sums', 'test_content_mathml_tuples', 'test_content_mathml_add', 'test_content_mathml_Rational', 'test_content_mathml_constants', 'test_content_mathml_trig', 'test_content_mathml_relational', 'test_content_symbol', 'test_content_mathml_greek', 'test_content_mathml_order', 'test_content_settings', 'test_presentation_printmethod', 'test_presentation_mathml_core', 'test_presentation_mathml_functions', 'test_print_derivative', 'test_presentation_mathml_limits', 'test_presentation_mathml_integrals', 'test_presentation_mathml_matrices', 'test_presentation_mathml_sums', 'test_presentation_mathml_add', 'test_presentation_mathml_Rational', 'test_presentation_mathml_constants', 'test_presentation_mathml_trig', 'test_presentation_mathml_relational', 'test_presentation_symbol', 'test_presentation_mathml_greek', 'test_presentation_mathml_order', 'test_print_tuples', 'test_print_re_im', 'test_presentation_settings', 'test_toprettyxml_hooking', 'test_print_domains', 'test_print_expression_with_minus', 'test_print_AssocOp', 'test_print_basic', 'test_ln_notation_print', 'test_mul_symbol_print', 'test_print_lerchphi', 'test_print_polylog', 'test_print_logic', 'test_root_notation_print', 'test_fold_frac_powers_print', 'test_fold_short_frac_print', 'test_print_factorials', 'test_print_Lambda', 'test_print_conjugate', 'test_print_matrix_symbol', 'test_print_random_symbol'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-16106: resolved: False
-2025-02-12 13:20:22,212 - INFO - Attempting to stop container sweb.eval.sympy__sympy-16106.20250212_130622...
-2025-02-12 13:20:37,527 - INFO - Attempting to remove container sweb.eval.sympy__sympy-16106.20250212_130622...
-2025-02-12 13:20:37,546 - INFO - Container sweb.eval.sympy__sympy-16106.20250212_130622 removed.
+2025-05-06 12:41:59,409 - INFO - Attempting to stop container sweb.eval.sympy__sympy-16106.20250506_122807...
+2025-05-06 12:42:14,668 - INFO - Attempting to remove container sweb.eval.sympy__sympy-16106.20250506_122807...
+2025-05-06 12:42:14,691 - INFO - Container sweb.eval.sympy__sympy-16106.20250506_122807 removed.

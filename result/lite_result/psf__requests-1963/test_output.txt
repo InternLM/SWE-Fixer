@@ -150,15 +150,18 @@ Date:   Wed Mar 12 16:37:27 2014 -0400
 
 + git diff 110048f9837f8441ea536804115e80b69f400277
 diff --git a/requests/sessions.py b/requests/sessions.py
-index 425db22c..bc9e923c 100644
+index 425db22c..10c5e660 100644
 --- a/requests/sessions.py
 +++ b/requests/sessions.py
-@@ -99,10 +99,11 @@ class SessionRedirectMixin(object):
+@@ -99,10 +99,14 @@ class SessionRedirectMixin(object):
              resp.close()
  
              url = resp.headers['location']
 -            method = req.method
-+            method = prepared_request.method
++
++            # If we don't have a method already, get it from the original request.
++            if prepared_request.method == req.method:
++                method = req.method
  
              # Handle redirection without scheme (see: RFC 1808 Section 4)
              if url.startswith('//'):
@@ -297,8 +300,8 @@ Processing /testbed
 Building wheels for collected packages: requests
   Building wheel for requests (setup.py): started
   Building wheel for requests (setup.py): finished with status 'done'
-  Created wheel for requests: filename=requests-2.3.0-py2.py3-none-any.whl size=441544 sha256=a89e04c31ca206f9cecf47a36063329583422b73b5aa228b1de75c37f11348f7
-  Stored in directory: /tmp/pip-ephem-wheel-cache-mnw6_87l/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for requests: filename=requests-2.3.0-py2.py3-none-any.whl size=441580 sha256=adbbf82d2ae622f1e44e576ad8f24fb1df9cda4e9d096ccac5de10182b44d6d8
+  Stored in directory: /tmp/pip-ephem-wheel-cache-vsmf0uhd/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built requests
 Installing collected packages: requests
   Attempting uninstall: requests
@@ -335,7 +338,7 @@ E           TypeError: 'requests.post(url, data=\'[{"some": "data"}]\', files={\
 test_requests.py:397: TypeError
 ______________ TestRedirects.test_requests_are_updated_each_time _______________
 
-self = <test_requests.TestRedirects object at 0x7f23b2eb6d30>
+self = <test_requests.TestRedirects object at 0x7f1a07b60d30>
 
     def test_requests_are_updated_each_time(self):
         session = RedirectSession([303, 307])
@@ -488,6 +491,6 @@ PASSED test_requests.py::TestMorselToCookieMaxAge::test_max_age_valid_int
 PASSED test_requests.py::TestTimeout::test_stream_timeout
 FAILED test_requests.py::RequestsTestCase::test_conflicting_post_params - Typ...
 FAILED test_requests.py::TestRedirects::test_requests_are_updated_each_time
-============ 2 failed, 119 passed, 3 warnings in 144.27s (0:02:24) =============
+============ 2 failed, 119 passed, 3 warnings in 106.62s (0:01:46) =============
 + git checkout 110048f9837f8441ea536804115e80b69f400277 test_requests.py
 Updated 1 path from 62502eaa

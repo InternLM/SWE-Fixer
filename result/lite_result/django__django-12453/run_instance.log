@@ -1,17 +1,17 @@
-2025-02-12 13:08:26,719 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12453
+2025-05-06 12:30:09,596 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12453
 Building instance image sweb.eval.x86_64.django__django-12453:latest for django__django-12453
-2025-02-12 13:08:26,721 - INFO - Image sweb.eval.x86_64.django__django-12453:latest already exists, skipping build.
-2025-02-12 13:08:26,721 - INFO - Creating container for django__django-12453...
-2025-02-12 13:08:26,751 - INFO - Container for django__django-12453 created: dd45b975d9246d3fcfc526aa2371249cdaee40cf32061e8d7eb16c001fc2d955
-2025-02-12 13:08:27,605 - INFO - Container for django__django-12453 started: dd45b975d9246d3fcfc526aa2371249cdaee40cf32061e8d7eb16c001fc2d955
-2025-02-12 13:08:27,606 - INFO - Intermediate patch for django__django-12453 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12453/patch.diff, now applying to container...
-2025-02-12 13:08:27,830 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:08:27,892 - INFO - >>>>> Applied Patch:
+2025-05-06 12:30:09,614 - INFO - Image sweb.eval.x86_64.django__django-12453:latest already exists, skipping build.
+2025-05-06 12:30:09,615 - INFO - Creating container for django__django-12453...
+2025-05-06 12:30:09,726 - INFO - Container for django__django-12453 created: cf75b4709cb21f6c7f72cbdc65a0cdcde7c3d96dd724b64475c3cc38dae24c60
+2025-05-06 12:30:10,616 - INFO - Container for django__django-12453 started: cf75b4709cb21f6c7f72cbdc65a0cdcde7c3d96dd724b64475c3cc38dae24c60
+2025-05-06 12:30:10,617 - INFO - Intermediate patch for django__django-12453 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12453/patch.diff, now applying to container...
+2025-05-06 12:30:10,837 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:30:10,900 - INFO - >>>>> Applied Patch:
 patching file django/db/backends/base/creation.py
 patching file django/db/backends/base/creation.py
 Hunk #1 succeeded at 127 (offset 1 line).
 
-2025-02-12 13:08:29,313 - INFO - Git diff before:
+2025-05-06 12:30:11,859 - INFO - Git diff before:
 diff --git a/django/db/backends/base/creation.py b/django/db/backends/base/creation.py
 index c50fc90171..232d918f19 100644
 --- a/django/db/backends/base/creation.py
@@ -45,10 +45,10 @@ index c50fc90171..232d918f19 100644
          Return display string for a database for use in various actions.
          """
          return "'%s'%s" % (
-2025-02-12 13:08:29,314 - INFO - Eval script for django__django-12453 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12453/eval.sh; copying to container...
-2025-02-12 13:08:36,263 - INFO - Test runtime: 6.79 seconds
-2025-02-12 13:08:36,264 - INFO - Test output for django__django-12453 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12453/test_output.txt
-2025-02-12 13:08:36,338 - INFO - Git diff after:
+2025-05-06 12:30:11,860 - INFO - Eval script for django__django-12453 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12453/eval.sh; copying to container...
+2025-05-06 12:30:18,534 - INFO - Test runtime: 6.53 seconds
+2025-05-06 12:30:18,534 - INFO - Test output for django__django-12453 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12453/test_output.txt
+2025-05-06 12:30:18,617 - INFO - Git diff after:
 diff --git a/django/db/backends/base/creation.py b/django/db/backends/base/creation.py
 index c50fc90171..232d918f19 100644
 --- a/django/db/backends/base/creation.py
@@ -82,9 +82,9 @@ index c50fc90171..232d918f19 100644
          Return display string for a database for use in various actions.
          """
          return "'%s'%s" % (
-2025-02-12 13:08:36,338 - INFO - Grading answer for django__django-12453...
-2025-02-12 13:08:36,344 - INFO - report: {'django__django-12453': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_circular_reference (backends.base.test_creation.TestDeserializeDbFromString)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_custom_test_name (backends.base.test_creation.TestDbSignatureTests)', 'test_custom_test_name_with_test_prefix (backends.base.test_creation.TestDbSignatureTests)', 'test_default_name (backends.base.test_creation.TestDbSignatureTests)', 'test_migrate_test_setting_false (backends.base.test_creation.TestDbCreationTests)', 'test_migrate_test_setting_true (backends.base.test_creation.TestDbCreationTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:30:18,617 - INFO - Grading answer for django__django-12453...
+2025-05-06 12:30:18,619 - INFO - report: {'django__django-12453': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_circular_reference (backends.base.test_creation.TestDeserializeDbFromString)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_custom_test_name (backends.base.test_creation.TestDbSignatureTests)', 'test_custom_test_name_with_test_prefix (backends.base.test_creation.TestDbSignatureTests)', 'test_default_name (backends.base.test_creation.TestDbSignatureTests)', 'test_migrate_test_setting_false (backends.base.test_creation.TestDbCreationTests)', 'test_migrate_test_setting_true (backends.base.test_creation.TestDbCreationTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-12453: resolved: True
-2025-02-12 13:08:36,344 - INFO - Attempting to stop container sweb.eval.django__django-12453.20250212_130622...
-2025-02-12 13:08:51,718 - INFO - Attempting to remove container sweb.eval.django__django-12453.20250212_130622...
-2025-02-12 13:08:51,743 - INFO - Container sweb.eval.django__django-12453.20250212_130622 removed.
+2025-05-06 12:30:18,619 - INFO - Attempting to stop container sweb.eval.django__django-12453.20250506_122807...
+2025-05-06 12:30:34,104 - INFO - Attempting to remove container sweb.eval.django__django-12453.20250506_122807...
+2025-05-06 12:30:34,199 - INFO - Container sweb.eval.django__django-12453.20250506_122807 removed.

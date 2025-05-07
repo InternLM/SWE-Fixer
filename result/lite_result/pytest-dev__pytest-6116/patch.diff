@@ -1,19 +1,19 @@
 
 diff --git a/src/_pytest/config/__init__.py b/src/_pytest/config/__init__.py
-index 2bd793d..a7bb77a 100644
+index 2bd793d..90a838c 100644
 --- a/src/_pytest/config/__init__.py
 +++ b/src/_pytest/config/__init__.py
-@@ -740,9 +740,13 @@ class Config:
+@@ -794,10 +794,13 @@ class Config:
+         return config
  
-     def pytest_cmdline_parse(self, pluginmanager, args):
-         try:
-+            if "-c" in args:
-+                self.option.collectonly = True
-             self.parse(args)
-         except UsageError:
+     def _processopt(self, opt):
++        if "-c" in opt._short_opts and "--collect-only" in opt._long_opts:
++            self._opt2dest["-c"] = self._opt2dest["--collect-only"]
+         for name in opt._short_opts + opt._long_opts:
+             self._opt2dest[name] = opt.dest
  
+         if hasattr(opt, "default") and opt.dest:
 +
-+
-             # Handle --version and --help here in a minimal fashion.
-             # This gets done via helpconfig normally, but its
-             # pytest_cmdline_main is not called in case of errors.
+             if not hasattr(self.option, opt.dest):
+                 setattr(self.option, opt.dest, opt.default)
+ 

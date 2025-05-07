@@ -132,6 +132,7 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
 + locale-gen
 Generating locales (this might take a while)...
   en_US.UTF-8... done
+Generation complete.
 + export LANG=en_US.UTF-8
 + LANG=en_US.UTF-8
 + export LANGUAGE=en_US:en
@@ -139,7 +140,6 @@ Generating locales (this might take a while)...
 + export LC_ALL=en_US.UTF-8
 + LC_ALL=en_US.UTF-8
 + git config --global --add safe.directory /testbed
-Generation complete.
 + cd /testbed
 + git status
 On branch main
@@ -510,7 +510,7 @@ test_ascii_validator (auth_tests.test_validators.UsernameValidatorsTests) ... ok
 test_unicode_validator (auth_tests.test_validators.UsernameValidatorsTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 22 tests in 0.057s
+Ran 22 tests in 0.056s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

@@ -1,0 +1,26 @@
+
+diff --git a/sympy/utilities/iterables.py b/sympy/utilities/iterables.py
+index 57371bf..4fb07e9 100644
+--- a/sympy/utilities/iterables.py
++++ b/sympy/utilities/iterables.py
+@@ -2109,9 +2109,12 @@ def uniq(seq, result=None):
+     try:
+         seen = set()
+         result = result or []
++        size = len(seq)
+         for i, s in enumerate(seq):
+             if not (s in seen or seen.add(s)):
+                 yield s
++            if size != len(seq):
++                raise RuntimeError('sequence changed size during iteration')
+     except TypeError:
+         if s not in result:
+             yield s
+@@ -2125,6 +2128,7 @@ def uniq(seq, result=None):
+ 
+ 
+ def generate_bell(n):
++
+     """Return permutations of [0, 1, ..., n - 1] such that each permutation
+     differs from the last by the exchange of a single pair of neighbors.
+     The ``n!`` permutations are returned as an iterator. In order to obtain

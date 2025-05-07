@@ -150,16 +150,38 @@ Date:   Tue Jun 28 08:33:29 2016 +0100
 
 + git diff 36453b95b13079296776d11b09cab2567ea3e703
 diff --git a/requests/models.py b/requests/models.py
-index fbb3c7e6..8a35a16f 100644
+index fbb3c7e6..03052ffa 100644
 --- a/requests/models.py
 +++ b/requests/models.py
-@@ -696,9 +696,13 @@ class Response(object):
+@@ -674,11 +674,13 @@ class Response(object):
+                 except ReadTimeoutError as e:
+                     raise ConnectionError(e)
+             else:
+-                # Standard file-like object.
++                # Standard file-like object. Decode each chunk as it is read.
+                 while True:
+                     chunk = self.raw.read(chunk_size)
+                     if not chunk:
+                         break
++                    if decode_unicode:
++                        chunk = stream_decode_response_unicode([chunk], self)
+                     yield chunk
  
-         if decode_unicode:
-             chunks = stream_decode_response_unicode(chunks, self)
-+            content = bytes().join(chunks)
-+            return content.decode(self.apparent_encoding)
+             self._content_consumed = True
+@@ -690,15 +692,17 @@ class Response(object):
+         # simulate reading small chunks of the content
+         reused_chunks = iter_slices(self._content, chunk_size)
  
++        if decode_unicode:
++            reused_chunks = stream_decode_response_unicode(reused_chunks, self)
++
+         stream_chunks = generate()
+ 
+         chunks = reused_chunks if self._content_consumed else stream_chunks
+ 
+-        if decode_unicode:
+-            chunks = stream_decode_response_unicode(chunks, self)
+-
          return chunks
  
 +
@@ -298,8 +320,8 @@ Processing /testbed
 Building wheels for collected packages: requests
   Building wheel for requests (setup.py): started
   Building wheel for requests (setup.py): finished with status 'done'
-  Created wheel for requests: filename=requests-2.10.0-py3-none-any.whl size=497492 sha256=fec16879f53cc3ff8b3e6d3ae7ee59088864cb038952481cd0505bb39f534e1f
-  Stored in directory: /tmp/pip-ephem-wheel-cache-jxlu2b0j/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for requests: filename=requests-2.10.0-py3-none-any.whl size=497498 sha256=6154f87913662e8affac1a37f2779561d9970950225a3c58376394bb8654fd04
+  Stored in directory: /tmp/pip-ephem-wheel-cache-932bzq1s/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built requests
 Installing collected packages: requests
   Attempting uninstall: requests
@@ -1602,7 +1624,7 @@ E       recursive dependency involving fixture 'httpbin' detected
 =================================== FAILURES ===================================
 __________________ TestRequests.test_response_decode_unicode ___________________
 
-self = <tests.test_requests.TestRequests object at 0x7fb03ac3caf0>
+self = <tests.test_requests.TestRequests object at 0x7ff2823fbac0>
 
     def test_response_decode_unicode(self):
         """
@@ -1614,63 +1636,19 @@ self = <tests.test_requests.TestRequests object at 0x7fb03ac3caf0>
         r._content = b'the content'
         r.encoding = 'ascii'
     
->       chunks = r.iter_content(decode_unicode=True)
+        chunks = r.iter_content(decode_unicode=True)
+        assert all(isinstance(chunk, str) for chunk in chunks)
+    
+        # also for streaming
+        r = requests.Response()
+        r.raw = io.BytesIO(b'the content')
+        r.encoding = 'ascii'
+        chunks = r.iter_content(decode_unicode=True)
+>       assert all(isinstance(chunk, str) for chunk in chunks)
+E       assert False
+E        +  where False = all(<generator object TestRequests.test_response_decode_unicode.<locals>.<genexpr> at 0x7ff282378350>)
 
-tests/test_requests.py:973: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <Response [None]>, chunk_size = 1, decode_unicode = True
-
-    def iter_content(self, chunk_size=1, decode_unicode=False):
-        """Iterates over the response data.  When stream=True is set on the
-        request, this avoids reading the content at once into memory for
-        large responses.  The chunk size is the number of bytes it should
-        read into memory.  This is not necessarily the length of each item
-        returned as decoding can take place.
-    
-        If decode_unicode is True, content will be decoded using the best
-        available encoding based on the response.
-        """
-    
-        def generate():
-            # Special case for urllib3.
-            if hasattr(self.raw, 'stream'):
-                try:
-                    for chunk in self.raw.stream(chunk_size, decode_content=True):
-                        yield chunk
-                except ProtocolError as e:
-                    raise ChunkedEncodingError(e)
-                except DecodeError as e:
-                    raise ContentDecodingError(e)
-                except ReadTimeoutError as e:
-                    raise ConnectionError(e)
-            else:
-                # Standard file-like object.
-                while True:
-                    chunk = self.raw.read(chunk_size)
-                    if not chunk:
-                        break
-                    yield chunk
-    
-            self._content_consumed = True
-    
-        if self._content_consumed and isinstance(self._content, bool):
-            raise StreamConsumedError()
-        elif not isinstance(chunk_size, int):
-            raise TypeError("chunk_size must be an int, it is instead a %s." % type(chunk_size))
-        # simulate reading small chunks of the content
-        reused_chunks = iter_slices(self._content, chunk_size)
-    
-        stream_chunks = generate()
-    
-        chunks = reused_chunks if self._content_consumed else stream_chunks
-    
-        if decode_unicode:
-            chunks = stream_decode_response_unicode(chunks, self)
->           content = bytes().join(chunks)
-E           TypeError: sequence item 0: expected a bytes-like object, str found
-
-requests/models.py:699: TypeError
+tests/test_requests.py:981: AssertionError
 =============================== warnings summary ===============================
 requests/packages/urllib3/connectionpool.py:105
   /testbed/requests/packages/urllib3/connectionpool.py:105: DeprecationWarning: invalid escape sequence \*
@@ -1944,7 +1922,7 @@ ERROR tests/test_requests.py::TestTimeout::test_encoded_methods
 ERROR tests/test_requests.py::test_requests_are_updated_each_time
 ERROR tests/test_requests.py::test_urllib3_retries
 ERROR tests/test_requests.py::test_urllib3_pool_connection_closed
-FAILED tests/test_requests.py::TestRequests::test_response_decode_unicode - T...
-======= 1 failed, 75 passed, 1 xfailed, 22 warnings, 108 errors in 0.72s =======
+FAILED tests/test_requests.py::TestRequests::test_response_decode_unicode - a...
+======= 1 failed, 75 passed, 1 xfailed, 22 warnings, 108 errors in 2.71s =======
 + git checkout 36453b95b13079296776d11b09cab2567ea3e703 tests/test_requests.py
 Updated 1 path from 5602c48a

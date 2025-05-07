@@ -414,8 +414,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique... OK
-Creating test database for alias 'other' ('file:memorydb_other?mode=memory&cache=shared')...
+  Applying sites.0002_alter_domain_unique...Creating test database for alias 'other' ('file:memorydb_other?mode=memory&cache=shared')...
+ OK
 System check identified no issues (0 silenced).
 test_check_password_upgrade (auth_tests.test_models.AbstractUserTestCase) ... ok
 test_email_user (auth_tests.test_models.AbstractUserTestCase) ... ok
@@ -479,7 +479,7 @@ test_make_random_password (auth_tests.test_models.UserManagerTestCase) ... ok
 test_runpython_manager_methods (auth_tests.test_models.UserManagerTestCase) ... ok
 
 ----------------------------------------------------------------------
-Ran 58 tests in 0.852s
+Ran 58 tests in 1.330s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

@@ -184,22 +184,22 @@ index 1362bc2911..2bff4faefd 100644
              'in Django 4.0. Read it from '
 + git diff 08a4ee06510ae45562c228eefbdcaac84bd38c7a
 diff --git a/django/db/models/options.py b/django/db/models/options.py
-index fea65f7626..0f8a9abd52 100644
+index fea65f7626..2c9e355047 100644
 --- a/django/db/models/options.py
 +++ b/django/db/models/options.py
-@@ -288,10 +288,12 @@ class Options:
-         self.pk = target._meta.pk
-         self.proxy_for_model = target
-         self.db_table = target._meta.db_table
-+        self.concrete_model = target._meta.concrete_model
- 
-     def __repr__(self):
-         return '<Options for %s>' % self.object_name
- 
+@@ -300,10 +300,11 @@ class Options:
+         Return True if the model can/should be migrated on the `connection`.
+         `connection` can be either a real connection or a connection alias.
+         """
+-        if self.proxy or self.swapped or not self.managed:
++        if self.proxy_for_model is not None or self.swapped or not self.managed:
+             return False
+         if isinstance(connection, str):
+             connection = connections[connection]
 +
-     def __str__(self):
-         return "%s.%s" % (self.app_label, self.model_name)
- 
+         if self.required_db_vendor:
+             return self.required_db_vendor == connection.vendor
+         if self.required_db_features:
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -391,7 +391,7 @@ Traceback (most recent call last):
 django.db.utils.IntegrityError: UNIQUE constraint failed: auth_permission.content_type_id, auth_permission.codename
 
 ----------------------------------------------------------------------
-Ran 9 tests in 0.249s
+Ran 9 tests in 0.240s
 
 FAILED (errors=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

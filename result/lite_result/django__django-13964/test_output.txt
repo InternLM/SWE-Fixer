@@ -203,23 +203,22 @@ index 763baa8579..5027358943 100644
 +cx_oracle >= 7.0
 + git diff f39634ff229887bf7790c069d0c411b38494ca38
 diff --git a/django/db/models/base.py b/django/db/models/base.py
-index 2428218696..fb620f86c4 100644
+index 2428218696..9c32a8ed46 100644
 --- a/django/db/models/base.py
 +++ b/django/db/models/base.py
-@@ -935,11 +935,12 @@ class Model(metaclass=ModelBase):
+@@ -933,10 +933,11 @@ class Model(metaclass=ModelBase):
+                         "%s() prohibited to prevent data loss due to unsaved "
+                         "related object '%s'." % (operation_name, field.name)
                      )
-                 elif getattr(self, field.attname) is None:
+-                elif getattr(self, field.attname) is None:
++                elif getattr(self, field.attname) in {None, ''}:
                      # Use pk from related object if it has been saved after
--                    # an assignment.
-+                    # an assignment and the related object's pk is not None.
+                     # an assignment.
                      setattr(self, field.attname, obj.pk)
++
                  # If the relationship's pk/to_field was changed, clear the
                  # cached relationship.
                  if getattr(obj, field.target_field.attname) != getattr(self, field.attname):
-+
-                     field.delete_cached_value(self)
- 
-     def delete(self, using=None, keep_parents=False):
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -439,8 +438,7 @@ test_remove_after_prefetch (many_to_one.tests.ManyToOneTests) ... ok
 test_reverse_assignment_deprecation (many_to_one.tests.ManyToOneTests) ... ok
 test_reverse_foreign_key_instance_to_field_caching (many_to_one.tests.ManyToOneTests) ... ok
 test_reverse_selects (many_to_one.tests.ManyToOneTests) ... ok
-test_save_fk_after_parent_with_non_numeric_pk_set_on_child (many_to_one.tests.ManyToOneTests) ... ERROR
-ERROR
+test_save_fk_after_parent_with_non_numeric_pk_set_on_child (many_to_one.tests.ManyToOneTests) ... ok
 test_save_nullable_fk_after_parent (many_to_one.tests.ManyToOneTests) ... ok
 test_save_nullable_fk_after_parent_with_to_field (many_to_one.tests.ManyToOneTests) ... ok
 test_select_related (many_to_one.tests.ManyToOneTests) ... ok
@@ -449,47 +447,10 @@ test_set (many_to_one.tests.ManyToOneTests) ... ok
 test_set_after_prefetch (many_to_one.tests.ManyToOneTests) ... ok
 test_values_list_exception (many_to_one.tests.ManyToOneTests) ... ok
 
-======================================================================
-ERROR: test_save_fk_after_parent_with_non_numeric_pk_set_on_child (many_to_one.tests.ManyToOneTests)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/testbed/django/db/models/fields/related_descriptors.py", line 173, in __get__
-    rel_obj = self.field.get_cached_value(instance)
-  File "/testbed/django/db/models/fields/mixins.py", line 15, in get_cached_value
-    return instance._state.fields_cache[cache_name]
-KeyError: 'parent'
+Ran 37 tests in 0.079s
 
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/testbed/tests/many_to_one/tests.py", line 559, in test_save_fk_after_parent_with_non_numeric_pk_set_on_child
-    self.assertEqual(child.parent, parent)
-  File "/testbed/django/db/models/fields/related_descriptors.py", line 187, in __get__
-    rel_obj = self.get_object(instance)
-  File "/testbed/django/db/models/fields/related_descriptors.py", line 154, in get_object
-    return qs.get(self.field.get_reverse_related_filter(instance))
-  File "/testbed/django/db/models/query.py", line 435, in get
-    raise self.model.DoesNotExist(
-many_to_one.models.ParentStringPrimaryKey.DoesNotExist: ParentStringPrimaryKey matching query does not exist.
-
-======================================================================
-ERROR: test_save_fk_after_parent_with_non_numeric_pk_set_on_child (many_to_one.tests.ManyToOneTests)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/testbed/django/test/testcases.py", line 284, in _setup_and_call
-    self._post_teardown()
-  File "/testbed/django/test/testcases.py", line 1006, in _post_teardown
-    self._fixture_teardown()
-  File "/testbed/django/test/testcases.py", line 1247, in _fixture_teardown
-    connections[db_name].check_constraints()
-  File "/testbed/django/db/backends/sqlite3/base.py", line 352, in check_constraints
-    raise IntegrityError(
-django.db.utils.IntegrityError: The row in table 'many_to_one_childstringprimarykeyparent' with primary key '1' has an invalid foreign key: many_to_one_childstringprimarykeyparent.parent_id contains a value '' that does not have a corresponding value in many_to_one_parentstringprimarykey.name.
-
-----------------------------------------------------------------------
-Ran 37 tests in 0.076s
-
-FAILED (errors=2)
+OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 + git checkout f39634ff229887bf7790c069d0c411b38494ca38 tests/many_to_one/models.py tests/many_to_one/tests.py
 Updated 2 paths from 152a2c19f1

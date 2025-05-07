@@ -1,0 +1,19 @@
+
+diff --git a/sympy/utilities/lambdify.py b/sympy/utilities/lambdify.py
+index 48d6783..00b6dde 100644
+--- a/sympy/utilities/lambdify.py
++++ b/sympy/utilities/lambdify.py
+@@ -725,10 +725,13 @@ class _EvaluatorPrinter(object):
+                 argstrs.append(nested_argstrs)
+             elif isinstance(arg, DeferredVector):
+                 argstrs.append(str(arg))
++            elif isinstance(arg, MatrixSymbol):
++                argstrs.append(str(arg))
+             elif isinstance(arg, Symbol):
+                 argrep = self._argrepr(arg)
+ 
+                 if dummify or not self._is_safe_ident(argrep):
++
+                     dummy = Dummy()
+                     argstrs.append(self._argrepr(dummy))
+                     expr = self._subexpr(expr, {arg: dummy})

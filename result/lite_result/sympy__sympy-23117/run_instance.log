@@ -1,15 +1,15 @@
-2025-02-12 13:22:14,890 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-23117
+2025-05-06 12:44:11,599 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-23117
 Building instance image sweb.eval.x86_64.sympy__sympy-23117:latest for sympy__sympy-23117
-2025-02-12 13:22:14,894 - INFO - Image sweb.eval.x86_64.sympy__sympy-23117:latest already exists, skipping build.
-2025-02-12 13:22:14,894 - INFO - Creating container for sympy__sympy-23117...
-2025-02-12 13:22:14,927 - INFO - Container for sympy__sympy-23117 created: 83a263ec68071d671a741aeb1b9c8940f364d2f9ce6e9a6df00e6e3890a66249
-2025-02-12 13:22:15,320 - INFO - Container for sympy__sympy-23117 started: 83a263ec68071d671a741aeb1b9c8940f364d2f9ce6e9a6df00e6e3890a66249
-2025-02-12 13:22:15,321 - INFO - Intermediate patch for sympy__sympy-23117 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-23117/patch.diff, now applying to container...
-2025-02-12 13:22:15,527 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:22:15,588 - INFO - >>>>> Applied Patch:
+2025-05-06 12:44:11,603 - INFO - Image sweb.eval.x86_64.sympy__sympy-23117:latest already exists, skipping build.
+2025-05-06 12:44:11,603 - INFO - Creating container for sympy__sympy-23117...
+2025-05-06 12:44:11,634 - INFO - Container for sympy__sympy-23117 created: c35d116c68d1b712e2ff533cb725b2c0cdaecc307f533cb5d7dda4ac7d8a176b
+2025-05-06 12:44:11,902 - INFO - Container for sympy__sympy-23117 started: c35d116c68d1b712e2ff533cb725b2c0cdaecc307f533cb5d7dda4ac7d8a176b
+2025-05-06 12:44:11,903 - INFO - Intermediate patch for sympy__sympy-23117 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-23117/patch.diff, now applying to container...
+2025-05-06 12:44:12,156 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:44:12,214 - INFO - >>>>> Applied Patch:
 patching file sympy/tensor/array/ndim_array.py
 
-2025-02-12 13:22:16,386 - INFO - Git diff before:
+2025-05-06 12:44:12,675 - INFO - Git diff before:
 diff --git a/sympy/tensor/array/ndim_array.py b/sympy/tensor/array/ndim_array.py
 index 6490a655a4..a5702702d9 100644
 --- a/sympy/tensor/array/ndim_array.py
@@ -29,10 +29,10 @@ index 6490a655a4..a5702702d9 100644
 +
                  result.extend(i)
              return result, (len(shapes),)+shapes[0]
-2025-02-12 13:22:16,386 - INFO - Eval script for sympy__sympy-23117 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-23117/eval.sh; copying to container...
-2025-02-12 13:22:20,962 - INFO - Test runtime: 4.39 seconds
-2025-02-12 13:22:20,962 - INFO - Test output for sympy__sympy-23117 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-23117/test_output.txt
-2025-02-12 13:22:21,033 - INFO - Git diff after:
+2025-05-06 12:44:12,676 - INFO - Eval script for sympy__sympy-23117 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-23117/eval.sh; copying to container...
+2025-05-06 12:44:17,329 - INFO - Test runtime: 4.45 seconds
+2025-05-06 12:44:17,329 - INFO - Test output for sympy__sympy-23117 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-23117/test_output.txt
+2025-05-06 12:44:17,400 - INFO - Git diff after:
 diff --git a/sympy/tensor/array/ndim_array.py b/sympy/tensor/array/ndim_array.py
 index 6490a655a4..a5702702d9 100644
 --- a/sympy/tensor/array/ndim_array.py
@@ -52,9 +52,9 @@ index 6490a655a4..a5702702d9 100644
 +
                  result.extend(i)
              return result, (len(shapes),)+shapes[0]
-2025-02-12 13:22:21,033 - INFO - Grading answer for sympy__sympy-23117...
-2025-02-12 13:22:21,036 - INFO - report: {'sympy__sympy-23117': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_17851']}, 'PASS_TO_PASS': {'success': ['test_array_negative_indices', 'test_issue_18361', 'test_issue_20222'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:44:17,400 - INFO - Grading answer for sympy__sympy-23117...
+2025-05-06 12:44:17,403 - INFO - report: {'sympy__sympy-23117': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_17851']}, 'PASS_TO_PASS': {'success': ['test_array_negative_indices', 'test_issue_18361', 'test_issue_20222'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-23117: resolved: False
-2025-02-12 13:22:21,036 - INFO - Attempting to stop container sweb.eval.sympy__sympy-23117.20250212_130622...
-2025-02-12 13:22:36,305 - INFO - Attempting to remove container sweb.eval.sympy__sympy-23117.20250212_130622...
-2025-02-12 13:22:36,335 - INFO - Container sweb.eval.sympy__sympy-23117.20250212_130622 removed.
+2025-05-06 12:44:17,403 - INFO - Attempting to stop container sweb.eval.sympy__sympy-23117.20250506_122807...
+2025-05-06 12:44:32,702 - INFO - Attempting to remove container sweb.eval.sympy__sympy-23117.20250506_122807...
+2025-05-06 12:44:32,729 - INFO - Container sweb.eval.sympy__sympy-23117.20250506_122807 removed.

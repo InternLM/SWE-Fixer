@@ -329,8 +329,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        16540705
-hash randomization: on (PYTHONHASHSEED=3918701440)
+random seed:        21024103
+hash randomization: on (PYTHONHASHSEED=785554644)
 
 sympy/functions/elementary/tests/test_hyperbolic.py[45] 
 test_sinh ok
@@ -380,6 +380,6 @@ test_sinh_expansion ok
 test_cosh_expansion ok                                                      [OK]
 
 
-================== tests finished: 45 passed, in 6.73 seconds ==================
+================== tests finished: 45 passed, in 6.56 seconds ==================
 + git checkout f57fe3f4b3f2cab225749e1b3b38ae1bf80b62f0 sympy/functions/elementary/tests/test_hyperbolic.py
 Updated 1 path from f7d619a24d

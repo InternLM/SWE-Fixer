@@ -176,22 +176,28 @@ Date:   Fri Feb 24 11:26:30 2023 -0800
 
 + git diff 430fb1db88843300fb4baae3edc499bbfe073b0c
 diff --git a/lib/matplotlib/legend.py b/lib/matplotlib/legend.py
-index ff6abdb958..8e87b4f3fc 100644
+index ff6abdb958..75694f0777 100644
 --- a/lib/matplotlib/legend.py
 +++ b/lib/matplotlib/legend.py
-@@ -71,10 +71,11 @@ class DraggableLegend(DraggableOffsetBox):
-         _api.check_in_list(["loc", "bbox"], update=update)
-         self._update = update
- 
--        super().__init__(legend, legend._legend_box, use_blit=use_blit)
-+        super().__init__(legend._legend_box, use_blit=use_blit)
+@@ -74,13 +74,16 @@ class DraggableLegend(DraggableOffsetBox):
+         super().__init__(legend, legend._legend_box, use_blit=use_blit)
  
      def finalize_offset(self):
++        # Do not call self._update_loc/_bbox_to_anchor, as this would
++        # require access to the figure's canvas, which is not picklable.
          if self._update == "loc":
-+
-             self._update_loc(self.get_loc_in_canvas())
+-            self._update_loc(self.get_loc_in_canvas())
++            self.legend._loc = self.get_loc_in_canvas()
          elif self._update == "bbox":
-             self._bbox_to_anchor(self.get_loc_in_canvas())
+-            self._bbox_to_anchor(self.get_loc_in_canvas())
++            self.legend.set_bbox_to_anchor(self.get_loc_in_canvas())
+ 
+     def _update_loc(self, loc_in_canvas):
+         bbox = self.legend.get_bbox_to_anchor()
++
+         # if bbox has zero width or height, the transformation is
+         # ill-defined. Fall back to the default bbox_to_anchor.
+         if bbox.width == 0 or bbox.height == 0:
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -368,31 +374,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev441+g430fb1db88.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev441+g430fb1db88.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev441+g430fb1db88.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23380 sha256=2ffd314fb80a0b322f485aec4ca0a549e878a74a97fc1660736837de42088235
-  Stored in directory: /tmp/pip-ephem-wheel-cache-axjqoepp/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev441+g430fb1db88.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=23810 sha256=82218de5c39678958e0e13b595a43f7986188772414c8578adf4d0186e360fe2
+  Stored in directory: /tmp/pip-ephem-wheel-cache-dosq0cef/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.8.0.dev441+g430fb1db88
     Uninstalling matplotlib-3.8.0.dev441+g430fb1db88:
       Successfully uninstalled matplotlib-3.8.0.dev441+g430fb1db88
-Successfully installed matplotlib-3.8.0.dev441+g430fb1db88.d20250212
+Successfully installed matplotlib-3.8.0.dev441+g430fb1db88.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 430fb1db88843300fb4baae3edc499bbfe073b0c lib/matplotlib/tests/test_pickle.py
 Updated 0 paths from 40de1c2661
@@ -437,52 +443,26 @@ fig_ref = <Figure size 1000x600 with 10 Axes>, figs = []
 
 lib/matplotlib/testing/decorators.py:472: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-lib/matplotlib/tests/test_pickle.py:98: in test_complete
-    _generate_complete_test_figure(fig_ref)
-lib/matplotlib/tests/test_pickle.py:92: in _generate_complete_test_figure
-    plt.legend(draggable=True)
-lib/matplotlib/pyplot.py:2709: in legend
-    return gca().legend(*args, **kwargs)
-lib/matplotlib/axes/_axes.py:318: in legend
-    self.legend_ = mlegend.Legend(self, handles, labels, **kwargs)
-lib/matplotlib/_api/deprecation.py:454: in wrapper
-    return func(*args, **kwargs)
-lib/matplotlib/legend.py:616: in __init__
-    self.set_draggable(state=draggable)
-lib/matplotlib/legend.py:1199: in set_draggable
-    self._draggable = DraggableLegend(self,
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <matplotlib.legend.DraggableLegend object at 0x7f3938f98e90>
-legend = <matplotlib.legend.Legend object at 0x7f3938fbd4d0>, use_blit = False
-update = 'loc'
+fig_test = <Figure size 640x480 with 0 Axes>
+fig_ref = <Figure size 1000x600 with 10 Axes>
 
-    def __init__(self, legend, use_blit=False, update="loc"):
-        """
-        Wrapper around a `.Legend` to support mouse dragging.
-    
-        Parameters
-        ----------
-        legend : `.Legend`
-            The `.Legend` instance to wrap.
-        use_blit : bool, optional
-            Use blitting for faster image composition. For details see
-            :ref:`func-animation`.
-        update : {'loc', 'bbox'}, optional
-            If "loc", update the *loc* parameter of the legend upon finalizing.
-            If "bbox", update the *bbox_to_anchor* parameter.
-        """
-        self.legend = legend
-    
-        _api.check_in_list(["loc", "bbox"], update=update)
-        self._update = update
-    
->       super().__init__(legend._legend_box, use_blit=use_blit)
-E       TypeError: DraggableOffsetBox.__init__() missing 1 required positional argument: 'offsetbox'
+    @mpl.style.context("default")
+    @check_figures_equal(extensions=["png"])
+    def test_complete(fig_test, fig_ref):
+        _generate_complete_test_figure(fig_ref)
+        # plotting is done, now test its pickle-ability
+        pkl = pickle.dumps(fig_ref, pickle.HIGHEST_PROTOCOL)
+        # FigureCanvasAgg is picklable and GUI canvases are generally not, but there should
+        # be no reference to the canvas in the pickle stream in either case.  In order to
+        # keep the test independent of GUI toolkits, run it with Agg and check that there's
+        # no reference to FigureCanvasAgg in the pickle stream.
+>       assert "FigureCanvasAgg" not in [arg for op, arg, pos in pickletools.genops(pkl)]
+E       AssertionError: assert 'FigureCanvasAgg' not in [5, 65538, 'matplotlib.figure', None, 'Figure', None, ...]
 
-lib/matplotlib/legend.py:74: TypeError
+lib/matplotlib/tests/test_pickle.py:105: AssertionError
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.legend:legend.py:1331 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1333 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 ____________________ test_pickle_load_from_subprocess[png] _____________________
 
 ext = 'png'
@@ -510,52 +490,40 @@ fig_ref = <Figure size 1000x600 with 10 Axes>, figs = []
 
 lib/matplotlib/testing/decorators.py:472: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-lib/matplotlib/tests/test_pickle.py:130: in test_pickle_load_from_subprocess
-    _generate_complete_test_figure(fig_ref)
-lib/matplotlib/tests/test_pickle.py:92: in _generate_complete_test_figure
-    plt.legend(draggable=True)
-lib/matplotlib/pyplot.py:2709: in legend
-    return gca().legend(*args, **kwargs)
-lib/matplotlib/axes/_axes.py:318: in legend
-    self.legend_ = mlegend.Legend(self, handles, labels, **kwargs)
-lib/matplotlib/_api/deprecation.py:454: in wrapper
-    return func(*args, **kwargs)
-lib/matplotlib/legend.py:616: in __init__
-    self.set_draggable(state=draggable)
-lib/matplotlib/legend.py:1199: in set_draggable
-    self._draggable = DraggableLegend(self,
+lib/matplotlib/tests/test_pickle.py:145: in test_pickle_load_from_subprocess
+    loaded_fig = pickle.loads(ast.literal_eval(proc.stdout))
+lib/matplotlib/figure.py:3184: in __setstate__
+    _api.warn_external(
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <matplotlib.legend.DraggableLegend object at 0x7f3938a77c50>
-legend = <matplotlib.legend.Legend object at 0x7f39382854d0>, use_blit = False
-update = 'loc'
+message = 'This figure was saved with matplotlib version 3.8.0.dev441+g430fb1db88.d19700101 and is unlikely to function correctly.'
+category = None
 
-    def __init__(self, legend, use_blit=False, update="loc"):
+    def warn_external(message, category=None):
         """
-        Wrapper around a `.Legend` to support mouse dragging.
+        `warnings.warn` wrapper that sets *stacklevel* to "outside Matplotlib".
     
-        Parameters
-        ----------
-        legend : `.Legend`
-            The `.Legend` instance to wrap.
-        use_blit : bool, optional
-            Use blitting for faster image composition. For details see
-            :ref:`func-animation`.
-        update : {'loc', 'bbox'}, optional
-            If "loc", update the *loc* parameter of the legend upon finalizing.
-            If "bbox", update the *bbox_to_anchor* parameter.
+        The original emitter of the warning can be obtained by patching this
+        function back to `warnings.warn`, i.e. ``_api.warn_external =
+        warnings.warn`` (or ``functools.partial(warnings.warn, stacklevel=2)``,
+        etc.).
         """
-        self.legend = legend
-    
-        _api.check_in_list(["loc", "bbox"], update=update)
-        self._update = update
-    
->       super().__init__(legend._legend_box, use_blit=use_blit)
-E       TypeError: DraggableOffsetBox.__init__() missing 1 required positional argument: 'offsetbox'
+        frame = sys._getframe()
+        for stacklevel in itertools.count(1):  # lgtm[py/unused-loop-variable]
+            if frame is None:
+                # when called in embedded context may hit frame is None
+                break
+            if not re.match(r"\A(matplotlib|mpl_toolkits)(\Z|\.(?!tests\.))",
+                            # Work around sphinx-gallery not setting __name__.
+                            frame.f_globals.get("__name__", "")):
+                break
+            frame = frame.f_back
+>       warnings.warn(message, category, stacklevel)
+E       UserWarning: This figure was saved with matplotlib version 3.8.0.dev441+g430fb1db88.d19700101 and is unlikely to function correctly.
 
-lib/matplotlib/legend.py:74: TypeError
+lib/matplotlib/_api/__init__.py:388: UserWarning
 ------------------------------ Captured log call -------------------------------
-WARNING  matplotlib.legend:legend.py:1331 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+WARNING  matplotlib.legend:legend.py:1333 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 ==================================== PASSES ====================================
 =========================== short test summary info ============================
 PASSED lib/matplotlib/tests/test_pickle.py::test_simple
@@ -739,8 +707,8 @@ PASSED lib/matplotlib/tests/test_pickle.py::test_mpl_toolkits
 PASSED lib/matplotlib/tests/test_pickle.py::test_standard_norm
 PASSED lib/matplotlib/tests/test_pickle.py::test_dynamic_norm
 PASSED lib/matplotlib/tests/test_pickle.py::test_vertexselector
-FAILED lib/matplotlib/tests/test_pickle.py::test_complete[png] - TypeError: D...
+FAILED lib/matplotlib/tests/test_pickle.py::test_complete[png] - AssertionErr...
 FAILED lib/matplotlib/tests/test_pickle.py::test_pickle_load_from_subprocess[png]
-======================== 2 failed, 181 passed in 4.45s =========================
+======================== 2 failed, 181 passed in 5.96s =========================
 + git checkout 430fb1db88843300fb4baae3edc499bbfe073b0c lib/matplotlib/tests/test_pickle.py
 Updated 1 path from 40de1c2661

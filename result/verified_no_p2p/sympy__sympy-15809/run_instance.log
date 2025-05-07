@@ -1,0 +1,58 @@
+2025-05-06 07:07:32,813 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15809
+Building instance image sweb.eval.x86_64.sympy__sympy-15809:latest for sympy__sympy-15809
+2025-05-06 07:07:32,814 - INFO - Image sweb.eval.x86_64.sympy__sympy-15809:latest already exists, skipping build.
+2025-05-06 07:07:32,815 - INFO - Creating container for sympy__sympy-15809...
+2025-05-06 07:07:32,839 - INFO - Container for sympy__sympy-15809 created: 946a7e327bacf4df24ca6e8b7731823585bb88df680810f2f395022d600dae03
+2025-05-06 07:07:33,110 - INFO - Container for sympy__sympy-15809 started: 946a7e327bacf4df24ca6e8b7731823585bb88df680810f2f395022d600dae03
+2025-05-06 07:07:33,110 - INFO - Intermediate patch for sympy__sympy-15809 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-15809/patch.diff, now applying to container...
+2025-05-06 07:07:33,351 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:07:33,403 - INFO - >>>>> Applied Patch:
+patching file sympy/core/function.py
+
+2025-05-06 07:07:33,771 - INFO - Git diff before:
+diff --git a/sympy/core/function.py b/sympy/core/function.py
+index e30c760443..e6fb14f264 100644
+--- a/sympy/core/function.py
++++ b/sympy/core/function.py
+@@ -323,10 +323,13 @@ def eval(cls, arg):
+                         return cls(coeff) * cls(terms)
+ 
+         """
++        if not args and cls.__name__ in ['Min', 'Max']:
++            return S.Infinity if cls.__name__ == 'Max' else -S.Infinity
+         return
+ 
+     @property
+     def func(self):
++
+         return self.__class__
+ 
+     def _eval_subs(self, old, new):
+2025-05-06 07:07:33,771 - INFO - Eval script for sympy__sympy-15809 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-15809/eval.sh; copying to container...
+2025-05-06 07:07:47,168 - INFO - Test runtime: 13.14 seconds
+2025-05-06 07:07:47,169 - INFO - Test output for sympy__sympy-15809 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-15809/test_output.txt
+2025-05-06 07:07:47,224 - INFO - Git diff after:
+diff --git a/sympy/core/function.py b/sympy/core/function.py
+index e30c760443..e6fb14f264 100644
+--- a/sympy/core/function.py
++++ b/sympy/core/function.py
+@@ -323,10 +323,13 @@ def eval(cls, arg):
+                         return cls(coeff) * cls(terms)
+ 
+         """
++        if not args and cls.__name__ in ['Min', 'Max']:
++            return S.Infinity if cls.__name__ == 'Max' else -S.Infinity
+         return
+ 
+     @property
+     def func(self):
++
+         return self.__class__
+ 
+     def _eval_subs(self, old, new):
+2025-05-06 07:07:47,224 - INFO - Grading answer for sympy__sympy-15809...
+2025-05-06 07:07:47,225 - INFO - report: {'sympy__sympy-15809': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Min', 'test_Max']}, 'PASS_TO_PASS': {'success': ['test_minmax_assumptions', 'test_issue_8413', 'test_root', 'test_real_root', 'test_rewrite_MaxMin_as_Heaviside', 'test_rewrite_MaxMin_as_Piecewise', 'test_issue_11099', 'test_issue_12638', 'test_instantiation_evaluation', 'test_rewrite_as_Abs'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-15809: resolved: False
+2025-05-06 07:07:47,225 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15809.20250506_061805...
+2025-05-06 07:08:02,539 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15809.20250506_061805...
+2025-05-06 07:08:02,554 - INFO - Container sweb.eval.sympy__sympy-15809.20250506_061805 removed.

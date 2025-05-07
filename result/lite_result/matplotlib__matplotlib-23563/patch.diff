@@ -1,18 +1,19 @@
 
 diff --git a/lib/mpl_toolkits/mplot3d/art3d.py b/lib/mpl_toolkits/mplot3d/art3d.py
-index fa869c7..50d4743 100644
+index fa869c7..4162d7a 100644
 --- a/lib/mpl_toolkits/mplot3d/art3d.py
 +++ b/lib/mpl_toolkits/mplot3d/art3d.py
-@@ -169,9 +169,12 @@ class Line3D(lines.Line2D):
-         self._verts3d = xs, ys, zs
- 
-     def set_3d_properties(self, zs=0, zdir='z'):
-+        # Ensure _verts3d is reset before setting new properties
-+        self._verts3d = None
-         xs = self.get_xdata()
-         ys = self.get_ydata()
-         zs = np.broadcast_to(zs, len(xs))
-+
-         self._verts3d = juggle_axes(xs, ys, zs, zdir)
+@@ -193,11 +193,12 @@ class Line3D(lines.Line2D):
+         Accepts x, y, z arguments or a single array-like (x, y, z)
+         """
+         if len(args) == 1:
+-            self._verts3d = args[0]
++            self._verts3d = tuple(args[0])
+         else:
+             self._verts3d = args
          self.stale = True
  
++
+     def get_data_3d(self):
+         """
+         Get the current data

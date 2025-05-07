@@ -178,22 +178,23 @@ Date:   Tue Aug 9 15:33:48 2022 +0200
 
 + git diff 149a0398b391cfc4eddb5e659f50b3c66f32ea65
 diff --git a/lib/mpl_toolkits/mplot3d/art3d.py b/lib/mpl_toolkits/mplot3d/art3d.py
-index 8fe6e7a9c1..39f9fb0dbf 100644
+index 8fe6e7a9c1..9b5cc8725f 100644
 --- a/lib/mpl_toolkits/mplot3d/art3d.py
 +++ b/lib/mpl_toolkits/mplot3d/art3d.py
-@@ -169,9 +169,12 @@ class Line3D(lines.Line2D):
-         self._verts3d = xs, ys, zs
- 
-     def set_3d_properties(self, zs=0, zdir='z'):
-+        # Ensure _verts3d is reset before setting new properties
-+        self._verts3d = None
-         xs = self.get_xdata()
-         ys = self.get_ydata()
-         zs = np.broadcast_to(zs, len(xs))
-+
-         self._verts3d = juggle_axes(xs, ys, zs, zdir)
+@@ -193,11 +193,12 @@ class Line3D(lines.Line2D):
+         Accepts x, y, z arguments or a single array-like (x, y, z)
+         """
+         if len(args) == 1:
+-            self._verts3d = args[0]
++            self._verts3d = tuple(args[0])
+         else:
+             self._verts3d = args
          self.stale = True
  
++
+     def get_data_3d(self):
+         """
+         Get the current data
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -364,27 +365,27 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2862+g149a0398b3.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2862+g149a0398b3.d20250506) (4.7.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.6.0.dev2862+g149a0398b3
     Uninstalling matplotlib-3.6.0.dev2862+g149a0398b3:
       Successfully uninstalled matplotlib-3.6.0.dev2862+g149a0398b3
-  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2862+g149a0398b3.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2862+g149a0398b3.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
-Successfully installed matplotlib-3.6.0.dev2862+g149a0398b3.d20250212
+Successfully installed matplotlib-3.6.0.dev2862+g149a0398b3.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 149a0398b391cfc4eddb5e659f50b3c66f32ea65 lib/mpl_toolkits/tests/test_mplot3d.py
 Updated 0 paths from 9245cc457d
@@ -416,9 +417,9 @@ lib/mpl_toolkits/tests/test_mplot3d.py:1793:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 lib/mpl_toolkits/mplot3d/axes3d.py:1284: in plot
     art3d.line_2d_to_3d(line, zs=zs, zdir=zdir)
-lib/mpl_toolkits/mplot3d/art3d.py:228: in line_2d_to_3d
+lib/mpl_toolkits/mplot3d/art3d.py:226: in line_2d_to_3d
     line.set_3d_properties(zs, zdir)
-lib/mpl_toolkits/mplot3d/art3d.py:176: in set_3d_properties
+lib/mpl_toolkits/mplot3d/art3d.py:174: in set_3d_properties
     zs = np.broadcast_to(zs, len(xs))
 /opt/miniconda3/envs/testbed/lib/python3.11/site-packages/numpy/lib/stride_tricks.py:413: in broadcast_to
     return _broadcast_to(array, shape, subok=subok, readonly=True)
@@ -581,6 +582,6 @@ PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[z-pr
 PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[y-proj_expected1-axis_lines_expected1-tickdirs_expected1]
 PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[x-proj_expected2-axis_lines_expected2-tickdirs_expected2]
 FAILED lib/mpl_toolkits/tests/test_mplot3d.py::test_draw_single_lines_from_Nx1
-======================== 1 failed, 136 passed in 18.74s ========================
+======================== 1 failed, 136 passed in 18.84s ========================
 + git checkout 149a0398b391cfc4eddb5e659f50b3c66f32ea65 lib/mpl_toolkits/tests/test_mplot3d.py
 Updated 1 path from 9245cc457d

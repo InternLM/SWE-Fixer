@@ -178,20 +178,22 @@ Date:   Wed May 31 15:11:55 2023 -0400
 
 + git diff f6a781f77f5ddf1204c60ca7c544809407d4a807
 diff --git a/lib/mpl_toolkits/axes_grid1/axes_grid.py b/lib/mpl_toolkits/axes_grid1/axes_grid.py
-index 2b1b1d3200..214e3711c3 100644
+index 2b1b1d3200..a2c62be953 100644
 --- a/lib/mpl_toolkits/axes_grid1/axes_grid.py
 +++ b/lib/mpl_toolkits/axes_grid1/axes_grid.py
-@@ -13,11 +13,15 @@ from .mpl_axes import Axes
+@@ -13,11 +13,17 @@ from .mpl_axes import Axes
  def _tick_only(ax, bottom_on, left_on):
      bottom_off = not bottom_on
      left_off = not left_on
 -    ax.axis["bottom"].toggle(ticklabels=bottom_off, label=bottom_off)
 -    ax.axis["left"].toggle(ticklabels=left_off, label=left_off)
-+    if hasattr(ax.axis, "__getitem__"):
++    try:
 +        ax.axis["bottom"].toggle(ticklabels=bottom_off, label=bottom_off)
 +        ax.axis["left"].toggle(ticklabels=left_off, label=left_off)
-+    else:
-+        ax.tick_params(labelbottom=bottom_on, labelleft=left_on)
++    except TypeError:
++        kwargs = {"labelbottom": bottom_on, "labelleft": left_on,
++                  "bottom": bottom_on, "left": left_on}
++        ax.tick_params(**kwargs)
  
  
  class CbarAxesBase:
@@ -375,31 +377,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev1164+gf6a781f77f.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev1164+gf6a781f77f.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev1164+gf6a781f77f.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23434 sha256=057ce044ffd431db22cbd5ffde365f680f210471ad82213d370e745578507a6f
-  Stored in directory: /tmp/pip-ephem-wheel-cache-3qly3h50/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev1164+gf6a781f77f.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=23860 sha256=16acceb904f576ab20bf4ed8ad590742d0462b9eeff21bb3248d744f8c94f95c
+  Stored in directory: /tmp/pip-ephem-wheel-cache-a4klkkjs/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.8.0.dev1164+gf6a781f77f
     Uninstalling matplotlib-3.8.0.dev1164+gf6a781f77f:
       Successfully uninstalled matplotlib-3.8.0.dev1164+gf6a781f77f
-Successfully installed matplotlib-3.8.0.dev1164+gf6a781f77f.d20250212
+Successfully installed matplotlib-3.8.0.dev1164+gf6a781f77f.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout f6a781f77f5ddf1204c60ca7c544809407d4a807 lib/mpl_toolkits/axes_grid1/tests/test_axes_grid1.py
 Updated 0 paths from 8c95b3f776
@@ -468,6 +470,6 @@ PASSED lib/mpl_toolkits/axes_grid1/tests/test_axes_grid1.py::test_imagegrid
 PASSED lib/mpl_toolkits/axes_grid1/tests/test_axes_grid1.py::test_removal
 PASSED lib/mpl_toolkits/axes_grid1/tests/test_axes_grid1.py::test_anchored_locator_base_call[png]
 PASSED lib/mpl_toolkits/axes_grid1/tests/test_axes_grid1.py::test_grid_with_axes_class_not_overriding_axis
-============================== 49 passed in 7.79s ==============================
+============================== 49 passed in 7.27s ==============================
 + git checkout f6a781f77f5ddf1204c60ca7c544809407d4a807 lib/mpl_toolkits/axes_grid1/tests/test_axes_grid1.py
 Updated 1 path from 8c95b3f776

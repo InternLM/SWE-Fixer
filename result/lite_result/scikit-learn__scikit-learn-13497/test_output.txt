@@ -178,68 +178,22 @@ index 08aba83eb..7657d0771 100644
 -
 + git diff 26f690961a52946dd2f53bf0fdd4264b2ae5be90
 diff --git a/sklearn/feature_selection/mutual_info_.py b/sklearn/feature_selection/mutual_info_.py
-index d5d1b7fb5..002cd4247 100644
+index d5d1b7fb5..30fd01c95 100644
 --- a/sklearn/feature_selection/mutual_info_.py
 +++ b/sklearn/feature_selection/mutual_info_.py
-@@ -250,19 +250,34 @@ def _estimate_mi(X, y, discrete_features='auto', discrete_target=False,
-     if discrete_features == 'auto':
+@@ -247,10 +247,11 @@ def _estimate_mi(X, y, discrete_features='auto', discrete_target=False,
+     X, y = check_X_y(X, y, accept_sparse='csc', y_numeric=not discrete_target)
+     n_samples, n_features = X.shape
+ 
+-    if discrete_features == 'auto':
++    if isinstance(discrete_features, str) and discrete_features == 'auto':
          discrete_features = issparse(X)
  
--    if isinstance(discrete_features, bool):
--        discrete_mask = np.empty(n_features, dtype=bool)
--        discrete_mask.fill(discrete_features)
-+    if isinstance(discrete_features, (str, bool)):
-+        if isinstance(discrete_features, bool):
-+            discrete_mask = np.empty(n_features, dtype=bool)
-+            discrete_mask.fill(discrete_features)
-+        else:
-+            raise ValueError("Invalid value for the discrete_features parameter: '{}'.".format(discrete_features) +
-+                             "Allowed values are 'auto' or array-like of shape (n_features,) or (n_selected_features,) with dtype bool or int.")
+     if isinstance(discrete_features, bool):
++
+         discrete_mask = np.empty(n_features, dtype=bool)
+         discrete_mask.fill(discrete_features)
      else:
-         discrete_features = np.asarray(discrete_features)
--        if discrete_features.dtype != 'bool':
-+        if discrete_features.dtype == 'bool':
-+            if discrete_features.shape[0] == n_features:
-+                discrete_mask = discrete_features
-+            elif discrete_features.shape[0] == 1:
-+                discrete_mask = np.empty(n_features, dtype=bool)
-+                discrete_mask.fill(discrete_features[0])
-+            else:
-+                raise ValueError("Invalid shape for the discrete_features parameter: '{}'.".format(discrete_features.shape) +
-+                                 "Allowed shapes are (n_features,) or (n_selected_features,) with dtype bool or int.")
-+        elif discrete_features.dtype == 'int':
-             discrete_mask = np.zeros(n_features, dtype=bool)
-             discrete_mask[discrete_features] = True
-         else:
--            discrete_mask = discrete_features
-+            raise ValueError("Invalid dtype for the discrete_features parameter: '{}'.".format(discrete_features.dtype) +
-+                             "Allowed dtypes are bool or int.")
- 
-     continuous_mask = ~discrete_mask
-     if np.any(continuous_mask) and issparse(X):
-+
-         raise ValueError("Sparse matrix `X` can't have continuous features.")
- 
-     rng = check_random_state(random_state)
-@@ -284,13 +299,15 @@ def _estimate_mi(X, y, discrete_features='auto', discrete_target=False,
-         y = scale(y, with_mean=False)
-         y += 1e-10 * np.maximum(1, np.mean(np.abs(y))) * rng.randn(n_samples)
- 
--    mi = [_compute_mi(x, y, discrete_feature, discrete_target, n_neighbors) for
--          x, discrete_feature in zip(_iterate_columns(X), discrete_mask)]
-+    mi = np.empty(n_features)
-+    for i, (x, discrete_feature) in enumerate(zip(_iterate_columns(X), discrete_mask)):
-+        mi[i] = _compute_mi(x, y, discrete_feature, discrete_target, n_neighbors)
- 
--    return np.array(mi)
-+    return mi
- 
- 
- def mutual_info_regression(X, y, discrete_features='auto', n_neighbors=3,
-+
-                            copy=True, random_state=None):
-     """Estimate mutual information for a continuous target variable.
- 
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -369,16 +323,16 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
-    writing manifest file '/tmp/pip-pip-egg-info-6v38l6ki/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-qn0ag5mz/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.11.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.21.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.17.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.21.dev0) (1.5.2)
@@ -405,11 +359,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmpi6uhejv8/tmp
-    creating /tmp/tmpi6uhejv8/tmp/tmpi6uhejv8
+    creating /tmp/tmp3i65zm8q/tmp
+    creating /tmp/tmp3i65zm8q/tmp/tmp3i65zm8q
     compile options: '-c'
-    gcc: /tmp/tmpi6uhejv8/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpi6uhejv8/tmp/tmpi6uhejv8/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpi6uhejv8/a.out
+    gcc: /tmp/tmp3i65zm8q/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmp3i65zm8q/tmp/tmp3i65zm8q/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmp3i65zm8q/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -564,6 +518,10 @@ WARNING: Running pip as the 'root' user can result in broken permissions and con
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout 26f690961a52946dd2f53bf0fdd4264b2ae5be90 sklearn/feature_selection/tests/test_mutual_info.py
 Updated 0 paths from 67890597a
 + git apply -v -
@@ -593,19 +551,15 @@ ___________________________ test_mutual_info_options ___________________________
             assert_raises(ValueError, mutual_info, X_csr, y,
                           discrete_features=False)
             assert_raises(ValueError, mutual_info, X, y,
-                          discrete_features='manual')
-            assert_raises(ValueError, mutual_info, X_csr, y,
-                          discrete_features=[True, False, True])
-            assert_raises(IndexError, mutual_info, X, y,
->                         discrete_features=[True, False, True, False])
+>                         discrete_features='manual')
 
-sklearn/feature_selection/tests/test_mutual_info.py:193: 
+sklearn/feature_selection/tests/test_mutual_info.py:189: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 sklearn/utils/_unittest_backport.py:204: in assertRaises
     return context.handle('assertRaises', args, kwargs)
 sklearn/utils/_unittest_backport.py:113: in handle
     callable_obj(*args, **kwargs)
-sklearn/feature_selection/mutual_info_.py:386: in mutual_info_regression
+sklearn/feature_selection/mutual_info_.py:370: in mutual_info_regression
     copy, random_state)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
@@ -615,7 +569,7 @@ X = array([[0., 0., 0.],
        [2., 0., 1.],
        [2., 0., 1.]])
 y = array([0., 1., 2., 2., 1.])
-discrete_features = array([ True, False,  True, False]), discrete_target = False
+discrete_features = array('manual', dtype='<U6'), discrete_target = False
 n_neighbors = 3, copy = True, random_state = None
 
     def _estimate_mi(X, y, discrete_features='auto', discrete_target=False,
@@ -673,30 +627,21 @@ n_neighbors = 3, copy = True, random_state = None
         X, y = check_X_y(X, y, accept_sparse='csc', y_numeric=not discrete_target)
         n_samples, n_features = X.shape
     
-        if discrete_features == 'auto':
+        if isinstance(discrete_features, str) and discrete_features == 'auto':
             discrete_features = issparse(X)
     
-        if isinstance(discrete_features, (str, bool)):
-            if isinstance(discrete_features, bool):
-                discrete_mask = np.empty(n_features, dtype=bool)
-                discrete_mask.fill(discrete_features)
-            else:
-                raise ValueError("Invalid value for the discrete_features parameter: '{}'.".format(discrete_features) +
-                                 "Allowed values are 'auto' or array-like of shape (n_features,) or (n_selected_features,) with dtype bool or int.")
+        if isinstance(discrete_features, bool):
+    
+            discrete_mask = np.empty(n_features, dtype=bool)
+            discrete_mask.fill(discrete_features)
         else:
             discrete_features = np.asarray(discrete_features)
-            if discrete_features.dtype == 'bool':
-                if discrete_features.shape[0] == n_features:
-                    discrete_mask = discrete_features
-                elif discrete_features.shape[0] == 1:
-                    discrete_mask = np.empty(n_features, dtype=bool)
-                    discrete_mask.fill(discrete_features[0])
-                else:
-                    raise ValueError("Invalid shape for the discrete_features parameter: '{}'.".format(discrete_features.shape) +
->                                    "Allowed shapes are (n_features,) or (n_selected_features,) with dtype bool or int.")
-E                   ValueError: Invalid shape for the discrete_features parameter: '(4,)'.Allowed shapes are (n_features,) or (n_selected_features,) with dtype bool or int.
+            if discrete_features.dtype != 'bool':
+                discrete_mask = np.zeros(n_features, dtype=bool)
+>               discrete_mask[discrete_features] = True
+E               IndexError: arrays used as indices must be of integer (or boolean) type
 
-sklearn/feature_selection/mutual_info_.py:270: ValueError
+sklearn/feature_selection/mutual_info_.py:261: IndexError
 ==================================== PASSES ====================================
 =========================== short test summary info ============================
 PASSED sklearn/feature_selection/tests/test_mutual_info.py::test_compute_mi_dd
@@ -707,6 +652,6 @@ PASSED sklearn/feature_selection/tests/test_mutual_info.py::test_mutual_info_cla
 PASSED sklearn/feature_selection/tests/test_mutual_info.py::test_mutual_info_regression
 PASSED sklearn/feature_selection/tests/test_mutual_info.py::test_mutual_info_classif_mixed
 FAILED sklearn/feature_selection/tests/test_mutual_info.py::test_mutual_info_options
-========================= 1 failed, 7 passed in 0.90s ==========================
+========================= 1 failed, 7 passed in 0.79s ==========================
 + git checkout 26f690961a52946dd2f53bf0fdd4264b2ae5be90 sklearn/feature_selection/tests/test_mutual_info.py
 Updated 1 path from 67890597a

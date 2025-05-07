@@ -1,0 +1,114 @@
+2025-05-06 11:29:35,565 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-21055
+Building instance image sweb.eval.x86_64.sympy__sympy-21055:latest for sympy__sympy-21055
+2025-05-06 11:29:35,567 - INFO - Image sweb.eval.x86_64.sympy__sympy-21055:latest already exists, skipping build.
+2025-05-06 11:29:35,567 - INFO - Creating container for sympy__sympy-21055...
+2025-05-06 11:29:35,598 - INFO - Container for sympy__sympy-21055 created: 255614a912cdfb208970ae16573c0c062d6be733740d5022302820eb8a71658c
+2025-05-06 11:29:36,028 - INFO - Container for sympy__sympy-21055 started: 255614a912cdfb208970ae16573c0c062d6be733740d5022302820eb8a71658c
+2025-05-06 11:29:36,028 - INFO - Intermediate patch for sympy__sympy-21055 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-21055/patch.diff, now applying to container...
+2025-05-06 11:29:36,264 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:29:36,327 - INFO - >>>>> Applied Patch:
+patching file sympy/assumptions/refine.py
+patching file sympy/assumptions/refine.py
+Hunk #1 succeeded at 403 (offset 23 lines).
+
+2025-05-06 11:29:36,869 - INFO - Git diff before:
+diff --git a/sympy/assumptions/refine.py b/sympy/assumptions/refine.py
+index e1f97190c0..6933ca888a 100644
+--- a/sympy/assumptions/refine.py
++++ b/sympy/assumptions/refine.py
+@@ -350,10 +350,33 @@ def refine_sign(expr, assumptions):
+     return expr
+ 
+ 
++def refine_arg(expr, assumptions):
++    """
++    Handler for argument.
++
++    Examples
++    ========
++
++    >>> from sympy.assumptions.refine import refine_arg
++    >>> from sympy import Q, arg
++    >>> from sympy.abc import x
++    >>> refine_arg(arg(x), Q.real(x))
++    arg(x)
++    >>> refine_arg(arg(x), Q.positive(x))
++    0
++    """
++    arg = expr.args[0]
++    if ask(Q.positive(arg), assumptions):
++        return S.Zero
++    if ask(Q.real(arg), assumptions):
++        return expr
++
++
+ def refine_matrixelement(expr, assumptions):
+     """
+     Handler for symmetric part.
+ 
++
+     Examples
+     ========
+ 
+@@ -380,5 +403,6 @@ def refine_matrixelement(expr, assumptions):
+     're': refine_re,
+     'im': refine_im,
+     'sign': refine_sign,
++    'arg': refine_arg,
+     'MatrixElement': refine_matrixelement
+ }  # type: Dict[str, Callable[[Expr, Boolean], Expr]]
+2025-05-06 11:29:36,869 - INFO - Eval script for sympy__sympy-21055 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-21055/eval.sh; copying to container...
+2025-05-06 11:29:45,994 - INFO - Test runtime: 8.97 seconds
+2025-05-06 11:29:45,995 - INFO - Test output for sympy__sympy-21055 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-21055/test_output.txt
+2025-05-06 11:29:46,075 - INFO - Git diff after:
+diff --git a/sympy/assumptions/refine.py b/sympy/assumptions/refine.py
+index e1f97190c0..6933ca888a 100644
+--- a/sympy/assumptions/refine.py
++++ b/sympy/assumptions/refine.py
+@@ -350,10 +350,33 @@ def refine_sign(expr, assumptions):
+     return expr
+ 
+ 
++def refine_arg(expr, assumptions):
++    """
++    Handler for argument.
++
++    Examples
++    ========
++
++    >>> from sympy.assumptions.refine import refine_arg
++    >>> from sympy import Q, arg
++    >>> from sympy.abc import x
++    >>> refine_arg(arg(x), Q.real(x))
++    arg(x)
++    >>> refine_arg(arg(x), Q.positive(x))
++    0
++    """
++    arg = expr.args[0]
++    if ask(Q.positive(arg), assumptions):
++        return S.Zero
++    if ask(Q.real(arg), assumptions):
++        return expr
++
++
+ def refine_matrixelement(expr, assumptions):
+     """
+     Handler for symmetric part.
+ 
++
+     Examples
+     ========
+ 
+@@ -380,5 +403,6 @@ def refine_matrixelement(expr, assumptions):
+     're': refine_re,
+     'im': refine_im,
+     'sign': refine_sign,
++    'arg': refine_arg,
+     'MatrixElement': refine_matrixelement
+ }  # type: Dict[str, Callable[[Expr, Boolean], Expr]]
+2025-05-06 11:29:46,075 - INFO - Grading answer for sympy__sympy-21055...
+2025-05-06 11:29:46,078 - INFO - report: {'sympy__sympy-21055': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_arg']}, 'PASS_TO_PASS': {'success': ['test_Abs', 'test_pow1', 'test_pow2', 'test_exp', 'test_Piecewise', 'test_atan2', 'test_re', 'test_im', 'test_complex', 'test_sign', 'test_func_args', 'test_eval_refine', 'test_refine_issue_12724'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-21055: resolved: False
+2025-05-06 11:29:46,078 - INFO - Attempting to stop container sweb.eval.sympy__sympy-21055.20250506_111427...
+2025-05-06 11:30:01,357 - INFO - Attempting to remove container sweb.eval.sympy__sympy-21055.20250506_111427...
+2025-05-06 11:30:01,380 - INFO - Container sweb.eval.sympy__sympy-21055.20250506_111427 removed.

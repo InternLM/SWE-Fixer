@@ -1,15 +1,15 @@
-2025-02-12 13:18:47,272 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-8595
+2025-05-06 12:40:13,109 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-8595
 Building instance image sweb.eval.x86_64.sphinx-doc__sphinx-8595:latest for sphinx-doc__sphinx-8595
-2025-02-12 13:18:47,274 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-8595:latest already exists, skipping build.
-2025-02-12 13:18:47,275 - INFO - Creating container for sphinx-doc__sphinx-8595...
-2025-02-12 13:18:47,307 - INFO - Container for sphinx-doc__sphinx-8595 created: 5421e500b00de168d9eeb037dc7c915eb6e19148418bed4da4a2bfb13941c3b4
-2025-02-12 13:18:47,661 - INFO - Container for sphinx-doc__sphinx-8595 started: 5421e500b00de168d9eeb037dc7c915eb6e19148418bed4da4a2bfb13941c3b4
-2025-02-12 13:18:47,662 - INFO - Intermediate patch for sphinx-doc__sphinx-8595 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-8595/patch.diff, now applying to container...
-2025-02-12 13:18:47,902 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:18:47,965 - INFO - >>>>> Applied Patch:
+2025-05-06 12:40:13,111 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-8595:latest already exists, skipping build.
+2025-05-06 12:40:13,111 - INFO - Creating container for sphinx-doc__sphinx-8595...
+2025-05-06 12:40:13,141 - INFO - Container for sphinx-doc__sphinx-8595 created: 309289c56a7894a68e917431aa538c05258e3f904f62754872d477b4dd1686b5
+2025-05-06 12:40:13,441 - INFO - Container for sphinx-doc__sphinx-8595 started: 309289c56a7894a68e917431aa538c05258e3f904f62754872d477b4dd1686b5
+2025-05-06 12:40:13,442 - INFO - Intermediate patch for sphinx-doc__sphinx-8595 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-8595/patch.diff, now applying to container...
+2025-05-06 12:40:13,724 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:40:13,791 - INFO - >>>>> Applied Patch:
 patching file sphinx/ext/autodoc/__init__.py
 
-2025-02-12 13:18:48,351 - INFO - Git diff before:
+2025-05-06 12:40:14,029 - INFO - Git diff before:
 diff --git a/setup.py b/setup.py
 index 8d40de1a8..03f325278 100644
 --- a/setup.py
@@ -46,10 +46,10 @@ index 8d40de1a8..03f325278 100644
  
  extras_require = {
 diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
-index d85d79617..b9cc6980e 100644
+index d85d79617..d4a7e270d 100644
 --- a/sphinx/ext/autodoc/__init__.py
 +++ b/sphinx/ext/autodoc/__init__.py
-@@ -1074,10 +1074,13 @@ class ModuleDocumenter(Documenter):
+@@ -1074,10 +1074,16 @@ class ModuleDocumenter(Documenter):
      def get_object_members(self, want_all: bool) -> Tuple[bool, ObjectMembers]:
          members = self.get_module_members()
          if want_all:
@@ -59,12 +59,15 @@ index d85d79617..b9cc6980e 100644
                  # documenting imported objects
                  return True, list(members.values())
 +            elif len(self.__all__) == 0:
-+                # __all__ is empty. No members should be documented.
-+                return False, []
++                # __all__ is an empty list. Skip all members.
++                for member in members.values():
++                    member.skipped = True
++
++                return False, list(members.values())
              else:
                  for member in members.values():
                      if member.__name__ not in self.__all__:
-@@ -1087,6 +1090,7 @@ class ModuleDocumenter(Documenter):
+@@ -1087,6 +1093,7 @@ class ModuleDocumenter(Documenter):
          else:
              memberlist = self.options.members or []
              ret = []
@@ -85,10 +88,10 @@ index dbb705a3a..9f4fc3a32 100644
  
  [testenv:flake8]
  basepython = python3
-2025-02-12 13:18:48,351 - INFO - Eval script for sphinx-doc__sphinx-8595 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-8595/eval.sh; copying to container...
-2025-02-12 13:18:52,438 - INFO - Test runtime: 3.89 seconds
-2025-02-12 13:18:52,438 - INFO - Test output for sphinx-doc__sphinx-8595 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-8595/test_output.txt
-2025-02-12 13:18:52,511 - INFO - Git diff after:
+2025-05-06 12:40:14,029 - INFO - Eval script for sphinx-doc__sphinx-8595 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-8595/eval.sh; copying to container...
+2025-05-06 12:40:17,979 - INFO - Test runtime: 3.75 seconds
+2025-05-06 12:40:17,979 - INFO - Test output for sphinx-doc__sphinx-8595 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-8595/test_output.txt
+2025-05-06 12:40:18,053 - INFO - Git diff after:
 diff --git a/setup.py b/setup.py
 index 8d40de1a8..03f325278 100644
 --- a/setup.py
@@ -125,10 +128,10 @@ index 8d40de1a8..03f325278 100644
  
  extras_require = {
 diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
-index d85d79617..b9cc6980e 100644
+index d85d79617..d4a7e270d 100644
 --- a/sphinx/ext/autodoc/__init__.py
 +++ b/sphinx/ext/autodoc/__init__.py
-@@ -1074,10 +1074,13 @@ class ModuleDocumenter(Documenter):
+@@ -1074,10 +1074,16 @@ class ModuleDocumenter(Documenter):
      def get_object_members(self, want_all: bool) -> Tuple[bool, ObjectMembers]:
          members = self.get_module_members()
          if want_all:
@@ -138,12 +141,15 @@ index d85d79617..b9cc6980e 100644
                  # documenting imported objects
                  return True, list(members.values())
 +            elif len(self.__all__) == 0:
-+                # __all__ is empty. No members should be documented.
-+                return False, []
++                # __all__ is an empty list. Skip all members.
++                for member in members.values():
++                    member.skipped = True
++
++                return False, list(members.values())
              else:
                  for member in members.values():
                      if member.__name__ not in self.__all__:
-@@ -1087,6 +1090,7 @@ class ModuleDocumenter(Documenter):
+@@ -1087,6 +1093,7 @@ class ModuleDocumenter(Documenter):
          else:
              memberlist = self.options.members or []
              ret = []
@@ -164,9 +170,9 @@ index dbb705a3a..9f4fc3a32 100644
  
  [testenv:flake8]
  basepython = python3
-2025-02-12 13:18:52,511 - INFO - Grading answer for sphinx-doc__sphinx-8595...
-2025-02-12 13:18:52,517 - INFO - report: {'sphinx-doc__sphinx-8595': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['tests/test_ext_autodoc_automodule.py::test_empty_all'], 'failure': []}, 'PASS_TO_PASS': {'success': [], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:40:18,053 - INFO - Grading answer for sphinx-doc__sphinx-8595...
+2025-05-06 12:40:18,064 - INFO - report: {'sphinx-doc__sphinx-8595': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['tests/test_ext_autodoc_automodule.py::test_empty_all'], 'failure': []}, 'PASS_TO_PASS': {'success': [], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sphinx-doc__sphinx-8595: resolved: True
-2025-02-12 13:18:52,517 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-8595.20250212_130622...
-2025-02-12 13:19:07,819 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-8595.20250212_130622...
-2025-02-12 13:19:07,847 - INFO - Container sweb.eval.sphinx-doc__sphinx-8595.20250212_130622 removed.
+2025-05-06 12:40:18,064 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-8595.20250506_122807...
+2025-05-06 12:40:33,357 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-8595.20250506_122807...
+2025-05-06 12:40:33,377 - INFO - Container sweb.eval.sphinx-doc__sphinx-8595.20250506_122807 removed.

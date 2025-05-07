@@ -354,7 +354,7 @@ test_unescape_string_literal (utils_tests.test_text.TestUtilsText) ... ok
 test_wrap (utils_tests.test_text.TestUtilsText) ... ok
 
 ----------------------------------------------------------------------
-Ran 16 tests in 0.016s
+Ran 16 tests in 0.020s
 
 OK
 Testing against Django installed in '/testbed/django'

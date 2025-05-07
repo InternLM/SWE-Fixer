@@ -402,10 +402,10 @@ index 97584326aa..5c3379b44a 100644
  class IntegerModel(models.Model):
 + git diff 2f13c476abe4ba787b6cb71131818341911f43cc
 diff --git a/django/urls/resolvers.py b/django/urls/resolvers.py
-index 9b00e24509..4d75794b18 100644
+index 9b00e24509..9dd307db37 100644
 --- a/django/urls/resolvers.py
 +++ b/django/urls/resolvers.py
-@@ -31,13 +31,20 @@ from .utils import get_callable
+@@ -31,13 +31,19 @@ from .utils import get_callable
  
  class ResolverMatch:
      def __init__(self, func, args, kwargs, url_name=None, app_names=None, namespaces=None, route=None, tried=None):
@@ -413,10 +413,9 @@ index 9b00e24509..4d75794b18 100644
 -        self.args = args
 -        self.kwargs = kwargs
 +        if isinstance(func, functools.partial):
-+            # Unwrap the partial function and store its arguments.
 +            self.func = func.func
-+            self.args = func.args + args
-+            self.kwargs = {**func.keywords, **kwargs}
++            self.args = func.args
++            self.kwargs = func.keywords
 +        else:
 +            self.func = func
 +            self.args = args
@@ -570,8 +569,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0-0.editable-py3-none-any.whl size=25609 sha256=8be14ac7263f40530d9518ed79e703e48435cbac940be59324d221898d1569cf
-  Stored in directory: /tmp/pip-ephem-wheel-cache-tpmbijhi/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0-0.editable-py3-none-any.whl size=25610 sha256=ccd51f01a7c3ed33f49a9ef6c3af645c0eb44706ee9a273688e5217615239931
+  Stored in directory: /tmp/pip-ephem-wheel-cache-642i9bh7/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -605,8 +604,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
- OK
+  Applying sites.0002_alter_domain_unique... OK
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 System check identified no issues (0 silenced).
 test_build_absolute_uri (urlpatterns_reverse.tests.ReverseLazyTest) ... ok
 test_inserting_reverse_lazy_into_string (urlpatterns_reverse.tests.ReverseLazyTest) ... ok
@@ -757,7 +756,7 @@ Traceback (most recent call last):
     self.assertEqual(
 AssertionError: "ResolverMatch(func=urlpatterns_reverse.views.empty_view, arg[107 chars]al/)" != "ResolverMatch(func=functools.partial(<function empty_view at[132 chars]l/')"
 - ResolverMatch(func=urlpatterns_reverse.views.empty_view, args=(), kwargs={'template_name': 'template.html'}, url_name=partial, app_names=[], namespaces=[], route=partial/)
-+ ResolverMatch(func=functools.partial(<function empty_view at 0x7f987a7985e0>, template_name='template.html'), args=(), kwargs={}, url_name='partial', app_names=[], namespaces=[], route='partial/')
++ ResolverMatch(func=functools.partial(<function empty_view at 0x7f907373d5e0>, template_name='template.html'), args=(), kwargs={}, url_name='partial', app_names=[], namespaces=[], route='partial/')
 
 
 ======================================================================
@@ -768,7 +767,7 @@ Traceback (most recent call last):
     self.assertEqual(
 AssertionError: "ResolverMatch(func=urlpatterns_reverse.views.empty_view, arg[127 chars]ed/)" != "ResolverMatch(func=functools.partial(<function empty_view at[152 chars]d/')"
 - ResolverMatch(func=urlpatterns_reverse.views.empty_view, args=(), kwargs={'template_name': 'nested_partial.html'}, url_name=partial_nested, app_names=[], namespaces=[], route=partial_nested/)
-+ ResolverMatch(func=functools.partial(<function empty_view at 0x7f987a7985e0>, template_name='nested_partial.html'), args=(), kwargs={}, url_name='partial_nested', app_names=[], namespaces=[], route='partial_nested/')
++ ResolverMatch(func=functools.partial(<function empty_view at 0x7f907373d5e0>, template_name='nested_partial.html'), args=(), kwargs={}, url_name='partial_nested', app_names=[], namespaces=[], route='partial_nested/')
 
 
 ======================================================================
@@ -779,11 +778,11 @@ Traceback (most recent call last):
     self.assertEqual(
 AssertionError: "ResolverMatch(func=urlpatterns_reverse.views.empty_view, arg[123 chars]ed/)" != "ResolverMatch(func=functools.partial(<function empty_view at[148 chars]d/')"
 - ResolverMatch(func=urlpatterns_reverse.views.empty_view, args=(), kwargs={'template_name': 'template.html'}, url_name=partial_wrapped, app_names=[], namespaces=[], route=partial_wrapped/)
-+ ResolverMatch(func=functools.partial(<function empty_view at 0x7f987a7985e0>, template_name='template.html'), args=(), kwargs={}, url_name='partial_wrapped', app_names=[], namespaces=[], route='partial_wrapped/')
++ ResolverMatch(func=functools.partial(<function empty_view at 0x7f907373d5e0>, template_name='template.html'), args=(), kwargs={}, url_name='partial_wrapped', app_names=[], namespaces=[], route='partial_wrapped/')
 
 
 ----------------------------------------------------------------------
-Ran 95 tests in 0.623s
+Ran 95 tests in 0.636s
 
 FAILED (failures=4)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

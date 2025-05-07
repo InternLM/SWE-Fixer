@@ -372,8 +372,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210720095921-0.editable-py3-none-any.whl size=26232 sha256=e4edcf3f8629813e5bfef040db94ad2bd3897939ec80318974003d33e9e155e9
-  Stored in directory: /tmp/pip-ephem-wheel-cache-9_rqfkbt/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210720095921-0.editable-py3-none-any.whl size=26232 sha256=9d8531125e0ed75faf28f5e221c5e0be14b7ea166b68bce2519327e9e6ff2fab
+  Stored in directory: /tmp/pip-ephem-wheel-cache-y8nawz17/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -414,8 +414,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
- OK
+  Applying sites.0002_alter_domain_unique... OK
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 System check identified no issues (0 silenced).
 test_defer_baseclass_when_subclass_has_added_field (defer.tests.BigChildDeferTests) ... ERROR
 test_defer_subclass (defer.tests.BigChildDeferTests) ... ERROR

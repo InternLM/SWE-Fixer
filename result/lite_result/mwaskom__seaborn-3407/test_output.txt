@@ -335,29 +335,34 @@ index 1e528688..7b256884 100644
          s = pd.Series(["1", "2", "3"])
 + git diff 515286e02be3e4c0ff2ef4addb34a53c4a676ee4
 diff --git a/seaborn/axisgrid.py b/seaborn/axisgrid.py
-index 75349099..836c78a0 100644
+index 75349099..15db1bbf 100644
 --- a/seaborn/axisgrid.py
 +++ b/seaborn/axisgrid.py
-@@ -2111,12 +2111,19 @@ def pairplot(
+@@ -1487,10 +1487,23 @@ class PairGrid(Grid):
+             else:
+                 plt.sca(ax)
  
-     # Set up the PairGrid
-     grid_kws.setdefault("diag_sharey", diag_kind == "hist")
+-            vector = self.data[var]
++            if isinstance(self.data.columns, pd.MultiIndex):
++                # Find the column index for the variable
++                for level in range(self.data.columns.nlevels):
++                    idx = self.data.columns.get_level_values(level).get_loc(var)
++                    if not isinstance(idx, int):
++                        continue
++                    break
++                else:
++                    raise ValueError(f"Could not find index for variable {var}")
++                vector = self.data.iloc[:, idx]
++            else:
++                vector = self.data[var]
 +
-+    # Convert MultiIndex to compatible format
-+    if isinstance(data.columns, pd.MultiIndex):
-+        data = data.copy()
-+        data.columns = map(tuple, data.columns)
+             if self._hue_var is not None:
+                 hue = self.data[self._hue_var]
+             else:
 +
-     grid = PairGrid(data, vars=vars, x_vars=x_vars, y_vars=y_vars, hue=hue,
-                     hue_order=hue_order, palette=palette, corner=corner,
-                     height=height, aspect=aspect, dropna=dropna, **grid_kws)
+                 hue = None
  
-     # Add the markers here as PairGrid has figured out how many levels of the
-     # hue variable are needed and we don't want to duplicate that process
-+
-     if markers is not None:
-         if kind == "reg":
-             # Needed until regplot supports style
+             if self._dropna:
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -549,8 +554,8 @@ Checking if build backend supports build_editable: finished with status 'done'
 Building wheels for collected packages: seaborn
   Building editable for seaborn (pyproject.toml): started
   Building editable for seaborn (pyproject.toml): finished with status 'done'
-  Created wheel for seaborn: filename=seaborn-0.13.0.dev0-py3-none-any.whl size=3871 sha256=236d91be44b490376c73fdac47fe57894a5710ff7f54dfce3eaddfa84e1e270e
-  Stored in directory: /tmp/pip-ephem-wheel-cache-_hvj591w/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for seaborn: filename=seaborn-0.13.0.dev0-py3-none-any.whl size=3911 sha256=867bf8b25da3745708b04584a51582c900cea2b04b294ed637c2a8578213fca0
+  Stored in directory: /tmp/pip-ephem-wheel-cache-zdlh24w5/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built seaborn
 Installing collected packages: seaborn
   Attempting uninstall: seaborn
@@ -574,7 +579,52 @@ tests/test_axisgrid.py ................................................. [ 40%]
 =================================== FAILURES ===================================
 _________________ TestPairGrid.test_pairplot_column_multiindex _________________
 
-self = <tests.test_axisgrid.TestPairGrid object at 0x7f46fe5bd3a0>
+self = Index(['x', 'y'], dtype='object'), key = array(['x', 1], dtype=object)
+
+    def get_loc(self, key):
+        """
+        Get integer location, slice or boolean mask for requested label.
+    
+        Parameters
+        ----------
+        key : label
+    
+        Returns
+        -------
+        int if unique index, slice if monotonic index, else mask
+    
+        Examples
+        --------
+        >>> unique_index = pd.Index(list('abc'))
+        >>> unique_index.get_loc('b')
+        1
+    
+        >>> monotonic_index = pd.Index(list('abbc'))
+        >>> monotonic_index.get_loc('b')
+        slice(1, 3, None)
+    
+        >>> non_monotonic_index = pd.Index(list('abcb'))
+        >>> non_monotonic_index.get_loc('b')
+        array([False,  True, False,  True])
+        """
+        casted_key = self._maybe_cast_indexer(key)
+        try:
+>           return self._engine.get_loc(casted_key)
+
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/indexes/base.py:3652: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pandas/_libs/index.pyx:147: in pandas._libs.index.IndexEngine.get_loc
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+>   ???
+E   TypeError: '['x' 1]' is an invalid key
+
+pandas/_libs/index.pyx:153: TypeError
+
+During handling of the above exception, another exception occurred:
+
+self = <tests.test_axisgrid.TestPairGrid object at 0x7fadd29a82b0>
 
     def test_pairplot_column_multiindex(self):
     
@@ -584,66 +634,24 @@ self = <tests.test_axisgrid.TestPairGrid object at 0x7f46fe5bd3a0>
 
 tests/test_axisgrid.py:1429: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-seaborn/axisgrid.py:2151: in pairplot
+seaborn/axisgrid.py:2157: in pairplot
     grid.map_diag(histplot, **diag_kws)
-seaborn/axisgrid.py:1490: in map_diag
-    vector = self.data[var]
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/frame.py:3766: in __getitem__
-    indexer = self.columns._get_indexer_strict(key, "columns")[1]
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/indexes/base.py:5876: in _get_indexer_strict
-    self._raise_if_missing(keyarr, indexer, axis_name)
+seaborn/axisgrid.py:1493: in map_diag
+    idx = self.data.columns.get_level_values(level).get_loc(var)
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/indexes/base.py:3659: in get_loc
+    self._check_indexing_error(key)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = Index([('x', 1), ('y', 2)], dtype='object')
-key = Index(['x', 1], dtype='object'), indexer = array([-1, -1])
-axis_name = 'columns'
+self = Index(['x', 'y'], dtype='object'), key = array(['x', 1], dtype=object)
 
-    def _raise_if_missing(self, key, indexer, axis_name: str_t) -> None:
-        """
-        Check that indexer can be used to return a result.
-    
-        e.g. at least one element was found,
-        unless the list of keys was actually empty.
-    
-        Parameters
-        ----------
-        key : list-like
-            Targeted labels (only used to show correct error message).
-        indexer: array-like of booleans
-            Indices corresponding to the key,
-            (with -1 indicating not found).
-        axis_name : str
-    
-        Raises
-        ------
-        KeyError
-            If at least one key was requested but none was found.
-        """
-        if len(key) == 0:
-            return
-    
-        # Count missing values
-        missing_mask = indexer < 0
-        nmissing = missing_mask.sum()
-    
-        if nmissing:
-            # TODO: remove special-case; this is just to keep exception
-            #  message tests from raising while debugging
-            use_interval_msg = is_interval_dtype(self.dtype) or (
-                is_categorical_dtype(self.dtype)
-                # "Index" has no attribute "categories"  [attr-defined]
-                and is_interval_dtype(
-                    self.categories.dtype  # type: ignore[attr-defined]
-                )
-            )
-    
-            if nmissing == len(indexer):
-                if use_interval_msg:
-                    key = list(key)
->               raise KeyError(f"None of [{key}] are in the [{axis_name}]")
-E               KeyError: "None of [Index(['x', 1], dtype='object')] are in the [columns]"
+    def _check_indexing_error(self, key):
+        if not is_scalar(key):
+            # if key is not a scalar, directly raise an error (the code below
+            # would convert to numpy arrays and raise later any way) - GH29926
+>           raise InvalidIndexError(key)
+E           pandas.errors.InvalidIndexError: ['x' 1]
 
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/indexes/base.py:5935: KeyError
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/indexes/base.py:5736: InvalidIndexError
 =============================== warnings summary ===============================
 tests/test_axisgrid.py::TestFacetGrid::test_legend_data
 tests/test_axisgrid.py::TestFacetGrid::test_legend_data
@@ -795,6 +803,6 @@ PASSED tests/test_axisgrid.py::TestJointPlot::test_leaky_dict
 PASSED tests/test_axisgrid.py::TestJointPlot::test_distplot_kwarg_warning
 PASSED tests/test_axisgrid.py::TestJointPlot::test_ax_warning
 FAILED tests/test_axisgrid.py::TestPairGrid::test_pairplot_column_multiindex
-============ 1 failed, 120 passed, 42 warnings in 78.63s (0:01:18) =============
+============ 1 failed, 120 passed, 42 warnings in 78.76s (0:01:18) =============
 + git checkout 515286e02be3e4c0ff2ef4addb34a53c4a676ee4 tests/test_axisgrid.py
 Updated 1 path from d36b2e04

@@ -1,0 +1,18 @@
+
+diff --git a/lib/mpl_toolkits/mplot3d/art3d.py b/lib/mpl_toolkits/mplot3d/art3d.py
+index fa869c7..59e493b 100644
+--- a/lib/mpl_toolkits/mplot3d/art3d.py
++++ b/lib/mpl_toolkits/mplot3d/art3d.py
+@@ -166,10 +166,11 @@ class Line3D(lines.Line2D):
+         Keyword arguments are passed onto :func:`~matplotlib.lines.Line2D`.
+         """
+         super().__init__([], [], *args, **kwargs)
+-        self._verts3d = xs, ys, zs
++        self._verts3d = None
+ 
+     def set_3d_properties(self, zs=0, zdir='z'):
+         xs = self.get_xdata()
++
+         ys = self.get_ydata()
+         zs = np.broadcast_to(zs, len(xs))
+         self._verts3d = juggle_axes(xs, ys, zs, zdir)

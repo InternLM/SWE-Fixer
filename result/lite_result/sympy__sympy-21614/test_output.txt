@@ -150,27 +150,38 @@ Date:   Sun Jun 13 14:23:08 2021 +0100
 
 + git diff b4777fdcef467b7132c055f8ac2c9a5059e6a145
 diff --git a/sympy/core/kind.py b/sympy/core/kind.py
-index f1935b541a..2c901cc200 100644
+index f1935b541a..4274451344 100644
 --- a/sympy/core/kind.py
 +++ b/sympy/core/kind.py
-@@ -243,9 +243,17 @@ class KindDispatcher:
-     >>> Mul._kind_dispatcher(MatrixKind(NumberKind), MatrixKind(UndefinedKind))
-     MatrixKind(UndefinedKind)
+@@ -25,10 +25,11 @@
+        See https://github.com/sympy/sympy/pull/20549.
+ """
  
-+    Derivative returns the same kind as its expression.
-+
-+    >>> from sympy.core import Derivative
-+    >>> Derivative._kind_dispatcher(MatrixKind(NumberKind), UndefinedKind)
-+    MatrixKind(NumberKind)
-+
-     Parameters
-     ==========
+-from collections import defaultdict
++from collections import defaultdict, OrderedDict
  
+ from sympy.core.cache import cacheit
+ from sympy.multipledispatch.dispatcher import (Dispatcher,
 +
-+
-     name : str
+     ambiguity_warn, ambiguity_register_error_ignore_dup,
+     str_signature, RaiseNotImplementedError)
  
-     commutative : bool, optional
+@@ -293,10 +294,14 @@ def _(func):
+ 
+     def __call__(self, *args, **kwargs):
+         if self.commutative:
+-            kinds = frozenset(args)
++            kinds = OrderedDict()
++            for a in args:
++                kinds[a] = None
++            kinds = frozenset(kinds)
+         else:
+             kinds = []
+             prev = None
++
+             for a in args:
+                 if prev is not a:
+                     kinds.append(a)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -321,8 +332,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        18248495
-hash randomization: on (PYTHONHASHSEED=307752551)
+random seed:        69826675
+hash randomization: on (PYTHONHASHSEED=1534518452)
 
 sympy/core/tests/test_kind.py[8] 
 test_NumberKind ok
@@ -342,7 +353,7 @@ Traceback (most recent call last):
     assert Derivative(comm_x, comm_x).kind is NumberKind
 AssertionError
 
-============= tests finished: 7 passed, 1 failed, in 0.08 seconds ==============
+============= tests finished: 7 passed, 1 failed, in 0.09 seconds ==============
 DO *NOT* COMMIT!
 + git checkout b4777fdcef467b7132c055f8ac2c9a5059e6a145 sympy/core/tests/test_kind.py
 Updated 1 path from 5de537ff25

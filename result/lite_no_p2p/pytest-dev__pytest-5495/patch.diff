@@ -1,0 +1,23 @@
+
+diff --git a/src/_pytest/assertion/util.py b/src/_pytest/assertion/util.py
+index c9b4ff0..136b53c 100644
+--- a/src/_pytest/assertion/util.py
++++ b/src/_pytest/assertion/util.py
+@@ -272,10 +272,16 @@ def _compare_eq_sequence(left, right, verbose=0):
+         else:
+             len_diff = 0 - len_diff
+             dir_with_more = "Right"
+-            extra = saferepr(right[len_left])
++            extra = right[len_left]
++
++        if isinstance(extra, bytes):
++            extra = repr(extra)[1:]
++        else:
++            extra = saferepr(extra)
+ 
+         if len_diff == 1:
+             explanation += [
++
+                 "{} contains one more item: {}".format(dir_with_more, extra)
+             ]
+         else:

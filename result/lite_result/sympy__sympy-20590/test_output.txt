@@ -150,16 +150,15 @@ Date:   Sat Dec 12 18:00:56 2020 +0000
 
 + git diff cffd4e0f86fefd4802349a9f9b19ed70934ea354
 diff --git a/sympy/core/basic.py b/sympy/core/basic.py
-index 9f609177dd..bd92df6ce4 100644
+index 9f609177dd..7075a2131e 100644
 --- a/sympy/core/basic.py
 +++ b/sympy/core/basic.py
-@@ -1822,10 +1822,13 @@ class Atom(Basic):
+@@ -1822,10 +1822,11 @@ class Atom(Basic):
  
      is_Atom = True
  
-+    # We repeat __slots__ here to make sure it's not somehow accidentally
-+    # cleared by a parent class (see issue 17311).
-     __slots__ = ()
+-    __slots__ = ()
++    __slots__ = {}
  
      def matches(self, expr, repl_dict={}, old=False):
          if self == expr:
@@ -317,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        65774585
-hash randomization: on (PYTHONHASHSEED=3617347933)
+random seed:        87747930
+hash randomization: on (PYTHONHASHSEED=791231288)
 
 sympy/core/tests/test_basic.py[23] 
 test__aresame ok
@@ -353,7 +352,7 @@ Traceback (most recent call last):
     assert not hasattr(b1, '__dict__')
 AssertionError
 
-============= tests finished: 22 passed, 1 failed, in 0.14 seconds =============
+============= tests finished: 22 passed, 1 failed, in 0.15 seconds =============
 DO *NOT* COMMIT!
 + git checkout cffd4e0f86fefd4802349a9f9b19ed70934ea354 sympy/core/tests/test_basic.py
 Updated 1 path from 7d23c0279e

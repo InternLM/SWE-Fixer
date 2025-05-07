@@ -316,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        42546376
-hash randomization: on (PYTHONHASHSEED=281377688)
+random seed:        46913890
+hash randomization: on (PYTHONHASHSEED=771091514)
 
 sympy/physics/units/tests/test_quantities.py[33] 
 test_str_repr ok
@@ -384,7 +384,7 @@ Traceback (most recent call last):
 AssertionError
 
  tests finished: 28 passed, 3 failed, 1 expected to fail, 1 exceptions, 
-in 1.33 seconds 
+in 1.39 seconds 
 DO *NOT* COMMIT!
 + git checkout 514579c655bf22e2af14f0743376ae1d7befe345 sympy/physics/units/tests/test_quantities.py
 Updated 1 path from 182b3f1d39

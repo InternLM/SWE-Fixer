@@ -337,8 +337,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        60547414
-hash randomization: on (PYTHONHASHSEED=503659777)
+random seed:        55356635
+hash randomization: on (PYTHONHASHSEED=3922831395)
 
 sympy/printing/pretty/tests/test_pretty.py[117] 
 test_pretty_ascii_str ok
@@ -547,7 +547,7 @@ ________ sympy/vector/tests/test_printing.py:test_pretty_print_unicode _________
 AssertionError
 
  tests finished: 115 passed, 2 failed, 1 expected to fail, 
-1 expected to fail but passed, 3 exceptions, in 4.40 seconds 
+1 expected to fail but passed, 3 exceptions, in 4.45 seconds 
 DO *NOT* COMMIT!
 + git checkout fb536869fb7aa28b2695ad7a3b70949926b291c4 sympy/printing/pretty/tests/test_pretty.py sympy/vector/tests/test_printing.py
 Updated 2 paths from 2cd097319f

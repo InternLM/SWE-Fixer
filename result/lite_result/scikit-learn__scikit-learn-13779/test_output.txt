@@ -598,19 +598,18 @@ index 65bed4c7e..babf0b865 100644
 -        _close(fig)
 + git diff b34751b7ed02b2cfcc36037fb729d4360480a299
 diff --git a/sklearn/ensemble/voting.py b/sklearn/ensemble/voting.py
-index 7afa7180c..952b2a511 100644
+index 7afa7180c..dcf90411c 100644
 --- a/sklearn/ensemble/voting.py
 +++ b/sklearn/ensemble/voting.py
-@@ -78,6 +78,8 @@ class _BaseVoting(_BaseComposition, TransformerMixin):
+@@ -78,13 +78,14 @@ class _BaseVoting(_BaseComposition, TransformerMixin):
  
          if sample_weight is not None:
              for name, step in self.estimators:
-+                if step is None:
-+                    continue
-                 if not has_fit_parameter(step, 'sample_weight'):
+-                if not has_fit_parameter(step, 'sample_weight'):
++                if step is not None and not has_fit_parameter(step, 'sample_weight'):
                      raise ValueError('Underlying estimator \'%s\' does not'
                                       ' support sample weights.' % name)
-@@ -85,6 +87,7 @@ class _BaseVoting(_BaseComposition, TransformerMixin):
+ 
          names, clfs = zip(*self.estimators)
          self._validate_names(names)
  
@@ -747,16 +746,16 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
-    writing manifest file '/tmp/pip-pip-egg-info-6ea6jf1r/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-_pd62ofb/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.11.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.22.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.17.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.22.dev0) (1.5.2)
@@ -784,11 +783,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmpy4ugswpd/tmp
-    creating /tmp/tmpy4ugswpd/tmp/tmpy4ugswpd
+    creating /tmp/tmpshvxzd26/tmp
+    creating /tmp/tmpshvxzd26/tmp/tmpshvxzd26
     compile options: '-c'
-    gcc: /tmp/tmpy4ugswpd/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpy4ugswpd/tmp/tmpy4ugswpd/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpy4ugswpd/a.out
+    gcc: /tmp/tmpshvxzd26/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpshvxzd26/tmp/tmpshvxzd26/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpshvxzd26/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -885,8 +884,8 @@ Installing collected packages: scikit-learn
 
     Installed /testbed
     Partial import of sklearn during the build process.
-Successfully installed scikit-learn-0.22.dev0
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Successfully installed scikit-learn-0.22.dev0
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/9f/8b/a094f5da22d7abf5098205367b3296dd15b914f4232af5ca39ba6214d08c/pip-22.0-py3-none-any.whl#sha256=6cb1ea2bd7fda0668e26ae8c3e45188f301a7ef17ff22efe1f70f3643e56a822 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/4a/ca/e72b3b399d7a8cb34311aa8f52924108591c013b09f0268820afb4cd96fb/pip-22.0.tar.gz#sha256=d3fa5c3e42b33de52bddce89de40268c9a263cd6ef7c94c40774808dafb32c82 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/89/a1/2f4e58eda11e591fbfa518233378835679fc5ab766b690b3df85215014d5/pip-22.0.1-py3-none-any.whl#sha256=30739ac5fb973cfa4399b0afff0523d4fe6bed2f7a5229333f64d9c2ce0d1933 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
@@ -957,6 +956,10 @@ WARNING: Running pip as the 'root' user can result in broken permissions and con
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout b34751b7ed02b2cfcc36037fb729d4360480a299 sklearn/ensemble/tests/test_voting.py
 Updated 0 paths from 7b9b2f347
 + git apply -v -
@@ -992,6 +995,6 @@ PASSED sklearn/ensemble/tests/test_voting.py::test_estimator_weights_format
 PASSED sklearn/ensemble/tests/test_voting.py::test_transform
 PASSED sklearn/ensemble/tests/test_voting.py::test_none_estimator_with_weights[X0-y0-voter0]
 PASSED sklearn/ensemble/tests/test_voting.py::test_none_estimator_with_weights[X1-y1-voter1]
-======================== 20 passed, 1 warning in 2.49s =========================
+======================== 20 passed, 1 warning in 2.09s =========================
 + git checkout b34751b7ed02b2cfcc36037fb729d4360480a299 sklearn/ensemble/tests/test_voting.py
 Updated 1 path from 7b9b2f347

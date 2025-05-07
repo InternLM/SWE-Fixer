@@ -169,7 +169,7 @@ index def27a49ec..38e0233460 100644
 +  expressions were considered equal (:ticket:`31607`).
 + git diff 8328811f048fed0dd22573224def8c65410c9f2e
 diff --git a/django/db/models/constraints.py b/django/db/models/constraints.py
-index 64bd60484e..ad99bc91c8 100644
+index 64bd60484e..987f67904c 100644
 --- a/django/db/models/constraints.py
 +++ b/django/db/models/constraints.py
 @@ -1,8 +1,11 @@
@@ -184,59 +184,21 @@ index 64bd60484e..ad99bc91c8 100644
  __all__ = ['CheckConstraint', 'Deferrable', 'UniqueConstraint']
  
  
-@@ -10,9 +13,14 @@ class BaseConstraint:
-     def __init__(self, name):
-         self.name = name
- 
+@@ -150,4 +153,14 @@ class UniqueConstraint(BaseConstraint):
+             kwargs['condition'] = self.condition
+         if self.deferrable:
+             kwargs['deferrable'] = self.deferrable
++
+         return path, args, kwargs
++
 +    def check(self, model):
-+        raise NotImplementedError('This method must be implemented by a subclass.')
-+
-     def constraint_sql(self, model, schema_editor):
-         raise NotImplementedError('This method must be implemented by a subclass.')
- 
-+
-+
-     def create_sql(self, model, schema_editor):
-         raise NotImplementedError('This method must be implemented by a subclass.')
- 
-@@ -39,9 +47,13 @@ class CheckConstraint(BaseConstraint):
-             )
-         super().__init__(name)
- 
-+    def check(self, model):
-+        return []
-+
-     def _get_check_sql(self, model, schema_editor):
-         query = Query(model=model, alias_cols=False)
-         where = query.build_where(self.check)
-+
-         compiler = query.get_compiler(connection=schema_editor.connection)
-         sql, params = where.as_sql(compiler, schema_editor.connection)
-         return sql % tuple(schema_editor.quote_value(p) for p in params)
-@@ -95,9 +107,23 @@ class UniqueConstraint(BaseConstraint):
-         self.deferrable = deferrable
-         super().__init__(name)
- 
-+    def check(self, model):
-+        errors = []
 +        for field_name in self.fields:
-+            if field_name not in model._meta.fields_map:
-+                errors.append(
-+                    ValidationError(
-+                        'Field "%(field_name)s" does not exist on model "%(model)s".',
-+                        code='field_error',
-+                        params={'field_name': field_name, 'model': model._meta.label},
-+                    )
++            if not model._meta.get_field(field_name):
++                raise ValidationError(
++                    'Field "%(field_name)s" does not exist on model "%(model)s".',
++                    code='field_does_not_exist',
++                    params={'field_name': field_name, 'model': model._meta.label},
 +                )
-+        return errors
-+
-     def _get_condition_sql(self, model, schema_editor):
-         if self.condition is None:
-             return None
-+
-         query = Query(model=model, alias_cols=False)
-         where = query.build_where(self.condition)
-         compiler = query.get_compiler(connection=schema_editor.connection)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -513,7 +475,7 @@ First extra element 0:
 + [<Error: level=40, msg="'constraints' refers to field 'field1' which is not local to model 'Child'.", hint='This issue may be caused by multi-table inheritance.', obj=<class 'invalid_models_tests.test_models.ConstraintsTests.test_unique_constraint_pointing_to_non_local_field.<locals>.Child'>, id='models.E016'>]
 
 ----------------------------------------------------------------------
-Ran 83 tests in 0.110s
+Ran 83 tests in 0.121s
 
 FAILED (failures=3, skipped=2)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

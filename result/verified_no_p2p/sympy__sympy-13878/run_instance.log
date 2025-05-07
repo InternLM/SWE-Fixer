@@ -1,0 +1,566 @@
+2025-05-06 07:06:28,768 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13878
+Building instance image sweb.eval.x86_64.sympy__sympy-13878:latest for sympy__sympy-13878
+2025-05-06 07:06:28,773 - INFO - Image sweb.eval.x86_64.sympy__sympy-13878:latest already exists, skipping build.
+2025-05-06 07:06:28,773 - INFO - Creating container for sympy__sympy-13878...
+2025-05-06 07:06:28,815 - INFO - Container for sympy__sympy-13878 created: 6875385ec7ebc7a787ebc1169a7439b7e85358b752d12a05a25623fc33ea8d3d
+2025-05-06 07:06:29,174 - INFO - Container for sympy__sympy-13878 started: 6875385ec7ebc7a787ebc1169a7439b7e85358b752d12a05a25623fc33ea8d3d
+2025-05-06 07:06:29,175 - INFO - Intermediate patch for sympy__sympy-13878 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-13878/patch.diff, now applying to container...
+2025-05-06 07:06:29,446 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:06:29,501 - INFO - >>>>> Applied Patch:
+patching file sympy/stats/crv_types.py
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 155 (offset 2 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 681 (offset 11 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 781 (offset 18 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 1058 (offset 16 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 1132 (offset 24 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 1233 (offset 33 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 1426 (offset 41 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 1494 (offset 49 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 1558 (offset 57 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 1776 (offset 65 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 2300 (offset 73 lines).
+patching file sympy/stats/crv_types.py
+Hunk #1 succeeded at 2636 (offset 82 lines).
+
+2025-05-06 07:06:29,877 - INFO - Git diff before:
+diff --git a/sympy/stats/crv_types.py b/sympy/stats/crv_types.py
+index fff7da80ae..2bf65b2960 100644
+--- a/sympy/stats/crv_types.py
++++ b/sympy/stats/crv_types.py
+@@ -47,10 +47,12 @@
+ 
+ from sympy import (log, sqrt, pi, S, Dummy, Interval, sympify, gamma,
+                    Piecewise, And, Eq, binomial, factorial, Sum, floor, Abs,
+-                   Lambda, Basic, lowergamma, erf, erfc, I)
++                   Lambda, Basic, lowergamma, erf, erfc, I, uppergamma, hyper,
++                   hgf_reg)
+ from sympy import beta as beta_fn
+ from sympy import cos, exp, besseli
+ from sympy.stats.crv import (SingleContinuousPSpace, SingleContinuousDistribution,
++
+         ContinuousDistributionHandmade)
+ from sympy.stats.rv import _value_check
+ import random
+@@ -153,10 +155,19 @@ class ArcsinDistribution(SingleContinuousDistribution):
+     def pdf(self, x):
+         return 1/(pi*sqrt((x - self.a)*(self.b - x)))
+ 
++    def _cdf(self, x):
++        a, b = self.a, self.b
++        return Piecewise(
++            (S.NegativeOne/2, x < a),
++            (S.NegativeOne/2 + atan(sqrt((x - a)*(b - x)))/pi, x <= b),
++            (S.Half, True)
++        )
++
+ def Arcsin(name, a=0, b=1):
+     r"""
+     Create a Continuous Random Variable with an arcsin distribution.
+ 
++
+     The density of the arcsin distribution is given by
+ 
+     .. math::
+@@ -670,9 +681,16 @@ def pdf(self, x):
+         p, a, b = self.p, self.a, self.b
+         return a*p/x*((x/b)**(a*p)/(((x/b)**a + 1)**(p + 1)))
+ 
++    def _cdf(self, x):
++        p, a, b = self.p, self.a, self.b
++        return Piecewise(
++            (S.Zero, x < b),
++            (S.One - beta_fn(p, S.Zero, (b/x)**a), True)
++        )
+ 
+ def Dagum(name, p, a, b):
+     r"""
++
+     Create a continuous random variable with a Dagum distribution.
+ 
+     The density of the Dagum distribution is given by
+@@ -763,19 +781,17 @@ def Erlang(name, k, l):
+     ---------------
+         gamma(k)
+ 
+-    >>> C = cdf(X, meijerg=True)(z)
++    >>> C = cdf(X)(z)
+     >>> pprint(C, use_unicode=False)
+-    /   -2*I*pi*k
+-    |k*e         *lowergamma(k, l*z)
+-    |-------------------------------  for z >= 0
+-    <          gamma(k + 1)
+-    |
+-    |               0                 otherwise
+-    \
++    /k*lowergamma(k, l*z)  for z >= 0
++    <---------------------
++    \     gamma(k + 1)     otherwise
+ 
+     >>> simplify(E(X))
+     k/l
+ 
++
++
+     >>> simplify(variance(X))
+     k/l**2
+ 
+@@ -1042,10 +1058,18 @@ def pdf(self, x):
+         a, s, m = self.a, self.s, self.m
+         return a/s * ((x-m)/s)**(-1-a) * exp(-((x-m)/s)**(-a))
+ 
++    def _cdf(self, x):
++        a, s, m = self.a, self.s, self.m
++        return Piecewise(
++            (S.One - exp(-((x-m)/s)**(-a)), x >= m),
++            (S.Zero, True)
++        )
++
+ def Frechet(name, a, s=1, m=0):
+     r"""
+     Create a continuous random variable with a Frechet distribution.
+ 
++
+     The density of the Frechet distribution is given by
+ 
+     .. math::
+@@ -1108,10 +1132,19 @@ def pdf(self, x):
+         k, theta = self.k, self.theta
+         return x**(k - 1) * exp(-x/theta) / (gamma(k)*theta**k)
+ 
++    def _cdf(self, x):
++        k, theta = self.k, self.theta
++        return Piecewise(
++            (lowergamma(k, x/theta)/gamma(k + 1), x >= 0),
++            (S.Zero, True)
++        )
++
+     def sample(self):
+         return random.gammavariate(self.k, self.theta)
+ 
+ 
++
++
+ def Gamma(name, k, theta):
+     r"""
+     Create a continuous random variable with a Gamma distribution.
+@@ -1200,10 +1233,18 @@ def pdf(self, x):
+         a, b = self.a, self.b
+         return b**a/gamma(a) * x**(-a-1) * exp(-b/x)
+ 
++    def _cdf(self, x):
++        a, b = self.a, self.b
++        return Piecewise(
++            (uppergamma(a, b/x)/gamma(a), x > 0),
++            (S.Zero, True)
++        )
++
+ def GammaInverse(name, a, b):
+     r"""
+     Create a continuous random variable with an inverse Gamma distribution.
+ 
++
+     The density of the inverse Gamma distribution is given by
+ 
+     .. math::
+@@ -1385,10 +1426,18 @@ def pdf(self, x):
+         a, b = self.a, self.b
+         return a * b * x**(a-1) * (1-x**a)**(b-1)
+ 
++    def _cdf(self, x):
++        a, b = self.a, self.b
++        return Piecewise(
++            (S.One - (S.One - x**a)**b, x <= 1),
++            (S.One, True)
++        )
++
+ def Kumaraswamy(name, a, b):
+     r"""
+     Create a Continuous Random Variable with a Kumaraswamy distribution.
+ 
++
+     The density of the Kumaraswamy distribution is given by
+ 
+     .. math::
+@@ -1445,11 +1494,19 @@ def pdf(self, x):
+         mu, b = self.mu, self.b
+         return 1/(2*b)*exp(-Abs(x - mu)/b)
+ 
++    def _cdf(self, x):
++        mu, b = self.mu, self.b
++        return Piecewise(
++            (S.Half*exp((mu - x)/b), x < mu),
++            (S.One - S.Half*exp((mu - x)/b), True)
++        )
+ 
+ def Laplace(name, mu, b):
+     r"""
+     Create a continuous random variable with a Laplace distribution.
+ 
++    Create a continuous random variable with a Laplace distribution.
++
+     The density of the Laplace distribution is given by
+ 
+     .. math::
+@@ -1501,11 +1558,19 @@ def pdf(self, x):
+         mu, s = self.mu, self.s
+         return exp(-(x - mu)/s)/(s*(1 + exp(-(x - mu)/s))**2)
+ 
++    def _cdf(self, x):
++        mu, s = self.mu, self.s
++        return Piecewise(
++            (S.One/(S.One + exp((mu - x)/s)), x < oo),
++            (S.One, True)
++        )
+ 
+ def Logistic(name, mu, s):
+     r"""
+     Create a continuous random variable with a logistic distribution.
+ 
++    Create a continuous random variable with a logistic distribution.
++
+     The density of the logistic distribution is given by
+ 
+     .. math::
+@@ -1711,11 +1776,19 @@ def pdf(self, x):
+         mu, omega = self.mu, self.omega
+         return 2*mu**mu/(gamma(mu)*omega**mu)*x**(2*mu - 1)*exp(-mu/omega*x**2)
+ 
++    def _cdf(self, x):
++        mu, omega = self.mu, self.omega
++        return Piecewise(
++            (lowergamma(mu, mu/omega*x**2)/gamma(mu + 1), x > 0),
++            (S.Zero, True)
++        )
+ 
+ def Nakagami(name, mu, omega):
+     r"""
+     Create a continuous random variable with a Nakagami distribution.
+ 
++    Create a continuous random variable with a Nakagami distribution.
++
+     The density of the Nakagami distribution is given by
+ 
+     .. math::
+@@ -2227,11 +2300,20 @@ def pdf(self, x):
+         nu = self.nu
+         return 1/(sqrt(nu)*beta_fn(S(1)/2, nu/2))*(1 + x**2/nu)**(-(nu + 1)/2)
+ 
++    def _cdf(self, x):
++        nu = self.nu
++        k = Dummy("k")
++        return Piecewise(
++            (S.Half + x*gamma(S(1)/2 + nu/2)*hgf_reg(S(1)/2, S(1)/2 + nu/2, S(3)/2, -x**2/nu)/(sqrt(nu*pi)*gamma(nu/2)), x < oo),
++            (S.One, True)
++        )
+ 
+ def StudentT(name, nu):
+     r"""
+     Create a continuous random variable with a student's t distribution.
+ 
++    Create a continuous random variable with a student's t distribution.
++
+     The density of the student's t distribution is given by
+ 
+     .. math::
+@@ -2554,12 +2636,20 @@ def pdf(self, x):
+         return 1/factorial(
+             n - 1)*Sum((-1)**k*binomial(n, k)*(x - k)**(n - 1), (k, 0, floor(x)))
+ 
+-
++    def _cdf(self, x):
++        n = self.n
++        k = Dummy("k")
++        return Piecewise(
++            (Sum((-1)**k*binomial(n, k)*(x - k)**n, (k, 0, floor(x)))/factorial(n), x <= n),
++            (S.One, True)
++        )
+ 
+ def UniformSum(name, n):
+     r"""
+     Create a continuous random variable with an Irwin-Hall distribution.
+ 
++    Create a continuous random variable with an Irwin-Hall distribution.
++
+     The probability distribution function depends on a single parameter
+     `n` which is an integer.
+2025-05-06 07:06:29,877 - INFO - Eval script for sympy__sympy-13878 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-13878/eval.sh; copying to container...
+2025-05-06 07:06:33,492 - INFO - Test runtime: 3.43 seconds
+2025-05-06 07:06:33,492 - INFO - Test output for sympy__sympy-13878 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-13878/test_output.txt
+2025-05-06 07:06:33,557 - INFO - Git diff after:
+diff --git a/sympy/stats/crv_types.py b/sympy/stats/crv_types.py
+index fff7da80ae..2bf65b2960 100644
+--- a/sympy/stats/crv_types.py
++++ b/sympy/stats/crv_types.py
+@@ -47,10 +47,12 @@
+ 
+ from sympy import (log, sqrt, pi, S, Dummy, Interval, sympify, gamma,
+                    Piecewise, And, Eq, binomial, factorial, Sum, floor, Abs,
+-                   Lambda, Basic, lowergamma, erf, erfc, I)
++                   Lambda, Basic, lowergamma, erf, erfc, I, uppergamma, hyper,
++                   hgf_reg)
+ from sympy import beta as beta_fn
+ from sympy import cos, exp, besseli
+ from sympy.stats.crv import (SingleContinuousPSpace, SingleContinuousDistribution,
++
+         ContinuousDistributionHandmade)
+ from sympy.stats.rv import _value_check
+ import random
+@@ -153,10 +155,19 @@ class ArcsinDistribution(SingleContinuousDistribution):
+     def pdf(self, x):
+         return 1/(pi*sqrt((x - self.a)*(self.b - x)))
+ 
++    def _cdf(self, x):
++        a, b = self.a, self.b
++        return Piecewise(
++            (S.NegativeOne/2, x < a),
++            (S.NegativeOne/2 + atan(sqrt((x - a)*(b - x)))/pi, x <= b),
++            (S.Half, True)
++        )
++
+ def Arcsin(name, a=0, b=1):
+     r"""
+     Create a Continuous Random Variable with an arcsin distribution.
+ 
++
+     The density of the arcsin distribution is given by
+ 
+     .. math::
+@@ -670,9 +681,16 @@ def pdf(self, x):
+         p, a, b = self.p, self.a, self.b
+         return a*p/x*((x/b)**(a*p)/(((x/b)**a + 1)**(p + 1)))
+ 
++    def _cdf(self, x):
++        p, a, b = self.p, self.a, self.b
++        return Piecewise(
++            (S.Zero, x < b),
++            (S.One - beta_fn(p, S.Zero, (b/x)**a), True)
++        )
+ 
+ def Dagum(name, p, a, b):
+     r"""
++
+     Create a continuous random variable with a Dagum distribution.
+ 
+     The density of the Dagum distribution is given by
+@@ -763,19 +781,17 @@ def Erlang(name, k, l):
+     ---------------
+         gamma(k)
+ 
+-    >>> C = cdf(X, meijerg=True)(z)
++    >>> C = cdf(X)(z)
+     >>> pprint(C, use_unicode=False)
+-    /   -2*I*pi*k
+-    |k*e         *lowergamma(k, l*z)
+-    |-------------------------------  for z >= 0
+-    <          gamma(k + 1)
+-    |
+-    |               0                 otherwise
+-    \
++    /k*lowergamma(k, l*z)  for z >= 0
++    <---------------------
++    \     gamma(k + 1)     otherwise
+ 
+     >>> simplify(E(X))
+     k/l
+ 
++
++
+     >>> simplify(variance(X))
+     k/l**2
+ 
+@@ -1042,10 +1058,18 @@ def pdf(self, x):
+         a, s, m = self.a, self.s, self.m
+         return a/s * ((x-m)/s)**(-1-a) * exp(-((x-m)/s)**(-a))
+ 
++    def _cdf(self, x):
++        a, s, m = self.a, self.s, self.m
++        return Piecewise(
++            (S.One - exp(-((x-m)/s)**(-a)), x >= m),
++            (S.Zero, True)
++        )
++
+ def Frechet(name, a, s=1, m=0):
+     r"""
+     Create a continuous random variable with a Frechet distribution.
+ 
++
+     The density of the Frechet distribution is given by
+ 
+     .. math::
+@@ -1108,10 +1132,19 @@ def pdf(self, x):
+         k, theta = self.k, self.theta
+         return x**(k - 1) * exp(-x/theta) / (gamma(k)*theta**k)
+ 
++    def _cdf(self, x):
++        k, theta = self.k, self.theta
++        return Piecewise(
++            (lowergamma(k, x/theta)/gamma(k + 1), x >= 0),
++            (S.Zero, True)
++        )
++
+     def sample(self):
+         return random.gammavariate(self.k, self.theta)
+ 
+ 
++
++
+ def Gamma(name, k, theta):
+     r"""
+     Create a continuous random variable with a Gamma distribution.
+@@ -1200,10 +1233,18 @@ def pdf(self, x):
+         a, b = self.a, self.b
+         return b**a/gamma(a) * x**(-a-1) * exp(-b/x)
+ 
++    def _cdf(self, x):
++        a, b = self.a, self.b
++        return Piecewise(
++            (uppergamma(a, b/x)/gamma(a), x > 0),
++            (S.Zero, True)
++        )
++
+ def GammaInverse(name, a, b):
+     r"""
+     Create a continuous random variable with an inverse Gamma distribution.
+ 
++
+     The density of the inverse Gamma distribution is given by
+ 
+     .. math::
+@@ -1385,10 +1426,18 @@ def pdf(self, x):
+         a, b = self.a, self.b
+         return a * b * x**(a-1) * (1-x**a)**(b-1)
+ 
++    def _cdf(self, x):
++        a, b = self.a, self.b
++        return Piecewise(
++            (S.One - (S.One - x**a)**b, x <= 1),
++            (S.One, True)
++        )
++
+ def Kumaraswamy(name, a, b):
+     r"""
+     Create a Continuous Random Variable with a Kumaraswamy distribution.
+ 
++
+     The density of the Kumaraswamy distribution is given by
+ 
+     .. math::
+@@ -1445,11 +1494,19 @@ def pdf(self, x):
+         mu, b = self.mu, self.b
+         return 1/(2*b)*exp(-Abs(x - mu)/b)
+ 
++    def _cdf(self, x):
++        mu, b = self.mu, self.b
++        return Piecewise(
++            (S.Half*exp((mu - x)/b), x < mu),
++            (S.One - S.Half*exp((mu - x)/b), True)
++        )
+ 
+ def Laplace(name, mu, b):
+     r"""
+     Create a continuous random variable with a Laplace distribution.
+ 
++    Create a continuous random variable with a Laplace distribution.
++
+     The density of the Laplace distribution is given by
+ 
+     .. math::
+@@ -1501,11 +1558,19 @@ def pdf(self, x):
+         mu, s = self.mu, self.s
+         return exp(-(x - mu)/s)/(s*(1 + exp(-(x - mu)/s))**2)
+ 
++    def _cdf(self, x):
++        mu, s = self.mu, self.s
++        return Piecewise(
++            (S.One/(S.One + exp((mu - x)/s)), x < oo),
++            (S.One, True)
++        )
+ 
+ def Logistic(name, mu, s):
+     r"""
+     Create a continuous random variable with a logistic distribution.
+ 
++    Create a continuous random variable with a logistic distribution.
++
+     The density of the logistic distribution is given by
+ 
+     .. math::
+@@ -1711,11 +1776,19 @@ def pdf(self, x):
+         mu, omega = self.mu, self.omega
+         return 2*mu**mu/(gamma(mu)*omega**mu)*x**(2*mu - 1)*exp(-mu/omega*x**2)
+ 
++    def _cdf(self, x):
++        mu, omega = self.mu, self.omega
++        return Piecewise(
++            (lowergamma(mu, mu/omega*x**2)/gamma(mu + 1), x > 0),
++            (S.Zero, True)
++        )
+ 
+ def Nakagami(name, mu, omega):
+     r"""
+     Create a continuous random variable with a Nakagami distribution.
+ 
++    Create a continuous random variable with a Nakagami distribution.
++
+     The density of the Nakagami distribution is given by
+ 
+     .. math::
+@@ -2227,11 +2300,20 @@ def pdf(self, x):
+         nu = self.nu
+         return 1/(sqrt(nu)*beta_fn(S(1)/2, nu/2))*(1 + x**2/nu)**(-(nu + 1)/2)
+ 
++    def _cdf(self, x):
++        nu = self.nu
++        k = Dummy("k")
++        return Piecewise(
++            (S.Half + x*gamma(S(1)/2 + nu/2)*hgf_reg(S(1)/2, S(1)/2 + nu/2, S(3)/2, -x**2/nu)/(sqrt(nu*pi)*gamma(nu/2)), x < oo),
++            (S.One, True)
++        )
+ 
+ def StudentT(name, nu):
+     r"""
+     Create a continuous random variable with a student's t distribution.
+ 
++    Create a continuous random variable with a student's t distribution.
++
+     The density of the student's t distribution is given by
+ 
+     .. math::
+@@ -2554,12 +2636,20 @@ def pdf(self, x):
+         return 1/factorial(
+             n - 1)*Sum((-1)**k*binomial(n, k)*(x - k)**(n - 1), (k, 0, floor(x)))
+ 
+-
++    def _cdf(self, x):
++        n = self.n
++        k = Dummy("k")
++        return Piecewise(
++            (Sum((-1)**k*binomial(n, k)*(x - k)**n, (k, 0, floor(x)))/factorial(n), x <= n),
++            (S.One, True)
++        )
+ 
+ def UniformSum(name, n):
+     r"""
+     Create a continuous random variable with an Irwin-Hall distribution.
+ 
++    Create a continuous random variable with an Irwin-Hall distribution.
++
+     The probability distribution function depends on a single parameter
+     `n` which is an integer.
+2025-05-06 07:06:33,557 - INFO - Grading answer for sympy__sympy-13878...
+2025-05-06 07:06:33,560 - INFO - report: {'sympy__sympy-13878': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_arcsin']}, 'PASS_TO_PASS': {'success': [], 'failure': ['test_ContinuousDomain', 'test_characteristic_function', 'test_benini', 'test_chi', 'test_chi_noncentral', 'test_chi_squared', 'test_gompertz', 'test_shiftedgompertz', 'test_trapezoidal', 'test_quadratic_u', 'test_von_mises', 'test_prefab_sampling', 'test_input_value_assertions', 'test_probability_unevaluated', 'test_density_unevaluated', 'test_random_parameters', 'test_random_parameters_given', 'test_conjugate_priors', 'test_issue_10003']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-13878: resolved: False
+2025-05-06 07:06:33,561 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13878.20250506_061805...
+2025-05-06 07:06:48,931 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13878.20250506_061805...
+2025-05-06 07:06:48,945 - INFO - Container sweb.eval.sympy__sympy-13878.20250506_061805 removed.

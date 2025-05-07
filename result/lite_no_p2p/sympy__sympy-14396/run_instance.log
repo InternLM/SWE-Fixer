@@ -1,0 +1,26 @@
+2025-05-06 11:27:31,113 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-14396
+Building instance image sweb.eval.x86_64.sympy__sympy-14396:latest for sympy__sympy-14396
+2025-05-06 11:27:31,115 - INFO - Image sweb.eval.x86_64.sympy__sympy-14396:latest already exists, skipping build.
+2025-05-06 11:27:31,115 - INFO - Creating container for sympy__sympy-14396...
+2025-05-06 11:27:31,146 - INFO - Container for sympy__sympy-14396 created: 8bca5881bb7146d3848da4cdbf29458e10b646afd238c0145698171cac61b3ac
+2025-05-06 11:27:31,441 - INFO - Container for sympy__sympy-14396 started: 8bca5881bb7146d3848da4cdbf29458e10b646afd238c0145698171cac61b3ac
+2025-05-06 11:27:31,441 - INFO - Intermediate patch for sympy__sympy-14396 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-14396/patch.diff, now applying to container...
+2025-05-06 11:27:31,679 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:27:31,741 - INFO - >>>>> Patch Apply Failed:
+patching file sympy/printing/latex.py
+Hunk #1 FAILED at 1854.
+1 out of 1 hunk FAILED -- saving rejects to file sympy/printing/latex.py.rej
+
+2025-05-06 11:27:31,742 - INFO - Traceback (most recent call last):
+  File "/home/xiechengxing/.cache/pypoetry/virtualenvs/openhands-ai-M59Uq3oZ-py3.12/lib/python3.12/site-packages/swebench/harness/run_evaluation.py", line 134, in run_instance
+    raise EvaluationError(
+EvaluationError: Evaluation error for sympy__sympy-14396: >>>>> Patch Apply Failed:
+patching file sympy/printing/latex.py
+Hunk #1 FAILED at 1854.
+1 out of 1 hunk FAILED -- saving rejects to file sympy/printing/latex.py.rej
+
+Check (logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-14396/run_instance.log) for more information.
+
+2025-05-06 11:27:31,742 - INFO - Attempting to stop container sweb.eval.sympy__sympy-14396.20250506_111427...
+2025-05-06 11:27:47,033 - INFO - Attempting to remove container sweb.eval.sympy__sympy-14396.20250506_111427...
+2025-05-06 11:27:47,046 - INFO - Container sweb.eval.sympy__sympy-14396.20250506_111427 removed.

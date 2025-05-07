@@ -567,8 +567,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20220210074827-0.editable-py3-none-any.whl size=26911 sha256=2c459ba8d39eea4327345d6f9c2d2f2ffff31785705888eb4e2c023bd38a118d
-  Stored in directory: /tmp/pip-ephem-wheel-cache-sz4sdvzd/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20220210074827-0.editable-py3-none-any.whl size=26977 sha256=f913ac0e4bd5277d2e0b56d4134a0831307864f175caf69b9e29d488726db283
+  Stored in directory: /tmp/pip-ephem-wheel-cache-hjxipl2p/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -703,7 +703,7 @@ Traceback (most recent call last):
 TypeError: unsupported operand type(s) for +: 'SimpleLazyObject' and 'int'
 
 ----------------------------------------------------------------------
-Ran 65 tests in 0.011s
+Ran 65 tests in 0.014s
 
 FAILED (errors=2)
 Testing against Django installed in '/testbed/django'

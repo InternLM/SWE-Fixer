@@ -252,23 +252,10 @@ index 1a05681711..f5e76fd3f5 100644
 +        self.assertNotIn('DELETE', formset.forms[1].fields)
 + git diff 35b03788b0607c1f8d2b64e4fa9e1669b0907ea4
 diff --git a/django/contrib/sessions/backends/base.py b/django/contrib/sessions/backends/base.py
-index 187e14b1b7..c0326d5a96 100644
+index 187e14b1b7..06b269c457 100644
 --- a/django/contrib/sessions/backends/base.py
 +++ b/django/contrib/sessions/backends/base.py
-@@ -6,10 +6,11 @@ from datetime import datetime, timedelta
- 
- from django.conf import settings
- from django.contrib.sessions.exceptions import SuspiciousSession
--from django.core import signing
-+from django.core.signing import BadSignature, signing
- from django.core.exceptions import SuspiciousOperation
- from django.utils import timezone
- from django.utils.crypto import (
-+
-     constant_time_compare, get_random_string, salted_hmac,
- )
- from django.utils.deprecation import RemovedInDjango40Warning
-@@ -119,11 +120,15 @@ class SessionBase:
+@@ -119,11 +119,15 @@ class SessionBase:
      def decode(self, session_data):
          try:
              return signing.loads(session_data, salt=self.key_salt, serializer=self.serializer)
@@ -428,35 +415,691 @@ Updated 0 paths from fb040ff5e9
 Checking patch tests/sessions_tests/tests.py...
 Applied patch tests/sessions_tests/tests.py cleanly.
 + ./tests/runtests.py --verbosity 2 --settings=test_sqlite --parallel 1 sessions_tests.tests
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+test_actual_expiry (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_clear (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_cycle (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_decode (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.CacheDBSessionTests) ... test_decode_legacy (sessions_tests.tests.CacheDBSessionTests) ... FAIL
+test_default_expiry (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_delete (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_exists_searches_cache_first (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_flush (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_get_empty (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_has_key (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_invalid_key (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_items (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_keys (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_load_overlong_key (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_new_session (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_non_default_cache (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_pop (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_pop_default (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_save (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.CacheDBSessionTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.CacheDBSessionTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.CacheDBSessionTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_setdefault (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_store (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_update (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_values (sessions_tests.tests.CacheDBSessionTests) ... ok
+test_actual_expiry (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_clear (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_cycle (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_decode (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... test_decode_legacy (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... FAIL
+test_default_expiry (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_delete (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_exists_searches_cache_first (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_flush (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_get_empty (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_has_key (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_invalid_key (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_items (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_keys (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_load_overlong_key (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_new_session (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_non_default_cache (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_pop (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_pop_default (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_save (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.CacheDBSessionWithTimeZoneTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.CacheDBSessionWithTimeZoneTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.CacheDBSessionWithTimeZoneTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_setdefault (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_store (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_update (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_values (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) ... ok
+test_actual_expiry (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_clear (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_clearsessions_command (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_cycle (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_decode (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.CustomDatabaseSessionTests) ... test_decode_legacy (sessions_tests.tests.CustomDatabaseSessionTests) ... FAIL
+test_default_expiry (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_delete (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_extra_session_field (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_flush (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_get_empty (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_has_key (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_invalid_key (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_items (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_keys (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_new_session (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_pop (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_pop_default (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_save (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_session_get_decoded (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.CustomDatabaseSessionTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.CustomDatabaseSessionTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.CustomDatabaseSessionTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_session_str (sessions_tests.tests.CustomDatabaseSessionTests)
+Session repr should be the session key. ... ok
+test_sessionmanager_save (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_setdefault (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_store (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_update (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_values (sessions_tests.tests.CustomDatabaseSessionTests) ... ok
+test_actual_expiry (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_clear (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_clearsessions_command (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_cycle (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_decode (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.DatabaseSessionTests) ... test_decode_legacy (sessions_tests.tests.DatabaseSessionTests) ... FAIL
+test_default_expiry (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_delete (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_flush (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_get_empty (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_has_key (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_invalid_key (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_items (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_keys (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_new_session (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_pop (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_pop_default (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_save (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_session_get_decoded (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.DatabaseSessionTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.DatabaseSessionTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.DatabaseSessionTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_session_str (sessions_tests.tests.DatabaseSessionTests)
+Session repr should be the session key. ... ok
+test_sessionmanager_save (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_setdefault (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_store (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_update (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_values (sessions_tests.tests.DatabaseSessionTests) ... ok
+test_actual_expiry (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_clear (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_clearsessions_command (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_cycle (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_decode (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... test_decode_legacy (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... FAIL
+test_default_expiry (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_delete (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_flush (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_get_empty (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_has_key (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_invalid_key (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_items (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_keys (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_new_session (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_pop (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_pop_default (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_save (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_session_get_decoded (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.DatabaseSessionWithTimeZoneTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.DatabaseSessionWithTimeZoneTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.DatabaseSessionWithTimeZoneTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_session_str (sessions_tests.tests.DatabaseSessionWithTimeZoneTests)
+Session repr should be the session key. ... ok
+test_sessionmanager_save (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_setdefault (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_store (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_update (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_values (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) ... ok
+test_empty_session_saved (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_flush_empty_without_session_cookie_doesnt_set_cookie (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_httponly_session_cookie (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_no_httponly_session_cookie (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_samesite_session_cookie (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_secure_session_cookie (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_session_delete_on_end (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_session_delete_on_end_with_custom_domain_and_path (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_session_save_on_500 (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_session_update_error_redirect (sessions_tests.tests.SessionMiddlewareTests) ... ok
+test_actual_expiry (sessions_tests.tests.CacheSessionTests) ... ok
+test_clear (sessions_tests.tests.CacheSessionTests) ... ok
+test_create_and_save (sessions_tests.tests.CacheSessionTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.CacheSessionTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.CacheSessionTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.CacheSessionTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.CacheSessionTests) ... ok
+test_cycle (sessions_tests.tests.CacheSessionTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.CacheSessionTests) ... ok
+test_decode (sessions_tests.tests.CacheSessionTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.CacheSessionTests) ... test_decode_legacy (sessions_tests.tests.CacheSessionTests) ... FAIL
+test_default_cache (sessions_tests.tests.CacheSessionTests) ... ok
+test_default_expiry (sessions_tests.tests.CacheSessionTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.CacheSessionTests) ... ok
+test_delete (sessions_tests.tests.CacheSessionTests) ... ok
+test_flush (sessions_tests.tests.CacheSessionTests) ... ok
+test_get_empty (sessions_tests.tests.CacheSessionTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.CacheSessionTests) ... ok
+test_has_key (sessions_tests.tests.CacheSessionTests) ... ok
+test_invalid_key (sessions_tests.tests.CacheSessionTests) ... ok
+test_items (sessions_tests.tests.CacheSessionTests) ... ok
+test_keys (sessions_tests.tests.CacheSessionTests) ... ok
+test_load_overlong_key (sessions_tests.tests.CacheSessionTests) ... ok
+test_new_session (sessions_tests.tests.CacheSessionTests) ... ok
+test_non_default_cache (sessions_tests.tests.CacheSessionTests) ... ok
+test_pop (sessions_tests.tests.CacheSessionTests) ... ok
+test_pop_default (sessions_tests.tests.CacheSessionTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.CacheSessionTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.CacheSessionTests) ... ok
+test_save (sessions_tests.tests.CacheSessionTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.CacheSessionTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.CacheSessionTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.CacheSessionTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.CacheSessionTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.CacheSessionTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.CacheSessionTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.CacheSessionTests) ... ok
+test_setdefault (sessions_tests.tests.CacheSessionTests) ... ok
+test_store (sessions_tests.tests.CacheSessionTests) ... ok
+test_update (sessions_tests.tests.CacheSessionTests) ... ok
+test_values (sessions_tests.tests.CacheSessionTests) ... ok
+test_actual_expiry (sessions_tests.tests.CookieSessionTests) ... expected failure
+test_clear (sessions_tests.tests.CookieSessionTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.CookieSessionTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.CookieSessionTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.CookieSessionTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.CookieSessionTests) ... ok
+test_cycle (sessions_tests.tests.CookieSessionTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.CookieSessionTests) ... ok
+test_decode (sessions_tests.tests.CookieSessionTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.CookieSessionTests) ... test_decode_legacy (sessions_tests.tests.CookieSessionTests) ... FAIL
+test_default_expiry (sessions_tests.tests.CookieSessionTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.CookieSessionTests) ... ok
+test_delete (sessions_tests.tests.CookieSessionTests) ... ok
+test_flush (sessions_tests.tests.CookieSessionTests) ... ok
+test_get_empty (sessions_tests.tests.CookieSessionTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.CookieSessionTests) ... ok
+test_has_key (sessions_tests.tests.CookieSessionTests) ... ok
+test_invalid_key (sessions_tests.tests.CookieSessionTests) ... ok
+test_items (sessions_tests.tests.CookieSessionTests) ... ok
+test_keys (sessions_tests.tests.CookieSessionTests) ... ok
+test_new_session (sessions_tests.tests.CookieSessionTests) ... ok
+test_pop (sessions_tests.tests.CookieSessionTests) ... ok
+test_pop_default (sessions_tests.tests.CookieSessionTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.CookieSessionTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.CookieSessionTests) ... ok
+test_save (sessions_tests.tests.CookieSessionTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.CookieSessionTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.CookieSessionTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.CookieSessionTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.CookieSessionTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.CookieSessionTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.CookieSessionTests) ... skipped "Cookie backend doesn't have an external store to create records in."
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.CookieSessionTests) ... skipped 'CookieSession is stored in the client and there is no way to query it.'
+test_setdefault (sessions_tests.tests.CookieSessionTests) ... ok
+test_store (sessions_tests.tests.CookieSessionTests) ... ok
+test_unpickling_exception (sessions_tests.tests.CookieSessionTests) ... ok
+test_update (sessions_tests.tests.CookieSessionTests) ... ok
+test_values (sessions_tests.tests.CookieSessionTests) ... ok
+test_actual_expiry (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_clear (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_clearsessions_command (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_configuration_check (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_cycle (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_decode (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.FileSessionPathLibTests) ... test_decode_legacy (sessions_tests.tests.FileSessionPathLibTests) ... FAIL
+test_default_expiry (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_delete (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_flush (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_get_empty (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_has_key (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_invalid_key (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_invalid_key_backslash (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_invalid_key_forwardslash (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_items (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_keys (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_new_session (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_pop (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_pop_default (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_save (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.FileSessionPathLibTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.FileSessionPathLibTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.FileSessionPathLibTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_setdefault (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_store (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_update (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_values (sessions_tests.tests.FileSessionPathLibTests) ... ok
+test_actual_expiry (sessions_tests.tests.FileSessionTests) ... ok
+test_clear (sessions_tests.tests.FileSessionTests) ... ok
+test_clearsessions_command (sessions_tests.tests.FileSessionTests) ... ok
+test_configuration_check (sessions_tests.tests.FileSessionTests) ... ok
+test_custom_expiry_datetime (sessions_tests.tests.FileSessionTests) ... ok
+test_custom_expiry_reset (sessions_tests.tests.FileSessionTests) ... ok
+test_custom_expiry_seconds (sessions_tests.tests.FileSessionTests) ... ok
+test_custom_expiry_timedelta (sessions_tests.tests.FileSessionTests) ... ok
+test_cycle (sessions_tests.tests.FileSessionTests) ... ok
+test_cycle_with_no_session_cache (sessions_tests.tests.FileSessionTests) ... ok
+test_decode (sessions_tests.tests.FileSessionTests) ... ok
+test_decode_failure_logged_to_security (sessions_tests.tests.FileSessionTests) ... test_decode_legacy (sessions_tests.tests.FileSessionTests) ... FAIL
+test_default_expiry (sessions_tests.tests.FileSessionTests) ... ok
+test_default_hashing_algorith_legacy_decode (sessions_tests.tests.FileSessionTests) ... ok
+test_delete (sessions_tests.tests.FileSessionTests) ... ok
+test_flush (sessions_tests.tests.FileSessionTests) ... ok
+test_get_empty (sessions_tests.tests.FileSessionTests) ... ok
+test_get_expire_at_browser_close (sessions_tests.tests.FileSessionTests) ... ok
+test_has_key (sessions_tests.tests.FileSessionTests) ... ok
+test_invalid_key (sessions_tests.tests.FileSessionTests) ... ok
+test_invalid_key_backslash (sessions_tests.tests.FileSessionTests) ... ok
+test_invalid_key_forwardslash (sessions_tests.tests.FileSessionTests) ... ok
+test_items (sessions_tests.tests.FileSessionTests) ... ok
+test_keys (sessions_tests.tests.FileSessionTests) ... ok
+test_new_session (sessions_tests.tests.FileSessionTests) ... ok
+test_pop (sessions_tests.tests.FileSessionTests) ... ok
+test_pop_default (sessions_tests.tests.FileSessionTests) ... ok
+test_pop_default_named_argument (sessions_tests.tests.FileSessionTests) ... ok
+test_pop_no_default_keyerror_raised (sessions_tests.tests.FileSessionTests) ... ok
+test_save (sessions_tests.tests.FileSessionTests) ... ok
+test_save_doesnt_clear_data (sessions_tests.tests.FileSessionTests) ... ok
+test_session_key_empty_string_invalid (sessions_tests.tests.FileSessionTests)
+Falsey values (Such as an empty string) are rejected. ... ok
+test_session_key_is_read_only (sessions_tests.tests.FileSessionTests) ... ok
+test_session_key_too_short_invalid (sessions_tests.tests.FileSessionTests)
+Strings shorter than 8 characters are rejected. ... ok
+test_session_key_valid_string_saved (sessions_tests.tests.FileSessionTests)
+Strings of length 8 and up are accepted and stored. ... ok
+test_session_load_does_not_create_record (sessions_tests.tests.FileSessionTests) ... ok
+test_session_save_does_not_resurrect_session_logged_out_in_other_context (sessions_tests.tests.FileSessionTests) ... ok
+test_setdefault (sessions_tests.tests.FileSessionTests) ... ok
+test_store (sessions_tests.tests.FileSessionTests) ... ok
+test_update (sessions_tests.tests.FileSessionTests) ... ok
+test_values (sessions_tests.tests.FileSessionTests) ... ok
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CacheDBSessionTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CacheDBSessionTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.CacheDBSessionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CacheDBSessionWithTimeZoneTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.CacheDBSessionWithTimeZoneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CustomDatabaseSessionTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CustomDatabaseSessionTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.CustomDatabaseSessionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.DatabaseSessionTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.DatabaseSessionTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.DatabaseSessionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.DatabaseSessionWithTimeZoneTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.DatabaseSessionWithTimeZoneTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CacheSessionTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CacheSessionTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.CacheSessionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CookieSessionTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.CookieSessionTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.CookieSessionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.FileSessionPathLibTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.FileSessionPathLibTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.FileSessionPathLibTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.FileSessionTests) (encoded='Zmxhc2tkajphbGtkamY=')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_failure_logged_to_security (sessions_tests.tests.FileSessionTests) (encoded='bad:encoded:value')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/sessions_tests/tests.py", line 343, in test_decode_failure_logged_to_security
+    self.assertEqual(self.session.decode(encoded), {})
+AssertionError: no logs of level WARNING or higher triggered on django.security.SuspiciousSession
+
+======================================================================
+FAIL: test_decode_legacy (sessions_tests.tests.FileSessionTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/django/test/utils.py", line 388, in inner
+    return func(*args, **kwargs)
+  File "/testbed/tests/sessions_tests/tests.py", line 325, in test_decode_legacy
+    {'a test key': 'a test value'},
+AssertionError: {} != {'a test key': 'a test value'}
+- {}
++ {'a test key': 'a test value'}
+
+----------------------------------------------------------------------
+Ran 384 tests in 0.372s
+
+FAILED (failures=27, skipped=2, expected failures=1)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 Testing against Django installed in '/testbed/django'
 Importing application sessions_tests
-Traceback (most recent call last):
-  File "./tests/runtests.py", line 586, in <module>
-    options.timing,
-  File "./tests/runtests.py", line 292, in django_tests
-    state = setup(verbosity, test_labels, parallel, start_at, start_after)
-  File "./tests/runtests.py", line 246, in setup
-    apps.set_installed_apps(settings.INSTALLED_APPS)
-  File "/testbed/django/apps/registry.py", line 355, in set_installed_apps
-    self.populate(installed)
-  File "/testbed/django/apps/registry.py", line 114, in populate
-    app_config.import_models()
-  File "/testbed/django/apps/config.py", line 287, in import_models
-    self.models_module = import_module(models_module_name)
-  File "/opt/miniconda3/envs/testbed/lib/python3.6/importlib/__init__.py", line 126, in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-  File "<frozen importlib._bootstrap>", line 994, in _gcd_import
-  File "<frozen importlib._bootstrap>", line 971, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 955, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 665, in _load_unlocked
-  File "<frozen importlib._bootstrap_external>", line 678, in exec_module
-  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
-  File "/testbed/tests/sessions_tests/models.py", line 6, in <module>
-    from django.contrib.sessions.backends.db import SessionStore as DBStore
-  File "/testbed/django/contrib/sessions/backends/db.py", line 3, in <module>
-    from django.contrib.sessions.backends.base import (
-  File "/testbed/django/contrib/sessions/backends/base.py", line 9, in <module>
-    from django.core.signing import BadSignature, signing
-ImportError: cannot import name 'signing'
+Skipping setup of unused database(s): other.
+Operations to perform:
+  Synchronize unmigrated apps: auth, contenttypes, messages, sessions, sessions_tests, staticfiles
+  Apply all migrations: admin, sites
+Synchronizing apps without migrations:
+  Creating tables...
+    Creating table django_content_type
+    Creating table auth_permission
+    Creating table auth_group
+    Creating table auth_user
+    Creating table django_session
+    Creating table sessions_tests_customsession
+    Running deferred SQL...
+Running migrations:
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying sites.0001_initial... OK
+  Applying sites.0002_alter_domain_unique... OK
+System check identified no issues (0 silenced).
 + git checkout 35b03788b0607c1f8d2b64e4fa9e1669b0907ea4 tests/sessions_tests/tests.py
 Updated 1 path from fb040ff5e9

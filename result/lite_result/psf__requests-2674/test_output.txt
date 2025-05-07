@@ -150,28 +150,44 @@ Date:   Wed Jul 15 20:51:06 2015 -0500
 
 + git diff 0be38a0c37c59c4b66ce908731da15b401655113
 diff --git a/requests/exceptions.py b/requests/exceptions.py
-index 89135a80..e44df19a 100644
+index 89135a80..6c7e2a1e 100644
 --- a/requests/exceptions.py
 +++ b/requests/exceptions.py
-@@ -7,11 +7,11 @@ requests.exceptions
+@@ -7,10 +7,14 @@ requests.exceptions
  This module contains the set of Requests' exceptions.
  
  """
 -from .packages.urllib3.exceptions import HTTPError as BaseHTTPError
++from .packages.urllib3.exceptions import (
++    HTTPError as BaseHTTPError,
++    DecodeError as BaseDecodeError,
++    TimeoutError as BaseTimeoutError)
  
  
  class RequestException(IOError):
-     """There was an ambiguous exception that occurred while handling your
 +
+     """There was an ambiguous exception that occurred while handling your
      request."""
  
-     def __init__(self, *args, **kwargs):
-@@ -87,10 +87,13 @@ class ChunkedEncodingError(RequestException):
+@@ -43,10 +47,11 @@ class SSLError(ConnectionError):
+     """An SSL error occurred."""
+ 
+ 
+-class Timeout(RequestException):
++class Timeout(RequestException, BaseTimeoutError):
+     """The request timed out.
+ 
+     Catching this error will catch both
++
+     :exc:`~requests.exceptions.ConnectTimeout` and
+     :exc:`~requests.exceptions.ReadTimeout` errors.
+     """
+@@ -87,10 +92,13 @@ class ChunkedEncodingError(RequestException):
      """The server declared chunked encoding but sent an invalid chunk."""
  
  
 -class ContentDecodingError(RequestException, BaseHTTPError):
-+class ContentDecodingError(RequestException):
++class ContentDecodingError(RequestException, BaseDecodeError):
      """Failed to decode response content"""
  
  
@@ -312,8 +328,8 @@ Processing /testbed
 Building wheels for collected packages: requests
   Building wheel for requests (setup.py): started
   Building wheel for requests (setup.py): finished with status 'done'
-  Created wheel for requests: filename=requests-2.7.0-py2.py3-none-any.whl size=462563 sha256=866d543f0f00d5bb9397ca46edc7a75b7d5dc8bbf785f155653ab31e18ec411b
-  Stored in directory: /tmp/pip-ephem-wheel-cache-8t9fk8h4/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for requests: filename=requests-2.7.0-py2.py3-none-any.whl size=462635 sha256=168a599ababc027c8300e9d9dfcdde2985e65b823ba26b84840913daad2c501b
+  Stored in directory: /tmp/pip-ephem-wheel-cache-dq7b43qd/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built requests
 Installing collected packages: requests
   Attempting uninstall: requests
@@ -351,7 +367,7 @@ E           TypeError: 'requests.post(url, data=\'[{"some": "data"}]\', files={\
 test_requests.py:455: TypeError
 _____________________ test_urllib3_pool_connection_closed ______________________
 
-self = <requests.packages.urllib3.connectionpool.HTTPConnectionPool object at 0x7f7745e8cd60>
+self = <requests.packages.urllib3.connectionpool.HTTPConnectionPool object at 0x7f47ba821af0>
 timeout = None
 
     def _get_conn(self, timeout=None):
@@ -396,7 +412,7 @@ requests/packages/urllib3/connectionpool.py:533: in urlopen
     conn = self._get_conn(timeout=pool_timeout)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <requests.packages.urllib3.connectionpool.HTTPConnectionPool object at 0x7f7745e8cd60>
+self = <requests.packages.urllib3.connectionpool.HTTPConnectionPool object at 0x7f47ba821af0>
 timeout = None
 
     def _get_conn(self, timeout=None):
@@ -680,6 +696,6 @@ PASSED test_requests.py::test_vendor_aliases
 XPASS test_requests.py::RequestsTestCase::test_response_iter_lines_reentrant 
 FAILED test_requests.py::RequestsTestCase::test_conflicting_post_params - Typ...
 FAILED test_requests.py::test_urllib3_pool_connection_closed - requests.packa...
-====== 2 failed, 159 passed, 1 xpassed, 28 warnings in 154.46s (0:02:34) =======
+====== 2 failed, 159 passed, 1 xpassed, 28 warnings in 144.31s (0:02:24) =======
 + git checkout 0be38a0c37c59c4b66ce908731da15b401655113 test_requests.py
 Updated 1 path from ccc7cab3

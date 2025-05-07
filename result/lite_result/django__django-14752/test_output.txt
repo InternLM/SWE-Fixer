@@ -164,10 +164,10 @@ index 5a4da97396..8b2cc8c046 100644
          if hasattr(expr, 'resolve_expression'):
 + git diff b64db05b9cedd96905d637a2d824cbbf428e40e7
 diff --git a/django/contrib/admin/views/autocomplete.py b/django/contrib/admin/views/autocomplete.py
-index 3903e4c98c..dbc113b2bc 100644
+index 3903e4c98c..24124e83cf 100644
 --- a/django/contrib/admin/views/autocomplete.py
 +++ b/django/contrib/admin/views/autocomplete.py
-@@ -26,16 +26,20 @@ class AutocompleteJsonView(BaseListView):
+@@ -26,10 +26,11 @@ class AutocompleteJsonView(BaseListView):
          context = self.get_context_data()
          return JsonResponse({
              'results': [
@@ -176,19 +176,17 @@ index 3903e4c98c..dbc113b2bc 100644
                  for obj in context['object_list']
              ],
              'pagination': {'more': context['page_obj'].has_next()},
++
          })
  
+     def get_paginator(self, *args, **kwargs):
+@@ -100,3 +101,6 @@ class AutocompleteJsonView(BaseListView):
+     def has_perm(self, request, obj=None):
+         """Check if user has permission to access the related model."""
+         return self.model_admin.has_view_permission(request, obj=obj)
++
 +    def serialize_result(self, obj, to_field_name):
 +        return {'id': str(getattr(obj, to_field_name)), 'text': str(obj)}
-+
-     def get_paginator(self, *args, **kwargs):
-         """Use the ModelAdmin's paginator."""
-         return self.model_admin.get_paginator(self.request, *args, **kwargs)
- 
-+
-     def get_queryset(self):
-         """Return queryset based on ModelAdmin.get_search_results()."""
-         qs = self.model_admin.get_queryset(self.request)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -330,8 +328,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210809172329-0.editable-py3-none-any.whl size=26615 sha256=512fa56a182ff373615ccbb822b3b86f5846151fcaec46257f0f71f452a15a0b
-  Stored in directory: /tmp/pip-ephem-wheel-cache-16az7l9b/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210809172329-0.editable-py3-none-any.whl size=26614 sha256=7e4ab88adc276fcf20e5184b2ed6b0d039cac1022ed4fe077c298287e1543fdc
+  Stored in directory: /tmp/pip-ephem-wheel-cache-xu_255u9/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -521,7 +519,7 @@ test_select (admin_views.test_autocomplete_view.SeleniumTests) ... skipped 'No b
 test_select_multiple (admin_views.test_autocomplete_view.SeleniumTests) ... skipped 'No browsers specified.'
 
 ----------------------------------------------------------------------
-Ran 19 tests in 0.355s
+Ran 19 tests in 0.396s
 
 OK (skipped=3)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

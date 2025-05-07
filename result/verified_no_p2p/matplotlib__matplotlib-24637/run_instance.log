@@ -1,0 +1,86 @@
+2025-05-06 06:43:47,146 - INFO - Environment image sweb.env.x86_64.31244378a92e3bcce809ac:latest found for matplotlib__matplotlib-24637
+Building instance image sweb.eval.x86_64.matplotlib__matplotlib-24637:latest for matplotlib__matplotlib-24637
+2025-05-06 06:43:47,149 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-24637:latest already exists, skipping build.
+2025-05-06 06:43:47,150 - INFO - Creating container for matplotlib__matplotlib-24637...
+2025-05-06 06:43:47,203 - INFO - Container for matplotlib__matplotlib-24637 created: ed8325e7f997fa1f4552ee2312075d6f5721f519144ff0fe0f016429676fdb91
+2025-05-06 06:43:47,457 - INFO - Container for matplotlib__matplotlib-24637 started: ed8325e7f997fa1f4552ee2312075d6f5721f519144ff0fe0f016429676fdb91
+2025-05-06 06:43:47,458 - INFO - Intermediate patch for matplotlib__matplotlib-24637 written to logs/run_evaluation/20250506_061805/SWE-Fixer/matplotlib__matplotlib-24637/patch.diff, now applying to container...
+2025-05-06 06:43:47,725 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:43:47,799 - INFO - >>>>> Applied Patch:
+patching file lib/matplotlib/offsetbox.py
+
+2025-05-06 06:43:48,775 - INFO - Git diff before:
+diff --git a/lib/matplotlib/offsetbox.py b/lib/matplotlib/offsetbox.py
+index efa34dd078..85c2b6d19e 100644
+--- a/lib/matplotlib/offsetbox.py
++++ b/lib/matplotlib/offsetbox.py
+@@ -1449,7 +1449,7 @@ or callable, default: value of *xycoords*
+     def draw(self, renderer):
+         # docstring inherited
+         if renderer is not None:
+-            self._renderer = renderer
++            self._renderer = renderer  # For get_window_extent.
+         if not self.get_visible() or not self._check_xy(renderer):
+             return
+         self.update_positions(renderer)
+@@ -1457,11 +1457,18 @@ or callable, default: value of *xycoords*
+             if self.arrow_patch.figure is None and self.figure is not None:
+                 self.arrow_patch.figure = self.figure
+             self.arrow_patch.draw(renderer)
++        if (gid := self.get_gid()) is not None:
++            renderer.set_gid(gid)
+         self.patch.draw(renderer)
+         self.offsetbox.draw(renderer)
++        if gid is not None:
++            renderer.set_gid(None)
+         self.stale = False
+ 
+ 
++
++
++
+ class DraggableBase:
+     """
+     Helper base class for a draggable artist (legend, offsetbox).
+2025-05-06 06:43:48,776 - INFO - Eval script for matplotlib__matplotlib-24637 written to logs/run_evaluation/20250506_061805/SWE-Fixer/matplotlib__matplotlib-24637/eval.sh; copying to container...
+2025-05-06 06:44:55,675 - INFO - Test runtime: 66.71 seconds
+2025-05-06 06:44:55,690 - INFO - Test output for matplotlib__matplotlib-24637 written to logs/run_evaluation/20250506_061805/SWE-Fixer/matplotlib__matplotlib-24637/test_output.txt
+2025-05-06 06:44:55,766 - INFO - Git diff after:
+diff --git a/lib/matplotlib/offsetbox.py b/lib/matplotlib/offsetbox.py
+index efa34dd078..85c2b6d19e 100644
+--- a/lib/matplotlib/offsetbox.py
++++ b/lib/matplotlib/offsetbox.py
+@@ -1449,7 +1449,7 @@ or callable, default: value of *xycoords*
+     def draw(self, renderer):
+         # docstring inherited
+         if renderer is not None:
+-            self._renderer = renderer
++            self._renderer = renderer  # For get_window_extent.
+         if not self.get_visible() or not self._check_xy(renderer):
+             return
+         self.update_positions(renderer)
+@@ -1457,11 +1457,18 @@ or callable, default: value of *xycoords*
+             if self.arrow_patch.figure is None and self.figure is not None:
+                 self.arrow_patch.figure = self.figure
+             self.arrow_patch.draw(renderer)
++        if (gid := self.get_gid()) is not None:
++            renderer.set_gid(gid)
+         self.patch.draw(renderer)
+         self.offsetbox.draw(renderer)
++        if gid is not None:
++            renderer.set_gid(None)
+         self.stale = False
+ 
+ 
++
++
++
+ class DraggableBase:
+     """
+     Helper base class for a draggable artist (legend, offsetbox).
+2025-05-06 06:44:55,766 - INFO - Grading answer for matplotlib__matplotlib-24637...
+2025-05-06 06:44:55,769 - INFO - report: {'matplotlib__matplotlib-24637': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_backend_svg.py::test_annotationbbox_gid']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_backend_svg.py::test_visibility', 'lib/matplotlib/tests/test_backend_svg.py::test_noscale[png]', 'lib/matplotlib/tests/test_backend_svg.py::test_noscale[pdf]', 'lib/matplotlib/tests/test_backend_svg.py::test_text_urls', 'lib/matplotlib/tests/test_backend_svg.py::test_rasterized[png]', 'lib/matplotlib/tests/test_backend_svg.py::test_rasterized[pdf]', 'lib/matplotlib/tests/test_backend_svg.py::test_rasterized_ordering[png]', 'lib/matplotlib/tests/test_backend_svg.py::test_rasterized_ordering[pdf]', 'lib/matplotlib/tests/test_backend_svg.py::test_prevent_rasterization[pdf]', 'lib/matplotlib/tests/test_backend_svg.py::test_count_bitmaps', 'lib/matplotlib/tests/test_backend_svg.py::test_svgnone_with_data_coordinates', 'lib/matplotlib/tests/test_backend_svg.py::test_gid', 'lib/matplotlib/tests/test_backend_svg.py::test_savefig_tight', 'lib/matplotlib/tests/test_backend_svg.py::test_url', 'lib/matplotlib/tests/test_backend_svg.py::test_url_tick', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_default_metadata', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_clear_default_metadata', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_clear_all_metadata', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_metadata', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata0-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata1-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata2-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata3-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata4-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata5-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata6-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata7-TypeError-Invalid', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_incorrect_metadata[metadata8-ValueError-Unknown', 'lib/matplotlib/tests/test_backend_svg.py::test_svg_escape'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for matplotlib__matplotlib-24637: resolved: False
+2025-05-06 06:44:55,770 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-24637.20250506_061805...
+2025-05-06 06:45:11,065 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-24637.20250506_061805...
+2025-05-06 06:45:11,083 - INFO - Container sweb.eval.matplotlib__matplotlib-24637.20250506_061805 removed.

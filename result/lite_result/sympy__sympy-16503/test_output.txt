@@ -317,8 +317,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        52022288
-hash randomization: on (PYTHONHASHSEED=2607906665)
+random seed:        55184716
+hash randomization: on (PYTHONHASHSEED=2490820524)
 
 sympy/printing/pretty/tests/test_pretty.py[125] 
 test_pretty_ascii_str ok
@@ -476,7 +476,7 @@ Traceback (most recent call last):
     assert upretty(expr) == ucode_str
 AssertionError
 
-===== tests finished: 122 passed, 1 failed, 2 exceptions, in 5.43 seconds ======
+===== tests finished: 122 passed, 1 failed, 2 exceptions, in 5.54 seconds ======
 DO *NOT* COMMIT!
 + git checkout a7e6f093c98a3c4783848a19fce646e32b6e0161 sympy/printing/pretty/tests/test_pretty.py
 Updated 1 path from 7c390001f2

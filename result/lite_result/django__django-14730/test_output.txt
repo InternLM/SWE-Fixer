@@ -353,8 +353,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210805041140-0.editable-py3-none-any.whl size=26583 sha256=e951337910b3225da561efe3a22af8eb7dcc24cd7dc32044fa734e576d7e93e8
-  Stored in directory: /tmp/pip-ephem-wheel-cache-yz34li0n/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210805041140-0.editable-py3-none-any.whl size=26581 sha256=58e77e91e1df35a70d96e546d3ee5cde774ac0c7391889269b2041f789332509
+  Stored in directory: /tmp/pip-ephem-wheel-cache-zztdo5o5/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -528,7 +528,7 @@ First extra element 0:
 + [<Warning: level=30, msg='related_name has no effect on ManyToManyField with a symmetrical relationship, e.g. to "self".', hint=None, obj=<django.db.models.fields.related.ManyToManyField: m2m>, id='fields.W345'>]
 
 ----------------------------------------------------------------------
-Ran 121 tests in 0.139s
+Ran 121 tests in 0.137s
 
 FAILED (failures=1)
 + git checkout 4fe3774c729f3fd5105b3001fe69a70bdca95ac3 tests/field_deconstruction/tests.py tests/invalid_models_tests/test_relative_fields.py tests/model_meta/models.py

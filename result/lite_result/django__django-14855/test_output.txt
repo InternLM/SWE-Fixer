@@ -159,6 +159,27 @@ index 5aeedae035..fe22569485 100644
     contents:
  
 + git diff 475cffd1d64c690cdad16ede4d5e81985738ceb4
++ source /opt/miniconda3/bin/activate
+++ _CONDA_ROOT=/opt/miniconda3
+++ . /opt/miniconda3/etc/profile.d/conda.sh
++++ export CONDA_EXE=/opt/miniconda3/bin/conda
++++ CONDA_EXE=/opt/miniconda3/bin/conda
++++ export _CE_M=
++++ _CE_M=
++++ export _CE_CONDA=
++++ _CE_CONDA=
++++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
++++ '[' -z x ']'
+++ conda activate
+++ local cmd=activate
+++ case "$cmd" in
+++ __conda_activate activate
+++ '[' -n '' ']'
+++ local ask_conda
++++ PS1='(testbed) '
++++ __conda_exe shell.posix activate
++++ /opt/miniconda3/bin/conda shell.posix activate
 diff --git a/django/contrib/admin/helpers.py b/django/contrib/admin/helpers.py
 index dd154f72ee..1015678843 100644
 --- a/django/contrib/admin/helpers.py
@@ -181,27 +202,6 @@ index dd154f72ee..1015678843 100644
      def contents(self):
          from django.contrib.admin.templatetags.admin_list import _boolean_icon
          field, obj, model_admin = self.field['field'], self.form.instance, self.model_admin
-+ source /opt/miniconda3/bin/activate
-++ _CONDA_ROOT=/opt/miniconda3
-++ . /opt/miniconda3/etc/profile.d/conda.sh
-+++ export CONDA_EXE=/opt/miniconda3/bin/conda
-+++ CONDA_EXE=/opt/miniconda3/bin/conda
-+++ export _CE_M=
-+++ _CE_M=
-+++ export _CE_CONDA=
-+++ _CE_CONDA=
-+++ export CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
-+++ CONDA_PYTHON_EXE=/opt/miniconda3/bin/python
-+++ '[' -z x ']'
-++ conda activate
-++ local cmd=activate
-++ case "$cmd" in
-++ __conda_activate activate
-++ '[' -n '' ']'
-++ local ask_conda
-+++ PS1='(testbed) '
-+++ __conda_exe shell.posix activate
-+++ /opt/miniconda3/bin/conda shell.posix activate
 ++ ask_conda='PS1='\''(base) '\''
 export PATH='\''/opt/miniconda3/bin:/opt/miniconda3/condabin:/opt/miniconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'\''
 export CONDA_PREFIX='\''/opt/miniconda3'\''
@@ -322,8 +322,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210917181926-0.editable-py3-none-any.whl size=26701 sha256=8e1e7c4558cabe236f8230f77386ce7b34869cadeaa3f39247970035c681f34a
-  Stored in directory: /tmp/pip-ephem-wheel-cache-at1oy89q/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210917181926-0.editable-py3-none-any.whl size=26700 sha256=2aff6c3d1db17baae145ea3a12c0d1e42da8584968455ea7ac1dd7017f32a828
+  Stored in directory: /tmp/pip-ephem-wheel-cache-h7if8vw2/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -488,8 +488,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
- OK
+  Applying sites.0002_alter_domain_unique... OK
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 System check identified no issues (1 silenced).
 test_add_model_modeladmin_defer_qs (admin_views.tests.AdminCustomQuerysetTest) ... ok
 test_add_model_modeladmin_only_qs (admin_views.tests.AdminCustomQuerysetTest) ... ok
@@ -1017,7 +1017,7 @@ The JavaScript-automated prepopulated fields work with the main form ... skipped
 test_search_input_filtered_page (admin_views.tests.SeleniumTests) ... skipped 'No browsers specified.'
 
 ----------------------------------------------------------------------
-Ran 345 tests in 28.698s
+Ran 345 tests in 28.402s
 
 OK (skipped=15)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

@@ -1,0 +1,56 @@
+2025-05-06 11:15:06,671 - INFO - Environment image sweb.env.x86_64.2baaea72acc974f6c02079:latest found for django__django-11049
+Building instance image sweb.eval.x86_64.django__django-11049:latest for django__django-11049
+2025-05-06 11:15:06,689 - INFO - Image sweb.eval.x86_64.django__django-11049:latest already exists, skipping build.
+2025-05-06 11:15:06,690 - INFO - Creating container for django__django-11049...
+2025-05-06 11:15:06,744 - INFO - Container for django__django-11049 created: 45a8e98eefc81d032596ddbccfb26c08fe3a4ee9e1d99acc02bafcaf3f36d193
+2025-05-06 11:15:07,875 - INFO - Container for django__django-11049 started: 45a8e98eefc81d032596ddbccfb26c08fe3a4ee9e1d99acc02bafcaf3f36d193
+2025-05-06 11:15:07,875 - INFO - Intermediate patch for django__django-11049 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-11049/patch.diff, now applying to container...
+2025-05-06 11:15:08,160 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:15:08,206 - INFO - >>>>> Applied Patch:
+patching file django/db/models/fields/__init__.py
+
+2025-05-06 11:15:09,611 - INFO - Git diff before:
+diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
+index f32ce64629..d5c07cad7e 100644
+--- a/django/db/models/fields/__init__.py
++++ b/django/db/models/fields/__init__.py
+@@ -1587,10 +1587,12 @@ class DurationField(Field):
+     empty_strings_allowed = False
+     default_error_messages = {
+         'invalid': _("'%(value)s' value has an invalid format. It must be in "
+-                     "[DD] [HH:[MM:]]ss[.uuuuuu] format.")
++                     "[DD] [[HH:]MM:]ss[.uuuuuu] format.")
+     }
+     description = _("Duration")
+ 
++
++
+     def get_internal_type(self):
+         return "DurationField"
+2025-05-06 11:15:09,611 - INFO - Eval script for django__django-11049 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-11049/eval.sh; copying to container...
+2025-05-06 11:15:18,019 - INFO - Test runtime: 8.26 seconds
+2025-05-06 11:15:18,019 - INFO - Test output for django__django-11049 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-11049/test_output.txt
+2025-05-06 11:15:18,107 - INFO - Git diff after:
+diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
+index f32ce64629..d5c07cad7e 100644
+--- a/django/db/models/fields/__init__.py
++++ b/django/db/models/fields/__init__.py
+@@ -1587,10 +1587,12 @@ class DurationField(Field):
+     empty_strings_allowed = False
+     default_error_messages = {
+         'invalid': _("'%(value)s' value has an invalid format. It must be in "
+-                     "[DD] [HH:[MM:]]ss[.uuuuuu] format.")
++                     "[DD] [[HH:]MM:]ss[.uuuuuu] format.")
+     }
+     description = _("Duration")
+ 
++
++
+     def get_internal_type(self):
+         return "DurationField"
+2025-05-06 11:15:18,108 - INFO - Grading answer for django__django-11049...
+2025-05-06 11:15:18,116 - INFO - report: {'django__django-11049': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_invalid_string (model_fields.test_durationfield.TestValidation)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_dumping (model_fields.test_durationfield.TestSerialization)', 'test_loading (model_fields.test_durationfield.TestSerialization)', 'test_formfield (model_fields.test_durationfield.TestFormField)', 'test_exact (model_fields.test_durationfield.TestQuerying)', 'test_gt (model_fields.test_durationfield.TestQuerying)', 'test_create_empty (model_fields.test_durationfield.TestSaveLoad)', 'test_fractional_seconds (model_fields.test_durationfield.TestSaveLoad)', 'test_simple_roundtrip (model_fields.test_durationfield.TestSaveLoad)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-11049: resolved: True
+2025-05-06 11:15:18,116 - INFO - Attempting to stop container sweb.eval.django__django-11049.20250506_111427...
+2025-05-06 11:15:33,683 - INFO - Attempting to remove container sweb.eval.django__django-11049.20250506_111427...
+2025-05-06 11:15:33,703 - INFO - Container sweb.eval.django__django-11049.20250506_111427 removed.

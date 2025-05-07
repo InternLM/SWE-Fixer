@@ -1,0 +1,22 @@
+
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index 8b01d4f..00278ae 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -1694,11 +1694,14 @@ class Expr(Basic, EvalfMixin):
+                 return has_other
+             return has_other or e.has(*(e.free_symbols & sym))
+ 
+-        if (want is not func or
+-                func is not Add and func is not Mul):
++        if (want is not func or func is not Add and func is not Mul or
++                # don't let simplification mask undefined expression
++                # e.g. (1/x - 1/x).subs(x, 0) should be NaN, not 0
++                self.is_number and self.simplify() != self):
+             if has(self):
+                 return (want.identity, self)
+             else:
++
+                 return (self, want.identity)
+         else:
+             if func is Add:

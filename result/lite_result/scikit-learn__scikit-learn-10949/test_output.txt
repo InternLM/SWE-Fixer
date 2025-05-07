@@ -161,18 +161,19 @@ index 564dbd759..fad5db0e7 100644
    power transformation, allowing users to map data from any distribution to a
 + git diff 3b5abf76597ce6aff76192869f92647c1b5259e7
 diff --git a/sklearn/utils/validation.py b/sklearn/utils/validation.py
-index fe1f7236e..96e97d04a 100644
+index fe1f7236e..2fb38afcc 100644
 --- a/sklearn/utils/validation.py
 +++ b/sklearn/utils/validation.py
-@@ -548,10 +548,15 @@ def check_array(array, accept_sparse=False, accept_large_sparse=True,
+@@ -548,10 +548,16 @@ def check_array(array, accept_sparse=False, accept_large_sparse=True,
  
          # make sure we actually converted to numeric:
          if dtype_numeric and array.dtype.kind == "O":
-+            if warn_on_dtype:
-+                warnings.warn("Data with input dtype %s was converted to %s%s."
-+                              % (dtype_orig, array.dtype, context),
-+                              DataConversionWarning)
++            dtype_orig = array.dtype
              array = array.astype(np.float64)
++            if warn_on_dtype and dtype_orig != array.dtype:
++                msg = ("Data with input dtype %s was converted to %s%s."
++                       % (dtype_orig, array.dtype, context))
++                warnings.warn(msg, DataConversionWarning)
          if not allow_nd and array.ndim >= 3:
              raise ValueError("Found array with dim %d. %s expected <= 2."
                               % (array.ndim, estimator_name))
@@ -309,17 +310,17 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
     adding license file 'AUTHORS.rst'
-    writing manifest file '/tmp/pip-pip-egg-info-yobw87t1/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-80bwowdd/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.20.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.13.3 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.20.dev0) (1.5.2)
@@ -346,11 +347,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmpikhmlw3n/tmp
-    creating /tmp/tmpikhmlw3n/tmp/tmpikhmlw3n
+    creating /tmp/tmphh4989dk/tmp
+    creating /tmp/tmphh4989dk/tmp/tmphh4989dk
     compile options: '-c'
-    gcc: /tmp/tmpikhmlw3n/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpikhmlw3n/tmp/tmpikhmlw3n/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpikhmlw3n/a.out
+    gcc: /tmp/tmphh4989dk/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmphh4989dk/tmp/tmphh4989dk/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmphh4989dk/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -505,6 +506,10 @@ WARNING: Running pip as the 'root' user can result in broken permissions and con
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout 3b5abf76597ce6aff76192869f92647c1b5259e7 sklearn/utils/tests/test_validation.py
 Updated 0 paths from 0684f0f52
 + git apply -v -
@@ -523,7 +528,7 @@ sklearn/utils/tests/test_validation.py ............FFFFFFFFFF........... [ 62%]
 _ test_check_array_force_all_finiteinvalid[asarray-inf-True-Input contains NaN, infinity] _
 
 value = inf, force_all_finite = True, match_msg = 'Input contains NaN, infinity'
-retype = <function asarray at 0x7efd4923d268>
+retype = <function asarray at 0x7fd7a7475268>
 
     @pytest.mark.parametrize(
         "value, force_all_finite, match_msg",
@@ -550,7 +555,7 @@ _ test_check_array_force_all_finiteinvalid[asarray-inf-allow-nan-Input contains 
 
 value = inf, force_all_finite = 'allow-nan'
 match_msg = 'Input contains infinity'
-retype = <function asarray at 0x7efd4923d268>
+retype = <function asarray at 0x7fd7a7475268>
 
     @pytest.mark.parametrize(
         "value, force_all_finite, match_msg",
@@ -576,7 +581,7 @@ sklearn/utils/tests/test_validation.py:185: TypeError
 _ test_check_array_force_all_finiteinvalid[asarray-nan-True-Input contains NaN, infinity] _
 
 value = nan, force_all_finite = True, match_msg = 'Input contains NaN, infinity'
-retype = <function asarray at 0x7efd4923d268>
+retype = <function asarray at 0x7fd7a7475268>
 
     @pytest.mark.parametrize(
         "value, force_all_finite, match_msg",
@@ -603,7 +608,7 @@ _ test_check_array_force_all_finiteinvalid[asarray-nan-allow-inf-force_all_finit
 
 value = nan, force_all_finite = 'allow-inf'
 match_msg = 'force_all_finite should be a bool or "allow-nan"'
-retype = <function asarray at 0x7efd4923d268>
+retype = <function asarray at 0x7fd7a7475268>
 
     @pytest.mark.parametrize(
         "value, force_all_finite, match_msg",
@@ -630,7 +635,7 @@ _ test_check_array_force_all_finiteinvalid[asarray-nan-1-force_all_finite should
 
 value = nan, force_all_finite = 1
 match_msg = 'force_all_finite should be a bool or "allow-nan"'
-retype = <function asarray at 0x7efd4923d268>
+retype = <function asarray at 0x7fd7a7475268>
 
     @pytest.mark.parametrize(
         "value, force_all_finite, match_msg",
@@ -804,7 +809,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 warning_class = <class 'sklearn.exceptions.DataConversionWarning'>
 message = 'Data with input dtype object were all converted to float64.'
-func = <function check_array at 0x7efd3f951d90>
+func = <function check_array at 0x7fd79db8ad90>
 args = (   0  1  2
 0  1  2  3
 1  4  5  6,)
@@ -909,6 +914,6 @@ FAILED sklearn/utils/tests/test_validation.py::test_check_array_force_all_finite
 FAILED sklearn/utils/tests/test_validation.py::test_check_array_force_all_finiteinvalid[csr_matrix-nan-allow-inf-force_all_finite should be a bool or "allow-nan"]
 FAILED sklearn/utils/tests/test_validation.py::test_check_array_force_all_finiteinvalid[csr_matrix-nan-1-force_all_finite should be a bool or "allow-nan"]
 FAILED sklearn/utils/tests/test_validation.py::test_check_dataframe_warns_on_dtype
-================== 11 failed, 42 passed, 15 warnings in 1.18s ==================
+================== 11 failed, 42 passed, 15 warnings in 1.23s ==================
 + git checkout 3b5abf76597ce6aff76192869f92647c1b5259e7 sklearn/utils/tests/test_validation.py
 Updated 1 path from 0684f0f52

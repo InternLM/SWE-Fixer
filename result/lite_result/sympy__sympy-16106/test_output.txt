@@ -323,8 +323,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        21443846
-hash randomization: on (PYTHONHASHSEED=3151466860)
+random seed:        50266885
+hash randomization: on (PYTHONHASHSEED=2962987776)
 
 sympy/printing/tests/test_mathml.py[66] 
 test_mathml_printer ok
@@ -462,7 +462,7 @@ Traceback (most recent call last):
     assert mathml(IndexedBase(a),printer = 'presentation') == '<mi>a</mi>'
 AssertionError
 
-============ tests finished: 55 passed, 11 failed, in 0.20 seconds =============
+============ tests finished: 55 passed, 11 failed, in 0.21 seconds =============
 DO *NOT* COMMIT!
 + git checkout 0e987498b00167fdd4a08a41c852a97cb70ce8f2 sympy/printing/tests/test_mathml.py
 Updated 1 path from b0d5932494

@@ -1,15 +1,15 @@
-2025-02-12 13:21:18,103 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-20049
+2025-05-06 12:43:05,243 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-20049
 Building instance image sweb.eval.x86_64.sympy__sympy-20049:latest for sympy__sympy-20049
-2025-02-12 13:21:18,107 - INFO - Image sweb.eval.x86_64.sympy__sympy-20049:latest already exists, skipping build.
-2025-02-12 13:21:18,107 - INFO - Creating container for sympy__sympy-20049...
-2025-02-12 13:21:18,136 - INFO - Container for sympy__sympy-20049 created: 870d9af047e2fdee3b3983b3801e61bd61a983a97c52fd0f6ca08b304debdc89
-2025-02-12 13:21:18,400 - INFO - Container for sympy__sympy-20049 started: 870d9af047e2fdee3b3983b3801e61bd61a983a97c52fd0f6ca08b304debdc89
-2025-02-12 13:21:18,401 - INFO - Intermediate patch for sympy__sympy-20049 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20049/patch.diff, now applying to container...
-2025-02-12 13:21:18,656 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:21:18,722 - INFO - >>>>> Applied Patch:
+2025-05-06 12:43:05,245 - INFO - Image sweb.eval.x86_64.sympy__sympy-20049:latest already exists, skipping build.
+2025-05-06 12:43:05,245 - INFO - Creating container for sympy__sympy-20049...
+2025-05-06 12:43:05,270 - INFO - Container for sympy__sympy-20049 created: e3a0afbfecb2329d6ff47b04e69ab36ae57f14d0798d80b92b81f73abdd4da1c
+2025-05-06 12:43:05,564 - INFO - Container for sympy__sympy-20049 started: e3a0afbfecb2329d6ff47b04e69ab36ae57f14d0798d80b92b81f73abdd4da1c
+2025-05-06 12:43:05,564 - INFO - Intermediate patch for sympy__sympy-20049 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20049/patch.diff, now applying to container...
+2025-05-06 12:43:05,820 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:43:05,886 - INFO - >>>>> Applied Patch:
 patching file sympy/physics/vector/point.py
 
-2025-02-12 13:21:19,289 - INFO - Git diff before:
+2025-05-06 12:43:06,260 - INFO - Git diff before:
 diff --git a/sympy/physics/vector/point.py b/sympy/physics/vector/point.py
 index d4e3cfcc90..c709412ac5 100644
 --- a/sympy/physics/vector/point.py
@@ -37,10 +37,10 @@ index d4e3cfcc90..c709412ac5 100644
          """Returns the partial velocities of the linear velocity vector of this
          point in the given frame with respect to one or more provided
          generalized speeds.
-2025-02-12 13:21:19,289 - INFO - Eval script for sympy__sympy-20049 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20049/eval.sh; copying to container...
-2025-02-12 13:21:23,420 - INFO - Test runtime: 3.94 seconds
-2025-02-12 13:21:23,420 - INFO - Test output for sympy__sympy-20049 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20049/test_output.txt
-2025-02-12 13:21:23,488 - INFO - Git diff after:
+2025-05-06 12:43:06,261 - INFO - Eval script for sympy__sympy-20049 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20049/eval.sh; copying to container...
+2025-05-06 12:43:10,388 - INFO - Test runtime: 3.94 seconds
+2025-05-06 12:43:10,388 - INFO - Test output for sympy__sympy-20049 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20049/test_output.txt
+2025-05-06 12:43:10,456 - INFO - Git diff after:
 diff --git a/sympy/physics/vector/point.py b/sympy/physics/vector/point.py
 index d4e3cfcc90..c709412ac5 100644
 --- a/sympy/physics/vector/point.py
@@ -68,9 +68,9 @@ index d4e3cfcc90..c709412ac5 100644
          """Returns the partial velocities of the linear velocity vector of this
          point in the given frame with respect to one or more provided
          generalized speeds.
-2025-02-12 13:21:23,488 - INFO - Grading answer for sympy__sympy-20049...
-2025-02-12 13:21:23,491 - INFO - report: {'sympy__sympy-20049': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_auto_point_vel', 'test_auto_vel_dont_overwrite'], 'failure': ['test_auto_point_vel_multiple_point_path', 'test_auto_point_vel_shortest_path']}, 'PASS_TO_PASS': {'success': ['test_point_v1pt_theorys', 'test_point_a1pt_theorys', 'test_point_v2pt_theorys', 'test_point_a2pt_theorys', 'test_point_funcs', 'test_point_pos', 'test_point_partial_velocity', 'test_point_vel', 'test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:43:10,456 - INFO - Grading answer for sympy__sympy-20049...
+2025-05-06 12:43:10,460 - INFO - report: {'sympy__sympy-20049': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_auto_point_vel', 'test_auto_vel_dont_overwrite'], 'failure': ['test_auto_point_vel_multiple_point_path', 'test_auto_point_vel_shortest_path']}, 'PASS_TO_PASS': {'success': ['test_point_v1pt_theorys', 'test_point_a1pt_theorys', 'test_point_v2pt_theorys', 'test_point_a2pt_theorys', 'test_point_funcs', 'test_point_pos', 'test_point_partial_velocity', 'test_point_vel', 'test_auto_point_vel_if_tree_has_vel_but_inappropriate_pos_vector'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-20049: resolved: False
-2025-02-12 13:21:23,492 - INFO - Attempting to stop container sweb.eval.sympy__sympy-20049.20250212_130622...
-2025-02-12 13:21:39,038 - INFO - Attempting to remove container sweb.eval.sympy__sympy-20049.20250212_130622...
-2025-02-12 13:21:39,066 - INFO - Container sweb.eval.sympy__sympy-20049.20250212_130622 removed.
+2025-05-06 12:43:10,460 - INFO - Attempting to stop container sweb.eval.sympy__sympy-20049.20250506_122807...
+2025-05-06 12:43:25,780 - INFO - Attempting to remove container sweb.eval.sympy__sympy-20049.20250506_122807...
+2025-05-06 12:43:25,801 - INFO - Container sweb.eval.sympy__sympy-20049.20250506_122807 removed.

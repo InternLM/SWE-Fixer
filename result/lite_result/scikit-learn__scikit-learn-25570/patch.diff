@@ -1,23 +1,17 @@
 
 diff --git a/sklearn/compose/_column_transformer.py b/sklearn/compose/_column_transformer.py
-index 36a655a..971f9fd 100644
+index 36a655a..94af807 100644
 --- a/sklearn/compose/_column_transformer.py
 +++ b/sklearn/compose/_column_transformer.py
-@@ -365,9 +365,17 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
-                 transformers = [
-                     replace_passthrough(*trans) for trans in self.transformers_
-                 ]
-+                # transformers with no features are not fitted, but should be
-+                # included in the iteration
-+                transformers = [
-+                    (name, trans, column)
-+                    for (name, trans, column) in transformers
-+                    if trans != "drop"
-+                ]
-             else:
-                 transformers = self.transformers_
-         else:
+@@ -853,9 +853,11 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
+             if config["dense"] == "pandas" and all(hasattr(X, "iloc") for X in Xs):
+                 pd = check_pandas_support("transform")
+                 output = pd.concat(Xs, axis=1)
++                output = pd.concat(Xs, axis=1) if Xs else pd.DataFrame()
+ 
+                 # If all transformers define `get_feature_names_out`, then transform
+                 # will adjust the column names to be consistent with
 +
-             # interleave the validated column specifiers
-             transformers = [
-                 (name, trans, column)
+                 # verbose_feature_names_out. Here we prefix the feature names if
+                 # verbose_feature_names_out=True.
+ 

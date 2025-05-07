@@ -1,67 +1,20 @@
-2025-02-12 13:21:20,060 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-20154
+2025-05-06 12:43:09,361 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-20154
 Building instance image sweb.eval.x86_64.sympy__sympy-20154:latest for sympy__sympy-20154
-2025-02-12 13:21:20,061 - INFO - Image sweb.eval.x86_64.sympy__sympy-20154:latest already exists, skipping build.
-2025-02-12 13:21:20,061 - INFO - Creating container for sympy__sympy-20154...
-2025-02-12 13:21:20,087 - INFO - Container for sympy__sympy-20154 created: 3ebf409fb21fa06f1fe2fde23519c3871d806054766f987f0f92020336f4030e
-2025-02-12 13:21:20,405 - INFO - Container for sympy__sympy-20154 started: 3ebf409fb21fa06f1fe2fde23519c3871d806054766f987f0f92020336f4030e
-2025-02-12 13:21:20,406 - INFO - Intermediate patch for sympy__sympy-20154 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20154/patch.diff, now applying to container...
-2025-02-12 13:21:20,648 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:21:20,701 - INFO - >>>>> Applied Patch:
+2025-05-06 12:43:09,364 - INFO - Image sweb.eval.x86_64.sympy__sympy-20154:latest already exists, skipping build.
+2025-05-06 12:43:09,364 - INFO - Creating container for sympy__sympy-20154...
+2025-05-06 12:43:09,395 - INFO - Container for sympy__sympy-20154 created: 171e3feca59e34c894887a7d78552f21801b9f1e94b94c933ef8a11638518f51
+2025-05-06 12:43:10,017 - INFO - Container for sympy__sympy-20154 started: 171e3feca59e34c894887a7d78552f21801b9f1e94b94c933ef8a11638518f51
+2025-05-06 12:43:10,018 - INFO - Intermediate patch for sympy__sympy-20154 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20154/patch.diff, now applying to container...
+2025-05-06 12:43:10,268 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:43:10,331 - INFO - >>>>> Applied Patch:
 patching file sympy/utilities/iterables.py
-patching file sympy/utilities/iterables.py
-Hunk #1 succeeded at 1789 (offset -13 lines).
-patching file sympy/utilities/iterables.py
-Hunk #1 succeeded at 1830 (offset -12 lines).
 
-2025-02-12 13:21:21,221 - INFO - Git diff before:
+2025-05-06 12:43:10,766 - INFO - Git diff before:
 diff --git a/sympy/utilities/iterables.py b/sympy/utilities/iterables.py
-index dd36dea304..bdfdb7bba2 100644
+index dd36dea304..7247961275 100644
 --- a/sympy/utilities/iterables.py
 +++ b/sympy/utilities/iterables.py
-@@ -1738,24 +1738,11 @@ def partitions(n, m=None, k=None, size=False):
-     {2: 1, 4: 1}
-     {3: 2}
- 
--    Note that the _same_ dictionary object is returned each time.
--    This is for speed:  generating each partition goes quickly,
--    taking constant time, independent of n.
--
--    >>> [p for p in partitions(6, k=2)]
--    [{1: 6}, {1: 6}, {1: 6}, {1: 6}]
--
--    If you want to build a list of the returned dictionaries then
--    make a copy of them:
--
--    >>> [p.copy() for p in partitions(6, k=2)]  # doctest: +SKIP
--    [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]
--    >>> [(M, p.copy()) for M, p in partitions(6, k=2, size=True)]  # doctest: +SKIP
--    [(3, {2: 3}), (4, {1: 2, 2: 2}), (5, {1: 4, 2: 1}), (6, {1: 6})]
--
-     References
-     ==========
- 
-+
-+
-     .. [1] modified from Tim Peter's version to allow for k and m values:
-            http://code.activestate.com/recipes/218332-generator-for-integer-partitions/
- 
-@@ -1802,12 +1789,13 @@ def partitions(n, m=None, k=None, size=False):
-         keys.append(r)
-     room = m - q - bool(r)
-     if size:
--        yield sum(ms.values()), ms
-+        yield sum(ms.values()), ms.copy()
-     else:
--        yield ms
-+        yield ms.copy()
- 
-     while keys != [1]:
-         # Reuse any 1's.
-+
-         if keys[-1] == 1:
-             del keys[-1]
-             reuse = ms.pop(1)
-@@ -1842,12 +1830,13 @@ def partitions(n, m=None, k=None, size=False):
+@@ -1842,12 +1842,13 @@ def partitions(n, m=None, k=None, size=False):
              break
          room -= need
          if size:
@@ -77,58 +30,15 @@ index dd36dea304..bdfdb7bba2 100644
      """Generates ordered partitions of integer ``n``.
  
      Parameters
-2025-02-12 13:21:21,222 - INFO - Eval script for sympy__sympy-20154 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20154/eval.sh; copying to container...
-2025-02-12 13:21:27,300 - INFO - Test runtime: 5.89 seconds
-2025-02-12 13:21:27,300 - INFO - Test output for sympy__sympy-20154 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20154/test_output.txt
-2025-02-12 13:21:27,373 - INFO - Git diff after:
+2025-05-06 12:43:10,766 - INFO - Eval script for sympy__sympy-20154 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20154/eval.sh; copying to container...
+2025-05-06 12:43:14,817 - INFO - Test runtime: 3.86 seconds
+2025-05-06 12:43:14,817 - INFO - Test output for sympy__sympy-20154 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20154/test_output.txt
+2025-05-06 12:43:14,889 - INFO - Git diff after:
 diff --git a/sympy/utilities/iterables.py b/sympy/utilities/iterables.py
-index dd36dea304..bdfdb7bba2 100644
+index dd36dea304..7247961275 100644
 --- a/sympy/utilities/iterables.py
 +++ b/sympy/utilities/iterables.py
-@@ -1738,24 +1738,11 @@ def partitions(n, m=None, k=None, size=False):
-     {2: 1, 4: 1}
-     {3: 2}
- 
--    Note that the _same_ dictionary object is returned each time.
--    This is for speed:  generating each partition goes quickly,
--    taking constant time, independent of n.
--
--    >>> [p for p in partitions(6, k=2)]
--    [{1: 6}, {1: 6}, {1: 6}, {1: 6}]
--
--    If you want to build a list of the returned dictionaries then
--    make a copy of them:
--
--    >>> [p.copy() for p in partitions(6, k=2)]  # doctest: +SKIP
--    [{2: 3}, {1: 2, 2: 2}, {1: 4, 2: 1}, {1: 6}]
--    >>> [(M, p.copy()) for M, p in partitions(6, k=2, size=True)]  # doctest: +SKIP
--    [(3, {2: 3}), (4, {1: 2, 2: 2}), (5, {1: 4, 2: 1}), (6, {1: 6})]
--
-     References
-     ==========
- 
-+
-+
-     .. [1] modified from Tim Peter's version to allow for k and m values:
-            http://code.activestate.com/recipes/218332-generator-for-integer-partitions/
- 
-@@ -1802,12 +1789,13 @@ def partitions(n, m=None, k=None, size=False):
-         keys.append(r)
-     room = m - q - bool(r)
-     if size:
--        yield sum(ms.values()), ms
-+        yield sum(ms.values()), ms.copy()
-     else:
--        yield ms
-+        yield ms.copy()
- 
-     while keys != [1]:
-         # Reuse any 1's.
-+
-         if keys[-1] == 1:
-             del keys[-1]
-             reuse = ms.pop(1)
-@@ -1842,12 +1830,13 @@ def partitions(n, m=None, k=None, size=False):
+@@ -1842,12 +1842,13 @@ def partitions(n, m=None, k=None, size=False):
              break
          room -= need
          if size:
@@ -144,9 +54,9 @@ index dd36dea304..bdfdb7bba2 100644
      """Generates ordered partitions of integer ``n``.
  
      Parameters
-2025-02-12 13:21:27,373 - INFO - Grading answer for sympy__sympy-20154...
-2025-02-12 13:21:27,376 - INFO - report: {'sympy__sympy-20154': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_partitions', 'test_uniq'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_is_palindromic', 'test_postorder_traversal', 'test_flatten', 'test_iproduct', 'test_group', 'test_subsets', 'test_variations', 'test_cartes', 'test_filter_symbols', 'test_numbered_symbols', 'test_sift', 'test_take', 'test_dict_merge', 'test_prefixes', 'test_postfixes', 'test_topological_sort', 'test_strongly_connected_components', 'test_connected_components', 'test_rotate', 'test_multiset_partitions', 'test_multiset_combinations', 'test_multiset_permutations', 'test_binary_partitions', 'test_bell_perm', 'test_involutions', 'test_derangements', 'test_necklaces', 'test_bracelets', 'test_generate_oriented_forest', 'test_unflatten', 'test_common_prefix_suffix', 'test_minlex', 'test_ordered', 'test_runs', 'test_reshape', 'test_kbins', 'test_has_dups', 'test__partition', 'test_ordered_partitions', 'test_rotations'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
-Result for sympy__sympy-20154: resolved: True
-2025-02-12 13:21:27,377 - INFO - Attempting to stop container sweb.eval.sympy__sympy-20154.20250212_130622...
-2025-02-12 13:21:42,663 - INFO - Attempting to remove container sweb.eval.sympy__sympy-20154.20250212_130622...
-2025-02-12 13:21:42,695 - INFO - Container sweb.eval.sympy__sympy-20154.20250212_130622 removed.
+2025-05-06 12:43:14,889 - INFO - Grading answer for sympy__sympy-20154...
+2025-05-06 12:43:14,892 - INFO - report: {'sympy__sympy-20154': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_partitions', 'test_uniq']}, 'PASS_TO_PASS': {'success': ['test_is_palindromic', 'test_postorder_traversal', 'test_flatten', 'test_iproduct', 'test_group', 'test_subsets', 'test_variations', 'test_cartes', 'test_filter_symbols', 'test_numbered_symbols', 'test_sift', 'test_take', 'test_dict_merge', 'test_prefixes', 'test_postfixes', 'test_topological_sort', 'test_strongly_connected_components', 'test_connected_components', 'test_rotate', 'test_multiset_partitions', 'test_multiset_combinations', 'test_multiset_permutations', 'test_binary_partitions', 'test_bell_perm', 'test_involutions', 'test_derangements', 'test_necklaces', 'test_bracelets', 'test_generate_oriented_forest', 'test_unflatten', 'test_common_prefix_suffix', 'test_minlex', 'test_ordered', 'test_runs', 'test_reshape', 'test_kbins', 'test_has_dups', 'test__partition', 'test_ordered_partitions', 'test_rotations'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-20154: resolved: False
+2025-05-06 12:43:14,892 - INFO - Attempting to stop container sweb.eval.sympy__sympy-20154.20250506_122807...
+2025-05-06 12:43:30,202 - INFO - Attempting to remove container sweb.eval.sympy__sympy-20154.20250506_122807...
+2025-05-06 12:43:30,226 - INFO - Container sweb.eval.sympy__sympy-20154.20250506_122807 removed.

@@ -1,0 +1,120 @@
+2025-05-06 11:30:21,036 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-23191
+Building instance image sweb.eval.x86_64.sympy__sympy-23191:latest for sympy__sympy-23191
+2025-05-06 11:30:21,038 - INFO - Image sweb.eval.x86_64.sympy__sympy-23191:latest already exists, skipping build.
+2025-05-06 11:30:21,039 - INFO - Creating container for sympy__sympy-23191...
+2025-05-06 11:30:21,069 - INFO - Container for sympy__sympy-23191 created: 83afab07f621bb9e6b2c4564db9bcf9f09dc690df66cb9ca54f2f33e83fe9e19
+2025-05-06 11:30:21,309 - INFO - Container for sympy__sympy-23191 started: 83afab07f621bb9e6b2c4564db9bcf9f09dc690df66cb9ca54f2f33e83fe9e19
+2025-05-06 11:30:21,311 - INFO - Intermediate patch for sympy__sympy-23191 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-23191/patch.diff, now applying to container...
+2025-05-06 11:30:21,558 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:30:21,623 - INFO - >>>>> Applied Patch:
+patching file sympy/printing/latex.py
+
+2025-05-06 11:30:22,289 - INFO - Git diff before:
+diff --git a/sympy/printing/latex.py b/sympy/printing/latex.py
+index 03e9138483..669cd49efb 100644
+--- a/sympy/printing/latex.py
++++ b/sympy/printing/latex.py
+@@ -734,6 +734,7 @@ def _print_BasisDependent(self, expr):
+         from sympy.vector import Vector
+ 
+         o1 = []
++        o2 = []
+         if expr == expr.zero:
+             return expr.zero._latex_form
+         if isinstance(expr, Vector):
+@@ -746,22 +747,29 @@ def _print_BasisDependent(self, expr):
+             inneritems.sort(key=lambda x: x[0].__str__())
+             for k, v in inneritems:
+                 if v == 1:
+-                    o1.append(' + ' + k._latex_form)
++                    o1.append(k._latex_form)
+                 elif v == -1:
+-                    o1.append(' - ' + k._latex_form)
++                    o1.append('-' + k._latex_form)
+                 else:
+                     arg_str = '(' + self._print(v) + ')'
+-                    o1.append(' + ' + arg_str + k._latex_form)
++                    o1.append(arg_str + k._latex_form)
++                o2.append(system._latex_form)
+ 
+         outstr = (''.join(o1))
+-        if outstr[1] != '-':
+-            outstr = outstr[3:]
++        if outstr[0] == '-':
++            outstr = outstr
+         else:
+-            outstr = outstr[1:]
+-        return outstr
++            outstr = '+' + outstr
++        if len(o2) == 0:
++            return outstr
++        elif len(o2) == 1:
++            return outstr + '\\,' + o2[0]
++        else:
++            return outstr + '\\,' + '\\,'.join(o2)
+ 
+     def _print_Indexed(self, expr):
+         tex_base = self._print(expr.base)
++
+         tex = '{'+tex_base+'}'+'_{%s}' % ','.join(
+             map(self._print, expr.indices))
+         return tex
+2025-05-06 11:30:22,289 - INFO - Eval script for sympy__sympy-23191 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-23191/eval.sh; copying to container...
+2025-05-06 11:30:26,536 - INFO - Test runtime: 4.07 seconds
+2025-05-06 11:30:26,537 - INFO - Test output for sympy__sympy-23191 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-23191/test_output.txt
+2025-05-06 11:30:26,601 - INFO - Git diff after:
+diff --git a/sympy/printing/latex.py b/sympy/printing/latex.py
+index 03e9138483..669cd49efb 100644
+--- a/sympy/printing/latex.py
++++ b/sympy/printing/latex.py
+@@ -734,6 +734,7 @@ def _print_BasisDependent(self, expr):
+         from sympy.vector import Vector
+ 
+         o1 = []
++        o2 = []
+         if expr == expr.zero:
+             return expr.zero._latex_form
+         if isinstance(expr, Vector):
+@@ -746,22 +747,29 @@ def _print_BasisDependent(self, expr):
+             inneritems.sort(key=lambda x: x[0].__str__())
+             for k, v in inneritems:
+                 if v == 1:
+-                    o1.append(' + ' + k._latex_form)
++                    o1.append(k._latex_form)
+                 elif v == -1:
+-                    o1.append(' - ' + k._latex_form)
++                    o1.append('-' + k._latex_form)
+                 else:
+                     arg_str = '(' + self._print(v) + ')'
+-                    o1.append(' + ' + arg_str + k._latex_form)
++                    o1.append(arg_str + k._latex_form)
++                o2.append(system._latex_form)
+ 
+         outstr = (''.join(o1))
+-        if outstr[1] != '-':
+-            outstr = outstr[3:]
++        if outstr[0] == '-':
++            outstr = outstr
+         else:
+-            outstr = outstr[1:]
+-        return outstr
++            outstr = '+' + outstr
++        if len(o2) == 0:
++            return outstr
++        elif len(o2) == 1:
++            return outstr + '\\,' + o2[0]
++        else:
++            return outstr + '\\,' + '\\,'.join(o2)
+ 
+     def _print_Indexed(self, expr):
+         tex_base = self._print(expr.base)
++
+         tex = '{'+tex_base+'}'+'_{%s}' % ','.join(
+             map(self._print, expr.indices))
+         return tex
+2025-05-06 11:30:26,602 - INFO - Grading answer for sympy__sympy-23191...
+2025-05-06 11:30:26,605 - INFO - report: {'sympy__sympy-23191': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_23058']}, 'PASS_TO_PASS': {'success': ['test_str_printing', 'test_pretty_print_unicode_v'], 'failure': ['test_latex_printing']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-23191: resolved: False
+2025-05-06 11:30:26,605 - INFO - Attempting to stop container sweb.eval.sympy__sympy-23191.20250506_111427...
+2025-05-06 11:30:41,879 - INFO - Attempting to remove container sweb.eval.sympy__sympy-23191.20250506_111427...
+2025-05-06 11:30:41,912 - INFO - Container sweb.eval.sympy__sympy-23191.20250506_111427 removed.

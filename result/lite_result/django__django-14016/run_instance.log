@@ -1,15 +1,15 @@
-2025-02-12 13:09:33,807 - INFO - Environment image sweb.env.x86_64.297af196949a2a635bce66:latest found for django__django-14016
+2025-05-06 12:31:28,240 - INFO - Environment image sweb.env.x86_64.297af196949a2a635bce66:latest found for django__django-14016
 Building instance image sweb.eval.x86_64.django__django-14016:latest for django__django-14016
-2025-02-12 13:09:33,808 - INFO - Image sweb.eval.x86_64.django__django-14016:latest already exists, skipping build.
-2025-02-12 13:09:33,809 - INFO - Creating container for django__django-14016...
-2025-02-12 13:09:33,836 - INFO - Container for django__django-14016 created: a69ef9b58258aaa4bc50a2f9b130d81bf69974d98ff4034f4840d38bfbaf8a92
-2025-02-12 13:09:34,106 - INFO - Container for django__django-14016 started: a69ef9b58258aaa4bc50a2f9b130d81bf69974d98ff4034f4840d38bfbaf8a92
-2025-02-12 13:09:34,107 - INFO - Intermediate patch for django__django-14016 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-14016/patch.diff, now applying to container...
-2025-02-12 13:09:34,366 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:09:34,441 - INFO - >>>>> Applied Patch:
+2025-05-06 12:31:28,243 - INFO - Image sweb.eval.x86_64.django__django-14016:latest already exists, skipping build.
+2025-05-06 12:31:28,243 - INFO - Creating container for django__django-14016...
+2025-05-06 12:31:28,275 - INFO - Container for django__django-14016 created: 815536a4747232051791ac17b898df61af7cd8967d66ca26bacd715499510248
+2025-05-06 12:31:29,916 - INFO - Container for django__django-14016 started: 815536a4747232051791ac17b898df61af7cd8967d66ca26bacd715499510248
+2025-05-06 12:31:29,917 - INFO - Intermediate patch for django__django-14016 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-14016/patch.diff, now applying to container...
+2025-05-06 12:31:30,134 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:31:30,170 - INFO - >>>>> Applied Patch:
 patching file django/db/models/query_utils.py
 
-2025-02-12 13:09:35,618 - INFO - Git diff before:
+2025-05-06 12:31:31,178 - INFO - Git diff before:
 diff --git a/django/db/models/query_utils.py b/django/db/models/query_utils.py
 index c2623f099f..5560e12940 100644
 --- a/django/db/models/query_utils.py
@@ -31,10 +31,10 @@ index c2623f099f..5560e12940 100644
          obj.add(self, conn)
          obj.add(other, conn)
          return obj
-2025-02-12 13:09:35,619 - INFO - Eval script for django__django-14016 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-14016/eval.sh; copying to container...
-2025-02-12 13:09:45,334 - INFO - Test runtime: 9.53 seconds
-2025-02-12 13:09:45,335 - INFO - Test output for django__django-14016 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-14016/test_output.txt
-2025-02-12 13:09:45,428 - INFO - Git diff after:
+2025-05-06 12:31:31,178 - INFO - Eval script for django__django-14016 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-14016/eval.sh; copying to container...
+2025-05-06 12:31:43,571 - INFO - Test runtime: 12.24 seconds
+2025-05-06 12:31:43,571 - INFO - Test output for django__django-14016 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-14016/test_output.txt
+2025-05-06 12:31:43,650 - INFO - Git diff after:
 diff --git a/django/db/models/query_utils.py b/django/db/models/query_utils.py
 index c2623f099f..5560e12940 100644
 --- a/django/db/models/query_utils.py
@@ -56,9 +56,9 @@ index c2623f099f..5560e12940 100644
          obj.add(self, conn)
          obj.add(other, conn)
          return obj
-2025-02-12 13:09:45,428 - INFO - Grading answer for django__django-14016...
-2025-02-12 13:09:45,432 - INFO - report: {'django__django-14016': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_combine_and_empty (queries.test_q.QTests)', 'test_combine_or_empty (queries.test_q.QTests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_combine_and_both_empty (queries.test_q.QTests)', 'test_combine_not_q_object (queries.test_q.QTests)', 'test_combine_or_both_empty (queries.test_q.QTests)', 'test_deconstruct (queries.test_q.QTests)', 'test_deconstruct_and (queries.test_q.QTests)', 'test_deconstruct_multiple_kwargs (queries.test_q.QTests)', 'test_deconstruct_negated (queries.test_q.QTests)', 'test_deconstruct_nested (queries.test_q.QTests)', 'test_deconstruct_or (queries.test_q.QTests)', 'test_reconstruct (queries.test_q.QTests)', 'test_reconstruct_and (queries.test_q.QTests)', 'test_reconstruct_negated (queries.test_q.QTests)', 'test_reconstruct_or (queries.test_q.QTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:31:43,650 - INFO - Grading answer for django__django-14016...
+2025-05-06 12:31:43,654 - INFO - report: {'django__django-14016': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_combine_and_empty (queries.test_q.QTests)', 'test_combine_or_empty (queries.test_q.QTests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_combine_and_both_empty (queries.test_q.QTests)', 'test_combine_not_q_object (queries.test_q.QTests)', 'test_combine_or_both_empty (queries.test_q.QTests)', 'test_deconstruct (queries.test_q.QTests)', 'test_deconstruct_and (queries.test_q.QTests)', 'test_deconstruct_multiple_kwargs (queries.test_q.QTests)', 'test_deconstruct_negated (queries.test_q.QTests)', 'test_deconstruct_nested (queries.test_q.QTests)', 'test_deconstruct_or (queries.test_q.QTests)', 'test_reconstruct (queries.test_q.QTests)', 'test_reconstruct_and (queries.test_q.QTests)', 'test_reconstruct_negated (queries.test_q.QTests)', 'test_reconstruct_or (queries.test_q.QTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-14016: resolved: True
-2025-02-12 13:09:45,432 - INFO - Attempting to stop container sweb.eval.django__django-14016.20250212_130622...
-2025-02-12 13:10:00,769 - INFO - Attempting to remove container sweb.eval.django__django-14016.20250212_130622...
-2025-02-12 13:10:00,793 - INFO - Container sweb.eval.django__django-14016.20250212_130622 removed.
+2025-05-06 12:31:43,654 - INFO - Attempting to stop container sweb.eval.django__django-14016.20250506_122807...
+2025-05-06 12:31:59,768 - INFO - Attempting to remove container sweb.eval.django__django-14016.20250506_122807...
+2025-05-06 12:31:59,797 - INFO - Container sweb.eval.django__django-14016.20250506_122807 removed.

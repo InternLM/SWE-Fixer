@@ -319,8 +319,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        31790601
-hash randomization: on (PYTHONHASHSEED=1581128813)
+random seed:        43594405
+hash randomization: on (PYTHONHASHSEED=86647576)
 
 sympy/tensor/array/tests/test_ndim_array.py[5] 
 test_array_negative_indices ok
@@ -353,7 +353,7 @@ Traceback (most recent call last):
     raise ValueError("Only a tuple index is accepted")
 ValueError: Only a tuple index is accepted
 
-=========== tests finished: 3 passed, 2 exceptions, in 1.06 seconds ============
+=========== tests finished: 3 passed, 2 exceptions, in 1.19 seconds ============
 DO *NOT* COMMIT!
 + git checkout c5cef2499d6eed024b0db5c792d6ec7c53baa470 sympy/tensor/array/tests/test_ndim_array.py
 Updated 1 path from d7ea049eac

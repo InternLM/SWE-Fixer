@@ -1,27 +1,25 @@
-2025-02-12 13:11:58,710 - INFO - Environment image sweb.env.x86_64.574160a64a279afa47450f:latest found for matplotlib__matplotlib-18869
+2025-05-06 12:33:36,553 - INFO - Environment image sweb.env.x86_64.574160a64a279afa47450f:latest found for matplotlib__matplotlib-18869
 Building instance image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest for matplotlib__matplotlib-18869
-2025-02-12 13:11:58,712 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest already exists, skipping build.
-2025-02-12 13:11:58,712 - INFO - Creating container for matplotlib__matplotlib-18869...
-2025-02-12 13:11:58,743 - INFO - Container for matplotlib__matplotlib-18869 created: edf07a38d6bcc37546553e35a61fd5f45d5cdfeb9b28b83e40f42842f41aa00b
-2025-02-12 13:11:59,042 - INFO - Container for matplotlib__matplotlib-18869 started: edf07a38d6bcc37546553e35a61fd5f45d5cdfeb9b28b83e40f42842f41aa00b
-2025-02-12 13:11:59,043 - INFO - Intermediate patch for matplotlib__matplotlib-18869 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-18869/patch.diff, now applying to container...
-2025-02-12 13:11:59,292 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:11:59,354 - INFO - >>>>> Applied Patch:
+2025-05-06 12:33:36,555 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-18869:latest already exists, skipping build.
+2025-05-06 12:33:36,555 - INFO - Creating container for matplotlib__matplotlib-18869...
+2025-05-06 12:33:36,579 - INFO - Container for matplotlib__matplotlib-18869 created: 219457984b06019b5e00b1a76c742dee200e2d847dc4197e8958332a743a4fdb
+2025-05-06 12:33:37,256 - INFO - Container for matplotlib__matplotlib-18869 started: 219457984b06019b5e00b1a76c742dee200e2d847dc4197e8958332a743a4fdb
+2025-05-06 12:33:37,256 - INFO - Intermediate patch for matplotlib__matplotlib-18869 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-18869/patch.diff, now applying to container...
+2025-05-06 12:33:37,479 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:33:37,547 - INFO - >>>>> Applied Patch:
 patching file lib/matplotlib/__init__.py
 
-2025-02-12 13:12:00,767 - INFO - Git diff before:
+2025-05-06 12:33:38,959 - INFO - Git diff before:
 diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
-index b657a35cf7..acad3903bd 100644
+index b657a35cf7..a3ac75455e 100644
 --- a/lib/matplotlib/__init__.py
 +++ b/lib/matplotlib/__init__.py
-@@ -147,10 +147,15 @@ def __getattr__(name):
-             )
+@@ -148,9 +148,14 @@ def __getattr__(name):
          else:  # Get the version from the _version.py setuptools_scm file.
              __version__ = _version.version
--        return __version__
-+        version_info = tuple(
-+            int(num) for num in __version__.split(".")[:3])
-+        return locals()[name]
+         return __version__
++    elif name == "version_info":
++        return tuple(parse_version(__version__).release)
      raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
  
  
@@ -31,22 +29,20 @@ index b657a35cf7..acad3903bd 100644
  def _check_versions():
  
      # Quickfix to ensure Microsoft Visual C++ redistributable
-2025-02-12 13:12:00,767 - INFO - Eval script for matplotlib__matplotlib-18869 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-18869/eval.sh; copying to container...
-2025-02-12 13:12:16,801 - INFO - Test runtime: 15.85 seconds
-2025-02-12 13:12:16,801 - INFO - Test output for matplotlib__matplotlib-18869 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-18869/test_output.txt
-2025-02-12 13:12:16,856 - INFO - Git diff after:
+2025-05-06 12:33:38,959 - INFO - Eval script for matplotlib__matplotlib-18869 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-18869/eval.sh; copying to container...
+2025-05-06 12:33:54,449 - INFO - Test runtime: 15.32 seconds
+2025-05-06 12:33:54,449 - INFO - Test output for matplotlib__matplotlib-18869 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-18869/test_output.txt
+2025-05-06 12:33:54,532 - INFO - Git diff after:
 diff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py
-index b657a35cf7..acad3903bd 100644
+index b657a35cf7..a3ac75455e 100644
 --- a/lib/matplotlib/__init__.py
 +++ b/lib/matplotlib/__init__.py
-@@ -147,10 +147,15 @@ def __getattr__(name):
-             )
+@@ -148,9 +148,14 @@ def __getattr__(name):
          else:  # Get the version from the _version.py setuptools_scm file.
              __version__ = _version.version
--        return __version__
-+        version_info = tuple(
-+            int(num) for num in __version__.split(".")[:3])
-+        return locals()[name]
+         return __version__
++    elif name == "version_info":
++        return tuple(parse_version(__version__).release)
      raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
  
  
@@ -56,9 +52,9 @@ index b657a35cf7..acad3903bd 100644
  def _check_versions():
  
      # Quickfix to ensure Microsoft Visual C++ redistributable
-2025-02-12 13:12:16,856 - INFO - Grading answer for matplotlib__matplotlib-18869...
-2025-02-12 13:12:16,860 - INFO - report: {'matplotlib__matplotlib-18869': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0-version_tuple0]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0rc2-version_tuple1]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.dev820+g6768ef8c4c-version_tuple2]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.post820+g6768ef8c4c-version_tuple3]']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_matplotlib.py::test_importable_with_no_home', 'lib/matplotlib/tests/test_matplotlib.py::test_use_doc_standard_backends', 'lib/matplotlib/tests/test_matplotlib.py::test_importable_with__OO'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:33:54,532 - INFO - Grading answer for matplotlib__matplotlib-18869...
+2025-05-06 12:33:54,534 - INFO - report: {'matplotlib__matplotlib-18869': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0-version_tuple0]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0rc2-version_tuple1]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.dev820+g6768ef8c4c-version_tuple2]', 'lib/matplotlib/tests/test_matplotlib.py::test_parse_to_version_info[3.5.0.post820+g6768ef8c4c-version_tuple3]']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_matplotlib.py::test_importable_with_no_home', 'lib/matplotlib/tests/test_matplotlib.py::test_use_doc_standard_backends', 'lib/matplotlib/tests/test_matplotlib.py::test_importable_with__OO'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for matplotlib__matplotlib-18869: resolved: False
-2025-02-12 13:12:16,860 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-18869.20250212_130622...
-2025-02-12 13:12:32,346 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-18869.20250212_130622...
-2025-02-12 13:12:32,369 - INFO - Container sweb.eval.matplotlib__matplotlib-18869.20250212_130622 removed.
+2025-05-06 12:33:54,534 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-18869.20250506_122807...
+2025-05-06 12:34:09,890 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-18869.20250506_122807...
+2025-05-06 12:34:09,930 - INFO - Container sweb.eval.matplotlib__matplotlib-18869.20250506_122807 removed.

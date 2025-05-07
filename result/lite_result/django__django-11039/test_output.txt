@@ -599,7 +599,7 @@ test_squashmigrations_valid_start (migrations.test_commands.SquashMigrationsTest
 test_ticket_23799_squashmigrations_no_optimize (migrations.test_commands.SquashMigrationsTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 89 tests in 1.046s
+Ran 89 tests in 1.114s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

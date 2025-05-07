@@ -1,0 +1,36 @@
+
+diff --git a/sklearn/compose/_column_transformer.py b/sklearn/compose/_column_transformer.py
+index 36a655a..bdfc215 100644
+--- a/sklearn/compose/_column_transformer.py
++++ b/sklearn/compose/_column_transformer.py
+@@ -664,17 +664,28 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
+         try:
+             return Parallel(n_jobs=self.n_jobs)(
+                 delayed(func)(
+-                    transformer=clone(trans) if not fitted else trans,
+-                    X=_safe_indexing(X, column, axis=1),
++                    transformer=trans,
++                    X=X_fit,
+                     y=y,
+                     weight=weight,
+                     message_clsname="ColumnTransformer",
+                     message=self._log_message(name, idx, len(transformers)),
+                 )
+                 for idx, (name, trans, column, weight) in enumerate(transformers, 1)
++                for X_fit in (
++                    # If the column selection is empty, we need to fit the transformer
++                    # on an empty array. We do not want to skip the transformer because
++                    # the output structure would not match the expected output.
++                    # We do not want to fit the original transformer because it may
++                    # not be fitted on an empty array.
++                    [clone(trans).fit(np.zeros((X.shape[0], 0)))]
++                    if _is_empty_column_selection(column)
++                    else [_safe_indexing(X, column, axis=1)]
++                )
+             )
+         except ValueError as e:
+             if "Expected 2D array, got 1D array instead" in str(e):
++
+                 raise ValueError(_ERR_MSG_1DCOLUMN) from e
+             else:
+                 raise

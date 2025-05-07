@@ -1,0 +1,58 @@
+2025-05-06 11:23:37,668 - INFO - Environment image sweb.env.x86_64.15539247fbef7d28c70168:latest found for pylint-dev__pylint-6506
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-6506:latest for pylint-dev__pylint-6506
+2025-05-06 11:23:37,670 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-6506:latest already exists, skipping build.
+2025-05-06 11:23:37,670 - INFO - Creating container for pylint-dev__pylint-6506...
+2025-05-06 11:23:37,692 - INFO - Container for pylint-dev__pylint-6506 created: 9e9bb0eb3e3bf2dc029677f3e7dec9751fdb90861d1b6673c5b068926ade2085
+2025-05-06 11:23:38,011 - INFO - Container for pylint-dev__pylint-6506 started: 9e9bb0eb3e3bf2dc029677f3e7dec9751fdb90861d1b6673c5b068926ade2085
+2025-05-06 11:23:38,012 - INFO - Intermediate patch for pylint-dev__pylint-6506 written to logs/run_evaluation/20250506_111427/SWE-Fixer/pylint-dev__pylint-6506/patch.diff, now applying to container...
+2025-05-06 11:23:38,248 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:23:38,287 - INFO - >>>>> Applied Patch:
+patching file pylint/config/config_initialization.py
+
+2025-05-06 11:23:38,584 - INFO - Git diff before:
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a73..46f71fada 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,10 +82,12 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        print(linter.help())
++        sys.exit(32)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from
++
+     linter.set_current_module("Command line or configuration file")
+ 
+     # We have loaded configuration from config file and command line. Now, we can
+2025-05-06 11:23:38,584 - INFO - Eval script for pylint-dev__pylint-6506 written to logs/run_evaluation/20250506_111427/SWE-Fixer/pylint-dev__pylint-6506/eval.sh; copying to container...
+2025-05-06 11:23:44,360 - INFO - Test runtime: 5.66 seconds
+2025-05-06 11:23:44,360 - INFO - Test output for pylint-dev__pylint-6506 written to logs/run_evaluation/20250506_111427/SWE-Fixer/pylint-dev__pylint-6506/test_output.txt
+2025-05-06 11:23:44,430 - INFO - Git diff after:
+diff --git a/pylint/config/config_initialization.py b/pylint/config/config_initialization.py
+index 24e453a73..46f71fada 100644
+--- a/pylint/config/config_initialization.py
++++ b/pylint/config/config_initialization.py
+@@ -82,10 +82,12 @@ def _config_initialization(
+     if unrecognized_options:
+         msg = ", ".join(unrecognized_options)
+         linter.add_message("unrecognized-option", line=0, args=msg)
+-        raise _UnrecognizedOptionError(options=unrecognized_options)
++        print(linter.help())
++        sys.exit(32)
+ 
+     # Set the current module to configuration as we don't know where
+     # the --load-plugins key is coming from
++
+     linter.set_current_module("Command line or configuration file")
+ 
+     # We have loaded configuration from config file and command line. Now, we can
+2025-05-06 11:23:44,430 - INFO - Grading answer for pylint-dev__pylint-6506...
+2025-05-06 11:23:44,434 - INFO - report: {'pylint-dev__pylint-6506': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/config/test_config.py::test_unknown_option_name', 'tests/config/test_config.py::test_unknown_short_option_name']}, 'PASS_TO_PASS': {'success': ['tests/config/test_config.py::test_can_read_toml_env_variable', 'tests/config/test_config.py::test_unknown_message_id', 'tests/config/test_config.py::test_unknown_confidence', 'tests/config/test_config.py::test_unknown_yes_no', 'tests/config/test_config.py::test_unknown_py_version', 'tests/config/test_config.py::test_short_verbose'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-6506: resolved: False
+2025-05-06 11:23:44,434 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-6506.20250506_111427...
+2025-05-06 11:23:59,815 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-6506.20250506_111427...
+2025-05-06 11:23:59,834 - INFO - Container sweb.eval.pylint-dev__pylint-6506.20250506_111427 removed.

@@ -405,22 +405,24 @@ index 78cd5fe4..c5ac036c 100644
  
 + git diff 4a9e54962a29c12a8b103d75f838e0e795a6974d
 diff --git a/seaborn/_core/scales.py b/seaborn/_core/scales.py
-index 6c9ecbc9..fe01e240 100644
+index 6c9ecbc9..e55f61dd 100644
 --- a/seaborn/_core/scales.py
 +++ b/seaborn/_core/scales.py
-@@ -348,11 +348,12 @@ class ContinuousBase(Scale):
+@@ -347,9 +347,15 @@ class ContinuousBase(Scale):
+             else:
                  vmin, vmax = new.norm
              vmin, vmax = axis.convert_units((vmin, vmax))
++            if isinstance(vmin, bool):
++                vmin = int(vmin)
++            if isinstance(vmax, bool):
++                vmax = int(vmax)
              a = forward(vmin)
--            b = forward(vmax) - forward(vmin)
-+            b = forward(vmax.astype(int)) - forward(vmin.astype(int))
- 
-             def normalize(x):
-                 return (x - a) / b
+             b = forward(vmax) - forward(vmin)
  
 +
-         else:
-             normalize = vmin = vmax = None
++
+             def normalize(x):
+                 return (x - a) / b
  
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
@@ -613,8 +615,8 @@ Checking if build backend supports build_editable: finished with status 'done'
 Building wheels for collected packages: seaborn
   Building editable for seaborn (pyproject.toml): started
   Building editable for seaborn (pyproject.toml): finished with status 'done'
-  Created wheel for seaborn: filename=seaborn-0.12.2.dev0-py3-none-any.whl size=3923 sha256=c842c493d50872ba73a2475cecd812bbf8d9656fe57171292218c478f4956e0e
-  Stored in directory: /tmp/pip-ephem-wheel-cache-9khynbxs/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for seaborn: filename=seaborn-0.12.2.dev0-py3-none-any.whl size=3961 sha256=9e3cec592e69644c81df473f5fb6b1a50b2614e5a965fa46c1f4360b1a01b734
+  Stored in directory: /tmp/pip-ephem-wheel-cache-kq15djcj/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built seaborn
 Installing collected packages: seaborn
   Attempting uninstall: seaborn
@@ -632,192 +634,29 @@ Applied patch tests/_core/test_scales.py cleanly.
 ============================= test session starts ==============================
 collected 86 items
 
-tests/_core/test_scales.py ......FFF....F............................... [ 52%]
+tests/_core/test_scales.py ........F.................................... [ 52%]
 ..........x..............................                                [100%]
 
 =================================== FAILURES ===================================
-____________________ TestContinuous.test_interval_with_norm ____________________
-
-self = <tests._core.test_scales.TestContinuous object at 0x7f63df2679a0>
-x = 0    1.0
-1    3.0
-2    9.0
-Name: x, dtype: float64
-
-    def test_interval_with_norm(self, x):
-    
->       s = Continuous(norm=(3, 7))._setup(x, IntervalProperty())
-
-tests/_core/test_scales.py:83: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = Continuous(values=None, norm=(3, 7), trans=None)
-data = 0    1.0
-1    3.0
-2    9.0
-Name: x, dtype: float64
-prop = <seaborn._core.properties.IntervalProperty object at 0x7f63df2d4580>
-axis = <seaborn._core.scales.PseudoAxis object at 0x7f63df2b48e0>
-
-    def _setup(
-        self, data: Series, prop: Property, axis: Axis | None = None,
-    ) -> Scale:
-    
-        new = copy(self)
-        if new._tick_params is None:
-            new = new.tick()
-        if new._label_params is None:
-            new = new.label()
-    
-        forward, inverse = new._get_transform()
-    
-        mpl_scale = new._get_scale(str(data.name), forward, inverse)
-    
-        if axis is None:
-            axis = PseudoAxis(mpl_scale)
-            axis.update_units(data)
-    
-        mpl_scale.set_default_locators_and_formatters(axis)
-        new._matplotlib_scale = mpl_scale
-    
-        normalize: Optional[Callable[[ArrayLike], ArrayLike]]
-        if prop.normed:
-            if new.norm is None:
-                vmin, vmax = data.min(), data.max()
-            else:
-                vmin, vmax = new.norm
-            vmin, vmax = axis.convert_units((vmin, vmax))
-            a = forward(vmin)
->           b = forward(vmax.astype(int)) - forward(vmin.astype(int))
-E           AttributeError: 'int' object has no attribute 'astype'
-
-seaborn/_core/scales.py:351: AttributeError
-__________ TestContinuous.test_interval_with_range_norm_and_transform __________
-
-self = <tests._core.test_scales.TestContinuous object at 0x7f63df267d00>
-x = 0      1
-1     10
-2    100
-dtype: int64
-
-    def test_interval_with_range_norm_and_transform(self, x):
-    
-        x = pd.Series([1, 10, 100])
-        # TODO param order?
->       s = Continuous((2, 3), (10, 100), "log")._setup(x, IntervalProperty())
-
-tests/_core/test_scales.py:90: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = Continuous(values=(2, 3), norm=(10, 100), trans='log')
-data = 0      1
-1     10
-2    100
-dtype: int64
-prop = <seaborn._core.properties.IntervalProperty object at 0x7f63df066eb0>
-axis = <seaborn._core.scales.PseudoAxis object at 0x7f63df2568b0>
-
-    def _setup(
-        self, data: Series, prop: Property, axis: Axis | None = None,
-    ) -> Scale:
-    
-        new = copy(self)
-        if new._tick_params is None:
-            new = new.tick()
-        if new._label_params is None:
-            new = new.label()
-    
-        forward, inverse = new._get_transform()
-    
-        mpl_scale = new._get_scale(str(data.name), forward, inverse)
-    
-        if axis is None:
-            axis = PseudoAxis(mpl_scale)
-            axis.update_units(data)
-    
-        mpl_scale.set_default_locators_and_formatters(axis)
-        new._matplotlib_scale = mpl_scale
-    
-        normalize: Optional[Callable[[ArrayLike], ArrayLike]]
-        if prop.normed:
-            if new.norm is None:
-                vmin, vmax = data.min(), data.max()
-            else:
-                vmin, vmax = new.norm
-            vmin, vmax = axis.convert_units((vmin, vmax))
-            a = forward(vmin)
->           b = forward(vmax.astype(int)) - forward(vmin.astype(int))
-E           AttributeError: 'int' object has no attribute 'astype'
-
-seaborn/_core/scales.py:351: AttributeError
 ___________________ TestContinuous.test_interval_with_bools ____________________
 
-self = <tests._core.test_scales.TestContinuous object at 0x7f63df0002e0>
+self = <tests._core.test_scales.TestContinuous object at 0x7f9070e0d520>
 
     def test_interval_with_bools(self):
     
         x = pd.Series([True, False, False])
-        s = Continuous()._setup(x, IntervalProperty())
->       assert_array_equal(s(x), [1, 0, 0])
+>       s = Continuous()._setup(x, IntervalProperty())
 
-tests/_core/test_scales.py:97: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-seaborn/_core/scales.py:124: in __call__
-    trans_data = func(trans_data)
-seaborn/_core/scales.py:354: in normalize
-    return (x - a) / b
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/ops/common.py:81: in new_method
-    return method(self, other)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/arraylike.py:194: in __sub__
-    return self._arith_method(other, operator.sub)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/series.py:6113: in _arith_method
-    return base.IndexOpsMixin._arith_method(self, other, op)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/base.py:1348: in _arith_method
-    result = ops.arithmetic_op(lvalues, rvalues, op)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/ops/array_ops.py:225: in arithmetic_op
-    res_values = _na_arithmetic_op(left, right, op)  # type: ignore[arg-type]
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/ops/array_ops.py:164: in _na_arithmetic_op
-    result = func(left, right)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/computation/expressions.py:239: in evaluate
-    return _evaluate(op, op_str, a, b)  # type: ignore[misc]
+tests/_core/test_scales.py:96: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-op = <built-in function sub>, op_str = '-', a = array([ True, False, False])
-b = False
-
-    def _evaluate_standard(op, op_str, a, b):
-        """
-        Standard evaluation.
-        """
-        if _TEST_MODE:
-            _store_test_result(False)
->       return op(a, b)
-E       TypeError: numpy boolean subtract, the `-` operator, is not supported, use the bitwise_xor, the `^` operator, or the logical_xor function instead.
-
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pandas/core/computation/expressions.py:70: TypeError
-_____________________ TestContinuous.test_color_with_norm ______________________
-
-self = <tests._core.test_scales.TestContinuous object at 0x7f63df165c40>
-x = 0    1.0
-1    3.0
-2    9.0
-Name: x, dtype: float64
-
-    def test_color_with_norm(self, x):
-    
-        cmap = color_palette("ch:", as_cmap=True)
->       s = Continuous(norm=(3, 7))._setup(x, Color())
-
-tests/_core/test_scales.py:126: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = Continuous(values=None, norm=(3, 7), trans=None)
-data = 0    1.0
-1    3.0
-2    9.0
-Name: x, dtype: float64
-prop = <seaborn._core.properties.Color object at 0x7f63dee6f670>
-axis = <seaborn._core.scales.PseudoAxis object at 0x7f63dee6fb20>
+self = Continuous(values=None, norm=None, trans=None)
+data = 0     True
+1    False
+2    False
+dtype: bool
+prop = <seaborn._core.properties.IntervalProperty object at 0x7f90c13b0430>
+axis = <seaborn._core.scales.PseudoAxis object at 0x7f9070e2c910>
 
     def _setup(
         self, data: Series, prop: Property, axis: Axis | None = None,
@@ -847,11 +686,15 @@ axis = <seaborn._core.scales.PseudoAxis object at 0x7f63dee6fb20>
             else:
                 vmin, vmax = new.norm
             vmin, vmax = axis.convert_units((vmin, vmax))
+            if isinstance(vmin, bool):
+                vmin = int(vmin)
+            if isinstance(vmax, bool):
+                vmax = int(vmax)
             a = forward(vmin)
->           b = forward(vmax.astype(int)) - forward(vmin.astype(int))
-E           AttributeError: 'int' object has no attribute 'astype'
+>           b = forward(vmax) - forward(vmin)
+E           TypeError: numpy boolean subtract, the `-` operator, is not supported, use the bitwise_xor, the `^` operator, or the logical_xor function instead.
 
-seaborn/_core/scales.py:351: AttributeError
+seaborn/_core/scales.py:355: TypeError
 =============================== warnings summary ===============================
 tests/_core/test_scales.py::TestNominal::test_color_numeric_with_order_subset
   /testbed/seaborn/_core/properties.py:643: RuntimeWarning: invalid value encountered in cast
@@ -870,10 +713,13 @@ PASSED tests/_core/test_scales.py::TestContinuous::test_coordinate_transform_wit
 PASSED tests/_core/test_scales.py::TestContinuous::test_coordinate_transform_error
 PASSED tests/_core/test_scales.py::TestContinuous::test_interval_defaults
 PASSED tests/_core/test_scales.py::TestContinuous::test_interval_with_range
+PASSED tests/_core/test_scales.py::TestContinuous::test_interval_with_norm
+PASSED tests/_core/test_scales.py::TestContinuous::test_interval_with_range_norm_and_transform
 PASSED tests/_core/test_scales.py::TestContinuous::test_color_defaults
 PASSED tests/_core/test_scales.py::TestContinuous::test_color_named_values
 PASSED tests/_core/test_scales.py::TestContinuous::test_color_tuple_values
 PASSED tests/_core/test_scales.py::TestContinuous::test_color_callable_values
+PASSED tests/_core/test_scales.py::TestContinuous::test_color_with_norm
 PASSED tests/_core/test_scales.py::TestContinuous::test_color_with_transform
 PASSED tests/_core/test_scales.py::TestContinuous::test_tick_locator
 PASSED tests/_core/test_scales.py::TestContinuous::test_tick_locator_input_check
@@ -946,10 +792,7 @@ PASSED tests/_core/test_scales.py::TestTemporal::test_tick_upto
 PASSED tests/_core/test_scales.py::TestTemporal::test_label_formatter
 PASSED tests/_core/test_scales.py::TestTemporal::test_label_concise
 XFAIL tests/_core/test_scales.py::TestNominal::test_color_numeric_int_float_mix - Need to sort out float/int order
-FAILED tests/_core/test_scales.py::TestContinuous::test_interval_with_norm - ...
-FAILED tests/_core/test_scales.py::TestContinuous::test_interval_with_range_norm_and_transform
 FAILED tests/_core/test_scales.py::TestContinuous::test_interval_with_bools
-FAILED tests/_core/test_scales.py::TestContinuous::test_color_with_norm - Att...
-============= 4 failed, 81 passed, 1 xfailed, 2 warnings in 1.77s ==============
+============= 1 failed, 84 passed, 1 xfailed, 2 warnings in 1.50s ==============
 + git checkout 4a9e54962a29c12a8b103d75f838e0e795a6974d tests/_core/test_scales.py
 Updated 1 path from 890dca57

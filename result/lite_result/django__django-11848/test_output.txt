@@ -517,7 +517,7 @@ Traceback (most recent call last):
 AssertionError: datetime.datetime(1937, 11, 6, 8, 49, 37) != datetime.datetime(2037, 11, 6, 8, 49, 37)
 
 ----------------------------------------------------------------------
-Ran 45 tests in 0.006s
+Ran 45 tests in 0.007s
 
 FAILED (failures=4)
 Testing against Django installed in '/testbed/django'

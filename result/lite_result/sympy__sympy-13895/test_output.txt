@@ -150,7 +150,7 @@ Date:   Thu Jan 11 09:49:09 2018 -0600
 
 + git diff 4da0b64558e9551a11a99bccc63557ba34f50c58
 diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
-index 1acc00be3a..46c182d3c3 100644
+index 1acc00be3a..812ffa2de4 100644
 --- a/sympy/simplify/simplify.py
 +++ b/sympy/simplify/simplify.py
 @@ -593,10 +593,11 @@ def shorter(*choices):
@@ -158,7 +158,7 @@ index 1acc00be3a..46c182d3c3 100644
          expr = product_simplify(expr)
  
 -    short = shorter(powsimp(expr, combine='exp', deep=True), powsimp(expr), expr)
-+    short = shorter(powsimp(expr, combine='exp', deep=True, force=True), powsimp(expr), expr)
++    short = shorter(powsimp(expr, deep=True), powsimp(expr), expr)
      short = shorter(short, cancel(short))
      short = shorter(short, factor_terms(short), expand_power_exp(expand_mul(short)))
      if short.has(TrigonometricFunction, HyperbolicFunction, ExpBase):
@@ -328,8 +328,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        19922593
-hash randomization: on (PYTHONHASHSEED=3325477602)
+random seed:        51209839
+hash randomization: on (PYTHONHASHSEED=350264947)
 
 sympy/core/tests/test_numbers.py[86] 
 test_integers_cache ok
@@ -432,7 +432,7 @@ ______________ sympy/core/tests/test_numbers.py:test_issue_13890 _______________
 AssertionError
 
  tests finished: 82 passed, 2 failed, 1 skipped, 1 expected to fail, 
-in 1.01 seconds 
+in 1.07 seconds 
 DO *NOT* COMMIT!
 + git checkout 4da0b64558e9551a11a99bccc63557ba34f50c58 sympy/core/tests/test_numbers.py
 Updated 1 path from b2f59aa447

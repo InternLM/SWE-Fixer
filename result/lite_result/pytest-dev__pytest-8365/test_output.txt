@@ -150,24 +150,21 @@ Date:   Sat Feb 20 17:19:54 2021 +0200
 
 + git diff 4964b468c83c06971eb743fbc57cc404f760c573
 diff --git a/src/_pytest/tmpdir.py b/src/_pytest/tmpdir.py
-index 29c7e19d7..2494cb1ef 100644
+index 29c7e19d7..13d906ef9 100644
 --- a/src/_pytest/tmpdir.py
 +++ b/src/_pytest/tmpdir.py
-@@ -154,11 +154,13 @@ def get_user() -> Optional[str]:
-     import getpass
- 
-     try:
--        return getpass.getuser()
-+        return re.sub(r"[\W]", "_", getpass.getuser())
-     except (ImportError, KeyError):
-         return None
- 
- 
+@@ -112,9 +112,11 @@ class TempPathFactory:
+             from_env = os.environ.get("PYTEST_DEBUG_TEMPROOT")
+             temproot = Path(from_env or tempfile.gettempdir()).resolve()
+             user = get_user() or "unknown"
++            user = re.sub(r"[\W]", "_", user)
+             # use a sub-directory in the temproot to speed-up
+             # make_numbered_dir() call
+             rootdir = temproot.joinpath(f"pytest-of-{user}")
 +
-+
- def pytest_configure(config: Config) -> None:
-     """Create a TempdirFactory and attach it to the config object.
- 
+             rootdir.mkdir(exist_ok=True)
+             basetemp = make_numbered_dir_with_cleanup(
+                 prefix="pytest-", root=rootdir, keep=3, lock_timeout=LOCK_TIMEOUT
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -302,24 +299,24 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: attrs>=19.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250212) (23.1.0)
-Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250212) (2.0.0)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250212) (23.1)
-Requirement already satisfied: pluggy<1.0.0a1,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250212) (0.13.1)
-Requirement already satisfied: py>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250212) (1.11.0)
-Requirement already satisfied: toml in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250212) (0.10.2)
+Requirement already satisfied: attrs>=19.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250506) (23.1.0)
+Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250506) (2.0.0)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250506) (23.1)
+Requirement already satisfied: pluggy<1.0.0a1,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250506) (0.13.1)
+Requirement already satisfied: py>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250506) (1.11.0)
+Requirement already satisfied: toml in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==6.3.0.dev202+g4964b468c.d20250506) (0.10.2)
 Building wheels for collected packages: pytest
   Building editable for pytest (pyproject.toml): started
   Building editable for pytest (pyproject.toml): finished with status 'done'
-  Created wheel for pytest: filename=pytest-6.3.0.dev202+g4964b468c.d20250212-0.editable-py3-none-any.whl size=5259 sha256=374ce88e16e24dd5acae3642e0e6a30a28e310a0f31806649f9bdce410ade125
-  Stored in directory: /tmp/pip-ephem-wheel-cache-ldssr_5k/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for pytest: filename=pytest-6.3.0.dev202+g4964b468c.d20250506-0.editable-py3-none-any.whl size=5295 sha256=9789478237ddd121b4058f11a341995b6d6f4de3d80d440dc4dd8f6a88f628f5
+  Stored in directory: /tmp/pip-ephem-wheel-cache-4vo1l78a/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built pytest
 Installing collected packages: pytest
   Attempting uninstall: pytest
     Found existing installation: pytest 6.3.0.dev202+g4964b468c
     Uninstalling pytest-6.3.0.dev202+g4964b468c:
       Successfully uninstalled pytest-6.3.0.dev202+g4964b468c
-Successfully installed pytest-6.3.0.dev202+g4964b468c.d20250212
+Successfully installed pytest-6.3.0.dev202+g4964b468c.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout 4964b468c83c06971eb743fbc57cc404f760c573 testing/test_tmpdir.py
 Updated 0 paths from 3eebdd91e
@@ -328,7 +325,7 @@ Checking patch testing/test_tmpdir.py...
 Applied patch testing/test_tmpdir.py cleanly.
 + pytest -rA testing/test_tmpdir.py
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /testbed, configfile: pyproject.toml
 collected 34 items
 
@@ -337,8 +334,8 @@ testing/test_tmpdir.py ...s............F.................                [100%]
 =================================== FAILURES ===================================
 _____________ test_tmp_path_factory_handles_invalid_dir_characters _____________
 
-tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7f35997b7a00>, _basetemp=PosixPath('/tmp/pytest-of-os_______agnostic/pytest-0'))
-monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f35999c4580>
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x7face9ec92e0>, _basetemp=PosixPath('/tmp/pytest-of-os_______agnostic/pytest-0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7facea212b20>
 
     def test_tmp_path_factory_handles_invalid_dir_characters(
         tmp_path_factory: TempPathFactory, monkeypatch: MonkeyPatch
@@ -360,7 +357,7 @@ ______________________ TestNumberedDir.test_cleanup_keep _______________________
 _____________________________ test_tmpdir_fixture ______________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_tmpdir_fixture0
 collected 1 item
 
@@ -370,7 +367,7 @@ tmpdir_fixture.py .                                                      [100%]
 _____________ TestConfigTmpdir.test_getbasetemp_custom_removes_old _____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_getbasetemp_custom_removes_old0
 collected 1 item
 
@@ -378,17 +375,17 @@ test_getbasetemp_custom_removes_old.py .                                 [100%]
 
 ============================== 1 passed in 0.00s ===============================
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_getbasetemp_custom_removes_old0
 collected 1 item
 
 test_getbasetemp_custom_removes_old.py .                                 [100%]
 
-============================== 1 passed in 0.00s ===============================
+============================== 1 passed in 0.01s ===============================
 ___________________________ test_mktemp[mypath-True] ___________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp1
 collected 1 item
 
@@ -398,7 +395,7 @@ test_mktemp.py .                                                         [100%]
 _________________________ test_mktemp[/mypath1-False] __________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp2
 collected 1 item
 
@@ -407,20 +404,20 @@ test_mktemp.py F                                                         [100%]
 =================================== FAILURES ===================================
 ________________________________ test_abs_path _________________________________
 
-tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/m...acing.TagTracerSub object at 0x7f3599441490>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/mytemp')))
+tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/m...acing.TagTracerSub object at 0x7face9b0f190>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/mytemp')))
 
     def test_abs_path(tmpdir_factory):
 >       tmpdir_factory.mktemp('/mypath1', numbered=False)
 
 test_mktemp.py:2: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/testbed/src/_pytest/tmpdir.py:144: in mktemp
+/testbed/src/_pytest/tmpdir.py:146: in mktemp
     return py.path.local(self._tmppath_factory.mktemp(basename, numbered).resolve())
 /testbed/src/_pytest/tmpdir.py:93: in mktemp
     basename = self._ensure_relative_to_basetemp(basename)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7f3599441490>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/mytemp'))
+self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7face9b0f190>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp2/mytemp'))
 basename = '/mypath1'
 
     def _ensure_relative_to_basetemp(self, basename: str) -> str:
@@ -436,7 +433,7 @@ FAILED test_mktemp.py::test_abs_path - ValueError: /mypath1 is not a normaliz...
 _________________________ test_mktemp[./mypath1-True] __________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp3
 collected 1 item
 
@@ -446,7 +443,7 @@ test_mktemp.py .                                                         [100%]
 ________________________ test_mktemp[../mypath3-False] _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp4
 collected 1 item
 
@@ -455,20 +452,20 @@ test_mktemp.py F                                                         [100%]
 =================================== FAILURES ===================================
 ________________________________ test_abs_path _________________________________
 
-tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/m...acing.TagTracerSub object at 0x7f359935ad60>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/mytemp')))
+tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/m...acing.TagTracerSub object at 0x7face9a48df0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/mytemp')))
 
     def test_abs_path(tmpdir_factory):
 >       tmpdir_factory.mktemp('../mypath3', numbered=False)
 
 test_mktemp.py:2: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/testbed/src/_pytest/tmpdir.py:144: in mktemp
+/testbed/src/_pytest/tmpdir.py:146: in mktemp
     return py.path.local(self._tmppath_factory.mktemp(basename, numbered).resolve())
 /testbed/src/_pytest/tmpdir.py:93: in mktemp
     basename = self._ensure_relative_to_basetemp(basename)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7f359935ad60>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/mytemp'))
+self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7face9a48df0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp4/mytemp'))
 basename = '../mypath3'
 
     def _ensure_relative_to_basetemp(self, basename: str) -> str:
@@ -484,7 +481,7 @@ FAILED test_mktemp.py::test_abs_path - ValueError: ../mypath3 is not a normal...
 _______________________ test_mktemp[../../mypath4-False] _______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp5
 collected 1 item
 
@@ -493,20 +490,20 @@ test_mktemp.py F                                                         [100%]
 =================================== FAILURES ===================================
 ________________________________ test_abs_path _________________________________
 
-tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/m...acing.TagTracerSub object at 0x7f35993448e0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/mytemp')))
+tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/m...acing.TagTracerSub object at 0x7face9a31970>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/mytemp')))
 
     def test_abs_path(tmpdir_factory):
 >       tmpdir_factory.mktemp('../../mypath4', numbered=False)
 
 test_mktemp.py:2: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/testbed/src/_pytest/tmpdir.py:144: in mktemp
+/testbed/src/_pytest/tmpdir.py:146: in mktemp
     return py.path.local(self._tmppath_factory.mktemp(basename, numbered).resolve())
 /testbed/src/_pytest/tmpdir.py:93: in mktemp
     basename = self._ensure_relative_to_basetemp(basename)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7f35993448e0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/mytemp'))
+self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7face9a31970>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp5/mytemp'))
 basename = '../../mypath4'
 
     def _ensure_relative_to_basetemp(self, basename: str) -> str:
@@ -522,7 +519,7 @@ FAILED test_mktemp.py::test_abs_path - ValueError: ../../mypath4 is not a nor...
 ________________________ test_mktemp[mypath5/..-False] _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp6
 collected 1 item
 
@@ -531,20 +528,20 @@ test_mktemp.py F                                                         [100%]
 =================================== FAILURES ===================================
 ________________________________ test_abs_path _________________________________
 
-tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/m...acing.TagTracerSub object at 0x7f359928daf0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/mytemp')))
+tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/m...acing.TagTracerSub object at 0x7face997ab20>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/mytemp')))
 
     def test_abs_path(tmpdir_factory):
 >       tmpdir_factory.mktemp('mypath5/..', numbered=False)
 
 test_mktemp.py:2: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/testbed/src/_pytest/tmpdir.py:144: in mktemp
+/testbed/src/_pytest/tmpdir.py:146: in mktemp
     return py.path.local(self._tmppath_factory.mktemp(basename, numbered).resolve())
 /testbed/src/_pytest/tmpdir.py:93: in mktemp
     basename = self._ensure_relative_to_basetemp(basename)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7f359928daf0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/mytemp'))
+self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7face997ab20>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp6/mytemp'))
 basename = '.'
 
     def _ensure_relative_to_basetemp(self, basename: str) -> str:
@@ -560,7 +557,7 @@ FAILED test_mktemp.py::test_abs_path - ValueError: . is not a normalized and ...
 _____________________ test_mktemp[mypath6/../mypath6-True] _____________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp7
 collected 1 item
 
@@ -570,7 +567,7 @@ test_mktemp.py .                                                         [100%]
 ___________________ test_mktemp[mypath7/../mypath7/..-False] ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mktemp8
 collected 1 item
 
@@ -579,20 +576,20 @@ test_mktemp.py F                                                         [100%]
 =================================== FAILURES ===================================
 ________________________________ test_abs_path _________________________________
 
-tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/m...acing.TagTracerSub object at 0x7f35991c19d0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/mytemp')))
+tmpdir_factory = TempdirFactory(_tmppath_factory=TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/m...acing.TagTracerSub object at 0x7face98afa00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/mytemp')))
 
     def test_abs_path(tmpdir_factory):
 >       tmpdir_factory.mktemp('mypath7/../mypath7/..', numbered=False)
 
 test_mktemp.py:2: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/testbed/src/_pytest/tmpdir.py:144: in mktemp
+/testbed/src/_pytest/tmpdir.py:146: in mktemp
     return py.path.local(self._tmppath_factory.mktemp(basename, numbered).resolve())
 /testbed/src/_pytest/tmpdir.py:93: in mktemp
     basename = self._ensure_relative_to_basetemp(basename)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7f35991c19d0>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/mytemp'))
+self = TempPathFactory(_given_basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/mytemp'), _trace=<pluggy._tracing.TagTracerSub object at 0x7face98afa00>, _basetemp=PosixPath('/tmp/pytest-of-root/pytest-0/test_mktemp8/mytemp'))
 basename = '.'
 
     def _ensure_relative_to_basetemp(self, basename: str) -> str:
@@ -608,7 +605,7 @@ FAILED test_mktemp.py::test_abs_path - ValueError: . is not a normalized and ...
 ________________________ test_tmpdir_always_is_realpath ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_tmpdir_always_is_realpath0
 collected 1 item
 
@@ -618,7 +615,7 @@ test_tmpdir_always_is_realpath.py .
 _______________________ test_tmp_path_always_is_realpath _______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_tmp_path_always_is_realpath0
 collected 1 item
 
@@ -628,17 +625,17 @@ test_tmp_path_always_is_realpath.py .                                    [100%]
 ___________________ test_tmpdir_too_long_on_parametrization ____________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_tmpdir_too_long_on_parametrization0
 collected 1 item
 
 test_tmpdir_too_long_on_parametrization.py .                             [100%]
 
-============================== 1 passed in 0.00s ===============================
+============================== 1 passed in 0.01s ===============================
 _____________________________ test_tmpdir_factory ______________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_tmpdir_factory0
 collected 1 item
 
@@ -648,35 +645,35 @@ test_tmpdir_factory.py .                                                 [100%]
 _________________________ test_tmpdir_fallback_tox_env _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_tmpdir_fallback_tox_env0
 collected 1 item
 
 test_tmpdir_fallback_tox_env.py .                                        [100%]
 
-============================== 1 passed in 0.00s ===============================
+============================== 1 passed in 0.01s ===============================
 ______________________ test_tmpdir_fallback_uid_not_found ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_tmpdir_fallback_uid_not_found0
 collected 1 item
 
 test_tmpdir_fallback_uid_not_found.py .                                  [100%]
 
-============================== 1 passed in 0.00s ===============================
+============================== 1 passed in 0.01s ===============================
 ______________________ test_basetemp_with_read_only_files ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_basetemp_with_read_only_files0
 collected 1 item
 
 test_basetemp_with_read_only_files.py .                                  [100%]
 
-============================== 1 passed in 0.00s ===============================
+============================== 1 passed in 0.01s ===============================
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-6.3.0.dev202+g4964b468c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_basetemp_with_read_only_files0
 collected 1 item
 
@@ -718,6 +715,6 @@ PASSED testing/test_tmpdir.py::test_tmpdir_fallback_uid_not_found
 PASSED testing/test_tmpdir.py::test_basetemp_with_read_only_files
 SKIPPED [1] testing/test_tmpdir.py:239: win only
 FAILED testing/test_tmpdir.py::test_tmp_path_factory_handles_invalid_dir_characters
-=================== 1 failed, 32 passed, 1 skipped in 0.50s ====================
+=================== 1 failed, 32 passed, 1 skipped in 0.57s ====================
 + git checkout 4964b468c83c06971eb743fbc57cc404f760c573 testing/test_tmpdir.py
 Updated 1 path from 3eebdd91e

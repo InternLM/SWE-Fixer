@@ -1,0 +1,43 @@
+2024-12-06 19:57:52,778 - INFO - Building image sweb.eval.x86_64.sphinx-doc__sphinx-10435:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.c6d251a05e0af7688b64fd:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-06 19:57:52,779 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/sphinx-doc/sphinx /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard f1061c012e214f16fd8790dec3c283d787e3daa8
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+sed -i 's/pytest/pytest -rA/' tox.ini
+python -m pip install -e .[test]
+
+2024-12-06 19:57:52,779 - INFO - Building docker image sweb.eval.x86_64.sphinx-doc__sphinx-10435:latest in logs/build_images/instances/sweb.eval.x86_64.sphinx-doc__sphinx-10435__latest with platform linux/x86_64
+2024-12-06 19:57:52,802 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.c6d251a05e0af7688b64fd:latest
+2024-12-06 19:57:52,802 - INFO - 
+2024-12-06 19:57:52,802 - INFO - ---> e07fd98c5f7f
+2024-12-06 19:57:52,802 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-06 19:57:52,802 - INFO - 
+2024-12-06 19:57:52,809 - INFO - ---> Using cache
+2024-12-06 19:57:52,809 - INFO - ---> f5b2676a7b42
+2024-12-06 19:57:52,809 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-06 19:57:52,809 - INFO - 
+2024-12-06 19:57:52,809 - INFO - ---> Using cache
+2024-12-06 19:57:52,810 - INFO - ---> 73d387400b86
+2024-12-06 19:57:52,810 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-06 19:57:52,810 - INFO - 
+2024-12-06 19:57:52,810 - INFO - ---> Using cache
+2024-12-06 19:57:52,810 - INFO - ---> c600afcfefa8
+2024-12-06 19:57:52,810 - INFO - Successfully built c600afcfefa8
+2024-12-06 19:57:52,815 - INFO - Successfully tagged sweb.eval.x86_64.sphinx-doc__sphinx-10435:latest
+2024-12-06 19:57:52,816 - INFO - Image built successfully!

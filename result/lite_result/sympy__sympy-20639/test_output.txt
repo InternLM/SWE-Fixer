@@ -150,23 +150,24 @@ Date:   Sat Dec 19 02:39:22 2020 +0900
 
 + git diff eb926a1d0c1158bf43f01eaf673dc84416b5ebb1
 diff --git a/sympy/core/power.py b/sympy/core/power.py
-index 85d1d2e892..1d1e3a2a99 100644
+index 85d1d2e892..15cf4874c0 100644
 --- a/sympy/core/power.py
 +++ b/sympy/core/power.py
-@@ -1402,10 +1402,12 @@ def _eval_is_algebraic_expr(self, syms):
-     def _eval_rewrite_as_exp(self, base, expo, **kwargs):
-         from sympy import exp, log, I, arg
- 
--        if base.is_zero or base.has(exp) or expo.has(exp):
-+        if base.is_zero or base.has(exp) or expo.has(exp) or \
-+           base.has(Pow(exp)) or expo.has(Pow(exp)):
-             return base**expo
- 
-         if base.has(Symbol):
+@@ -320,10 +320,13 @@ def __new__(cls, b, e, evaluate=None):
+                     from sympy import numer, denom, log, sign, im, factor_terms
+                     c, ex = factor_terms(e, sign=False).as_coeff_Mul()
+                     den = denom(ex)
+-                    if isinstance(den, log) and den.args[0] == b:
++                    num = numer(ex)
++                    if isinstance(den, log) and den.args[0] == b and \
++                            isinstance(num, (Integer, Rational)):
+                         return S.Exp1**(c*numer(ex))
+                     elif den.is_Add:
+                         s = sign(im(b))
 +
-             # delay evaluation if expo is non symbolic
-             # (as exp(x*log(5)) automatically reduces to x**5)
-             return exp(log(base)*expo, evaluate=expo.has(Symbol))
+                         if s.is_Number and s and den == \
+                                 log(-factor_terms(b, sign=False)) + s*S.ImaginaryUnit*S.Pi:
+                             return S.Exp1**(c*numer(ex))
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -317,8 +318,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        68853772
-hash randomization: on (PYTHONHASHSEED=2051591664)
+random seed:        24079989
+hash randomization: on (PYTHONHASHSEED=2104922866)
 
 sympy/printing/pretty/tests/test_pretty.py[142] 
 test_pretty_ascii_str ok
@@ -478,7 +479,7 @@ Traceback (most recent call last):
     assert pretty(pi**(1/exp(1))) == \
 AssertionError
 
-============ tests finished: 140 passed, 2 failed, in 4.06 seconds =============
+============ tests finished: 140 passed, 2 failed, in 3.89 seconds =============
 DO *NOT* COMMIT!
 + git checkout eb926a1d0c1158bf43f01eaf673dc84416b5ebb1 sympy/printing/pretty/tests/test_pretty.py
 Updated 1 path from b0d900c0e1

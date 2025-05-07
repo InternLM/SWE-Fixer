@@ -230,28 +230,15 @@ index d5d43ff6f6..362d12d0db 100644
 +        self.assertEqual(field.formfield().path, path)
 + git diff ef082ebb84f00e38af4e8880d04e8365c2766d34
 diff --git a/django/db/models/sql/compiler.py b/django/db/models/sql/compiler.py
-index 7649c39262..3b1e371e26 100644
+index 7649c39262..7d635b0bb1 100644
 --- a/django/db/models/sql/compiler.py
 +++ b/django/db/models/sql/compiler.py
-@@ -32,10 +32,11 @@ class SQLCompiler:
-         self.select = None
-         self.annotation_col_map = None
-         self.klass_info = None
--        self.ordering_parts = re.compile(r'(.*)\s(ASC|DESC)(.*)')
-+        self.ordering_parts = re.compile(r'(.*?)\s(ASC|DESC)')
-         self._meta_ordering = None
- 
-     def setup_query(self):
-+
-         if all(self.query.alias_refcount[a] == 0 for a in self.query.alias_map):
-             self.query.get_initial_alias()
-         self.select, self.klass_info, self.annotation_col_map = self.get_select()
-@@ -353,10 +354,11 @@ class SQLCompiler:
+@@ -353,10 +353,11 @@ class SQLCompiler:
              # not taken into account so we strip it. When this entire method
              # is refactored into expressions, then we can check each part as we
              # generate it.
 -            without_ordering = self.ordering_parts.search(sql).group(1)
-+            without_ordering = sql
++            without_ordering = self.ordering_parts.search(sql.replace('\n', ' ')).group(1)
              params_hash = make_hashable(params)
              if (without_ordering, params_hash) in seen:
                  continue
@@ -393,8 +380,8 @@ Installing collected packages: Django
     Uninstalling Django-3.0.dev20190502091156:
       Successfully uninstalled Django-3.0.dev20190502091156
   Running setup.py develop for Django
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 Successfully installed Django-3.0.dev20190502091156
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout ef082ebb84f00e38af4e8880d04e8365c2766d34 tests/expressions/tests.py
 Updated 0 paths from 1b6d22c787
 + git apply -v -
@@ -546,7 +533,7 @@ Traceback (most recent call last):
     self._result_cache = list(self._iterable_class(self))
   File "/testbed/django/db/models/query.py", line 54, in __iter__
     results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
-  File "/testbed/django/db/models/sql/compiler.py", line 1082, in execute_sql
+  File "/testbed/django/db/models/sql/compiler.py", line 1081, in execute_sql
     cursor.execute(sql, params)
   File "/testbed/django/db/backends/utils.py", line 68, in execute
     return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
@@ -563,7 +550,7 @@ Traceback (most recent call last):
 django.db.utils.OperationalError: near ")": syntax error
 
 ----------------------------------------------------------------------
-Ran 121 tests in 0.165s
+Ran 121 tests in 0.178s
 
 FAILED (errors=1, skipped=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

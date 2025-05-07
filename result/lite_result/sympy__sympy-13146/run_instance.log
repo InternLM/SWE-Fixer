@@ -1,25 +1,26 @@
-2025-02-12 13:19:17,587 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13146
+2025-05-06 12:40:52,636 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13146
 Building instance image sweb.eval.x86_64.sympy__sympy-13146:latest for sympy__sympy-13146
-2025-02-12 13:19:17,589 - INFO - Image sweb.eval.x86_64.sympy__sympy-13146:latest already exists, skipping build.
-2025-02-12 13:19:17,589 - INFO - Creating container for sympy__sympy-13146...
-2025-02-12 13:19:17,621 - INFO - Container for sympy__sympy-13146 created: a3c1486f6e4114234b2fe601d0001185c46160adf65bc7c8c6009591c3079e56
-2025-02-12 13:19:18,118 - INFO - Container for sympy__sympy-13146 started: a3c1486f6e4114234b2fe601d0001185c46160adf65bc7c8c6009591c3079e56
-2025-02-12 13:19:18,118 - INFO - Intermediate patch for sympy__sympy-13146 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-13146/patch.diff, now applying to container...
-2025-02-12 13:19:18,373 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:19:18,434 - INFO - >>>>> Applied Patch:
+2025-05-06 12:40:52,639 - INFO - Image sweb.eval.x86_64.sympy__sympy-13146:latest already exists, skipping build.
+2025-05-06 12:40:52,639 - INFO - Creating container for sympy__sympy-13146...
+2025-05-06 12:40:52,669 - INFO - Container for sympy__sympy-13146 created: 2c64276f341034d34bc3bb9b07a5b53eeac2582bd7e6b698bd5200a0c4c9b787
+2025-05-06 12:40:52,979 - INFO - Container for sympy__sympy-13146 started: 2c64276f341034d34bc3bb9b07a5b53eeac2582bd7e6b698bd5200a0c4c9b787
+2025-05-06 12:40:52,980 - INFO - Intermediate patch for sympy__sympy-13146 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-13146/patch.diff, now applying to container...
+2025-05-06 12:40:53,240 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:40:53,304 - INFO - >>>>> Applied Patch:
 patching file sympy/simplify/simplify.py
 
-2025-02-12 13:19:19,012 - INFO - Git diff before:
+2025-05-06 12:40:53,679 - INFO - Git diff before:
 diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
-index f1609aa908..816e10856a 100644
+index f1609aa908..bcd73fbe66 100644
 --- a/sympy/simplify/simplify.py
 +++ b/sympy/simplify/simplify.py
-@@ -580,11 +580,12 @@ def shorter(*choices):
+@@ -580,11 +580,13 @@ def shorter(*choices):
      if expr.has(Product):
          expr = product_simplify(expr)
  
 -    short = shorter(powsimp(expr, combine='exp', deep=True), powsimp(expr), expr)
-+    short = shorter(powsimp(expr, combine='exp', deep=True), powsimp(expr, deep=True), expr)
++    short = shorter(powsimp(expr, combine='exp', deep=True),
++        powsimp(expr), expr)
      short = shorter(short, factor_terms(short), expand_power_exp(expand_mul(short)))
      if short.has(TrigonometricFunction, HyperbolicFunction, ExpBase):
          short = exptrigsimp(short, simplify=False)
@@ -28,20 +29,21 @@ index f1609aa908..816e10856a 100644
      # get rid of hollow 2-arg Mul factorization
      hollow_mul = Transform(
          lambda x: Mul(*x.args),
-2025-02-12 13:19:19,012 - INFO - Eval script for sympy__sympy-13146 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-13146/eval.sh; copying to container...
-2025-02-12 13:19:29,694 - INFO - Test runtime: 10.50 seconds
-2025-02-12 13:19:29,696 - INFO - Test output for sympy__sympy-13146 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-13146/test_output.txt
-2025-02-12 13:19:29,761 - INFO - Git diff after:
+2025-05-06 12:40:53,679 - INFO - Eval script for sympy__sympy-13146 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-13146/eval.sh; copying to container...
+2025-05-06 12:41:04,462 - INFO - Test runtime: 10.60 seconds
+2025-05-06 12:41:04,464 - INFO - Test output for sympy__sympy-13146 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-13146/test_output.txt
+2025-05-06 12:41:04,529 - INFO - Git diff after:
 diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
-index f1609aa908..816e10856a 100644
+index f1609aa908..bcd73fbe66 100644
 --- a/sympy/simplify/simplify.py
 +++ b/sympy/simplify/simplify.py
-@@ -580,11 +580,12 @@ def shorter(*choices):
+@@ -580,11 +580,13 @@ def shorter(*choices):
      if expr.has(Product):
          expr = product_simplify(expr)
  
 -    short = shorter(powsimp(expr, combine='exp', deep=True), powsimp(expr), expr)
-+    short = shorter(powsimp(expr, combine='exp', deep=True), powsimp(expr, deep=True), expr)
++    short = shorter(powsimp(expr, combine='exp', deep=True),
++        powsimp(expr), expr)
      short = shorter(short, factor_terms(short), expand_power_exp(expand_mul(short)))
      if short.has(TrigonometricFunction, HyperbolicFunction, ExpBase):
          short = exptrigsimp(short, simplify=False)
@@ -50,9 +52,9 @@ index f1609aa908..816e10856a 100644
      # get rid of hollow 2-arg Mul factorization
      hollow_mul = Transform(
          lambda x: Mul(*x.args),
-2025-02-12 13:19:29,761 - INFO - Grading answer for sympy__sympy-13146...
-2025-02-12 13:19:29,838 - INFO - report: {'sympy__sympy-13146': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_evalf_bugs']}, 'PASS_TO_PASS': {'success': ['test_evalf_helpers', 'test_evalf_basic', 'test_cancellation', 'test_evalf_powers', 'test_evalf_rump', 'test_evalf_complex', 'test_evalf_complex_powers', 'test_evalf_exponentiation', 'test_evalf_complex_cancellation', 'test_evalf_trig_zero_detection', 'test_evalf_sum', 'test_evalf_divergent_series', 'test_evalf_product', 'test_evalf_py_methods', 'test_evalf_power_subs_bugs', 'test_evalf_arguments', 'test_implemented_function_evalf', 'test_evaluate_false', 'test_evalf_relational', 'test_issue_5486', 'test_issue_5486_bug', 'test_bugs', 'test_subs', 'test_old_docstring', 'test_scaled_zero', 'test_chop_value', 'test_infinities', 'test_to_mpmath', 'test_issue_4945', 'test_evalf_integral', 'test_issue_8821_highprec_from_str', 'test_issue_8853', 'test_issue_9326', 'test_issue_10323'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:41:04,529 - INFO - Grading answer for sympy__sympy-13146...
+2025-05-06 12:41:04,598 - INFO - report: {'sympy__sympy-13146': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_evalf_bugs']}, 'PASS_TO_PASS': {'success': ['test_evalf_helpers', 'test_evalf_basic', 'test_cancellation', 'test_evalf_powers', 'test_evalf_rump', 'test_evalf_complex', 'test_evalf_complex_powers', 'test_evalf_exponentiation', 'test_evalf_complex_cancellation', 'test_evalf_trig_zero_detection', 'test_evalf_sum', 'test_evalf_divergent_series', 'test_evalf_product', 'test_evalf_py_methods', 'test_evalf_power_subs_bugs', 'test_evalf_arguments', 'test_implemented_function_evalf', 'test_evaluate_false', 'test_evalf_relational', 'test_issue_5486', 'test_issue_5486_bug', 'test_bugs', 'test_subs', 'test_old_docstring', 'test_scaled_zero', 'test_chop_value', 'test_infinities', 'test_to_mpmath', 'test_issue_4945', 'test_evalf_integral', 'test_issue_8821_highprec_from_str', 'test_issue_8853', 'test_issue_9326', 'test_issue_10323'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-13146: resolved: False
-2025-02-12 13:19:29,839 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13146.20250212_130622...
-2025-02-12 13:19:45,164 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13146.20250212_130622...
-2025-02-12 13:19:45,191 - INFO - Container sweb.eval.sympy__sympy-13146.20250212_130622 removed.
+2025-05-06 12:41:04,598 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13146.20250506_122807...
+2025-05-06 12:41:19,883 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13146.20250506_122807...
+2025-05-06 12:41:19,910 - INFO - Container sweb.eval.sympy__sympy-13146.20250506_122807 removed.

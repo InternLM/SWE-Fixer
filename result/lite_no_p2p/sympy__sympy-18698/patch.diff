@@ -1,0 +1,23 @@
+
+diff --git a/sympy/polys/polytools.py b/sympy/polys/polytools.py
+index c64bdfe..97a95ad 100644
+--- a/sympy/polys/polytools.py
++++ b/sympy/polys/polytools.py
+@@ -3230,14 +3230,15 @@ class Poly(Basic):
+ 
+         """
+         if hasattr(f.rep, 'sqf_list'):
+-            coeff, factors = f.rep.sqf_list(all)
++            result = f.rep.sqf_list(all)
+         else:  # pragma: no cover
+             raise OperationNotSupported(f, 'sqf_list')
+ 
+-        return f.rep.dom.to_sympy(coeff), [(f.per(g), k) for g, k in factors]
++        return [f.rep.dom.to_sympy(r) for r in result]
+ 
+     def sqf_list_include(f, all=False):
+         """
++
+         Returns a list of square-free factors of ``f``.
+ 
+         Examples

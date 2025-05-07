@@ -316,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        66942634
-hash randomization: on (PYTHONHASHSEED=1059610509)
+random seed:        32292543
+hash randomization: on (PYTHONHASHSEED=2655709456)
 
 sympy/utilities/tests/test_lambdify.py[84] 
 test_no_args ok

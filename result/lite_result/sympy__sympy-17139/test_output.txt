@@ -150,19 +150,22 @@ Date:   Sun Jun 30 10:50:57 2019 -0500
 
 + git diff 1d3327b8e90a186df6972991963a5ae87053259d
 diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
-index ad1130ef96..d8620da046 100644
+index ad1130ef96..f4b7842d39 100644
 --- a/sympy/simplify/fu.py
 +++ b/sympy/simplify/fu.py
-@@ -501,13 +501,14 @@ def _f(rv):
+@@ -501,13 +501,15 @@ def _f(rv):
          if not (rv.is_Pow and rv.base.func == f):
              return rv
  
 -        if (rv.exp < 0) == True:
-+        if rv.exp.is_real and rv.exp < 0:
-             return rv
+-            return rv
 -        if (rv.exp > max) == True:
-+        if rv.exp.is_real and rv.exp > max:
-             return rv
+-            return rv
++        if rv.exp.is_real:
++            if rv.exp < 0:
++                return rv
++            if rv.exp > max:
++                return rv
          if rv.exp == 2:
              return h(g(rv.base.args[0])**2)
          else:
@@ -322,8 +325,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        90480341
-hash randomization: on (PYTHONHASHSEED=67123454)
+random seed:        94075217
+hash randomization: on (PYTHONHASHSEED=3403277539)
 
 sympy/simplify/tests/test_fu.py[27] 
 test_TR1 ok
@@ -404,8 +407,8 @@ test_issue_7971 ok                                                          [OK]
 
 
 ________________________________ slowest tests _________________________________
-test_simplify_other - Took 12.304 seconds
-test_simplify_expr - Took 53.436 seconds
+test_simplify_other - Took 12.254 seconds
+test_simplify_expr - Took 54.149 seconds
 ________________________________________________________________________________
 __________________ sympy/simplify/tests/test_fu.py:test__TR56 __________________
 Traceback (most recent call last):
@@ -418,11 +421,11 @@ During handling of the above exception, another exception occurred:
 Traceback (most recent call last):
   File "/testbed/sympy/simplify/tests/test_fu.py", line 80, in test__TR56
     assert T(sin(x)**I, sin, cos, h, 4, True) == sin(x)**I
-  File "/testbed/sympy/simplify/fu.py", line 525, in _TR56
+  File "/testbed/sympy/simplify/fu.py", line 526, in _TR56
     return bottom_up(rv, _f)
   File "/testbed/sympy/simplify/simplify.py", line 1081, in bottom_up
     rv = F(rv)
-  File "/testbed/sympy/simplify/fu.py", line 519, in _f
+  File "/testbed/sympy/simplify/fu.py", line 520, in _f
     p = perfect_power(rv.exp)
   File "/testbed/sympy/ntheory/factor_.py", line 342, in perfect_power
     n = as_int(n)
@@ -430,7 +433,7 @@ Traceback (most recent call last):
     raise ValueError('%s is not an integer' % (n,))
 ValueError: I is not an integer
 
- tests finished: 70 passed, 2 expected to fail, 1 exceptions, in 104.08 seconds 
+ tests finished: 70 passed, 2 expected to fail, 1 exceptions, in 105.98 seconds 
 DO *NOT* COMMIT!
 + git checkout 1d3327b8e90a186df6972991963a5ae87053259d sympy/simplify/tests/test_fu.py sympy/simplify/tests/test_simplify.py
 Updated 2 paths from adf48e8c8c

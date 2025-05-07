@@ -150,7 +150,7 @@ Date:   Thu Mar 25 14:38:14 2021 +0900
 
 + git diff aa22709cb7df2d7503803d4b2c0baa7aa21440b6
 diff --git a/sympy/printing/latex.py b/sympy/printing/latex.py
-index 43f9e6ad8d..fe3c6f0c85 100644
+index 43f9e6ad8d..f6c8a9e232 100644
 --- a/sympy/printing/latex.py
 +++ b/sympy/printing/latex.py
 @@ -1968,13 +1968,17 @@ def _print_DiracDelta(self, expr, exp=None):
@@ -163,7 +163,7 @@ index 43f9e6ad8d..fe3c6f0c85 100644
          power = self._print(expr.args[2])
 -        tex = r"{\left\langle %s \right\rangle}^{%s}" % (shift, power)
 +        if exp is not None:
-+            tex = r"{\left\langle %s \right\rangle}^{%s^{%s}}" % (shift, power, exp)
++            tex = r"{\left\langle %s \right\rangle}^{%s %s}" % (shift, power, exp)
 +        else:
 +            tex = r"{\left\langle %s \right\rangle}^{%s}" % (shift, power)
          return tex
@@ -323,8 +323,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        6973114
-hash randomization: on (PYTHONHASHSEED=1112695108)
+random seed:        54915858
+hash randomization: on (PYTHONHASHSEED=1012783428)
 
 sympy/printing/tests/test_latex.py[156] 
 test_printmethod ok
@@ -492,7 +492,7 @@ Traceback (most recent call last):
     assert latex(SingularityFunction(x, 4, 5)**3) == \
 AssertionError
 
-== tests finished: 153 passed, 1 failed, 2 expected to fail, in 2.48 seconds ===
+== tests finished: 153 passed, 1 failed, 2 expected to fail, in 2.58 seconds ===
 DO *NOT* COMMIT!
 + git checkout aa22709cb7df2d7503803d4b2c0baa7aa21440b6 sympy/printing/tests/test_latex.py
 Updated 1 path from 58a9735090

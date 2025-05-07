@@ -150,22 +150,24 @@ Date:   Tue Oct 20 20:49:23 2020 +0100
 
 + git diff ab864967e71c950a15771bb6c3723636026ba876
 diff --git a/sympy/simplify/simplify.py b/sympy/simplify/simplify.py
-index 5f5eab3b9d..8bd11d936e 100644
+index 5f5eab3b9d..a846af0311 100644
 --- a/sympy/simplify/simplify.py
 +++ b/sympy/simplify/simplify.py
-@@ -684,10 +684,11 @@ def done(e):
-         expr = trigsimp(expr, deep=True)
- 
-     if expr.has(log):
--        expr = shorter(expand_log(expr, deep=True), logcombine(expr))
-+        expr = shorter(expand_log(expr, deep=True), logcombine(expr, force=True))
- 
-     if expr.has(CombinatorialFunction, gamma):
-         # expression with gamma functions or non-integer arguments is
-+
+@@ -691,9 +691,14 @@ def done(e):
          # automatically passed to gammasimp
          expr = combsimp(expr)
  
++    if expr.has(ceiling) and not evaluate:
++        expr = expr.rewrite(floor)
++
+     if expr.has(Sum):
+         expr = sum_simplify(expr, **kwargs)
+ 
++
++
+     if expr.has(Integral):
+         expr = expr.xreplace(dict([
+             (i, factor_terms(i)) for i in expr.atoms(Integral)]))
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -316,8 +318,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        96736808
-hash randomization: on (PYTHONHASHSEED=2013881768)
+random seed:        97567374
+hash randomization: on (PYTHONHASHSEED=2561186608)
 
 sympy/core/tests/test_arit.py[93] 
 test_bug1 ok
@@ -422,7 +424,7 @@ Traceback (most recent call last):
     assert Mul(2., S.Half, evaluate=False).is_integer is None
 AssertionError
 
-== tests finished: 90 passed, 1 failed, 2 expected to fail, in 13.06 seconds ===
+== tests finished: 90 passed, 1 failed, 2 expected to fail, in 12.76 seconds ===
 DO *NOT* COMMIT!
 + git checkout ab864967e71c950a15771bb6c3723636026ba876 sympy/core/tests/test_arit.py
 Updated 1 path from beee99341b

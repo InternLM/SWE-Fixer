@@ -222,23 +222,15 @@ index a305b77a1b..c3ae2cc600 100644
              # tb_generator is a daemon that runs until the main thread/process
 + git diff a59de6e89e8dc1f3e71c9a5a5bbceb373ea5247e
 diff --git a/django/db/models/sql/compiler.py b/django/db/models/sql/compiler.py
-index abbb1e37cb..61f3f693bb 100644
+index abbb1e37cb..61c94c509e 100644
 --- a/django/db/models/sql/compiler.py
 +++ b/django/db/models/sql/compiler.py
-@@ -727,10 +727,19 @@ class SQLCompiler:
+@@ -727,10 +727,11 @@ class SQLCompiler:
          # If we get to this point and the field is a relation to another model,
          # append the default ordering for that model unless it is the pk
          # shortcut or the attribute name of the field that is specified.
 -        if field.is_relation and opts.ordering and getattr(field, 'attname', None) != name and name != 'pk':
-+        if (
-+            field.is_relation and
-+            opts.ordering and
-+            getattr(field, 'attname', None) != name and
-+            name != 'pk' and
-+            # Don't append ordering if the field is a self-referencing
-+            # foreign key.
-+            field.model != field.related_model
-+        ):
++        if field.is_relation and opts.ordering != ['?'] and getattr(field, 'attname', None) != name and name != 'pk':
              # Firstly, avoid infinite loops.
              already_seen = already_seen or set()
              join_tuple = tuple(getattr(self.query.alias_map[j], 'join_cols', None) for j in joins)
@@ -426,25 +418,25 @@ test_stop_start_slicing (ordering.tests.OrderingTests) ... ok
 FAIL: test_order_by_self_referential_fk (ordering.tests.OrderingTests)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/testbed/tests/ordering/tests.py", line 354, in test_order_by_self_referential_fk
+  File "/testbed/tests/ordering/tests.py", line 359, in test_order_by_self_referential_fk
     attrgetter('headline'),
   File "/testbed/django/test/testcases.py", line 1054, in assertQuerysetEqual
     return self.assertEqual(list(items), values, msg=msg)
-AssertionError: Lists differ: ['Article 1', 'Article 2'] != ['Article 2', 'Article 1']
+AssertionError: Lists differ: ['Article 2', 'Article 1'] != ['Article 1', 'Article 2']
 
 First differing element 0:
-'Article 1'
 'Article 2'
+'Article 1'
 
-- ['Article 1', 'Article 2']
+- ['Article 2', 'Article 1']
 ?           ^            ^
 
-+ ['Article 2', 'Article 1']
++ ['Article 1', 'Article 2']
 ?           ^            ^
 
 
 ----------------------------------------------------------------------
-Ran 27 tests in 0.053s
+Ran 27 tests in 0.058s
 
 FAILED (failures=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

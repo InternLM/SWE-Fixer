@@ -1,0 +1,56 @@
+2025-05-06 11:15:33,560 - INFO - Environment image sweb.env.x86_64.2baaea72acc974f6c02079:latest found for django__django-11283
+Building instance image sweb.eval.x86_64.django__django-11283:latest for django__django-11283
+2025-05-06 11:15:33,562 - INFO - Image sweb.eval.x86_64.django__django-11283:latest already exists, skipping build.
+2025-05-06 11:15:33,562 - INFO - Creating container for django__django-11283...
+2025-05-06 11:15:33,590 - INFO - Container for django__django-11283 created: 5409d2ec46dfaee122b6734169e6374d56219c5091e76ad72a96afc45f5f23d8
+2025-05-06 11:15:34,230 - INFO - Container for django__django-11283 started: 5409d2ec46dfaee122b6734169e6374d56219c5091e76ad72a96afc45f5f23d8
+2025-05-06 11:15:34,231 - INFO - Intermediate patch for django__django-11283 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-11283/patch.diff, now applying to container...
+2025-05-06 11:15:34,470 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:15:34,511 - INFO - >>>>> Applied Patch:
+patching file django/db/models/options.py
+
+2025-05-06 11:15:35,657 - INFO - Git diff before:
+diff --git a/django/db/models/options.py b/django/db/models/options.py
+index fea65f7626..2c9e355047 100644
+--- a/django/db/models/options.py
++++ b/django/db/models/options.py
+@@ -300,10 +300,11 @@ class Options:
+         Return True if the model can/should be migrated on the `connection`.
+         `connection` can be either a real connection or a connection alias.
+         """
+-        if self.proxy or self.swapped or not self.managed:
++        if self.proxy_for_model is not None or self.swapped or not self.managed:
+             return False
+         if isinstance(connection, str):
+             connection = connections[connection]
++
+         if self.required_db_vendor:
+             return self.required_db_vendor == connection.vendor
+         if self.required_db_features:
+2025-05-06 11:15:35,658 - INFO - Eval script for django__django-11283 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-11283/eval.sh; copying to container...
+2025-05-06 11:15:42,782 - INFO - Test runtime: 6.98 seconds
+2025-05-06 11:15:42,782 - INFO - Test output for django__django-11283 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-11283/test_output.txt
+2025-05-06 11:15:42,865 - INFO - Git diff after:
+diff --git a/django/db/models/options.py b/django/db/models/options.py
+index fea65f7626..2c9e355047 100644
+--- a/django/db/models/options.py
++++ b/django/db/models/options.py
+@@ -300,10 +300,11 @@ class Options:
+         Return True if the model can/should be migrated on the `connection`.
+         `connection` can be either a real connection or a connection alias.
+         """
+-        if self.proxy or self.swapped or not self.managed:
++        if self.proxy_for_model is not None or self.swapped or not self.managed:
+             return False
+         if isinstance(connection, str):
+             connection = connections[connection]
++
+         if self.required_db_vendor:
+             return self.required_db_vendor == connection.vendor
+         if self.required_db_features:
+2025-05-06 11:15:42,865 - INFO - Grading answer for django__django-11283...
+2025-05-06 11:15:42,871 - INFO - report: {'django__django-11283': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_migrate_with_existing_target_permission (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)']}, 'PASS_TO_PASS': {'success': ['test_migrate_backwards (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_proxy_model_permissions_contenttype (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_user_has_now_proxy_model_permissions (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_user_keeps_same_permissions_after_migrating_backward (auth_tests.test_migrations.ProxyModelWithDifferentAppLabelTests)', 'test_migrate_backwards (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)', 'test_proxy_model_permissions_contenttype (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)', 'test_user_keeps_same_permissions_after_migrating_backward (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)', 'test_user_still_has_proxy_model_permissions (auth_tests.test_migrations.ProxyModelWithSameAppLabelTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-11283: resolved: False
+2025-05-06 11:15:42,871 - INFO - Attempting to stop container sweb.eval.django__django-11283.20250506_111427...
+2025-05-06 11:15:58,198 - INFO - Attempting to remove container sweb.eval.django__django-11283.20250506_111427...
+2025-05-06 11:15:58,220 - INFO - Container sweb.eval.django__django-11283.20250506_111427 removed.

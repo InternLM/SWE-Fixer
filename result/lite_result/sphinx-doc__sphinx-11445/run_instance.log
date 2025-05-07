@@ -1,15 +1,15 @@
-2025-02-12 13:18:31,023 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-11445
+2025-05-06 12:40:02,367 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-11445
 Building instance image sweb.eval.x86_64.sphinx-doc__sphinx-11445:latest for sphinx-doc__sphinx-11445
-2025-02-12 13:18:31,026 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-11445:latest already exists, skipping build.
-2025-02-12 13:18:31,027 - INFO - Creating container for sphinx-doc__sphinx-11445...
-2025-02-12 13:18:31,055 - INFO - Container for sphinx-doc__sphinx-11445 created: 9b6c768d92ca9521f5d6fab0286e826a600eb64dbf56370e49aab147d09432bc
-2025-02-12 13:18:31,613 - INFO - Container for sphinx-doc__sphinx-11445 started: 9b6c768d92ca9521f5d6fab0286e826a600eb64dbf56370e49aab147d09432bc
-2025-02-12 13:18:31,615 - INFO - Intermediate patch for sphinx-doc__sphinx-11445 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-11445/patch.diff, now applying to container...
-2025-02-12 13:18:31,813 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:18:31,866 - INFO - >>>>> Applied Patch:
+2025-05-06 12:40:02,369 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-11445:latest already exists, skipping build.
+2025-05-06 12:40:02,370 - INFO - Creating container for sphinx-doc__sphinx-11445...
+2025-05-06 12:40:02,397 - INFO - Container for sphinx-doc__sphinx-11445 created: bb2c8638beed2986a5372b4a43c98081e9e078fa0b86854f50ba3d950ccb49fc
+2025-05-06 12:40:03,037 - INFO - Container for sphinx-doc__sphinx-11445 started: bb2c8638beed2986a5372b4a43c98081e9e078fa0b86854f50ba3d950ccb49fc
+2025-05-06 12:40:03,038 - INFO - Intermediate patch for sphinx-doc__sphinx-11445 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-11445/patch.diff, now applying to container...
+2025-05-06 12:40:03,247 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:40:03,288 - INFO - >>>>> Applied Patch:
 patching file sphinx/directives/__init__.py
 
-2025-02-12 13:18:32,296 - INFO - Git diff before:
+2025-05-06 12:40:03,664 - INFO - Git diff before:
 diff --git a/sphinx/directives/__init__.py b/sphinx/directives/__init__.py
 index 517a52900..9017f7b03 100644
 --- a/sphinx/directives/__init__.py
@@ -42,10 +42,10 @@ index 512aa5f74..84c8093a3 100644
  
  [testenv:docs]
  basepython = python3
-2025-02-12 13:18:32,297 - INFO - Eval script for sphinx-doc__sphinx-11445 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-11445/eval.sh; copying to container...
-2025-02-12 13:18:38,594 - INFO - Test runtime: 6.13 seconds
-2025-02-12 13:18:38,594 - INFO - Test output for sphinx-doc__sphinx-11445 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-11445/test_output.txt
-2025-02-12 13:18:38,664 - INFO - Git diff after:
+2025-05-06 12:40:03,665 - INFO - Eval script for sphinx-doc__sphinx-11445 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-11445/eval.sh; copying to container...
+2025-05-06 12:40:08,451 - INFO - Test runtime: 4.59 seconds
+2025-05-06 12:40:08,452 - INFO - Test output for sphinx-doc__sphinx-11445 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-11445/test_output.txt
+2025-05-06 12:40:08,510 - INFO - Git diff after:
 diff --git a/sphinx/directives/__init__.py b/sphinx/directives/__init__.py
 index 517a52900..9017f7b03 100644
 --- a/sphinx/directives/__init__.py
@@ -78,9 +78,9 @@ index 512aa5f74..84c8093a3 100644
  
  [testenv:docs]
  basepython = python3
-2025-02-12 13:18:38,664 - INFO - Grading answer for sphinx-doc__sphinx-11445...
-2025-02-12 13:18:38,677 - INFO - report: {'sphinx-doc__sphinx-11445': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline', 'tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline']}, 'PASS_TO_PASS': {'success': ['tests/test_util_rst.py::test_escape', 'tests/test_util_rst.py::test_append_epilog', 'tests/test_util_rst.py::test_prepend_prolog', 'tests/test_util_rst.py::test_prepend_prolog_with_CR', 'tests/test_util_rst.py::test_prepend_prolog_without_CR', 'tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections', 'tests/test_util_rst.py::test_textwidth', 'tests/test_util_rst.py::test_heading'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:40:08,511 - INFO - Grading answer for sphinx-doc__sphinx-11445...
+2025-05-06 12:40:08,519 - INFO - report: {'sphinx-doc__sphinx-11445': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline', 'tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline']}, 'PASS_TO_PASS': {'success': ['tests/test_util_rst.py::test_escape', 'tests/test_util_rst.py::test_append_epilog', 'tests/test_util_rst.py::test_prepend_prolog', 'tests/test_util_rst.py::test_prepend_prolog_with_CR', 'tests/test_util_rst.py::test_prepend_prolog_without_CR', 'tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections', 'tests/test_util_rst.py::test_textwidth', 'tests/test_util_rst.py::test_heading'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sphinx-doc__sphinx-11445: resolved: False
-2025-02-12 13:18:38,677 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-11445.20250212_130622...
-2025-02-12 13:18:54,011 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-11445.20250212_130622...
-2025-02-12 13:18:54,032 - INFO - Container sweb.eval.sphinx-doc__sphinx-11445.20250212_130622 removed.
+2025-05-06 12:40:08,519 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-11445.20250506_122807...
+2025-05-06 12:40:23,803 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-11445.20250506_122807...
+2025-05-06 12:40:23,816 - INFO - Container sweb.eval.sphinx-doc__sphinx-11445.20250506_122807 removed.

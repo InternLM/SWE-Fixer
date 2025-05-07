@@ -1,0 +1,90 @@
+2025-05-06 06:34:53,970 - INFO - Environment image sweb.env.x86_64.934a137824256b612e9dc5:latest found for django__django-15103
+Building instance image sweb.eval.x86_64.django__django-15103:latest for django__django-15103
+2025-05-06 06:34:53,974 - INFO - Image sweb.eval.x86_64.django__django-15103:latest already exists, skipping build.
+2025-05-06 06:34:53,974 - INFO - Creating container for django__django-15103...
+2025-05-06 06:34:54,003 - INFO - Container for django__django-15103 created: 21c929fb10f5afe843883d63b107f35f87b45beb99103cf9cf6295a63d1c86c5
+2025-05-06 06:34:54,296 - INFO - Container for django__django-15103 started: 21c929fb10f5afe843883d63b107f35f87b45beb99103cf9cf6295a63d1c86c5
+2025-05-06 06:34:54,296 - INFO - Intermediate patch for django__django-15103 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15103/patch.diff, now applying to container...
+2025-05-06 06:34:54,558 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:34:54,620 - INFO - >>>>> Applied Patch:
+patching file django/utils/html.py
+patching file django/utils/html.py
+Hunk #1 succeeded at 70 (offset 1 line).
+
+2025-05-06 06:34:55,226 - INFO - Git diff before:
+diff --git a/django/utils/html.py b/django/utils/html.py
+index da1b5675ec..4dc9505909 100644
+--- a/django/utils/html.py
++++ b/django/utils/html.py
+@@ -61,21 +61,24 @@ _json_script_escapes = {
+ }
+ 
+ 
+-def json_script(value, element_id):
++def json_script(value, element_id=None):
+     """
+     Escape all the HTML/XML special characters with their unicode escapes, so
+     value is safe to be output anywhere except for inside a tag attribute. Wrap
++
+     the escaped JSON in a script tag.
+     """
+     from django.core.serializers.json import DjangoJSONEncoder
+     json_str = json.dumps(value, cls=DjangoJSONEncoder).translate(_json_script_escapes)
+-    return format_html(
+-        '<script id="{}" type="application/json">{}</script>',
+-        element_id, mark_safe(json_str)
+-    )
++    if element_id:
++        template = '<script id="{}" type="application/json">{}</script>'
++    else:
++        template = '<script type="application/json">{}</script>'
++    return format_html(template, element_id, mark_safe(json_str))
+ 
+ 
+ def conditional_escape(text):
++
+     """
+     Similar to escape(), except that it doesn't operate on pre-escaped strings.
+2025-05-06 06:34:55,227 - INFO - Eval script for django__django-15103 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15103/eval.sh; copying to container...
+2025-05-06 06:35:04,667 - INFO - Test runtime: 9.24 seconds
+2025-05-06 06:35:04,667 - INFO - Test output for django__django-15103 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15103/test_output.txt
+2025-05-06 06:35:04,757 - INFO - Git diff after:
+diff --git a/django/utils/html.py b/django/utils/html.py
+index da1b5675ec..4dc9505909 100644
+--- a/django/utils/html.py
++++ b/django/utils/html.py
+@@ -61,21 +61,24 @@ _json_script_escapes = {
+ }
+ 
+ 
+-def json_script(value, element_id):
++def json_script(value, element_id=None):
+     """
+     Escape all the HTML/XML special characters with their unicode escapes, so
+     value is safe to be output anywhere except for inside a tag attribute. Wrap
++
+     the escaped JSON in a script tag.
+     """
+     from django.core.serializers.json import DjangoJSONEncoder
+     json_str = json.dumps(value, cls=DjangoJSONEncoder).translate(_json_script_escapes)
+-    return format_html(
+-        '<script id="{}" type="application/json">{}</script>',
+-        element_id, mark_safe(json_str)
+-    )
++    if element_id:
++        template = '<script id="{}" type="application/json">{}</script>'
++    else:
++        template = '<script type="application/json">{}</script>'
++    return format_html(template, element_id, mark_safe(json_str))
+ 
+ 
+ def conditional_escape(text):
++
+     """
+     Similar to escape(), except that it doesn't operate on pre-escaped strings.
+2025-05-06 06:35:04,758 - INFO - Grading answer for django__django-15103...
+2025-05-06 06:35:04,762 - INFO - report: {'django__django-15103': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_without_id (template_tests.filter_tests.test_json_script.JsonScriptTests)', 'test_json_script_without_id (utils_tests.test_html.TestUtilsHtml)']}, 'PASS_TO_PASS': {'success': ['test_basic (template_tests.filter_tests.test_json_script.JsonScriptTests)', 'test_conditional_escape (utils_tests.test_html.TestUtilsHtml)', 'test_escape (utils_tests.test_html.TestUtilsHtml)', 'test_escapejs (utils_tests.test_html.TestUtilsHtml)', 'test_format_html (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_defines_html_error (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_doesnt_define_str (utils_tests.test_html.TestUtilsHtml)', 'test_html_safe_subclass (utils_tests.test_html.TestUtilsHtml)', 'test_json_script (utils_tests.test_html.TestUtilsHtml)', 'test_linebreaks (utils_tests.test_html.TestUtilsHtml)', 'test_smart_urlquote (utils_tests.test_html.TestUtilsHtml)', 'test_strip_spaces_between_tags (utils_tests.test_html.TestUtilsHtml)', 'test_strip_tags (utils_tests.test_html.TestUtilsHtml)', 'test_strip_tags_files (utils_tests.test_html.TestUtilsHtml)', 'test_urlize (utils_tests.test_html.TestUtilsHtml)', 'test_urlize_unchanged_inputs (utils_tests.test_html.TestUtilsHtml)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-15103: resolved: False
+2025-05-06 06:35:04,762 - INFO - Attempting to stop container sweb.eval.django__django-15103.20250506_061805...
+2025-05-06 06:35:20,019 - INFO - Attempting to remove container sweb.eval.django__django-15103.20250506_061805...
+2025-05-06 06:35:20,041 - INFO - Container sweb.eval.django__django-15103.20250506_061805 removed.

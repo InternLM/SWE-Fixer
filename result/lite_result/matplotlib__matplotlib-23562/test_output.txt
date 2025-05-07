@@ -178,14 +178,14 @@ Date:   Thu Aug 4 20:52:21 2022 -0700
 
 + git diff 29a86636a9c45ab5ac4d80ac76eaee497f460dce
 diff --git a/lib/mpl_toolkits/mplot3d/art3d.py b/lib/mpl_toolkits/mplot3d/art3d.py
-index 8fe6e7a9c1..4c8e0a12a5 100644
+index 8fe6e7a9c1..f531278ec1 100644
 --- a/lib/mpl_toolkits/mplot3d/art3d.py
 +++ b/lib/mpl_toolkits/mplot3d/art3d.py
 @@ -764,9 +764,12 @@ class Poly3DCollection(PolyCollection):
          self.set_zsort('average')
          self._facecolor3d = PolyCollection.get_facecolor(self)
          self._edgecolor3d = PolyCollection.get_edgecolor(self)
-+        self._facecolors2d = None
++        self._facecolors2d = PolyCollection.get_facecolor(self)
          self._alpha3d = PolyCollection.get_alpha(self)
          self.stale = True
  
@@ -198,7 +198,7 @@ index 8fe6e7a9c1..4c8e0a12a5 100644
      def set_facecolor(self, colors):
          # docstring inherited
          super().set_facecolor(colors)
-+        self._facecolors2d = None
++        self._facecolors2d = PolyCollection.get_facecolor(self)
          self._facecolor3d = PolyCollection.get_facecolor(self)
  
      def set_edgecolor(self, colors):
@@ -376,27 +376,27 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2840+g29a86636a9.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2840+g29a86636a9.d20250506) (4.7.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.6.0.dev2840+g29a86636a9
     Uninstalling matplotlib-3.6.0.dev2840+g29a86636a9:
       Successfully uninstalled matplotlib-3.6.0.dev2840+g29a86636a9
-  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2840+g29a86636a9.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2840+g29a86636a9.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
-Successfully installed matplotlib-3.6.0.dev2840+g29a86636a9.d20250212
+Successfully installed matplotlib-3.6.0.dev2840+g29a86636a9.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 29a86636a9c45ab5ac4d80ac76eaee497f460dce lib/mpl_toolkits/tests/test_mplot3d.py
 Updated 0 paths from 89321a1bd6
@@ -431,7 +431,7 @@ _____________________ test_Poly3DCollection_get_edgecolor ______________________
 lib/mpl_toolkits/tests/test_mplot3d.py:1834: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <mpl_toolkits.mplot3d.art3d.Poly3DCollection object at 0x7fd795670590>
+self = <mpl_toolkits.mplot3d.art3d.Poly3DCollection object at 0x7fbfb5a0e690>
 
     def get_edgecolor(self):
 >       return self._edgecolors2d
@@ -578,6 +578,6 @@ PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[z-pr
 PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[y-proj_expected1-axis_lines_expected1-tickdirs_expected1]
 PASSED lib/mpl_toolkits/tests/test_mplot3d.py::test_view_init_vertical_axis[x-proj_expected2-axis_lines_expected2-tickdirs_expected2]
 FAILED lib/mpl_toolkits/tests/test_mplot3d.py::test_Poly3DCollection_get_edgecolor
-======================== 1 failed, 137 passed in 19.06s ========================
+======================== 1 failed, 137 passed in 18.67s ========================
 + git checkout 29a86636a9c45ab5ac4d80ac76eaee497f460dce lib/mpl_toolkits/tests/test_mplot3d.py
 Updated 1 path from 89321a1bd6

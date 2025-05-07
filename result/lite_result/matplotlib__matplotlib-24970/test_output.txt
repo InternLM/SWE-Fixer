@@ -178,22 +178,27 @@ Date:   Fri Jan 13 10:11:49 2023 +0100
 
 + git diff a3011dfd1aaa2487cce8aa7369475533133ef777
 diff --git a/lib/matplotlib/colors.py b/lib/matplotlib/colors.py
-index 2d3072da04..caa16696c4 100644
+index 2d3072da04..6219d95dc1 100644
 --- a/lib/matplotlib/colors.py
 +++ b/lib/matplotlib/colors.py
-@@ -727,10 +727,12 @@ class Colormap:
+@@ -725,14 +725,17 @@ class Colormap:
+                 # Avoid converting large positive values to negative integers.
+                 np.clip(xa, -1, self.N, out=xa)
                  xa = xa.astype(int)
++
          # Set the over-range indices before the under-range;
          # otherwise the under-range values get converted to over-range.
-+        xa = xa.astype(int, copy=False)
          xa[xa > self.N - 1] = self._i_over
          xa[xa < 0] = self._i_under
          xa[mask_bad] = self._i_bad
++        xa = xa.astype(int)
  
-+
          lut = self._lut
          if bytes:
++
              lut = (lut * 255).astype(np.uint8)
+ 
+         rgba = lut.take(xa, axis=0, mode='clip')
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -370,31 +375,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.20 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.20 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1362+ga3011dfd1a.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev1362+ga3011dfd1a.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23413 sha256=60a10cb020e5eb29ca91b0d7d908cdbbeda1db87f4a628ceec022177021e061d
-  Stored in directory: /tmp/pip-ephem-wheel-cache-p14l41ie/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev1362+ga3011dfd1a.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=23837 sha256=fab41cca67e3c450ac54e1a9cacb2960c0f10287f7f9a0cf19f0faa449fd976e
+  Stored in directory: /tmp/pip-ephem-wheel-cache-9oyiruai/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.7.0.dev1362+ga3011dfd1a
     Uninstalling matplotlib-3.7.0.dev1362+ga3011dfd1a:
       Successfully uninstalled matplotlib-3.7.0.dev1362+ga3011dfd1a
-Successfully installed matplotlib-3.7.0.dev1362+ga3011dfd1a.d20250212
+Successfully installed matplotlib-3.7.0.dev1362+ga3011dfd1a.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout a3011dfd1aaa2487cce8aa7369475533133ef777 lib/matplotlib/tests/test_colors.py
 Updated 0 paths from fba3126962
@@ -409,13 +414,84 @@ configfile: pytest.ini
 plugins: xdist-3.6.1, timeout-2.3.1, rerunfailures-14.0, cov-5.0.0
 collected 256 items
 
-lib/matplotlib/tests/test_colors.py ..........F......................... [ 14%]
+lib/matplotlib/tests/test_colors.py ...F......F......................... [ 14%]
 ........................................................................ [ 42%]
 ........................................................................ [ 70%]
 ........................................................................ [ 98%]
 s...                                                                     [100%]
 
 =================================== FAILURES ===================================
+___________________________ test_index_dtype[uint8] ____________________________
+
+dtype = <class 'numpy.uint8'>
+
+    @pytest.mark.parametrize("dtype", [np.uint8, int, np.float16, float])
+    def test_index_dtype(dtype):
+        # We use subtraction in the indexing, so need to verify that uint8 works
+        cm = mpl.colormaps["viridis"]
+>       assert_array_equal(cm(dtype(0)), cm(0))
+
+lib/matplotlib/tests/test_colors.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <matplotlib.colors.ListedColormap object at 0x7f9474364050>, X = 0
+alpha = None, bytes = False
+
+    def __call__(self, X, alpha=None, bytes=False):
+        """
+        Parameters
+        ----------
+        X : float or int, `~numpy.ndarray` or scalar
+            The data value(s) to convert to RGBA.
+            For floats, *X* should be in the interval ``[0.0, 1.0]`` to
+            return the RGBA values ``X*100`` percent along the Colormap line.
+            For integers, *X* should be in the interval ``[0, Colormap.N)`` to
+            return RGBA values *indexed* from the Colormap with index ``X``.
+        alpha : float or array-like or None
+            Alpha must be a scalar between 0 and 1, a sequence of such
+            floats with shape matching X, or None.
+        bytes : bool
+            If False (default), the returned RGBA values will be floats in the
+            interval ``[0, 1]`` otherwise they will be uint8s in the interval
+            ``[0, 255]``.
+    
+        Returns
+        -------
+        Tuple of RGBA values if X is scalar, otherwise an array of
+        RGBA values with a shape of ``X.shape + (4, )``.
+        """
+        if not self._isinit:
+            self._init()
+    
+        # Take the bad mask from a masked array, or in all other cases defer
+        # np.isnan() to after we have converted to an array.
+        mask_bad = X.mask if np.ma.is_masked(X) else None
+        xa = np.array(X, copy=True)
+        if mask_bad is None:
+            mask_bad = np.isnan(xa)
+        if not xa.dtype.isnative:
+            xa = xa.byteswap().newbyteorder()  # Native byteorder is faster.
+        if xa.dtype.kind == "f":
+            with np.errstate(invalid="ignore"):
+                xa *= self.N
+                # Negative values are out of range, but astype(int) would
+                # truncate them towards zero.
+                xa[xa < 0] = -1
+                # xa == 1 (== N after multiplication) is not out of range.
+                xa[xa == self.N] = self.N - 1
+                # Avoid converting large positive values to negative integers.
+                np.clip(xa, -1, self.N, out=xa)
+                xa = xa.astype(int)
+    
+        # Set the over-range indices before the under-range;
+        # otherwise the under-range values get converted to over-range.
+>       xa[xa > self.N - 1] = self._i_over
+E       DeprecationWarning: NumPy will stop allowing conversion of out-of-bound Python integers to integer arrays.  The conversion of 257 to uint8 will fail in the future.
+E       For the old behavior, usually:
+E           np.array(value).astype(dtype)
+E       will give the desired result (the cast overflows).
+
+lib/matplotlib/colors.py:731: DeprecationWarning
 ______________________ test_double_register_builtin_cmap _______________________
 
     def test_double_register_builtin_cmap():
@@ -437,7 +513,6 @@ lib/matplotlib/tests/test_colors.py:149: MatplotlibDeprecationWarning
 PASSED lib/matplotlib/tests/test_colors.py::test_create_lookup_table[5-result0]
 PASSED lib/matplotlib/tests/test_colors.py::test_create_lookup_table[2-result1]
 PASSED lib/matplotlib/tests/test_colors.py::test_create_lookup_table[1-result2]
-PASSED lib/matplotlib/tests/test_colors.py::test_index_dtype[uint8]
 PASSED lib/matplotlib/tests/test_colors.py::test_index_dtype[int]
 PASSED lib/matplotlib/tests/test_colors.py::test_index_dtype[float16]
 PASSED lib/matplotlib/tests/test_colors.py::test_index_dtype[float]
@@ -689,7 +764,8 @@ PASSED lib/matplotlib/tests/test_colors.py::test_make_norm_from_scale_name
 PASSED lib/matplotlib/tests/test_colors.py::test_color_sequences
 PASSED lib/matplotlib/tests/test_colors.py::test_cm_set_cmap_error
 SKIPPED [1] lib/matplotlib/testing/compare.py:285: Don't know how to convert .svg files to png
+FAILED lib/matplotlib/tests/test_colors.py::test_index_dtype[uint8] - Depreca...
 FAILED lib/matplotlib/tests/test_colors.py::test_double_register_builtin_cmap
-=================== 1 failed, 254 passed, 1 skipped in 6.83s ===================
+=================== 2 failed, 253 passed, 1 skipped in 6.70s ===================
 + git checkout a3011dfd1aaa2487cce8aa7369475533133ef777 lib/matplotlib/tests/test_colors.py
 Updated 1 path from fba3126962

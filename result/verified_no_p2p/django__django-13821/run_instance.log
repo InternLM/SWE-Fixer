@@ -1,0 +1,62 @@
+2025-05-06 06:31:15,376 - INFO - Environment image sweb.env.x86_64.e83e37f52c09532c62acfb:latest found for django__django-13821
+Building instance image sweb.eval.x86_64.django__django-13821:latest for django__django-13821
+2025-05-06 06:31:15,379 - INFO - Image sweb.eval.x86_64.django__django-13821:latest already exists, skipping build.
+2025-05-06 06:31:15,379 - INFO - Creating container for django__django-13821...
+2025-05-06 06:31:15,406 - INFO - Container for django__django-13821 created: 68bcee101e0e02c2118a5e872d52f688b3fab11ef1645d6f54aa082e401cc0d7
+2025-05-06 06:31:15,689 - INFO - Container for django__django-13821 started: 68bcee101e0e02c2118a5e872d52f688b3fab11ef1645d6f54aa082e401cc0d7
+2025-05-06 06:31:15,690 - INFO - Intermediate patch for django__django-13821 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13821/patch.diff, now applying to container...
+2025-05-06 06:31:15,948 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:31:16,008 - INFO - >>>>> Applied Patch:
+patching file django/db/backends/sqlite3/base.py
+
+2025-05-06 06:31:16,648 - INFO - Git diff before:
+diff --git a/django/db/backends/sqlite3/base.py b/django/db/backends/sqlite3/base.py
+index ab4ea70492..8f58072a23 100644
+--- a/django/db/backends/sqlite3/base.py
++++ b/django/db/backends/sqlite3/base.py
+@@ -64,12 +64,13 @@ def list_aggregate(function):
+ 
+ 
+ def check_sqlite_version():
+-    if Database.sqlite_version_info < (3, 8, 3):
+-        raise ImproperlyConfigured('SQLite 3.8.3 or later is required (found %s).' % Database.sqlite_version)
++    if Database.sqlite_version_info < (3, 9, 0):
++        raise ImproperlyConfigured('SQLite 3.9.0 or later is required (found %s).' % Database.sqlite_version)
+ 
+ 
+ check_sqlite_version()
+ 
++
+ Database.register_converter("bool", b'1'.__eq__)
+ Database.register_converter("time", decoder(parse_time))
+ Database.register_converter("datetime", decoder(parse_datetime))
+2025-05-06 06:31:16,649 - INFO - Eval script for django__django-13821 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13821/eval.sh; copying to container...
+2025-05-06 06:31:23,984 - INFO - Test runtime: 7.16 seconds
+2025-05-06 06:31:23,985 - INFO - Test output for django__django-13821 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13821/test_output.txt
+2025-05-06 06:31:24,065 - INFO - Git diff after:
+diff --git a/django/db/backends/sqlite3/base.py b/django/db/backends/sqlite3/base.py
+index ab4ea70492..8f58072a23 100644
+--- a/django/db/backends/sqlite3/base.py
++++ b/django/db/backends/sqlite3/base.py
+@@ -64,12 +64,13 @@ def list_aggregate(function):
+ 
+ 
+ def check_sqlite_version():
+-    if Database.sqlite_version_info < (3, 8, 3):
+-        raise ImproperlyConfigured('SQLite 3.8.3 or later is required (found %s).' % Database.sqlite_version)
++    if Database.sqlite_version_info < (3, 9, 0):
++        raise ImproperlyConfigured('SQLite 3.9.0 or later is required (found %s).' % Database.sqlite_version)
+ 
+ 
+ check_sqlite_version()
+ 
++
+ Database.register_converter("bool", b'1'.__eq__)
+ Database.register_converter("time", decoder(parse_time))
+ Database.register_converter("datetime", decoder(parse_datetime))
+2025-05-06 06:31:24,066 - INFO - Grading answer for django__django-13821...
+2025-05-06 06:31:24,071 - INFO - report: {'django__django-13821': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_check_sqlite_version (backends.sqlite.tests.Tests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_parameter_escaping (backends.sqlite.tests.EscapingChecksDebug)', 'test_parameter_escaping (backends.sqlite.tests.EscapingChecks)', 'test_no_interpolation (backends.sqlite.tests.LastExecutedQueryTest)', 'test_parameter_quoting (backends.sqlite.tests.LastExecutedQueryTest)', 'Raise NotSupportedError when aggregating on date/time fields.', 'test_distinct_aggregation (backends.sqlite.tests.Tests)', 'test_distinct_aggregation_multiple_args_no_distinct (backends.sqlite.tests.Tests)', 'A named in-memory db should be allowed where supported.', 'test_pathlib_name (backends.sqlite.tests.Tests)', 'test_regexp_function (backends.sqlite.tests.Tests)', 'test_database_sharing_in_threads (backends.sqlite.tests.ThreadSharing)', 'test_autoincrement (backends.sqlite.tests.SchemaTests)', 'test_constraint_checks_disabled_atomic_allowed (backends.sqlite.tests.SchemaTests)', 'test_disable_constraint_checking_failure_disallowed (backends.sqlite.tests.SchemaTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-13821: resolved: True
+2025-05-06 06:31:24,071 - INFO - Attempting to stop container sweb.eval.django__django-13821.20250506_061805...
+2025-05-06 06:31:39,427 - INFO - Attempting to remove container sweb.eval.django__django-13821.20250506_061805...
+2025-05-06 06:31:39,452 - INFO - Container sweb.eval.django__django-13821.20250506_061805 removed.

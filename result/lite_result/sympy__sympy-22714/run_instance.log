@@ -1,26 +1,39 @@
-2025-02-12 13:22:05,639 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-22714
+2025-05-06 12:44:02,621 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-22714
 Building instance image sweb.eval.x86_64.sympy__sympy-22714:latest for sympy__sympy-22714
-2025-02-12 13:22:05,642 - INFO - Image sweb.eval.x86_64.sympy__sympy-22714:latest already exists, skipping build.
-2025-02-12 13:22:05,642 - INFO - Creating container for sympy__sympy-22714...
-2025-02-12 13:22:05,675 - INFO - Container for sympy__sympy-22714 created: 4bcf1dee66a2d5fbaf4b01fc91fc58c8a02c40a2e0dd0f827733a7f24bd8cc53
-2025-02-12 13:22:05,954 - INFO - Container for sympy__sympy-22714 started: 4bcf1dee66a2d5fbaf4b01fc91fc58c8a02c40a2e0dd0f827733a7f24bd8cc53
-2025-02-12 13:22:05,954 - INFO - Intermediate patch for sympy__sympy-22714 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-22714/patch.diff, now applying to container...
-2025-02-12 13:22:06,220 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:22:06,281 - INFO - >>>>> Applied Patch:
+2025-05-06 12:44:02,625 - INFO - Image sweb.eval.x86_64.sympy__sympy-22714:latest already exists, skipping build.
+2025-05-06 12:44:02,625 - INFO - Creating container for sympy__sympy-22714...
+2025-05-06 12:44:02,662 - INFO - Container for sympy__sympy-22714 created: 070ed2f4c974e228f862d3138a5bba7e5e4b55db4003eeae4d93669de238da96
+2025-05-06 12:44:02,955 - INFO - Container for sympy__sympy-22714 started: 070ed2f4c974e228f862d3138a5bba7e5e4b55db4003eeae4d93669de238da96
+2025-05-06 12:44:02,956 - INFO - Intermediate patch for sympy__sympy-22714 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-22714/patch.diff, now applying to container...
+2025-05-06 12:44:03,215 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:44:03,276 - INFO - >>>>> Applied Patch:
 patching file sympy/parsing/sympy_parser.py
 
-2025-02-12 13:22:06,799 - INFO - Git diff before:
+2025-05-06 12:44:03,713 - INFO - Git diff before:
 diff --git a/sympy/parsing/sympy_parser.py b/sympy/parsing/sympy_parser.py
-index e403654cb4..e3cbc0634e 100644
+index e403654cb4..c258fd9a85 100644
 --- a/sympy/parsing/sympy_parser.py
 +++ b/sympy/parsing/sympy_parser.py
-@@ -1201,11 +1201,13 @@ def visit_BinOp(self, node):
- 
-     def visit_Call(self, node):
+@@ -1203,9 +1203,28 @@ def visit_Call(self, node):
          new_node = self.generic_visit(node)
--        if isinstance(node.func, ast.Name) and node.func.id in self.functions:
--            new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
-+        new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
+         if isinstance(node.func, ast.Name) and node.func.id in self.functions:
+             new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
++            if node.func.id in ('im', 're'):
++                new_node.args = [ast.Call(
++                    func=ast.Name(id='Mul', ctx=ast.Load()),
++                    args=[
++                        ast.Call(
++                            func=ast.Name(id='Pow', ctx=ast.Load()),
++                            args=[
++                                ast.Name(id='I', ctx=ast.Load()),
++                                ast.Num(n=-1)
++                            ],
++                            keywords=[ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load()))],
++                        ),
++                        new_node.args[0],
++                    ],
++                    keywords=[ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load()))],
++                )]
          return new_node
  
  
@@ -30,21 +43,34 @@ index e403654cb4..e3cbc0634e 100644
  _transformation = {  # items can be added but never re-ordered
  0: lambda_notation,
  1: auto_symbol,
-2025-02-12 13:22:06,799 - INFO - Eval script for sympy__sympy-22714 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-22714/eval.sh; copying to container...
-2025-02-12 13:22:17,302 - INFO - Test runtime: 10.32 seconds
-2025-02-12 13:22:17,302 - INFO - Test output for sympy__sympy-22714 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-22714/test_output.txt
-2025-02-12 13:22:17,372 - INFO - Git diff after:
+2025-05-06 12:44:03,714 - INFO - Eval script for sympy__sympy-22714 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-22714/eval.sh; copying to container...
+2025-05-06 12:44:12,080 - INFO - Test runtime: 8.16 seconds
+2025-05-06 12:44:12,081 - INFO - Test output for sympy__sympy-22714 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-22714/test_output.txt
+2025-05-06 12:44:12,150 - INFO - Git diff after:
 diff --git a/sympy/parsing/sympy_parser.py b/sympy/parsing/sympy_parser.py
-index e403654cb4..e3cbc0634e 100644
+index e403654cb4..c258fd9a85 100644
 --- a/sympy/parsing/sympy_parser.py
 +++ b/sympy/parsing/sympy_parser.py
-@@ -1201,11 +1201,13 @@ def visit_BinOp(self, node):
- 
-     def visit_Call(self, node):
+@@ -1203,9 +1203,28 @@ def visit_Call(self, node):
          new_node = self.generic_visit(node)
--        if isinstance(node.func, ast.Name) and node.func.id in self.functions:
--            new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
-+        new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
+         if isinstance(node.func, ast.Name) and node.func.id in self.functions:
+             new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
++            if node.func.id in ('im', 're'):
++                new_node.args = [ast.Call(
++                    func=ast.Name(id='Mul', ctx=ast.Load()),
++                    args=[
++                        ast.Call(
++                            func=ast.Name(id='Pow', ctx=ast.Load()),
++                            args=[
++                                ast.Name(id='I', ctx=ast.Load()),
++                                ast.Num(n=-1)
++                            ],
++                            keywords=[ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load()))],
++                        ),
++                        new_node.args[0],
++                    ],
++                    keywords=[ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load()))],
++                )]
          return new_node
  
  
@@ -54,9 +80,9 @@ index e403654cb4..e3cbc0634e 100644
  _transformation = {  # items can be added but never re-ordered
  0: lambda_notation,
  1: auto_symbol,
-2025-02-12 13:22:17,373 - INFO - Grading answer for sympy__sympy-22714...
-2025-02-12 13:22:17,375 - INFO - report: {'sympy__sympy-22714': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_22684']}, 'PASS_TO_PASS': {'success': ['test_point', 'test_point3D', 'test_Point2D', 'test_issue_9214', 'test_issue_11617', 'test_transform', 'test_concyclic_doctest_bug', 'test_arguments', 'test_unit', 'test_dot', 'test__normalize_dimension'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:44:12,150 - INFO - Grading answer for sympy__sympy-22714...
+2025-05-06 12:44:12,153 - INFO - report: {'sympy__sympy-22714': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_22684']}, 'PASS_TO_PASS': {'success': ['test_point', 'test_point3D', 'test_Point2D', 'test_issue_9214', 'test_issue_11617', 'test_transform', 'test_concyclic_doctest_bug', 'test_arguments', 'test_unit', 'test_dot', 'test__normalize_dimension'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-22714: resolved: False
-2025-02-12 13:22:17,376 - INFO - Attempting to stop container sweb.eval.sympy__sympy-22714.20250212_130622...
-2025-02-12 13:22:32,611 - INFO - Attempting to remove container sweb.eval.sympy__sympy-22714.20250212_130622...
-2025-02-12 13:22:32,635 - INFO - Container sweb.eval.sympy__sympy-22714.20250212_130622 removed.
+2025-05-06 12:44:12,153 - INFO - Attempting to stop container sweb.eval.sympy__sympy-22714.20250506_122807...
+2025-05-06 12:44:27,512 - INFO - Attempting to remove container sweb.eval.sympy__sympy-22714.20250506_122807...
+2025-05-06 12:44:27,537 - INFO - Container sweb.eval.sympy__sympy-22714.20250506_122807 removed.

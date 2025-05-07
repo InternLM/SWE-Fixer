@@ -150,7 +150,7 @@ Date:   Tue May 5 23:34:05 2020 +0300
 
 + git diff 4787fd64a4ca0dba5528b5651bddd254102fe9f3
 diff --git a/src/_pytest/_io/saferepr.py b/src/_pytest/_io/saferepr.py
-index 23af4d0bb..dc5fa5976 100644
+index 23af4d0bb..39eb3a05c 100644
 --- a/src/_pytest/_io/saferepr.py
 +++ b/src/_pytest/_io/saferepr.py
 @@ -19,11 +19,18 @@ def _format_repr_exception(exc: BaseException, obj: Any) -> str:
@@ -160,7 +160,7 @@ index 23af4d0bb..dc5fa5976 100644
 +    try:
 +        class_name = obj.__class__.__name__
 +    except BaseException:
-+        class_name = "<unknown>"
++        class_name = type(obj).__name__
      return "<[{} raised in repr()] {} object at 0x{:x}>".format(
 -        exc_info, obj.__class__.__name__, id(obj)
 +        exc_info, class_name, id(obj)
@@ -307,24 +307,24 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250212) (1.11.0)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250212) (23.1)
-Requirement already satisfied: attrs>=17.4.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250212) (23.1.0)
-Requirement already satisfied: more-itertools>=4.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250212) (10.1.0)
-Requirement already satisfied: pluggy<1.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250212) (0.13.1)
-Requirement already satisfied: wcwidth in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250212) (0.2.13)
+Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250506) (1.11.0)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250506) (23.1)
+Requirement already satisfied: attrs>=17.4.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250506) (23.1.0)
+Requirement already satisfied: more-itertools>=4.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250506) (10.1.0)
+Requirement already satisfied: pluggy<1.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250506) (0.13.1)
+Requirement already satisfied: wcwidth in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==5.4.1.dev195+g4787fd64a.d20250506) (0.2.13)
 Building wheels for collected packages: pytest
   Building editable for pytest (pyproject.toml): started
   Building editable for pytest (pyproject.toml): finished with status 'done'
-  Created wheel for pytest: filename=pytest-5.4.1.dev195+g4787fd64a.d20250212-0.editable-py3-none-any.whl size=8097 sha256=e78f2769a2b102e43f43d6580ee14397cb5bfd03f21cfaaf647a045837ccf874
-  Stored in directory: /tmp/pip-ephem-wheel-cache-r8divt81/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for pytest: filename=pytest-5.4.1.dev195+g4787fd64a.d20250506-0.editable-py3-none-any.whl size=8148 sha256=1a04497a5bc7cda5d8c4216c3996b4363b02403e89b958942ff66558cbc92639
+  Stored in directory: /tmp/pip-ephem-wheel-cache-kazn2qfc/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built pytest
 Installing collected packages: pytest
   Attempting uninstall: pytest
     Found existing installation: pytest 5.4.1.dev195+g4787fd64a
     Uninstalling pytest-5.4.1.dev195+g4787fd64a:
       Successfully uninstalled pytest-5.4.1.dev195+g4787fd64a
-Successfully installed pytest-5.4.1.dev195+g4787fd64a.d20250212
+Successfully installed pytest-5.4.1.dev195+g4787fd64a.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout 4787fd64a4ca0dba5528b5651bddd254102fe9f3 testing/io/test_saferepr.py
 Updated 0 paths from d1a70d4ec
@@ -333,37 +333,12 @@ Checking patch testing/io/test_saferepr.py...
 Applied patch testing/io/test_saferepr.py cleanly.
 + pytest -rA testing/io/test_saferepr.py
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-5.4.1.dev195+g4787fd64a.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-5.4.1.dev195+g4787fd64a.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /testbed, inifile: tox.ini
 collected 11 items
 
-testing/io/test_saferepr.py ..........F                                  [100%]
+testing/io/test_saferepr.py ...........                                  [100%]
 
-=================================== FAILURES ===================================
-___________________________ test_broken_getattribute ___________________________
-
-    def test_broken_getattribute():
-        """saferepr() can create proper representations of classes with
-        broken __getattribute__ (#7145)
-        """
-    
-        class SomeClass:
-            def __getattribute__(self, attr):
-                raise RuntimeError
-    
-            def __repr__(self):
-                raise RuntimeError
-    
->       assert saferepr(SomeClass()).startswith(
-            "<[RuntimeError() raised in repr()] SomeClass object at 0x"
-        )
-E       AssertionError: assert False
-E        +  where False = <built-in method startswith of str object at 0x7f64ccfdf8b0>('<[RuntimeError() raised in repr()] SomeClass object at 0x')
-E        +    where <built-in method startswith of str object at 0x7f64ccfdf8b0> = '<[RuntimeError() raised in repr()] <unknown> object at 0x7f64cd0a37c0>'.startswith
-E        +      where '<[RuntimeError() raised in repr()] <unknown> object at 0x7f64cd0a37c0>' = saferepr(<[RuntimeError() raised in repr()] <unknown> object at 0x7f64cd0a37c0>)
-E        +        where <[RuntimeError() raised in repr()] <unknown> object at 0x7f64cd0a37c0> = <class 'test_saferepr.test_broken_getattribute.<locals>.SomeClass'>()
-
-testing/io/test_saferepr.py:171: AssertionError
 ==================================== PASSES ====================================
 =========================== short test summary info ============================
 PASSED testing/io/test_saferepr.py::test_simple_repr
@@ -376,7 +351,7 @@ PASSED testing/io/test_saferepr.py::test_big_repr
 PASSED testing/io/test_saferepr.py::test_repr_on_newstyle
 PASSED testing/io/test_saferepr.py::test_unicode
 PASSED testing/io/test_saferepr.py::test_pformat_dispatch
-FAILED testing/io/test_saferepr.py::test_broken_getattribute - AssertionError...
-========================= 1 failed, 10 passed in 0.04s =========================
+PASSED testing/io/test_saferepr.py::test_broken_getattribute
+============================== 11 passed in 0.03s ==============================
 + git checkout 4787fd64a4ca0dba5528b5651bddd254102fe9f3 testing/io/test_saferepr.py
 Updated 1 path from d1a70d4ec

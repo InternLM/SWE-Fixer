@@ -410,8 +410,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique... OK
-Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
 test_model_form_clean_applies_to_model (model_forms.tests.CustomCleanTests) ... System check identified no issues (0 silenced).
 ok
 test_override_clean (model_forms.tests.CustomCleanTests) ... ok
@@ -587,7 +587,7 @@ First has 4, Second has 1:  <Character: threepwood>
 First has 3, Second has 1:  <Character: marley>
 
 ----------------------------------------------------------------------
-Ran 149 tests in 0.460s
+Ran 149 tests in 0.537s
 
 FAILED (failures=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

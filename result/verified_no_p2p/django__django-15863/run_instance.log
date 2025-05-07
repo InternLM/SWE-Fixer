@@ -1,0 +1,70 @@
+2025-05-06 06:37:09,053 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-15863
+Building instance image sweb.eval.x86_64.django__django-15863:latest for django__django-15863
+2025-05-06 06:37:09,056 - INFO - Image sweb.eval.x86_64.django__django-15863:latest already exists, skipping build.
+2025-05-06 06:37:09,056 - INFO - Creating container for django__django-15863...
+2025-05-06 06:37:09,085 - INFO - Container for django__django-15863 created: 8b47eb3a54e3a2977db1a4b4b1c9ec82f4a47b9ccf81962a2df580fc3a3973db
+2025-05-06 06:37:09,361 - INFO - Container for django__django-15863 started: 8b47eb3a54e3a2977db1a4b4b1c9ec82f4a47b9ccf81962a2df580fc3a3973db
+2025-05-06 06:37:09,361 - INFO - Intermediate patch for django__django-15863 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15863/patch.diff, now applying to container...
+2025-05-06 06:37:09,602 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:37:09,664 - INFO - >>>>> Applied Patch:
+patching file django/template/defaultfilters.py
+
+2025-05-06 06:37:10,320 - INFO - Git diff before:
+diff --git a/django/template/defaultfilters.py b/django/template/defaultfilters.py
+index 7a5b28d159..678b8e180c 100644
+--- a/django/template/defaultfilters.py
++++ b/django/template/defaultfilters.py
+@@ -154,10 +154,7 @@ def floatformat(text, arg=-1):
+         input_val = repr(text)
+         d = Decimal(input_val)
+     except InvalidOperation:
+-        try:
+-            d = Decimal(str(float(text)))
+-        except (ValueError, InvalidOperation, TypeError):
+-            return ""
++        return ""
+     try:
+         p = int(arg)
+     except ValueError:
+@@ -207,6 +204,7 @@ def floatformat(text, arg=-1):
+ 
+ 
+ @register.filter(is_safe=True)
++
+ @stringfilter
+ def iriencode(value):
+     """Escape an IRI value for use in a URL."""
+2025-05-06 06:37:10,321 - INFO - Eval script for django__django-15863 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15863/eval.sh; copying to container...
+2025-05-06 06:37:18,441 - INFO - Test runtime: 7.94 seconds
+2025-05-06 06:37:18,441 - INFO - Test output for django__django-15863 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15863/test_output.txt
+2025-05-06 06:37:18,529 - INFO - Git diff after:
+diff --git a/django/template/defaultfilters.py b/django/template/defaultfilters.py
+index 7a5b28d159..678b8e180c 100644
+--- a/django/template/defaultfilters.py
++++ b/django/template/defaultfilters.py
+@@ -154,10 +154,7 @@ def floatformat(text, arg=-1):
+         input_val = repr(text)
+         d = Decimal(input_val)
+     except InvalidOperation:
+-        try:
+-            d = Decimal(str(float(text)))
+-        except (ValueError, InvalidOperation, TypeError):
+-            return ""
++        return ""
+     try:
+         p = int(arg)
+     except ValueError:
+@@ -207,6 +204,7 @@ def floatformat(text, arg=-1):
+ 
+ 
+ @register.filter(is_safe=True)
++
+ @stringfilter
+ def iriencode(value):
+     """Escape an IRI value for use in a URL."""
+2025-05-06 06:37:18,529 - INFO - Grading answer for django__django-15863...
+2025-05-06 06:37:18,535 - INFO - report: {'django__django-15863': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_inputs (template_tests.filter_tests.test_floatformat.FunctionTests)']}, 'PASS_TO_PASS': {'success': ['test_force_grouping (template_tests.filter_tests.test_floatformat.FunctionTests)', 'test_infinity (template_tests.filter_tests.test_floatformat.FunctionTests)', 'test_negative_zero_values (template_tests.filter_tests.test_floatformat.FunctionTests)', 'test_unlocalize (template_tests.filter_tests.test_floatformat.FunctionTests)', 'test_zero_values (template_tests.filter_tests.test_floatformat.FunctionTests)'], 'failure': ['test_floatformat01 (template_tests.filter_tests.test_floatformat.FloatformatTests)', 'test_floatformat02 (template_tests.filter_tests.test_floatformat.FloatformatTests)', 'test_float_dunder_method (template_tests.filter_tests.test_floatformat.FunctionTests)', '#15789']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-15863: resolved: False
+2025-05-06 06:37:18,535 - INFO - Attempting to stop container sweb.eval.django__django-15863.20250506_061805...
+2025-05-06 06:37:33,837 - INFO - Attempting to remove container sweb.eval.django__django-15863.20250506_061805...
+2025-05-06 06:37:33,859 - INFO - Container sweb.eval.django__django-15863.20250506_061805 removed.

@@ -1,0 +1,62 @@
+2025-05-06 06:26:32,066 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12050
+Building instance image sweb.eval.x86_64.django__django-12050:latest for django__django-12050
+2025-05-06 06:26:32,068 - INFO - Image sweb.eval.x86_64.django__django-12050:latest already exists, skipping build.
+2025-05-06 06:26:32,068 - INFO - Creating container for django__django-12050...
+2025-05-06 06:26:32,097 - INFO - Container for django__django-12050 created: 42aaccfce1a9e1454d4b514c1dc7c18266809adb07d3d05a3e1ef6a711d22651
+2025-05-06 06:26:32,341 - INFO - Container for django__django-12050 started: 42aaccfce1a9e1454d4b514c1dc7c18266809adb07d3d05a3e1ef6a711d22651
+2025-05-06 06:26:32,341 - INFO - Intermediate patch for django__django-12050 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-12050/patch.diff, now applying to container...
+2025-05-06 06:26:32,586 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:26:32,647 - INFO - >>>>> Applied Patch:
+patching file django/db/models/sql/query.py
+
+2025-05-06 06:26:33,282 - INFO - Git diff before:
+diff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py
+index ea51912e8b..d6beeba016 100644
+--- a/django/db/models/sql/query.py
++++ b/django/db/models/sql/query.py
+@@ -1073,10 +1073,14 @@ class Query(BaseExpression):
+                         ))
+                 else:
+                     resolved_values.append(sub_value)
+-            value = tuple(resolved_values)
++            if isinstance(value, list):
++                value = resolved_values
++            else:
++                value = tuple(resolved_values)
+         return value
+ 
+     def solve_lookup_type(self, lookup):
++
+         """
+         Solve the lookup type from the lookup (e.g.: 'foobar__id__icontains').
+         """
+2025-05-06 06:26:33,283 - INFO - Eval script for django__django-12050 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-12050/eval.sh; copying to container...
+2025-05-06 06:26:41,586 - INFO - Test runtime: 8.11 seconds
+2025-05-06 06:26:41,586 - INFO - Test output for django__django-12050 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-12050/test_output.txt
+2025-05-06 06:26:41,682 - INFO - Git diff after:
+diff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py
+index ea51912e8b..d6beeba016 100644
+--- a/django/db/models/sql/query.py
++++ b/django/db/models/sql/query.py
+@@ -1073,10 +1073,14 @@ class Query(BaseExpression):
+                         ))
+                 else:
+                     resolved_values.append(sub_value)
+-            value = tuple(resolved_values)
++            if isinstance(value, list):
++                value = resolved_values
++            else:
++                value = tuple(resolved_values)
+         return value
+ 
+     def solve_lookup_type(self, lookup):
++
+         """
+         Solve the lookup type from the lookup (e.g.: 'foobar__id__icontains').
+         """
+2025-05-06 06:26:41,682 - INFO - Grading answer for django__django-12050...
+2025-05-06 06:26:41,686 - INFO - report: {'django__django-12050': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_iterable_lookup_value (queries.test_query.TestQuery)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_clone_select_related (queries.test_query.TestQuery)', 'test_complex_query (queries.test_query.TestQuery)', 'test_foreign_key (queries.test_query.TestQuery)', 'test_foreign_key_exclusive (queries.test_query.TestQuery)', 'test_foreign_key_f (queries.test_query.TestQuery)', 'test_multiple_fields (queries.test_query.TestQuery)', 'test_negated_nullable (queries.test_query.TestQuery)', 'test_simple_query (queries.test_query.TestQuery)', 'test_simplecol_query (queries.test_query.TestQuery)', 'test_transform (queries.test_query.TestQuery)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-12050: resolved: True
+2025-05-06 06:26:41,686 - INFO - Attempting to stop container sweb.eval.django__django-12050.20250506_061805...
+2025-05-06 06:26:56,989 - INFO - Attempting to remove container sweb.eval.django__django-12050.20250506_061805...
+2025-05-06 06:26:57,019 - INFO - Container sweb.eval.django__django-12050.20250506_061805 removed.

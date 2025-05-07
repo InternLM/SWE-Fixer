@@ -251,19 +251,16 @@ index 6dbc58e018..14ef12db94 100644
  }
 + git diff a4881f5e5d7ee38b7e83301331a0b4962845ef8a
 diff --git a/django/db/models/fields/related.py b/django/db/models/fields/related.py
-index 8ddbb5ba68..3a6ced3d25 100644
+index 8ddbb5ba68..4f45626e14 100644
 --- a/django/db/models/fields/related.py
 +++ b/django/db/models/fields/related.py
-@@ -1309,10 +1309,14 @@ class ManyToManyField(RelatedField):
+@@ -1309,10 +1309,11 @@ class ManyToManyField(RelatedField):
                               "through_fields keyword argument.") % (self, from_model_name),
                              hint=(
                                  'If you want to create a recursive relationship, '
 -                                'use ForeignKey("%s", symmetrical=False, through="%s").'
-+                                'use ForeignKey("%s", related_name="%(app_label)s_%(class)s_from", '
-+                                'related_query_name="%(app_label)s_%(class)s_from") and '
-+                                'ManyToManyField("%s", symmetrical=False, through="%s").'
++                                'use ManyToManyField("%s", symmetrical=False, through="%s").'
                              ) % (
-+                                RECURSIVE_RELATIONSHIP_CONSTANT,
                                  RECURSIVE_RELATIONSHIP_CONSTANT,
                                  relationship_model_name,
 +
@@ -450,7 +447,7 @@ test_invalid_field (invalid_models_tests.test_relative_fields.M2mThroughFieldsTe
 test_invalid_order (invalid_models_tests.test_relative_fields.M2mThroughFieldsTests) ... ok
 test_m2m_field_argument_validation (invalid_models_tests.test_relative_fields.M2mThroughFieldsTests) ... ok
 test_superset_foreign_object (invalid_models_tests.test_relative_fields.M2mThroughFieldsTests) ... ok
-test_ambiguous_relationship_model_from (invalid_models_tests.test_relative_fields.RelativeFieldTests) ... ERROR
+test_ambiguous_relationship_model_from (invalid_models_tests.test_relative_fields.RelativeFieldTests) ... FAIL
 test_ambiguous_relationship_model_to (invalid_models_tests.test_relative_fields.RelativeFieldTests) ... FAIL
 test_foreign_key_to_abstract_model (invalid_models_tests.test_relative_fields.RelativeFieldTests) ... ok
 test_foreign_key_to_isolate_apps_model (invalid_models_tests.test_relative_fields.RelativeFieldTests) ... ok
@@ -498,23 +495,21 @@ test_accessor_clash (invalid_models_tests.test_relative_fields.SelfReferentialM2
 test_clash_between_accessors (invalid_models_tests.test_relative_fields.SelfReferentialM2MClashTests) ... ok
 test_clash_under_explicit_related_name (invalid_models_tests.test_relative_fields.SelfReferentialM2MClashTests) ... ok
 test_reverse_query_name_clash (invalid_models_tests.test_relative_fields.SelfReferentialM2MClashTests) ... ok
-test_valid_model (invalid_models_tests.test_relative_fields.SelfReferentialM2MClashTests) ... Testing against Django installed in '/testbed/django'
-Importing application invalid_models_tests
-Skipping setup of unused database(s): default, other.
-System check identified no issues (0 silenced).
-ok
+test_valid_model (invalid_models_tests.test_relative_fields.SelfReferentialM2MClashTests) ... ok
 
 ======================================================================
-ERROR: test_ambiguous_relationship_model_from (invalid_models_tests.test_relative_fields.RelativeFieldTests)
+FAIL: test_ambiguous_relationship_model_from (invalid_models_tests.test_relative_fields.RelativeFieldTests)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/testbed/tests/invalid_models_tests/test_relative_fields.py", line 144, in test_ambiguous_relationship_model_from
-    self.assertEqual(field.check(from_model=Group), [
-  File "/testbed/django/db/models/fields/related.py", line 1186, in check
-    *self._check_relationship_model(**kwargs),
-  File "/testbed/django/db/models/fields/related.py", line 1318, in _check_relationship_model
-    relationship_model_name,
-TypeError: format requires a mapping
+  File "/testbed/tests/invalid_models_tests/test_relative_fields.py", line 156, in test_ambiguous_relationship_model_from
+    id='fields.E334',
+AssertionError: Lists differ: [<Err[345 chars]lf", symmetrical=False, through="AmbiguousRela[89 chars]34'>] != [<Err[345 chars]lf", through="AmbiguousRelationship").', obj=<[70 chars]34'>]
+
+First differing element 0:
+<Erro[344 chars]lf", symmetrical=False, through="AmbiguousRela[88 chars]334'>
+<Erro[344 chars]lf", through="AmbiguousRelationship").', obj=<[69 chars]334'>
+
+Diff is 1871 characters long. Set self.maxDiff to None to see it.
 
 ======================================================================
 FAIL: test_ambiguous_relationship_model_to (invalid_models_tests.test_relative_fields.RelativeFieldTests)
@@ -531,8 +526,12 @@ First differing element 0:
 Diff is 1857 characters long. Set self.maxDiff to None to see it.
 
 ----------------------------------------------------------------------
-Ran 84 tests in 0.129s
+Ran 84 tests in 0.134s
 
-FAILED (failures=1, errors=1)
+FAILED (failures=2)
+Testing against Django installed in '/testbed/django'
+Importing application invalid_models_tests
+Skipping setup of unused database(s): default, other.
+System check identified no issues (0 silenced).
 + git checkout a4881f5e5d7ee38b7e83301331a0b4962845ef8a tests/invalid_models_tests/test_relative_fields.py
 Updated 1 path from 31f2a93b2e

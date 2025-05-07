@@ -150,23 +150,22 @@ Date:   Thu Oct 4 10:09:16 2018 +0200
 
 + git diff 9ef28fba5b4d6d0168237c9c005a550e6dc27d81
 diff --git a/sympy/printing/mathematica.py b/sympy/printing/mathematica.py
-index ea7e3a2d94..93de49d4fd 100644
+index ea7e3a2d94..f9813498ca 100644
 --- a/sympy/printing/mathematica.py
 +++ b/sympy/printing/mathematica.py
-@@ -31,10 +31,12 @@
-     "asech": [(lambda x: True, "ArcSech")],
-     "acsch": [(lambda x: True, "ArcCsch")],
-     "conjugate": [(lambda x: True, "Conjugate")],
--
+@@ -13,9 +13,12 @@
+     "log": [(lambda x: True, "Log")],
+     "sin": [(lambda x: True, "Sin")],
+     "cos": [(lambda x: True, "Cos")],
 +    "Max": [(lambda x: True, "Max")],
- }
- 
- 
++    "Min": [(lambda x: True, "Min")],
+     "tan": [(lambda x: True, "Tan")],
+     "cot": [(lambda x: True, "Cot")],
+     "asin": [(lambda x: True, "ArcSin")],
 +
-+
- class MCodePrinter(CodePrinter):
-     """A printer to convert python expressions to
-     strings of the Wolfram's Mathematica code
+     "acos": [(lambda x: True, "ArcCos")],
+     "atan": [(lambda x: True, "ArcTan")],
+     "sinh": [(lambda x: True, "Sinh")],
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -317,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        3834537
-hash randomization: on (PYTHONHASHSEED=1624320909)
+random seed:        90609583
+hash randomization: on (PYTHONHASHSEED=3202057195)
 
 sympy/printing/tests/test_mathematica.py[10] 
 test_Integer ok
@@ -338,13 +337,13 @@ ____________ sympy/printing/tests/test_mathematica.py:test_Function ____________
 Traceback (most recent call last):
   File "/testbed/sympy/printing/tests/test_mathematica.py", line 31, in test_Function
     assert mcode(Max(x,y,z)*Min(y,z)) == "Max[x, y, z]*Min[y, z]"
-  File "/testbed/sympy/printing/mathematica.py", line 133, in mathematica_code
+  File "/testbed/sympy/printing/mathematica.py", line 134, in mathematica_code
     return MCodePrinter(settings).doprint(expr)
   File "/testbed/sympy/printing/printer.py", line 249, in doprint
     return self._str(self._print(expr))
   File "/testbed/sympy/printing/printer.py", line 287, in _print
     return getattr(self, printmethod)(expr, **kwargs)
-  File "/testbed/sympy/printing/mathematica.py", line 78, in _print_Mul
+  File "/testbed/sympy/printing/mathematica.py", line 79, in _print_Mul
     res = super(MCodePrinter, self)._print_Mul(expr.func(*c))
   File "/testbed/sympy/printing/codeprinter.py", line 479, in _print_Mul
     a_str = [self.parenthesize(x, prec) for x in a]

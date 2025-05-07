@@ -150,17 +150,18 @@ Date:   Wed Jul 14 09:32:48 2021 -0300
 
 + git diff 69356d20cfee9a81972dcbf93d8caf9eabe113e8
 diff --git a/src/_pytest/skipping.py b/src/_pytest/skipping.py
-index f7a026ae7..c3a5eade3 100644
+index f7a026ae7..bd631c35b 100644
 --- a/src/_pytest/skipping.py
 +++ b/src/_pytest/skipping.py
-@@ -187,11 +187,16 @@ def evaluate_skip_marks(item: Item) -> Optional[Skip]:
+@@ -187,11 +187,17 @@ def evaluate_skip_marks(item: Item) -> Optional[Skip]:
          try:
              return Skip(*mark.args, **mark.kwargs)
          except TypeError as e:
 -            raise TypeError(str(e) + " - maybe you meant pytest.mark.skipif?") from None
 +            raise TypeError(
 +                str(e)
-+                + " - maybe you meant pytest.mark.skipif? If skipping at module level, use allow_module_level=True"
++                + " - maybe you meant pytest.mark.skipif?\n"
++                + "To skip the module, use `pytest.skip(reason, allow_module_level=True)` instead."
 +            ) from None
  
      return None
@@ -305,24 +306,24 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: attrs>=19.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250212) (23.1.0)
-Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250212) (2.0.0)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250212) (23.1)
-Requirement already satisfied: pluggy<1.0.0a1,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250212) (0.13.1)
-Requirement already satisfied: py>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250212) (1.11.0)
-Requirement already satisfied: tomli>=1.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250212) (2.0.1)
+Requirement already satisfied: attrs>=19.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250506) (23.1.0)
+Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250506) (2.0.0)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250506) (23.1)
+Requirement already satisfied: pluggy<1.0.0a1,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250506) (0.13.1)
+Requirement already satisfied: py>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250506) (1.11.0)
+Requirement already satisfied: tomli>=1.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev36+g69356d20c.d20250506) (2.0.1)
 Building wheels for collected packages: pytest
   Building editable for pytest (pyproject.toml): started
   Building editable for pytest (pyproject.toml): finished with status 'done'
-  Created wheel for pytest: filename=pytest-7.0.0.dev36+g69356d20c.d20250212-0.editable-py3-none-any.whl size=5287 sha256=97e0c9e6460c075c3dec78c33a58448f3a548bdd3d71926547bc7a00df5104c8
-  Stored in directory: /tmp/pip-ephem-wheel-cache-z1l1f8sy/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for pytest: filename=pytest-7.0.0.dev36+g69356d20c.d20250506-0.editable-py3-none-any.whl size=5323 sha256=11749fb46fb2e19a46fec0febd294699a13cdcec5e8515f623ae0c29e2f290b7
+  Stored in directory: /tmp/pip-ephem-wheel-cache-5q3kzbgi/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built pytest
 Installing collected packages: pytest
   Attempting uninstall: pytest
     Found existing installation: pytest 7.0.0.dev36+g69356d20c
     Uninstalling pytest-7.0.0.dev36+g69356d20c:
       Successfully uninstalled pytest-7.0.0.dev36+g69356d20c
-Successfully installed pytest-7.0.0.dev36+g69356d20c.d20250212
+Successfully installed pytest-7.0.0.dev36+g69356d20c.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout 69356d20cfee9a81972dcbf93d8caf9eabe113e8 testing/test_skipping.py
 Updated 0 paths from ac539026a
@@ -331,226 +332,14 @@ Checking patch testing/test_skipping.py...
 Applied patch testing/test_skipping.py cleanly.
 + pytest -rA testing/test_skipping.py
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /testbed, configfile: pyproject.toml
 collected 86 items
 
 testing/test_skipping.py ............................................... [ 54%]
-.........F.......................F.....                                  [100%]
+.................................F.....                                  [100%]
 
 =================================== FAILURES ===================================
-________________________ TestSkip.test_wrong_skip_usage ________________________
-
-self = <test_skipping.TestSkip object at 0x7f54759ec1f0>
-pytester = <Pytester PosixPath('/tmp/pytest-of-root/pytest-0/test_wrong_skip_usage0')>
-
-    def test_wrong_skip_usage(self, pytester: Pytester) -> None:
-        pytester.makepyfile(
-            """
-            import pytest
-            @pytest.mark.skip(False, reason="I thought this was skipif")
-            def test_hello():
-                pass
-        """
-        )
-        result = pytester.runpytest()
->       result.stdout.fnmatch_lines(
-            [
-                "*TypeError: *__init__() got multiple values for argument 'reason'"
-                " - maybe you meant pytest.mark.skipif?"
-            ]
-        )
-E       Failed: nomatch: "*TypeError: *__init__() got multiple values for argument 'reason' - maybe you meant pytest.mark.skipif?"
-E           and: '============================= test session starts =============================='
-E           and: 'platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1'
-E           and: 'rootdir: /tmp/pytest-of-root/pytest-0/test_wrong_skip_usage0'
-E           and: 'collected 1 item'
-E           and: ''
-E           and: 'test_wrong_skip_usage.py E                                               [100%]'
-E           and: ''
-E           and: '==================================== ERRORS ===================================='
-E           and: '_________________________ ERROR at setup of test_hello _________________________'
-E           and: ''
-E           and: "cls = <class '_pytest.runner.CallInfo'>"
-E           and: 'func = <function call_runtest_hook.<locals>.<lambda> at 0x7f5475995f70>'
-E           and: "when = 'setup'"
-E           and: "reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)"
-E           and: ''
-E           and: '    @classmethod'
-E           and: '    def from_call('
-E           and: '        cls,'
-E           and: '        func: "Callable[[], TResult]",'
-E           and: '        when: "Literal[\'collect\', \'setup\', \'call\', \'teardown\']",'
-E           and: '        reraise: Optional['
-E           and: '            Union[Type[BaseException], Tuple[Type[BaseException], ...]]'
-E           and: '        ] = None,'
-E           and: '    ) -> "CallInfo[TResult]":'
-E           and: '        """Call func, wrapping the result in a CallInfo.'
-E           and: '    '
-E           and: '        :param func:'
-E           and: '            The function to call. Called without arguments.'
-E           and: '        :param when:'
-E           and: '            The phase in which the function is called.'
-E           and: '        :param reraise:'
-E           and: '            Exception or exceptions that shall propagate if raised by the'
-E           and: '            function, instead of being wrapped in the CallInfo.'
-E           and: '        """'
-E           and: '        excinfo = None'
-E           and: '        start = timing.time()'
-E           and: '        precise_start = timing.perf_counter()'
-E           and: '        try:'
-E           and: '>           result: Optional[TResult] = func()'
-E           and: ''
-E           and: '/testbed/src/_pytest/runner.py:340: '
-E           and: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ '
-E           and: '/testbed/src/_pytest/runner.py:261: in <lambda>'
-E           and: '    lambda: ihook(item=item, **kwds), when=when, reraise=reraise'
-E           and: '/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/hooks.py:286: in __call__'
-E           and: '    return self._hookexec(self, self.get_hookimpls(), kwargs)'
-E           and: '/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:93: in _hookexec'
-E           and: '    return self._inner_hookexec(hook, methods, kwargs)'
-E           and: '/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:337: in traced_hookexec'
-E           and: '    return outcome.get_result()'
-E           and: '/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:335: in <lambda>'
-E           and: '    outcome = _Result.from_call(lambda: oldcall(hook, hook_impls, kwargs))'
-E           and: '/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:84: in <lambda>'
-E           and: '    self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall('
-E           and: '/testbed/src/_pytest/skipping.py:241: in pytest_runtest_setup'
-E           and: '    skipped = evaluate_skip_marks(item)'
-E           and: '_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ '
-E           and: ''
-E           and: 'item = <Function test_hello>'
-E           and: ''
-E           and: '    def evaluate_skip_marks(item: Item) -> Optional[Skip]:'
-E           and: '        """Evaluate skip and skipif marks on item, returning Skip if triggered."""'
-E           and: '        for mark in item.iter_markers(name="skipif"):'
-E           and: '            if "condition" not in mark.kwargs:'
-E           and: '                conditions = mark.args'
-E           and: '            else:'
-E           and: '                conditions = (mark.kwargs["condition"],)'
-E           and: '    '
-E           and: '            # Unconditional.'
-E           and: '            if not conditions:'
-E           and: '                reason = mark.kwargs.get("reason", "")'
-E           and: '                return Skip(reason)'
-E           and: '    '
-E           and: '            # If any of the conditions are true.'
-E           and: '            for condition in conditions:'
-E           and: '                result, reason = evaluate_condition(item, mark, condition)'
-E           and: '                if result:'
-E           and: '                    return Skip(reason)'
-E           and: '    '
-E           and: '        for mark in item.iter_markers(name="skip"):'
-E           and: '            try:'
-E           and: '                return Skip(*mark.args, **mark.kwargs)'
-E           and: '            except TypeError as e:'
-E           and: '>               raise TypeError('
-E           and: '                    str(e)'
-E           and: '                    + " - maybe you meant pytest.mark.skipif? If skipping at module level, use allow_module_level=True"'
-E           and: '                ) from None'
-E           and: "E               TypeError: __init__() got multiple values for argument 'reason' - maybe you meant pytest.mark.skipif? If skipping at module level, use allow_module_level=True"
-E           and: ''
-E           and: '/testbed/src/_pytest/skipping.py:190: TypeError'
-E           and: '=========================== short test summary info ============================'
-E           and: 'ERROR test_wrong_skip_usage.py::test_hello - TypeError: __init__() got multip...'
-E           and: '=============================== 1 error in 0.03s ==============================='
-E       remains unmatched: "*TypeError: *__init__() got multiple values for argument 'reason' - maybe you meant pytest.mark.skipif?"
-
-/testbed/testing/test_skipping.py:877: Failed
------------------------------ Captured stdout call -----------------------------
-============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
-rootdir: /tmp/pytest-of-root/pytest-0/test_wrong_skip_usage0
-collected 1 item
-
-test_wrong_skip_usage.py E                                               [100%]
-
-==================================== ERRORS ====================================
-_________________________ ERROR at setup of test_hello _________________________
-
-cls = <class '_pytest.runner.CallInfo'>
-func = <function call_runtest_hook.<locals>.<lambda> at 0x7f5475995f70>
-when = 'setup'
-reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
-
-    @classmethod
-    def from_call(
-        cls,
-        func: "Callable[[], TResult]",
-        when: "Literal['collect', 'setup', 'call', 'teardown']",
-        reraise: Optional[
-            Union[Type[BaseException], Tuple[Type[BaseException], ...]]
-        ] = None,
-    ) -> "CallInfo[TResult]":
-        """Call func, wrapping the result in a CallInfo.
-    
-        :param func:
-            The function to call. Called without arguments.
-        :param when:
-            The phase in which the function is called.
-        :param reraise:
-            Exception or exceptions that shall propagate if raised by the
-            function, instead of being wrapped in the CallInfo.
-        """
-        excinfo = None
-        start = timing.time()
-        precise_start = timing.perf_counter()
-        try:
->           result: Optional[TResult] = func()
-
-/testbed/src/_pytest/runner.py:340: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/testbed/src/_pytest/runner.py:261: in <lambda>
-    lambda: ihook(item=item, **kwds), when=when, reraise=reraise
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/hooks.py:286: in __call__
-    return self._hookexec(self, self.get_hookimpls(), kwargs)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:93: in _hookexec
-    return self._inner_hookexec(hook, methods, kwargs)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:337: in traced_hookexec
-    return outcome.get_result()
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:335: in <lambda>
-    outcome = _Result.from_call(lambda: oldcall(hook, hook_impls, kwargs))
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:84: in <lambda>
-    self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(
-/testbed/src/_pytest/skipping.py:241: in pytest_runtest_setup
-    skipped = evaluate_skip_marks(item)
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-item = <Function test_hello>
-
-    def evaluate_skip_marks(item: Item) -> Optional[Skip]:
-        """Evaluate skip and skipif marks on item, returning Skip if triggered."""
-        for mark in item.iter_markers(name="skipif"):
-            if "condition" not in mark.kwargs:
-                conditions = mark.args
-            else:
-                conditions = (mark.kwargs["condition"],)
-    
-            # Unconditional.
-            if not conditions:
-                reason = mark.kwargs.get("reason", "")
-                return Skip(reason)
-    
-            # If any of the conditions are true.
-            for condition in conditions:
-                result, reason = evaluate_condition(item, mark, condition)
-                if result:
-                    return Skip(reason)
-    
-        for mark in item.iter_markers(name="skip"):
-            try:
-                return Skip(*mark.args, **mark.kwargs)
-            except TypeError as e:
->               raise TypeError(
-                    str(e)
-                    + " - maybe you meant pytest.mark.skipif? If skipping at module level, use allow_module_level=True"
-                ) from None
-E               TypeError: __init__() got multiple values for argument 'reason' - maybe you meant pytest.mark.skipif? If skipping at module level, use allow_module_level=True
-
-/testbed/src/_pytest/skipping.py:190: TypeError
-=========================== short test summary info ============================
-ERROR test_wrong_skip_usage.py::test_hello - TypeError: __init__() got multip...
-=============================== 1 error in 0.03s ===============================
 _________________________ test_module_level_skip_error _________________________
 
 pytester = <Pytester PosixPath('/tmp/pytest-of-root/pytest-0/test_module_level_skip_error0')>
@@ -572,7 +361,7 @@ pytester = <Pytester PosixPath('/tmp/pytest-of-root/pytest-0/test_module_level_s
         )
 E       Failed: nomatch: '*Using pytest.skip outside of a test will skip the entire module*'
 E           and: '============================= test session starts =============================='
-E           and: 'platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1'
+E           and: 'platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1'
 E           and: 'rootdir: /tmp/pytest-of-root/pytest-0/test_module_level_skip_error0'
 E           and: 'collected 0 items / 1 error'
 E           and: ''
@@ -582,13 +371,13 @@ E           and: 'Using pytest.skip outside of a test is not allowed. To decorat
 E           and: '=========================== short test summary info ============================'
 E           and: 'ERROR test_module_level_skip_error.py'
 E           and: '!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!'
-E           and: '=============================== 1 error in 0.13s ==============================='
+E           and: '=============================== 1 error in 0.03s ==============================='
 E       remains unmatched: '*Using pytest.skip outside of a test will skip the entire module*'
 
 /testbed/testing/test_skipping.py:1343: Failed
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_module_level_skip_error0
 collected 0 items / 1 error
 
@@ -598,12 +387,12 @@ Using pytest.skip outside of a test is not allowed. To decorate a test function,
 =========================== short test summary info ============================
 ERROR test_module_level_skip_error.py
 !!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-=============================== 1 error in 0.13s ===============================
+=============================== 1 error in 0.03s ===============================
 ==================================== PASSES ====================================
 ________________________ TestEvaluation.test_no_marker _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_no_marker0
 collected 0 items
 
@@ -611,7 +400,7 @@ collected 0 items
 ___________________ TestEvaluation.test_marked_xfail_no_args ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_xfail_no_args0
 collected 0 items
 
@@ -619,7 +408,7 @@ collected 0 items
 __________________ TestEvaluation.test_marked_skipif_no_args ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_skipif_no_args0
 collected 0 items
 
@@ -627,7 +416,7 @@ collected 0 items
 ______________________ TestEvaluation.test_marked_one_arg ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_one_arg0
 collected 0 items
 
@@ -635,7 +424,7 @@ collected 0 items
 ________________ TestEvaluation.test_marked_one_arg_with_reason ________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_one_arg_with_reason0
 collected 0 items
 
@@ -643,13 +432,13 @@ collected 0 items
 ___________________ TestEvaluation.test_marked_one_arg_twice ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_one_arg_twice0
 collected 0 items
 
 ============================ no tests ran in 0.00s =============================
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_one_arg_twice0
 collected 0 items
 
@@ -657,7 +446,7 @@ collected 0 items
 __________________ TestEvaluation.test_marked_one_arg_twice2 ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_one_arg_twice20
 collected 0 items
 
@@ -665,7 +454,7 @@ collected 0 items
 ________ TestEvaluation.test_marked_skipif_with_boolean_without_reason _________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_skipif_with_boolean_without_reason0
 collected 0 items
 
@@ -673,7 +462,7 @@ collected 0 items
 ____________ TestEvaluation.test_marked_skipif_with_invalid_boolean ____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_marked_skipif_with_invalid_boolean0
 collected 0 items
 
@@ -681,7 +470,7 @@ collected 0 items
 _______________________ TestEvaluation.test_skipif_class _______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_class0
 collected 0 items
 
@@ -689,7 +478,7 @@ collected 0 items
 ________________ TestEvaluation.test_skipif_markeval_namespace _________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_markeval_namespace0
 collected 2 items
 
@@ -699,7 +488,7 @@ test_skipif_markeval_namespace.py s.                                     [100%]
 ____________ TestEvaluation.test_skipif_markeval_namespace_multiple ____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python
 cachedir: .pytest_cache
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_markeval_namespace_multiple0
 collecting ... collected 3 items
@@ -708,11 +497,11 @@ root/test_root.py::test_root SKIPPED (condition: arg == 'root')
 root/bar/test_bar.py::test_bar SKIPPED (condition: arg == 'bar')
 root/foo/test_foo.py::test_foo SKIPPED (condition: arg == 'foo')
 
-============================== 3 skipped in 0.02s ==============================
+============================== 3 skipped in 0.01s ==============================
 ___________ TestEvaluation.test_skipif_markeval_namespace_ValueError ___________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_markeval_namespace_ValueError0
 collected 1 item
 
@@ -722,7 +511,7 @@ test_skipif_markeval_namespace_ValueError.py E                           [100%]
 ___________________________ ERROR at setup of test_1 ___________________________
 
 cls = <class '_pytest.runner.CallInfo'>
-func = <function call_runtest_hook.<locals>.<lambda> at 0x7f547661a940>
+func = <function call_runtest_hook.<locals>.<lambda> at 0x7f54e0a358b0>
 when = 'setup'
 reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
 
@@ -765,7 +554,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     outcome = _Result.from_call(lambda: oldcall(hook, hook_impls, kwargs))
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:84: in <lambda>
     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(
-/testbed/src/_pytest/skipping.py:241: in pytest_runtest_setup
+/testbed/src/_pytest/skipping.py:242: in pytest_runtest_setup
     skipped = evaluate_skip_marks(item)
 /testbed/src/_pytest/skipping.py:182: in evaluate_skip_marks
     result, reason = evaluate_condition(item, mark, condition)
@@ -806,11 +595,11 @@ E                   ValueError: pytest_markeval_namespace() needs to return a di
 /testbed/src/_pytest/skipping.py:106: ValueError
 =========================== short test summary info ============================
 ERROR test_skipif_markeval_namespace_ValueError.py::test_1 - ValueError: pyte...
-=============================== 1 error in 0.06s ===============================
+=============================== 1 error in 0.05s ===============================
 ______________________ TestXFail.test_xfail_simple[True] _______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_simple0
 collected 0 items
 
@@ -818,7 +607,7 @@ collected 0 items
 ______________________ TestXFail.test_xfail_simple[False] ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_simple1
 collected 0 items
 
@@ -826,7 +615,7 @@ collected 0 items
 _________________________ TestXFail.test_xfail_xpassed _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_xpassed0
 collected 0 items
 
@@ -834,7 +623,7 @@ collected 0 items
 _____________________ TestXFail.test_xfail_using_platform ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_using_platform0
 collected 0 items
 
@@ -842,7 +631,7 @@ collected 0 items
 _____________________ TestXFail.test_xfail_xpassed_strict ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_xpassed_strict0
 collected 0 items
 
@@ -850,7 +639,7 @@ collected 0 items
 _______________________ TestXFail.test_xfail_run_anyway ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_run_anyway0
 collected 2 items
 
@@ -871,7 +660,7 @@ FAILED test_xfail_run_anyway.py::test_func - assert 0
 ________ TestXFail.test_xfail_run_with_skip_mark[test_input0-expected0] ________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_run_with_skip_mark0
 collected 1 item
 
@@ -883,7 +672,7 @@ SKIPPED [1] test_sample.py:2: unconditional skip
 ________ TestXFail.test_xfail_run_with_skip_mark[test_input1-expected1] ________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_run_with_skip_mark1
 collected 1 item
 
@@ -895,7 +684,7 @@ SKIPPED [1] test_sample.py:2: unconditional skip
 ___________________ TestXFail.test_xfail_evalfalse_but_fails ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_evalfalse_but_fails0
 collected 0 items
 
@@ -903,18 +692,18 @@ collected 0 items
 ___________________ TestXFail.test_xfail_not_report_default ____________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python
 cachedir: .pytest_cache
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_not_report_default0
 collecting ... collected 1 item
 
 test_one.py::test_this XFAIL                                             [100%]
 
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 _________________ TestXFail.test_xfail_not_run_xfail_reporting _________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_not_run_xfail_reporting0
 collected 3 items
 
@@ -925,11 +714,11 @@ XFAIL test_one.py::test_this
   reason: [NOTRUN] noway
 XFAIL test_one.py::test_this_true
   reason: [NOTRUN] condition: True
-========================= 1 passed, 2 xfailed in 0.06s =========================
+========================= 1 passed, 2 xfailed in 0.05s =========================
 __________________ TestXFail.test_xfail_not_run_no_setup_run ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_not_run_no_setup_run0
 collected 1 item
 
@@ -942,7 +731,7 @@ XFAIL test_one.py::test_this
 __________________________ TestXFail.test_xfail_xpass __________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_xpass0
 collected 1 item
 
@@ -954,15 +743,15 @@ XPASS test_one.py::test_that
 _______________________ TestXFail.test_xfail_imperative ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_imperative0
 collected 1 item
 
 test_xfail_imperative.py x                                               [100%]
 
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_imperative0
 collected 1 item
 
@@ -973,7 +762,7 @@ XFAIL test_xfail_imperative.py::test_this
   reason: hello
 ============================== 1 xfailed in 0.00s ==============================
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_imperative0
 collected 1 item
 
@@ -983,7 +772,7 @@ test_xfail_imperative.py .                                               [100%]
 ______________ TestXFail.test_xfail_imperative_in_setup_function _______________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_imperative_in_setup_function0
 collected 1 item
 
@@ -991,7 +780,7 @@ test_xfail_imperative_in_setup_function.py x                             [100%]
 
 ============================== 1 xfailed in 0.01s ==============================
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_imperative_in_setup_function0
 collected 1 item
 
@@ -1002,7 +791,7 @@ XFAIL test_xfail_imperative_in_setup_function.py::test_this
   reason: hello
 ============================== 1 xfailed in 0.00s ==============================
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_imperative_in_setup_function0
 collected 1 item
 
@@ -1022,7 +811,7 @@ FAILED test_xfail_imperative_in_setup_function.py::test_this - assert 0
 _____________________ TestXFail.test_dynamic_xfail_no_run ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_dynamic_xfail_no_run0
 collected 1 item
 
@@ -1035,27 +824,27 @@ XFAIL test_dynamic_xfail_no_run.py::test_this
 ____________ TestXFail.test_dynamic_xfail_set_during_funcarg_setup _____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_dynamic_xfail_set_during_funcarg_setup0
 collected 1 item
 
 test_dynamic_xfail_set_during_funcarg_setup.py x                         [100%]
 
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 ____________ TestXFail.test_dynamic_xfail_set_during_runtest_failed ____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_dynamic_xfail_set_during_runtest_failed0
 collected 1 item
 
 test_dynamic_xfail_set_during_runtest_failed.py x                        [100%]
 
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 ________ TestXFail.test_dynamic_xfail_set_during_runtest_passed_strict _________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_dynamic_xfail_set_during_runtest_passed_strict0
 collected 1 item
 
@@ -1070,7 +859,7 @@ FAILED test_dynamic_xfail_set_during_runtest_passed_strict.py::test_this
 _________ TestXFail.test_xfail_raises[TypeError-TypeError-*1 xfailed*] _________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_raises0
 collected 1 item
 
@@ -1080,17 +869,17 @@ test_xfail_raises.py x                                                   [100%]
 _ TestXFail.test_xfail_raises[(AttributeError, TypeError)-TypeError-*1 xfailed*] _
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_raises1
 collected 1 item
 
 test_xfail_raises.py x                                                   [100%]
 
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 _________ TestXFail.test_xfail_raises[TypeError-IndexError-*1 failed*] _________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_raises2
 collected 1 item
 
@@ -1111,7 +900,7 @@ FAILED test_xfail_raises.py::test_raises - IndexError
 _ TestXFail.test_xfail_raises[(AttributeError, TypeError)-IndexError-*1 failed*] _
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_raises3
 collected 1 item
 
@@ -1128,11 +917,11 @@ E       IndexError
 test_xfail_raises.py:4: IndexError
 =========================== short test summary info ============================
 FAILED test_xfail_raises.py::test_raises - IndexError
-============================== 1 failed in 0.01s ===============================
+============================== 1 failed in 0.00s ===============================
 _________________________ TestXFail.test_strict_sanity _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_sanity0
 collected 1 item
 
@@ -1141,11 +930,11 @@ test_strict_sanity.py x                                                  [100%]
 =========================== short test summary info ============================
 XFAIL test_strict_sanity.py::test_foo
   unsupported feature
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 ______________________ TestXFail.test_strict_xfail[True] _______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_xfail0
 collected 1 item
 
@@ -1158,7 +947,7 @@ ___________________________________ test_foo ___________________________________
 ______________________ TestXFail.test_strict_xfail[False] ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_xfail1
 collected 1 item
 
@@ -1170,7 +959,7 @@ XPASS test_strict_xfail.py::test_foo unsupported feature
 _________________ TestXFail.test_strict_xfail_condition[True] __________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_xfail_condition0
 collected 1 item
 
@@ -1180,7 +969,7 @@ test_strict_xfail_condition.py .                                         [100%]
 _________________ TestXFail.test_strict_xfail_condition[False] _________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_xfail_condition1
 collected 1 item
 
@@ -1190,7 +979,7 @@ test_strict_xfail_condition.py .                                         [100%]
 _________________ TestXFail.test_xfail_condition_keyword[True] _________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_condition_keyword0
 collected 1 item
 
@@ -1200,7 +989,7 @@ test_xfail_condition_keyword.py .                                        [100%]
 ________________ TestXFail.test_xfail_condition_keyword[False] _________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_condition_keyword1
 collected 1 item
 
@@ -1210,7 +999,7 @@ test_xfail_condition_keyword.py .                                        [100%]
 _____________ TestXFail.test_strict_xfail_default_from_file[true] ______________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_xfail_default_from_file0, configfile: tox.ini
 collected 1 item
 
@@ -1223,7 +1012,7 @@ ___________________________________ test_foo ___________________________________
 _____________ TestXFail.test_strict_xfail_default_from_file[false] _____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_xfail_default_from_file1, configfile: tox.ini
 collected 1 item
 
@@ -1235,7 +1024,7 @@ XPASS test_strict_xfail_default_from_file.py::test_foo unsupported feature
 ___________________ TestXFail.test_xfail_markeval_namespace ____________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_markeval_namespace0
 collected 2 items
 
@@ -1256,7 +1045,7 @@ FAILED test_xfail_markeval_namespace.py::test_2 - assert False
 _____________ TestXFailwithSetupTeardown.test_failing_setup_issue9 _____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_failing_setup_issue90
 collected 1 item
 
@@ -1266,17 +1055,17 @@ test_failing_setup_issue9.py x                                           [100%]
 ___________ TestXFailwithSetupTeardown.test_failing_teardown_issue9 ____________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_failing_teardown_issue90
 collected 1 item
 
 test_failing_teardown_issue9.py Xx                                       [100%]
 
-======================== 1 xfailed, 1 xpassed in 0.01s =========================
+======================== 1 xfailed, 1 xpassed in 0.00s =========================
 ___________________________ TestSkip.test_skip_class ___________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skip_class0
 collected 3 items
 
@@ -1286,7 +1075,7 @@ test_skip_class.py ss.                                                   [100%]
 _____________________ TestSkip.test_skips_on_false_string ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skips_on_false_string0
 collected 1 item
 
@@ -1296,7 +1085,7 @@ test_skips_on_false_string.py s                                          [100%]
 _________________________ TestSkip.test_arg_as_reason __________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_arg_as_reason0
 collected 1 item
 
@@ -1308,7 +1097,7 @@ SKIPPED [1] test_arg_as_reason.py:2: testing stuff
 _________________________ TestSkip.test_skip_no_reason _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skip_no_reason0
 collected 1 item
 
@@ -1320,7 +1109,7 @@ SKIPPED [1] test_skip_no_reason.py:2: unconditional skip
 ________________________ TestSkip.test_skip_with_reason ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skip_with_reason0
 collected 1 item
 
@@ -1332,7 +1121,7 @@ SKIPPED [1] test_skip_with_reason.py:2: for lolz
 _____________________ TestSkip.test_only_skips_marked_test _____________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_only_skips_marked_test0
 collected 3 items
 
@@ -1345,7 +1134,7 @@ SKIPPED [1] test_only_skips_marked_test.py:5: nothing in particular
 ________________________ TestSkip.test_strict_and_skip _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_strict_and_skip0
 collected 1 item
 
@@ -1354,10 +1143,107 @@ test_strict_and_skip.py s                                                [100%]
 =========================== short test summary info ============================
 SKIPPED [1] test_strict_and_skip.py:2: unconditional skip
 ============================== 1 skipped in 0.00s ==============================
+________________________ TestSkip.test_wrong_skip_usage ________________________
+----------------------------- Captured stdout call -----------------------------
+============================= test session starts ==============================
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
+rootdir: /tmp/pytest-of-root/pytest-0/test_wrong_skip_usage0
+collected 1 item
+
+test_wrong_skip_usage.py E                                               [100%]
+
+==================================== ERRORS ====================================
+_________________________ ERROR at setup of test_hello _________________________
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_runtest_hook.<locals>.<lambda> at 0x7f54dfda0ee0>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: "Callable[[], TResult]",
+        when: "Literal['collect', 'setup', 'call', 'teardown']",
+        reraise: Optional[
+            Union[Type[BaseException], Tuple[Type[BaseException], ...]]
+        ] = None,
+    ) -> "CallInfo[TResult]":
+        """Call func, wrapping the result in a CallInfo.
+    
+        :param func:
+            The function to call. Called without arguments.
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        start = timing.time()
+        precise_start = timing.perf_counter()
+        try:
+>           result: Optional[TResult] = func()
+
+/testbed/src/_pytest/runner.py:340: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/testbed/src/_pytest/runner.py:261: in <lambda>
+    lambda: ihook(item=item, **kwds), when=when, reraise=reraise
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/hooks.py:286: in __call__
+    return self._hookexec(self, self.get_hookimpls(), kwargs)
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:93: in _hookexec
+    return self._inner_hookexec(hook, methods, kwargs)
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:337: in traced_hookexec
+    return outcome.get_result()
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:335: in <lambda>
+    outcome = _Result.from_call(lambda: oldcall(hook, hook_impls, kwargs))
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/manager.py:84: in <lambda>
+    self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(
+/testbed/src/_pytest/skipping.py:242: in pytest_runtest_setup
+    skipped = evaluate_skip_marks(item)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+item = <Function test_hello>
+
+    def evaluate_skip_marks(item: Item) -> Optional[Skip]:
+        """Evaluate skip and skipif marks on item, returning Skip if triggered."""
+        for mark in item.iter_markers(name="skipif"):
+            if "condition" not in mark.kwargs:
+                conditions = mark.args
+            else:
+                conditions = (mark.kwargs["condition"],)
+    
+            # Unconditional.
+            if not conditions:
+                reason = mark.kwargs.get("reason", "")
+                return Skip(reason)
+    
+            # If any of the conditions are true.
+            for condition in conditions:
+                result, reason = evaluate_condition(item, mark, condition)
+                if result:
+                    return Skip(reason)
+    
+        for mark in item.iter_markers(name="skip"):
+            try:
+                return Skip(*mark.args, **mark.kwargs)
+            except TypeError as e:
+>               raise TypeError(
+                    str(e)
+                    + " - maybe you meant pytest.mark.skipif?\n"
+                    + "To skip the module, use `pytest.skip(reason, allow_module_level=True)` instead."
+                ) from None
+E               TypeError: __init__() got multiple values for argument 'reason' - maybe you meant pytest.mark.skipif?
+E               To skip the module, use `pytest.skip(reason, allow_module_level=True)` instead.
+
+/testbed/src/_pytest/skipping.py:190: TypeError
+=========================== short test summary info ============================
+ERROR test_wrong_skip_usage.py::test_hello - TypeError: __init__() got multip...
+=============================== 1 error in 0.03s ===============================
 ______________________ TestSkipif.test_skipif_conditional ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_conditional0
 collected 0 items
 
@@ -1365,7 +1251,7 @@ collected 0 items
 _________ TestSkipif.test_skipif_reporting["hasattr(sys, 'platform')"] _________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_reporting0
 collected 1 item
 
@@ -1377,7 +1263,7 @@ SKIPPED [1] test_foo.py:2: condition: hasattr(sys, 'platform')
 ______ TestSkipif.test_skipif_reporting[True, reason="invalid platform"] _______
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_reporting1
 collected 1 item
 
@@ -1389,7 +1275,7 @@ SKIPPED [1] test_foo.py:2: invalid platform
 ____________________ TestSkipif.test_skipif_using_platform _____________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_using_platform0
 collected 0 items
 
@@ -1397,7 +1283,7 @@ collected 0 items
 ________ TestSkipif.test_skipif_reporting_multiple[skipif-SKIP-skipped] ________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_reporting_multiple0
 collected 1 item
 
@@ -1409,7 +1295,7 @@ SKIPPED [1] test_foo.py:2: second_condition
 ________ TestSkipif.test_skipif_reporting_multiple[xfail-XPASS-xpassed] ________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_reporting_multiple1
 collected 1 item
 
@@ -1421,7 +1307,7 @@ XPASS test_foo.py::test_foobar second_condition
 _________________________ test_skip_not_report_default _________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python
 cachedir: .pytest_cache
 rootdir: /tmp/pytest-of-root/pytest-0/test_skip_not_report_default0
 collecting ... collected 1 item
@@ -1432,17 +1318,17 @@ test_one.py::test_this SKIPPED (hello)                                   [100%]
 ______________________________ test_skipif_class _______________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_class1
 collected 2 items
 
 test_skipif_class.py ss                                                  [100%]
 
-============================== 2 skipped in 0.01s ==============================
+============================== 2 skipped in 0.00s ==============================
 _______________________ test_skipped_reasons_functional ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipped_reasons_functional0
 collected 3 items
 
@@ -1455,7 +1341,7 @@ SKIPPED [1] test_one.py:14: via_decorator
 _____________________________ test_skipped_folding _____________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipped_folding0
 collected 2 items
 
@@ -1463,11 +1349,11 @@ test_one.py ss                                                           [100%]
 
 =========================== short test summary info ============================
 SKIPPED [2] test_one.py: Folding
-============================== 2 skipped in 0.01s ==============================
+============================== 2 skipped in 0.00s ==============================
 _______________________________ test_reportchars _______________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_reportchars0
 collected 4 items
 
@@ -1490,7 +1376,7 @@ SKIPPED [1] test_reportchars.py:11: four
 ____________________________ test_reportchars_error ____________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_reportchars_error0
 collected 1 item
 
@@ -1510,7 +1396,7 @@ ERROR test_simple.py::test_foo - assert 0
 _____________________________ test_reportchars_all _____________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_reportchars_all0
 collected 5 items
 
@@ -1543,7 +1429,7 @@ FAILED test_reportchars_all.py::test_1 - assert 0
 __________________________ test_reportchars_all_error __________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_reportchars_all_error0
 collected 1 item
 
@@ -1559,11 +1445,11 @@ E       assert 0
 conftest.py:2: AssertionError
 =========================== short test summary info ============================
 ERROR test_simple.py::test_foo - assert 0
-========================== 1 passed, 1 error in 0.01s ==========================
+========================== 1 passed, 1 error in 0.00s ==========================
 ____________________ test_errors_in_xfail_skip_expressions _____________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_errors_in_xfail_skip_expressions0
 collected 3 items
 
@@ -1592,7 +1478,7 @@ ERROR test_errors_in_xfail_skip_expressions.py::test_syntax
 ________________________ test_xfail_skipif_with_globals ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_skipif_with_globals0
 collected 2 items
 
@@ -1624,17 +1510,17 @@ _____________________________ test_default_markers _____________________________
 _______________________ test_xfail_test_setup_exception ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_test_setup_exception0
 collected 1 item
 
 test_xfail_test_setup_exception.py x                                     [100%]
 
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 ______________________ test_imperativeskip_on_xfail_test _______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_imperativeskip_on_xfail_test0
 collected 2 items
 
@@ -1647,7 +1533,7 @@ SKIPPED [1] test_imperativeskip_on_xfail_test.py:6: condition: True
 _______________________ TestBooleanCondition.test_skipif _______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif0
 collected 2 items
 
@@ -1657,7 +1543,7 @@ test_skipif.py s.                                                        [100%]
 __________________ TestBooleanCondition.test_skipif_noreason ___________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_skipif_noreason0
 collected 1 item
 
@@ -1670,7 +1556,7 @@ Error evaluating 'skipif': you need to specify reason=STRING when using booleans
 _______________________ TestBooleanCondition.test_xfail ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail0
 collected 1 item
 
@@ -1679,21 +1565,21 @@ test_xfail.py x                                                          [100%]
 =========================== short test summary info ============================
 XFAIL test_xfail.py::test_func
   True123
-============================== 1 xfailed in 0.01s ==============================
+============================== 1 xfailed in 0.00s ==============================
 _______________________________ test_xfail_item ________________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_xfail_item0
 collected 1 item
 
 foo x                                                                    [100%]
 
-============================== 1 xfailed in 0.04s ==============================
+============================== 1 xfailed in 0.03s ==============================
 ________________ test_module_level_skip_with_allow_module_level ________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_module_level_skip_with_allow_module_level0
 collected 0 items / 1 skipped
 
@@ -1703,7 +1589,7 @@ SKIPPED [1] test_module_level_skip_with_allow_module_level.py:2: skip_module_lev
 _____________________ test_invalid_skip_keyword_parameter ______________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_invalid_skip_keyword_parameter0
 collected 0 items / 1 error
 
@@ -1719,17 +1605,17 @@ ERROR test_invalid_skip_keyword_parameter.py - TypeError: skip() got an unexp...
 _____________________________ test_mark_xfail_item _____________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_mark_xfail_item0
 collected 1 item
 
 foo x                                                                    [100%]
 
-============================== 1 xfailed in 0.04s ==============================
+============================== 1 xfailed in 0.05s ==============================
 ________________________ test_summary_list_after_errors ________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_summary_list_after_errors0
 collected 1 item
 
@@ -1749,7 +1635,7 @@ FAILED test_summary_list_after_errors.py::test_fail - assert 0
 _____________________________ test_relpath_rootdir _____________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev36+g69356d20c.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_relpath_rootdir0/tests
 collected 1 item
 
@@ -1815,6 +1701,7 @@ PASSED testing/test_skipping.py::TestSkip::test_skip_no_reason
 PASSED testing/test_skipping.py::TestSkip::test_skip_with_reason
 PASSED testing/test_skipping.py::TestSkip::test_only_skips_marked_test
 PASSED testing/test_skipping.py::TestSkip::test_strict_and_skip
+PASSED testing/test_skipping.py::TestSkip::test_wrong_skip_usage
 PASSED testing/test_skipping.py::TestSkipif::test_skipif_conditional
 PASSED testing/test_skipping.py::TestSkipif::test_skipif_reporting["hasattr(sys, 'platform')"]
 PASSED testing/test_skipping.py::TestSkipif::test_skipif_reporting[True, reason="invalid platform"]
@@ -1843,8 +1730,7 @@ PASSED testing/test_skipping.py::test_invalid_skip_keyword_parameter
 PASSED testing/test_skipping.py::test_mark_xfail_item
 PASSED testing/test_skipping.py::test_summary_list_after_errors
 PASSED testing/test_skipping.py::test_relpath_rootdir
-FAILED testing/test_skipping.py::TestSkip::test_wrong_skip_usage - Failed: no...
 FAILED testing/test_skipping.py::test_module_level_skip_error - Failed: nomat...
-========================= 2 failed, 84 passed in 2.66s =========================
+========================= 1 failed, 85 passed in 2.37s =========================
 + git checkout 69356d20cfee9a81972dcbf93d8caf9eabe113e8 testing/test_skipping.py
 Updated 1 path from ac539026a

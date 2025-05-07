@@ -486,7 +486,7 @@ Traceback (most recent call last):
 NameError: name 'Http404' is not defined
 
 ----------------------------------------------------------------------
-Ran 72 tests in 2.624s
+Ran 72 tests in 3.099s
 
 FAILED (errors=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

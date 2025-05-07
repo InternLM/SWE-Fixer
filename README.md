@@ -37,8 +37,6 @@ SWE-Fixer is a simple yet effective solution for addressing real-world GitHub is
 
 For implementation, we finetune **Qwen2.5-7b** and **Qwen2.5-72b** for the retriever and the editor respectively, leveraging a curated dataset of **110K instances**. SWE-Fixer achieves **state-of-the-art performance** among open-source solutions with open-source models. 
 
-This **result** is the filtered outcome using the **p2p** tests in SWE-Bench. The unfiltered results will be updated soon. We will update our paper further to improve its clarity.
-
 
 | **Method** | **Model** | **Type** | **Verified** | **Lite** | **#Model Calls** |
 |------------|------------|------------|------------|------------|------------|
@@ -47,11 +45,12 @@ This **result** is the filtered outcome using the **p2p** tests in SWE-Bench. Th
 | SWE-SynInfer [[Ma et al., 2024]](https://arxiv.org/pdf/2411.00622) | Lingma-SWE-GPT-72B | Agent | 30.2 | 22.0 | 6<sup>†</sup> |
 | SWE-Search [[Antoniades et al., 2024]](https://arxiv.org/pdf/2410.20285) | Qwen2.5-72b-Instruct | Agent | - | 24.7 | 200<sup>*</sup> |
 | SWE-Gym (Best@8 w/ Verifier) [[Pan et al., 2024]](https://arxiv.org/abs/2412.21139) | SWE-Gym-32B | Agent | 29.8 | **26.0** | 29.3 |
-| **SWE-Fixer (Ours)** | SWE-Fixer-72B | Pipeline | **32.8** | 24.7 | 2<sup>†</sup> |
+| **SWE-Fixer** | SWE-Fixer-72B | Pipeline | 30.2 | 22.0 | 2<sup>†</sup> |
+| **SWE-Fixer + P2P Filtering** | SWE-Fixer-72B | Pipeline | **32.8** | 24.7 | 2<sup>†</sup> |
 
 <sup>†</sup>: The minimum number of model calls needed.  
 <sup>‡</sup>: The average number of model calls needed.  
-<sup>*</sup>: See Appendix in our paper for detailed calculation.
+<sup>*</sup>: See Appendix in our paper for detailed calculation.  
 
 
 

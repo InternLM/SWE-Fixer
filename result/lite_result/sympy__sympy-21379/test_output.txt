@@ -150,22 +150,24 @@ Date:   Sat Apr 24 14:58:57 2021 +0100
 
 + git diff 624217179aaf8d094e6ff75b7493ad1ee47599b0
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 1c7ef70b6a..e574a1dc20 100644
+index 1c7ef70b6a..e5ad0a0375 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -863,9 +863,12 @@ def _eval_is_negative(self):
-             return False
- 
-     def _eval_is_extended_positive_negative(self, positive):
-+        if self.is_real is None:
-+            return None
+@@ -866,10 +866,14 @@ def _eval_is_extended_positive_negative(self, positive):
          from sympy.core.numbers import pure_complex
          from sympy.polys.numberfields import minimal_polynomial
          from sympy.polys.polyerrors import NotAlgebraic
-+
++        if self.is_extended_real is False:
++            return False
          if self.is_number:
              if self.is_extended_real is False:
                  return False
+ 
++
++
+             # check to see that we can get a value
+             try:
+                 n2 = self._eval_evalf(2)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -316,8 +318,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        12398528
-hash randomization: on (PYTHONHASHSEED=2215191387)
+random seed:        86524729
+hash randomization: on (PYTHONHASHSEED=2610081045)
 
 sympy/core/tests/test_arit.py[95] 
 test_bug1 ok
@@ -442,7 +444,7 @@ Traceback (most recent call last):
     raise PolynomialError("Piecewise generators do not make sense")
 sympy.polys.polyerrors.PolynomialError: Piecewise generators do not make sense
 
- tests finished: 92 passed, 2 expected to fail, 1 exceptions, in 11.96 seconds =
+ tests finished: 92 passed, 2 expected to fail, 1 exceptions, in 20.04 seconds =
 DO *NOT* COMMIT!
 + git checkout 624217179aaf8d094e6ff75b7493ad1ee47599b0 sympy/core/tests/test_arit.py
 Updated 1 path from 4914f038f6

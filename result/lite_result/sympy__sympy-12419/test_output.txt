@@ -150,15 +150,18 @@ Date:   Sat Mar 25 10:56:42 2017 +0100
 
 + git diff 479939f8c65c8c2908bbedc959549a257a7c0b0b
 diff --git a/sympy/matrices/matrices.py b/sympy/matrices/matrices.py
-index b6808b58d9..9f9a88aa54 100644
+index b6808b58d9..7f75bbbd2d 100644
 --- a/sympy/matrices/matrices.py
 +++ b/sympy/matrices/matrices.py
-@@ -1164,11 +1164,13 @@ def _eval_applyfunc(self, f):
+@@ -1164,11 +1164,15 @@ def _eval_applyfunc(self, f):
      def _eval_as_real_imag(self):
          from sympy.functions.elementary.complexes import re, im
  
-+        i2i = lambda x: x if x.is_Integer else int(x)
-         return (self.applyfunc(re), self.applyfunc(im))
+-        return (self.applyfunc(re), self.applyfunc(im))
++        from sympy import Piecewise
++
++        return (Piecewise((self.applyfunc(re), self.rows), (self, True)),
++                Piecewise((self.applyfunc(im), self.rows), (self, True)))
  
      def _eval_conjugate(self):
          return self.applyfunc(lambda x: x.conjugate())
@@ -324,8 +327,8 @@ executable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.19-final-0) [C
 architecture:       64-bit
 cache:              no
 ground types:       python 
-random seed:        40055021
-hash randomization: on (PYTHONHASHSEED=46863755)
+random seed:        35009230
+hash randomization: on (PYTHONHASHSEED=2271816795)
 
 sympy/matrices/expressions/tests/test_matexpr.py[27] 
 test_shape ok
@@ -363,7 +366,7 @@ ________ sympy/matrices/expressions/tests/test_matexpr.py:test_Identity ________
     assert In[i, j] != 0
 AssertionError
 
-============= tests finished: 26 passed, 1 failed, in 0.56 seconds =============
+============= tests finished: 26 passed, 1 failed, in 0.63 seconds =============
 DO *NOT* COMMIT!
 + git checkout 479939f8c65c8c2908bbedc959549a257a7c0b0b sympy/matrices/expressions/tests/test_matexpr.py
 Updated 1 path from 0a8fc7765f

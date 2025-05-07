@@ -323,8 +323,8 @@ executable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.19-final-0) [C
 architecture:       64-bit
 cache:              no
 ground types:       python 
-random seed:        76595011
-hash randomization: on (PYTHONHASHSEED=111510520)
+random seed:        95287113
+hash randomization: on (PYTHONHASHSEED=3417837515)
 
 sympy/combinatorics/tests/test_permutations.py[0] Traceback (most recent call last):
   File "/testbed/sympy/utilities/runtests.py", line 1079, in test_file

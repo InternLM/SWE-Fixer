@@ -1,0 +1,62 @@
+2025-05-06 06:33:34,785 - INFO - Environment image sweb.env.x86_64.297af196949a2a635bce66:latest found for django__django-14559
+Building instance image sweb.eval.x86_64.django__django-14559:latest for django__django-14559
+2025-05-06 06:33:34,788 - INFO - Image sweb.eval.x86_64.django__django-14559:latest already exists, skipping build.
+2025-05-06 06:33:34,788 - INFO - Creating container for django__django-14559...
+2025-05-06 06:33:34,816 - INFO - Container for django__django-14559 created: c286a382f160b48fcf9aa4be8b2601b1bece263d1536f13d79472c6e953b8f21
+2025-05-06 06:33:35,162 - INFO - Container for django__django-14559 started: c286a382f160b48fcf9aa4be8b2601b1bece263d1536f13d79472c6e953b8f21
+2025-05-06 06:33:35,163 - INFO - Intermediate patch for django__django-14559 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-14559/patch.diff, now applying to container...
+2025-05-06 06:33:35,397 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:33:35,464 - INFO - >>>>> Applied Patch:
+patching file django/db/models/query.py
+
+2025-05-06 06:33:36,218 - INFO - Git diff before:
+diff --git a/django/db/models/query.py b/django/db/models/query.py
+index 387deca527..8357208d50 100644
+--- a/django/db/models/query.py
++++ b/django/db/models/query.py
+@@ -564,11 +564,14 @@ class QuerySet:
+                 update_kwargs[field.attname] = case_statement
+             updates.append(([obj.pk for obj in batch_objs], update_kwargs))
+         with transaction.atomic(using=self.db, savepoint=False):
++            total = 0
+             for pks, update_kwargs in updates:
+-                self.filter(pk__in=pks).update(**update_kwargs)
++                total += self.filter(pk__in=pks).update(**update_kwargs)
++            return total
+     bulk_update.alters_data = True
+ 
+     def get_or_create(self, defaults=None, **kwargs):
++
+         """
+         Look up an object with the given kwargs, creating one if necessary.
+         Return a tuple of (object, created), where created is a boolean
+2025-05-06 06:33:36,219 - INFO - Eval script for django__django-14559 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-14559/eval.sh; copying to container...
+2025-05-06 06:33:46,530 - INFO - Test runtime: 10.13 seconds
+2025-05-06 06:33:46,530 - INFO - Test output for django__django-14559 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-14559/test_output.txt
+2025-05-06 06:33:46,614 - INFO - Git diff after:
+diff --git a/django/db/models/query.py b/django/db/models/query.py
+index 387deca527..8357208d50 100644
+--- a/django/db/models/query.py
++++ b/django/db/models/query.py
+@@ -564,11 +564,14 @@ class QuerySet:
+                 update_kwargs[field.attname] = case_statement
+             updates.append(([obj.pk for obj in batch_objs], update_kwargs))
+         with transaction.atomic(using=self.db, savepoint=False):
++            total = 0
+             for pks, update_kwargs in updates:
+-                self.filter(pk__in=pks).update(**update_kwargs)
++                total += self.filter(pk__in=pks).update(**update_kwargs)
++            return total
+     bulk_update.alters_data = True
+ 
+     def get_or_create(self, defaults=None, **kwargs):
++
+         """
+         Look up an object with the given kwargs, creating one if necessary.
+         Return a tuple of (object, created), where created is a boolean
+2025-05-06 06:33:46,614 - INFO - Grading answer for django__django-14559...
+2025-05-06 06:33:46,622 - INFO - report: {'django__django-14559': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_large_batch (queries.test_bulk_update.BulkUpdateTests)', 'test_updated_rows_when_passing_duplicates (queries.test_bulk_update.BulkUpdateTests)'], 'failure': ['test_empty_objects (queries.test_bulk_update.BulkUpdateTests)']}, 'PASS_TO_PASS': {'success': ['test_batch_size (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_foreign_keys_do_not_lookup (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_functions (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_multiple_fields (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_set_field_to_null (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_set_mixed_fields_to_null (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_simple (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_unsaved_models (queries.test_bulk_update.BulkUpdateNoteTests)', 'test_booleanfield (queries.test_bulk_update.BulkUpdateTests)', 'test_custom_db_columns (queries.test_bulk_update.BulkUpdateTests)', 'test_custom_pk (queries.test_bulk_update.BulkUpdateTests)', 'test_datetime_field (queries.test_bulk_update.BulkUpdateTests)', 'test_falsey_pk_value (queries.test_bulk_update.BulkUpdateTests)', 'test_field_references (queries.test_bulk_update.BulkUpdateTests)', 'test_inherited_fields (queries.test_bulk_update.BulkUpdateTests)', 'test_invalid_batch_size (queries.test_bulk_update.BulkUpdateTests)', 'test_ipaddressfield (queries.test_bulk_update.BulkUpdateTests)', 'test_json_field (queries.test_bulk_update.BulkUpdateTests)', 'test_no_fields (queries.test_bulk_update.BulkUpdateTests)', 'test_nonexistent_field (queries.test_bulk_update.BulkUpdateTests)', 'test_only_concrete_fields_allowed (queries.test_bulk_update.BulkUpdateTests)', 'test_update_custom_primary_key (queries.test_bulk_update.BulkUpdateTests)', 'test_update_primary_key (queries.test_bulk_update.BulkUpdateTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-14559: resolved: False
+2025-05-06 06:33:46,623 - INFO - Attempting to stop container sweb.eval.django__django-14559.20250506_061805...
+2025-05-06 06:34:01,945 - INFO - Attempting to remove container sweb.eval.django__django-14559.20250506_061805...
+2025-05-06 06:34:01,977 - INFO - Container sweb.eval.django__django-14559.20250506_061805 removed.

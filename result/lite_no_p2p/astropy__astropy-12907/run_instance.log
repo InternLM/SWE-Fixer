@@ -1,0 +1,78 @@
+2025-05-06 11:15:06,570 - INFO - Environment image sweb.env.x86_64.428468730904ff6b4232aa:latest found for astropy__astropy-12907
+Building instance image sweb.eval.x86_64.astropy__astropy-12907:latest for astropy__astropy-12907
+2025-05-06 11:15:06,668 - INFO - Image sweb.eval.x86_64.astropy__astropy-12907:latest already exists, skipping build.
+2025-05-06 11:15:06,670 - INFO - Creating container for astropy__astropy-12907...
+2025-05-06 11:15:06,739 - INFO - Container for astropy__astropy-12907 created: e507dd72f730dc06afa1ddf92d5141c358f3a86f728b8d6c2247efc514d80209
+2025-05-06 11:15:08,287 - INFO - Container for astropy__astropy-12907 started: e507dd72f730dc06afa1ddf92d5141c358f3a86f728b8d6c2247efc514d80209
+2025-05-06 11:15:08,287 - INFO - Intermediate patch for astropy__astropy-12907 written to logs/run_evaluation/20250506_111427/SWE-Fixer/astropy__astropy-12907/patch.diff, now applying to container...
+2025-05-06 11:15:08,505 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:15:08,565 - INFO - >>>>> Applied Patch:
+patching file astropy/modeling/separable.py
+
+2025-05-06 11:15:09,545 - INFO - Git diff before:
+diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+index a308e27297..1cf5c0944d 100644
+--- a/astropy/modeling/separable.py
++++ b/astropy/modeling/separable.py
+@@ -301,10 +301,11 @@ def _separable(transform):
+         An array of shape (transform.n_outputs,) of boolean type
+         Each element represents the separablity of the corresponding output.
+     """
+-    if (transform_matrix := transform._calculate_separability_matrix()) is not NotImplemented:
++    if (transform_matrix := transform._calculate_separability_matrix()) not in (NotImplemented, None):
+         return transform_matrix
+     elif isinstance(transform, CompoundModel):
+         sepleft = _separable(transform.left)
++
+         sepright = _separable(transform.right)
+         return _operators[transform.op](sepleft, sepright)
+     elif isinstance(transform, Model):
+diff --git a/pyproject.toml b/pyproject.toml
+index 3364d30740..02dddbe713 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,5 +1,5 @@
+ [build-system]
+-requires = ["setuptools",
++requires = ["setuptools==68.0.0",
+             "setuptools_scm>=6.2",
+             "wheel",
+             "cython==0.29.22",
+2025-05-06 11:15:09,545 - INFO - Eval script for astropy__astropy-12907 written to logs/run_evaluation/20250506_111427/SWE-Fixer/astropy__astropy-12907/eval.sh; copying to container...
+2025-05-06 11:16:22,968 - INFO - Test runtime: 73.27 seconds
+2025-05-06 11:16:22,970 - INFO - Test output for astropy__astropy-12907 written to logs/run_evaluation/20250506_111427/SWE-Fixer/astropy__astropy-12907/test_output.txt
+2025-05-06 11:16:23,026 - INFO - Git diff after:
+diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+index a308e27297..1cf5c0944d 100644
+--- a/astropy/modeling/separable.py
++++ b/astropy/modeling/separable.py
+@@ -301,10 +301,11 @@ def _separable(transform):
+         An array of shape (transform.n_outputs,) of boolean type
+         Each element represents the separablity of the corresponding output.
+     """
+-    if (transform_matrix := transform._calculate_separability_matrix()) is not NotImplemented:
++    if (transform_matrix := transform._calculate_separability_matrix()) not in (NotImplemented, None):
+         return transform_matrix
+     elif isinstance(transform, CompoundModel):
+         sepleft = _separable(transform.left)
++
+         sepright = _separable(transform.right)
+         return _operators[transform.op](sepleft, sepright)
+     elif isinstance(transform, Model):
+diff --git a/pyproject.toml b/pyproject.toml
+index 3364d30740..02dddbe713 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,5 +1,5 @@
+ [build-system]
+-requires = ["setuptools",
++requires = ["setuptools==68.0.0",
+             "setuptools_scm>=6.2",
+             "wheel",
+             "cython==0.29.22",
+2025-05-06 11:16:23,027 - INFO - Grading answer for astropy__astropy-12907...
+2025-05-06 11:16:23,066 - INFO - report: {'astropy__astropy-12907': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['astropy/modeling/tests/test_separable.py::test_separable[compound_model6-result6]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model9-result9]']}, 'PASS_TO_PASS': {'success': ['astropy/modeling/tests/test_separable.py::test_coord_matrix', 'astropy/modeling/tests/test_separable.py::test_cdot', 'astropy/modeling/tests/test_separable.py::test_cstack', 'astropy/modeling/tests/test_separable.py::test_arith_oper', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model0-result0]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model1-result1]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model2-result2]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model3-result3]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model4-result4]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model5-result5]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model7-result7]', 'astropy/modeling/tests/test_separable.py::test_separable[compound_model8-result8]', 'astropy/modeling/tests/test_separable.py::test_custom_model_separable'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for astropy__astropy-12907: resolved: False
+2025-05-06 11:16:23,067 - INFO - Attempting to stop container sweb.eval.astropy__astropy-12907.20250506_111427...
+2025-05-06 11:16:38,396 - INFO - Attempting to remove container sweb.eval.astropy__astropy-12907.20250506_111427...
+2025-05-06 11:16:38,424 - INFO - Container sweb.eval.astropy__astropy-12907.20250506_111427 removed.

@@ -1,58 +1,54 @@
-2025-02-12 13:08:26,570 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12286
+2025-05-06 12:30:06,949 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12286
 Building instance image sweb.eval.x86_64.django__django-12286:latest for django__django-12286
-2025-02-12 13:08:26,573 - INFO - Image sweb.eval.x86_64.django__django-12286:latest already exists, skipping build.
-2025-02-12 13:08:26,573 - INFO - Creating container for django__django-12286...
-2025-02-12 13:08:26,605 - INFO - Container for django__django-12286 created: 1c97a2ae10854112efca7dec3dd9a978354091f2f4e6b83f731ecc0697c789e0
-2025-02-12 13:08:27,074 - INFO - Container for django__django-12286 started: 1c97a2ae10854112efca7dec3dd9a978354091f2f4e6b83f731ecc0697c789e0
-2025-02-12 13:08:27,074 - INFO - Intermediate patch for django__django-12286 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12286/patch.diff, now applying to container...
-2025-02-12 13:08:27,332 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:08:27,397 - INFO - >>>>> Applied Patch:
+2025-05-06 12:30:06,953 - INFO - Image sweb.eval.x86_64.django__django-12286:latest already exists, skipping build.
+2025-05-06 12:30:06,953 - INFO - Creating container for django__django-12286...
+2025-05-06 12:30:07,090 - INFO - Container for django__django-12286 created: 62b76844607421fb7a84cad79fc86eeb28ecab438b06c7008678b08a20f57dd9
+2025-05-06 12:30:07,703 - INFO - Container for django__django-12286 started: 62b76844607421fb7a84cad79fc86eeb28ecab438b06c7008678b08a20f57dd9
+2025-05-06 12:30:07,704 - INFO - Intermediate patch for django__django-12286 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12286/patch.diff, now applying to container...
+2025-05-06 12:30:07,968 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:30:08,034 - INFO - >>>>> Applied Patch:
 patching file django/core/checks/translation.py
 
-2025-02-12 13:08:28,943 - INFO - Git diff before:
+2025-05-06 12:30:08,953 - INFO - Git diff before:
 diff --git a/django/core/checks/translation.py b/django/core/checks/translation.py
-index 138ed07ff8..c67c42a5ea 100644
+index 138ed07ff8..e22481f919 100644
 --- a/django/core/checks/translation.py
 +++ b/django/core/checks/translation.py
-@@ -55,7 +55,12 @@ def check_setting_languages_bidi(app_configs, **kwargs):
+@@ -55,7 +55,9 @@ def check_setting_languages_bidi(app_configs, **kwargs):
  @register(Tags.translation)
  def check_language_settings_consistent(app_configs, **kwargs):
      """Error if language settings are not consistent with each other."""
 -    available_tags = {i for i, _ in settings.LANGUAGES} | {'en-us'}
 +    available_tags = {i for i, _ in settings.LANGUAGES}
      if settings.LANGUAGE_CODE not in available_tags:
-+        # If a sublanguage is specified and a base language is available, the
-+        # base language is used instead of raising an error.
-+        base_lang = settings.LANGUAGE_CODE.split('-')[0]
-+        if base_lang in available_tags:
-+            return []
-         return [E004]
+-        return [E004]
++        base_lang = settings.LANGUAGE_CODE.split('-')[0].split('_')[0]
++        if base_lang not in available_tags:
++            return [E004]
      return []
-2025-02-12 13:08:28,944 - INFO - Eval script for django__django-12286 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12286/eval.sh; copying to container...
-2025-02-12 13:08:35,491 - INFO - Test runtime: 6.41 seconds
-2025-02-12 13:08:35,492 - INFO - Test output for django__django-12286 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12286/test_output.txt
-2025-02-12 13:08:35,568 - INFO - Git diff after:
+2025-05-06 12:30:08,955 - INFO - Eval script for django__django-12286 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12286/eval.sh; copying to container...
+2025-05-06 12:30:17,849 - INFO - Test runtime: 8.69 seconds
+2025-05-06 12:30:17,849 - INFO - Test output for django__django-12286 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12286/test_output.txt
+2025-05-06 12:30:17,930 - INFO - Git diff after:
 diff --git a/django/core/checks/translation.py b/django/core/checks/translation.py
-index 138ed07ff8..c67c42a5ea 100644
+index 138ed07ff8..e22481f919 100644
 --- a/django/core/checks/translation.py
 +++ b/django/core/checks/translation.py
-@@ -55,7 +55,12 @@ def check_setting_languages_bidi(app_configs, **kwargs):
+@@ -55,7 +55,9 @@ def check_setting_languages_bidi(app_configs, **kwargs):
  @register(Tags.translation)
  def check_language_settings_consistent(app_configs, **kwargs):
      """Error if language settings are not consistent with each other."""
 -    available_tags = {i for i, _ in settings.LANGUAGES} | {'en-us'}
 +    available_tags = {i for i, _ in settings.LANGUAGES}
      if settings.LANGUAGE_CODE not in available_tags:
-+        # If a sublanguage is specified and a base language is available, the
-+        # base language is used instead of raising an error.
-+        base_lang = settings.LANGUAGE_CODE.split('-')[0]
-+        if base_lang in available_tags:
-+            return []
-         return [E004]
+-        return [E004]
++        base_lang = settings.LANGUAGE_CODE.split('-')[0].split('_')[0]
++        if base_lang not in available_tags:
++            return [E004]
      return []
-2025-02-12 13:08:35,568 - INFO - Grading answer for django__django-12286...
-2025-02-12 13:08:35,570 - INFO - report: {'django__django-12286': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_valid_variant_consistent_language_settings (check_framework.test_translation.TranslationCheckTests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_inconsistent_language_settings (check_framework.test_translation.TranslationCheckTests)', 'test_invalid_language_code (check_framework.test_translation.TranslationCheckTests)', 'test_invalid_languages (check_framework.test_translation.TranslationCheckTests)', 'test_invalid_languages_bidi (check_framework.test_translation.TranslationCheckTests)', 'test_valid_language_code (check_framework.test_translation.TranslationCheckTests)', 'test_valid_languages (check_framework.test_translation.TranslationCheckTests)', 'test_valid_languages_bidi (check_framework.test_translation.TranslationCheckTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:30:17,930 - INFO - Grading answer for django__django-12286...
+2025-05-06 12:30:17,935 - INFO - report: {'django__django-12286': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_valid_variant_consistent_language_settings (check_framework.test_translation.TranslationCheckTests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_inconsistent_language_settings (check_framework.test_translation.TranslationCheckTests)', 'test_invalid_language_code (check_framework.test_translation.TranslationCheckTests)', 'test_invalid_languages (check_framework.test_translation.TranslationCheckTests)', 'test_invalid_languages_bidi (check_framework.test_translation.TranslationCheckTests)', 'test_valid_language_code (check_framework.test_translation.TranslationCheckTests)', 'test_valid_languages (check_framework.test_translation.TranslationCheckTests)', 'test_valid_languages_bidi (check_framework.test_translation.TranslationCheckTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-12286: resolved: True
-2025-02-12 13:08:35,571 - INFO - Attempting to stop container sweb.eval.django__django-12286.20250212_130622...
-2025-02-12 13:08:50,972 - INFO - Attempting to remove container sweb.eval.django__django-12286.20250212_130622...
-2025-02-12 13:08:50,997 - INFO - Container sweb.eval.django__django-12286.20250212_130622 removed.
+2025-05-06 12:30:17,935 - INFO - Attempting to stop container sweb.eval.django__django-12286.20250506_122807...
+2025-05-06 12:30:33,677 - INFO - Attempting to remove container sweb.eval.django__django-12286.20250506_122807...
+2025-05-06 12:30:33,704 - INFO - Container sweb.eval.django__django-12286.20250506_122807 removed.

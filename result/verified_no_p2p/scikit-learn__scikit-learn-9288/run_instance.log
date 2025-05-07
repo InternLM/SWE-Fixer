@@ -1,0 +1,88 @@
+2025-05-06 07:00:01,524 - INFO - Environment image sweb.env.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-9288
+Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-9288:latest for scikit-learn__scikit-learn-9288
+2025-05-06 07:00:01,526 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-9288:latest already exists, skipping build.
+2025-05-06 07:00:01,526 - INFO - Creating container for scikit-learn__scikit-learn-9288...
+2025-05-06 07:00:01,560 - INFO - Container for scikit-learn__scikit-learn-9288 created: 75fce5064999e0820b59f4ffd53eea92171115f119ad773097d8a3e63a993b05
+2025-05-06 07:00:01,975 - INFO - Container for scikit-learn__scikit-learn-9288 started: 75fce5064999e0820b59f4ffd53eea92171115f119ad773097d8a3e63a993b05
+2025-05-06 07:00:01,975 - INFO - Intermediate patch for scikit-learn__scikit-learn-9288 written to logs/run_evaluation/20250506_061805/SWE-Fixer/scikit-learn__scikit-learn-9288/patch.diff, now applying to container...
+2025-05-06 07:00:02,234 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:00:02,284 - INFO - >>>>> Applied Patch:
+patching file sklearn/cluster/k_means_.py
+patching file sklearn/cluster/k_means_.py
+Hunk #1 succeeded at 717 (offset 3 lines).
+
+2025-05-06 07:00:02,574 - INFO - Git diff before:
+diff --git a/sklearn/cluster/k_means_.py b/sklearn/cluster/k_means_.py
+index b7fbdf7da..2c1faa95e 100644
+--- a/sklearn/cluster/k_means_.py
++++ b/sklearn/cluster/k_means_.py
+@@ -76,10 +76,13 @@ def _k_init(X, n_clusters, x_squared_norms, random_state, n_local_trials=None):
+     """
+     n_samples, n_features = X.shape
+ 
++    if random_state is None:
++        random_state = check_random_state(random_state)
+     centers = np.empty((n_clusters, n_features), dtype=X.dtype)
+ 
+     assert x_squared_norms is not None, 'x_squared_norms None in _k_init'
+ 
++
+     # Set the number of local seeding trials if none is given
+     if n_local_trials is None:
+         # This is what Arthur/Vassilvitskii tried, but did not report
+@@ -714,10 +717,12 @@ def _init_centroids(X, k, init, random_state=None, x_squared_norms=None,
+     -------
+     centers : array, shape(k, n_features)
+     """
+-    random_state = check_random_state(random_state)
++    if random_state is None:
++        random_state = check_random_state(random_state)
+     n_samples = X.shape[0]
+ 
+     if x_squared_norms is None:
++
+         x_squared_norms = row_norms(X, squared=True)
+ 
+     if init_size is not None and init_size < n_samples:
+2025-05-06 07:00:02,574 - INFO - Eval script for scikit-learn__scikit-learn-9288 written to logs/run_evaluation/20250506_061805/SWE-Fixer/scikit-learn__scikit-learn-9288/eval.sh; copying to container...
+2025-05-06 07:00:21,031 - INFO - Test runtime: 18.28 seconds
+2025-05-06 07:00:21,031 - INFO - Test output for scikit-learn__scikit-learn-9288 written to logs/run_evaluation/20250506_061805/SWE-Fixer/scikit-learn__scikit-learn-9288/test_output.txt
+2025-05-06 07:00:21,142 - INFO - Git diff after:
+diff --git a/sklearn/cluster/k_means_.py b/sklearn/cluster/k_means_.py
+index b7fbdf7da..2c1faa95e 100644
+--- a/sklearn/cluster/k_means_.py
++++ b/sklearn/cluster/k_means_.py
+@@ -76,10 +76,13 @@ def _k_init(X, n_clusters, x_squared_norms, random_state, n_local_trials=None):
+     """
+     n_samples, n_features = X.shape
+ 
++    if random_state is None:
++        random_state = check_random_state(random_state)
+     centers = np.empty((n_clusters, n_features), dtype=X.dtype)
+ 
+     assert x_squared_norms is not None, 'x_squared_norms None in _k_init'
+ 
++
+     # Set the number of local seeding trials if none is given
+     if n_local_trials is None:
+         # This is what Arthur/Vassilvitskii tried, but did not report
+@@ -714,10 +717,12 @@ def _init_centroids(X, k, init, random_state=None, x_squared_norms=None,
+     -------
+     centers : array, shape(k, n_features)
+     """
+-    random_state = check_random_state(random_state)
++    if random_state is None:
++        random_state = check_random_state(random_state)
+     n_samples = X.shape[0]
+ 
+     if x_squared_norms is None:
++
+         x_squared_norms = row_norms(X, squared=True)
+ 
+     if init_size is not None and init_size < n_samples:
+2025-05-06 07:00:21,142 - INFO - Grading answer for scikit-learn__scikit-learn-9288...
+2025-05-06 07:00:21,151 - INFO - report: {'scikit-learn__scikit-learn-9288': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['sklearn/cluster/tests/test_k_means.py::test_result_of_kmeans_equal_in_diff_n_jobs']}, 'PASS_TO_PASS': {'success': ['sklearn/cluster/tests/test_k_means.py::test_kmeans_results[float32-dense-full]', 'sklearn/cluster/tests/test_k_means.py::test_kmeans_results[float32-dense-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_kmeans_results[float32-sparse-full]', 'sklearn/cluster/tests/test_k_means.py::test_kmeans_results[float64-dense-full]', 'sklearn/cluster/tests/test_k_means.py::test_kmeans_results[float64-dense-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_kmeans_results[float64-sparse-full]', 'sklearn/cluster/tests/test_k_means.py::test_elkan_results[normal]', 'sklearn/cluster/tests/test_k_means.py::test_elkan_results[blobs]', 'sklearn/cluster/tests/test_k_means.py::test_labels_assignment_and_inertia', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_update_consistency', 'sklearn/cluster/tests/test_k_means.py::test_k_means_new_centers', 'sklearn/cluster/tests/test_k_means.py::test_k_means_plus_plus_init_2_jobs', 'sklearn/cluster/tests/test_k_means.py::test_k_means_precompute_distances_flag', 'sklearn/cluster/tests/test_k_means.py::test_k_means_plus_plus_init_not_precomputed', 'sklearn/cluster/tests/test_k_means.py::test_k_means_random_init_not_precomputed', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init[random-dense]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init[random-sparse]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init[k-means++-dense]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init[k-means++-sparse]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init[init2-dense]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init[init2-sparse]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_n_init', 'sklearn/cluster/tests/test_k_means.py::test_k_means_explicit_init_shape[KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_explicit_init_shape[MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fortran_aligned_data', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-asarray-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-asarray-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-asarray-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-asarray-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-csr_matrix-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-csr_matrix-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-csr_matrix-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[0-2-1e-07-csr_matrix-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-asarray-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-asarray-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-asarray-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-asarray-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-csr_matrix-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-csr_matrix-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-csr_matrix-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[1-2-0.1-csr_matrix-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-asarray-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-asarray-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-asarray-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-asarray-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-csr_matrix-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-csr_matrix-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-csr_matrix-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[3-300-1e-07-csr_matrix-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-asarray-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-asarray-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-asarray-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-asarray-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-csr_matrix-float32-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-csr_matrix-float32-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-csr_matrix-float64-full]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_fit_predict[4-300-0.1-csr_matrix-float64-elkan]', 'sklearn/cluster/tests/test_k_means.py::test_mb_kmeans_verbose', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_init_with_large_k', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_k_means_init_multiple_runs_with_explicit_centers', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_k_means_init[random-dense]', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_k_means_init[random-sparse]', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_k_means_init[k-means++-dense]', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_k_means_init[k-means++-sparse]', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_k_means_init[init2-dense]', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_k_means_init[init2-sparse]', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_sensible_reassign_fit', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_sensible_reassign_partial_fit', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_reassign', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_with_many_reassignments', 'sklearn/cluster/tests/test_k_means.py::test_sparse_mb_k_means_callable_init', 'sklearn/cluster/tests/test_k_means.py::test_mini_batch_k_means_random_init_partial_fit', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_default_init_size', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_tol', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_set_init_size', 'sklearn/cluster/tests/test_k_means.py::test_k_means_invalid_init[KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_invalid_init[MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_copyx', 'sklearn/cluster/tests/test_k_means.py::test_k_means_non_collapsed', 'sklearn/cluster/tests/test_k_means.py::test_score[full]', 'sklearn/cluster/tests/test_k_means.py::test_score[elkan]', 'sklearn/cluster/tests/test_k_means.py::test_predict[random-dense-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[random-dense-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[random-sparse-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[random-sparse-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[k-means++-dense-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[k-means++-dense-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[k-means++-sparse-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[k-means++-sparse-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[init2-dense-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[init2-dense-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[init2-sparse-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict[init2-sparse-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_predict_minibatch_dense_sparse[random]', 'sklearn/cluster/tests/test_k_means.py::test_predict_minibatch_dense_sparse[k-means++]', 'sklearn/cluster/tests/test_k_means.py::test_predict_minibatch_dense_sparse[init2]', 'sklearn/cluster/tests/test_k_means.py::test_int_input', 'sklearn/cluster/tests/test_k_means.py::test_transform', 'sklearn/cluster/tests/test_k_means.py::test_fit_transform', 'sklearn/cluster/tests/test_k_means.py::test_predict_equal_labels[full]', 'sklearn/cluster/tests/test_k_means.py::test_predict_equal_labels[elkan]', 'sklearn/cluster/tests/test_k_means.py::test_full_vs_elkan', 'sklearn/cluster/tests/test_k_means.py::test_n_init', 'sklearn/cluster/tests/test_k_means.py::test_k_means_function', 'sklearn/cluster/tests/test_k_means.py::test_max_iter_error', 'sklearn/cluster/tests/test_k_means.py::test_float_precision[False-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_float_precision[False-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_float_precision[True-KMeans]', 'sklearn/cluster/tests/test_k_means.py::test_float_precision[True-MiniBatchKMeans]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init_centers', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init_fitted_centers[dense]', 'sklearn/cluster/tests/test_k_means.py::test_k_means_init_fitted_centers[sparse]', 'sklearn/cluster/tests/test_k_means.py::test_sparse_validate_centers', 'sklearn/cluster/tests/test_k_means.py::test_less_centers_than_unique_points', 'sklearn/cluster/tests/test_k_means.py::test_weighted_vs_repeated', 'sklearn/cluster/tests/test_k_means.py::test_unit_weights_vs_no_weights', 'sklearn/cluster/tests/test_k_means.py::test_scaled_weights', 'sklearn/cluster/tests/test_k_means.py::test_sample_weight_length', 'sklearn/cluster/tests/test_k_means.py::test_check_normalize_sample_weight', 'sklearn/cluster/tests/test_k_means.py::test_iter_attribute', 'sklearn/cluster/tests/test_k_means.py::test_k_means_empty_cluster_relocated', 'sklearn/cluster/tests/test_k_means.py::test_minibatch_kmeans_partial_fit_int_data'], 'failure': ['sklearn/cluster/tests/test_k_means.py::test_x_squared_norms_init_centroids']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for scikit-learn__scikit-learn-9288: resolved: False
+2025-05-06 07:00:21,151 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-9288.20250506_061805...
+2025-05-06 07:00:36,499 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-9288.20250506_061805...
+2025-05-06 07:00:36,510 - INFO - Container sweb.eval.scikit-learn__scikit-learn-9288.20250506_061805 removed.

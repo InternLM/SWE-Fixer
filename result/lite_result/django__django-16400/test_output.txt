@@ -801,8 +801,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20221222094112-0.editable-py3-none-any.whl size=27313 sha256=f916e2eb574b09be000ac8ac1835c7ab384fabacd111ec72b03cace26bd0f557
-  Stored in directory: /tmp/pip-ephem-wheel-cache-et786tm1/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20221222094112-0.editable-py3-none-any.whl size=27383 sha256=be90cf9e2166eeb9f218460b9e44b592dfb214f3d9f0e7e8d0e51ec2910b6e22
+  Stored in directory: /tmp/pip-ephem-wheel-cache-tsrtvnp1/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -1006,7 +1006,7 @@ Traceback (most recent call last):
 ValueError: Cannot assign "<ContentType: auth | permission>": the current database router prevents this relation.
 
 ----------------------------------------------------------------------
-Ran 65 tests in 0.235s
+Ran 65 tests in 0.227s
 
 FAILED (errors=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

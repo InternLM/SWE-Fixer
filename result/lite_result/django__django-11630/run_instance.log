@@ -1,106 +1,106 @@
-2025-02-12 13:08:00,315 - INFO - Environment image sweb.env.x86_64.2baaea72acc974f6c02079:latest found for django__django-11630
+2025-05-06 12:29:41,352 - INFO - Environment image sweb.env.x86_64.2baaea72acc974f6c02079:latest found for django__django-11630
 Building instance image sweb.eval.x86_64.django__django-11630:latest for django__django-11630
-2025-02-12 13:08:00,318 - INFO - Image sweb.eval.x86_64.django__django-11630:latest already exists, skipping build.
-2025-02-12 13:08:00,318 - INFO - Creating container for django__django-11630...
-2025-02-12 13:08:00,350 - INFO - Container for django__django-11630 created: 36a1aeba31d694d508af2b97a493f016256250240fc40995e6be0567c8925e67
-2025-02-12 13:08:01,024 - INFO - Container for django__django-11630 started: 36a1aeba31d694d508af2b97a493f016256250240fc40995e6be0567c8925e67
-2025-02-12 13:08:01,024 - INFO - Intermediate patch for django__django-11630 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-11630/patch.diff, now applying to container...
-2025-02-12 13:08:01,217 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:08:01,266 - INFO - >>>>> Applied Patch:
+2025-05-06 12:29:41,355 - INFO - Image sweb.eval.x86_64.django__django-11630:latest already exists, skipping build.
+2025-05-06 12:29:41,355 - INFO - Creating container for django__django-11630...
+2025-05-06 12:29:41,390 - INFO - Container for django__django-11630 created: 106b97fba581b2c2aa6bffaa6fd09f75855a29f4a29f79500337dd0541c7e5d1
+2025-05-06 12:29:42,325 - INFO - Container for django__django-11630 started: 106b97fba581b2c2aa6bffaa6fd09f75855a29f4a29f79500337dd0541c7e5d1
+2025-05-06 12:29:42,326 - INFO - Intermediate patch for django__django-11630 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-11630/patch.diff, now applying to container...
+2025-05-06 12:29:42,529 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:29:42,575 - INFO - >>>>> Applied Patch:
 patching file django/db/models/base.py
 
-2025-02-12 13:08:02,519 - INFO - Git diff before:
+2025-05-06 12:29:43,777 - INFO - Git diff before:
 diff --git a/django/db/models/base.py b/django/db/models/base.py
-index 18ee0b4911..185175991f 100644
+index 18ee0b4911..320793b65f 100644
 --- a/django/db/models/base.py
 +++ b/django/db/models/base.py
-@@ -1427,30 +1427,26 @@ class Model(metaclass=ModelBase):
-     def _check_column_name_clashes(cls):
-         # Store a list of column names which have already been used by other fields.
+@@ -1429,9 +1429,37 @@ class Model(metaclass=ModelBase):
          used_column_names = []
--        errors = []
+         errors = []
  
++        # Gather models that are allowed to be migrated to the same db as cls.
++        models = [
++            model
++            for model in apps.get_models()
++            if router.allow_migrate_model(DEFAULT_DB_ALIAS, cls)
++            == router.allow_migrate_model(DEFAULT_DB_ALIAS, model)
++        ]
++
++        # Check if db_table name clashes with another model.
++        db_table = cls._meta.db_table
++        if db_table:
++            conflicting_models = [
++                model for model in models
++                if model._meta.db_table == db_table and model._meta.label != cls._meta.label
++            ]
++            if conflicting_models:
++                errors.append(
++                    checks.Error(
++                        "The model's db_table name '%s' clashes with %s db_table name." % (
++                            db_table, conflicting_models[0]._meta.label
++                        ),
++                        obj=cls,
++                        id='models.E028',
++                    )
++                )
++
          for f in cls._meta.local_fields:
              _, column_name = f.get_attname_column()
  
++
++
              # Ensure the column name is not already in use.
              if column_name and column_name in used_column_names:
--                errors.append(
--                    checks.Error(
--                        "Field '%s' has column name '%s' that is used by "
--                        "another field." % (f.name, column_name),
--                        hint="Specify a 'db_column' for the field.",
--                        obj=cls,
--                        id='models.E007'
--                    )
-+                yield checks.Error(
-+                    "Field '%s' has column name '%s' that is used by "
-+                    "another field." % (f.name, column_name),
-+                    hint="Specify a 'db_column' for the field.",
-+                    obj=cls,
-+                    id='models.E007'
-                 )
-             else:
-                 used_column_names.append(column_name)
- 
--        return errors
--
-     @classmethod
-     def _check_model_name_db_lookup_clashes(cls):
-         errors = []
-+
-         model_name = cls.__name__
-         if model_name.startswith('_') or model_name.endswith('_'):
-             errors.append(
-2025-02-12 13:08:02,520 - INFO - Eval script for django__django-11630 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-11630/eval.sh; copying to container...
-2025-02-12 13:08:10,858 - INFO - Test runtime: 8.17 seconds
-2025-02-12 13:08:10,859 - INFO - Test output for django__django-11630 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-11630/test_output.txt
-2025-02-12 13:08:10,936 - INFO - Git diff after:
+                 errors.append(
+2025-05-06 12:29:43,777 - INFO - Eval script for django__django-11630 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-11630/eval.sh; copying to container...
+2025-05-06 12:29:50,871 - INFO - Test runtime: 6.96 seconds
+2025-05-06 12:29:50,871 - INFO - Test output for django__django-11630 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-11630/test_output.txt
+2025-05-06 12:29:50,956 - INFO - Git diff after:
 diff --git a/django/db/models/base.py b/django/db/models/base.py
-index 18ee0b4911..185175991f 100644
+index 18ee0b4911..320793b65f 100644
 --- a/django/db/models/base.py
 +++ b/django/db/models/base.py
-@@ -1427,30 +1427,26 @@ class Model(metaclass=ModelBase):
-     def _check_column_name_clashes(cls):
-         # Store a list of column names which have already been used by other fields.
+@@ -1429,9 +1429,37 @@ class Model(metaclass=ModelBase):
          used_column_names = []
--        errors = []
+         errors = []
  
++        # Gather models that are allowed to be migrated to the same db as cls.
++        models = [
++            model
++            for model in apps.get_models()
++            if router.allow_migrate_model(DEFAULT_DB_ALIAS, cls)
++            == router.allow_migrate_model(DEFAULT_DB_ALIAS, model)
++        ]
++
++        # Check if db_table name clashes with another model.
++        db_table = cls._meta.db_table
++        if db_table:
++            conflicting_models = [
++                model for model in models
++                if model._meta.db_table == db_table and model._meta.label != cls._meta.label
++            ]
++            if conflicting_models:
++                errors.append(
++                    checks.Error(
++                        "The model's db_table name '%s' clashes with %s db_table name." % (
++                            db_table, conflicting_models[0]._meta.label
++                        ),
++                        obj=cls,
++                        id='models.E028',
++                    )
++                )
++
          for f in cls._meta.local_fields:
              _, column_name = f.get_attname_column()
  
++
++
              # Ensure the column name is not already in use.
              if column_name and column_name in used_column_names:
--                errors.append(
--                    checks.Error(
--                        "Field '%s' has column name '%s' that is used by "
--                        "another field." % (f.name, column_name),
--                        hint="Specify a 'db_column' for the field.",
--                        obj=cls,
--                        id='models.E007'
--                    )
-+                yield checks.Error(
-+                    "Field '%s' has column name '%s' that is used by "
-+                    "another field." % (f.name, column_name),
-+                    hint="Specify a 'db_column' for the field.",
-+                    obj=cls,
-+                    id='models.E007'
-                 )
-             else:
-                 used_column_names.append(column_name)
- 
--        return errors
--
-     @classmethod
-     def _check_model_name_db_lookup_clashes(cls):
-         errors = []
-+
-         model_name = cls.__name__
-         if model_name.startswith('_') or model_name.endswith('_'):
-             errors.append(
-2025-02-12 13:08:10,936 - INFO - Grading answer for django__django-11630...
-2025-02-12 13:08:10,942 - INFO - report: {'django__django-11630': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_collision_across_apps_database_routers_installed (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_collision_in_same_app_database_routers_installed (check_framework.test_model_checks.DuplicateDBTableTests)']}, 'PASS_TO_PASS': {'success': ['test_collision_abstract_model (check_framework.test_model_checks.IndexNameTests)', 'test_collision_across_apps (check_framework.test_model_checks.IndexNameTests)', 'test_collision_in_different_models (check_framework.test_model_checks.IndexNameTests)', 'test_collision_in_same_model (check_framework.test_model_checks.IndexNameTests)', 'test_no_collision_abstract_model_interpolation (check_framework.test_model_checks.IndexNameTests)', 'test_no_collision_across_apps_interpolation (check_framework.test_model_checks.IndexNameTests)', 'test_collision_abstract_model (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_across_apps (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_in_different_models (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_in_same_model (check_framework.test_model_checks.ConstraintNameTests)', 'test_no_collision_abstract_model_interpolation (check_framework.test_model_checks.ConstraintNameTests)', 'test_no_collision_across_apps_interpolation (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_across_apps (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_collision_in_same_app (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_no_collision_for_proxy_models (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_no_collision_for_unmanaged_models (check_framework.test_model_checks.DuplicateDBTableTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+                 errors.append(
+2025-05-06 12:29:50,956 - INFO - Grading answer for django__django-11630...
+2025-05-06 12:29:50,959 - INFO - report: {'django__django-11630': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_collision_across_apps_database_routers_installed (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_collision_in_same_app_database_routers_installed (check_framework.test_model_checks.DuplicateDBTableTests)']}, 'PASS_TO_PASS': {'success': ['test_collision_abstract_model (check_framework.test_model_checks.IndexNameTests)', 'test_collision_across_apps (check_framework.test_model_checks.IndexNameTests)', 'test_collision_in_different_models (check_framework.test_model_checks.IndexNameTests)', 'test_collision_in_same_model (check_framework.test_model_checks.IndexNameTests)', 'test_no_collision_abstract_model_interpolation (check_framework.test_model_checks.IndexNameTests)', 'test_no_collision_across_apps_interpolation (check_framework.test_model_checks.IndexNameTests)', 'test_collision_abstract_model (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_across_apps (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_in_different_models (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_in_same_model (check_framework.test_model_checks.ConstraintNameTests)', 'test_no_collision_abstract_model_interpolation (check_framework.test_model_checks.ConstraintNameTests)', 'test_no_collision_across_apps_interpolation (check_framework.test_model_checks.ConstraintNameTests)', 'test_collision_across_apps (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_collision_in_same_app (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_no_collision_for_proxy_models (check_framework.test_model_checks.DuplicateDBTableTests)', 'test_no_collision_for_unmanaged_models (check_framework.test_model_checks.DuplicateDBTableTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-11630: resolved: False
-2025-02-12 13:08:10,942 - INFO - Attempting to stop container sweb.eval.django__django-11630.20250212_130622...
-2025-02-12 13:08:26,541 - INFO - Attempting to remove container sweb.eval.django__django-11630.20250212_130622...
-2025-02-12 13:08:26,567 - INFO - Container sweb.eval.django__django-11630.20250212_130622 removed.
+2025-05-06 12:29:50,960 - INFO - Attempting to stop container sweb.eval.django__django-11630.20250506_122807...
+2025-05-06 12:30:06,419 - INFO - Attempting to remove container sweb.eval.django__django-11630.20250506_122807...
+2025-05-06 12:30:06,452 - INFO - Container sweb.eval.django__django-11630.20250506_122807 removed.

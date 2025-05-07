@@ -329,16 +329,16 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
-    writing manifest file '/tmp/pip-pip-egg-info-hbcp3462/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-vm9kk0k3/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.11.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.22.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.17.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.22.dev0) (1.5.2)
@@ -351,8 +351,8 @@ Installing collected packages: scikit-learn
       Removing pth entries from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/easy-install.pth:
       Removing entry: /testbed
       Successfully uninstalled scikit-learn-0.22.dev0
-  Running setup.py develop for scikit-learn
     Running command /opt/miniconda3/envs/testbed/bin/python -c 'import io, os, sys, setuptools, tokenize; sys.argv[0] = '"'"'/testbed/setup.py'"'"'; __file__='"'"'/testbed/setup.py'"'"';f = getattr(tokenize, '"'"'open'"'"', open)(__file__) if os.path.exists(__file__) else io.StringIO('"'"'from setuptools import setup; setup()'"'"');code = f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' develop --no-deps
+  Running setup.py develop for scikit-learn
     blas_opt_info:
     blas_mkl_info:
     customize UnixCCompiler
@@ -366,11 +366,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmph6vwolx0/tmp
-    creating /tmp/tmph6vwolx0/tmp/tmph6vwolx0
+    creating /tmp/tmpiqw1rzzp/tmp
+    creating /tmp/tmpiqw1rzzp/tmp/tmpiqw1rzzp
     compile options: '-c'
-    gcc: /tmp/tmph6vwolx0/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmph6vwolx0/tmp/tmph6vwolx0/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmph6vwolx0/a.out
+    gcc: /tmp/tmpiqw1rzzp/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpiqw1rzzp/tmp/tmpiqw1rzzp/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpiqw1rzzp/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -539,6 +539,10 @@ WARNING: Running pip as the 'root' user can result in broken permissions and con
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout a5743ed36fbd3fbc8e351bdab16561fbfca7dfa1 sklearn/linear_model/tests/test_logistic.py
 Updated 0 paths from 7d7295340
 + git apply -v -
@@ -1689,7 +1693,7 @@ FAILED sklearn/linear_model/tests/test_logistic.py::test_LogisticRegressionCV_no
 FAILED sklearn/linear_model/tests/test_logistic.py::test_LogisticRegressionCV_no_refit[multinomial-elasticnet]
 FAILED sklearn/linear_model/tests/test_logistic.py::test_LogisticRegressionCV_no_refit[auto-l2]
 FAILED sklearn/linear_model/tests/test_logistic.py::test_LogisticRegressionCV_no_refit[auto-elasticnet]
-================= 5 failed, 170 passed, 445 warnings in 14.84s =================
+================= 5 failed, 170 passed, 445 warnings in 15.30s =================
  This problem is unconstrained.
 RUNNING THE L-BFGS-B CODE
 

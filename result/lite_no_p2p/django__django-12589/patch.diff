@@ -1,0 +1,23 @@
+
+diff --git a/django/db/models/sql/compiler.py b/django/db/models/sql/compiler.py
+index 56581f2..1bd66c7 100644
+--- a/django/db/models/sql/compiler.py
++++ b/django/db/models/sql/compiler.py
+@@ -132,9 +132,17 @@ class SQLCompiler:
+         seen = set()
+         expressions = self.collapse_group_by(expressions, having_group_by)
+ 
++        # If an expression in the GROUP BY clause is a reference to an
++        # annotated field, replace it with the SQL representation of the
++        # annotation.
++        for i, expr in enumerate(expressions):
++            if isinstance(expr, Ref) and expr.name in self.query.annotation_select:
++                expressions[i] = self.query.annotation_select[expr.name]
++
+         for expr in expressions:
+             sql, params = self.compile(expr)
+             params_hash = make_hashable(params)
++
+             if (sql, params_hash) not in seen:
+                 result.append((sql, params))
+                 seen.add((sql, params_hash))

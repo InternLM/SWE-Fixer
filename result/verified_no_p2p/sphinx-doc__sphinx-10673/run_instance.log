@@ -1,0 +1,82 @@
+2025-05-06 07:00:59,340 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-10673
+Building instance image sweb.eval.x86_64.sphinx-doc__sphinx-10673:latest for sphinx-doc__sphinx-10673
+2025-05-06 07:00:59,345 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-10673:latest already exists, skipping build.
+2025-05-06 07:00:59,345 - INFO - Creating container for sphinx-doc__sphinx-10673...
+2025-05-06 07:00:59,383 - INFO - Container for sphinx-doc__sphinx-10673 created: 4fd79979396dbc09904c7932d5d90ed4e24ace4e317f41916f1e4a7d062a6f17
+2025-05-06 07:00:59,788 - INFO - Container for sphinx-doc__sphinx-10673 started: 4fd79979396dbc09904c7932d5d90ed4e24ace4e317f41916f1e4a7d062a6f17
+2025-05-06 07:00:59,788 - INFO - Intermediate patch for sphinx-doc__sphinx-10673 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sphinx-doc__sphinx-10673/patch.diff, now applying to container...
+2025-05-06 07:00:59,994 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:01:00,044 - INFO - >>>>> Applied Patch:
+patching file sphinx/environment/adapters/toctree.py
+
+2025-05-06 07:01:00,339 - INFO - Git diff before:
+diff --git a/sphinx/environment/adapters/toctree.py b/sphinx/environment/adapters/toctree.py
+index 9678e3c7c..7b571fb41 100644
+--- a/sphinx/environment/adapters/toctree.py
++++ b/sphinx/environment/adapters/toctree.py
+@@ -114,9 +114,12 @@ class TocTree:
+             refs = [(e[0], e[1]) for e in toctreenode['entries']]
+             entries: List[Element] = []
+             for (title, ref) in refs:
++                if ref in ('genindex', 'modindex', 'search'):
++                    continue
+                 try:
+                     refdoc = None
+                     if url_re.match(ref):
++
+                         if title is None:
+                             title = ref
+                         reference = nodes.reference('', '', internal=False,
+diff --git a/tox.ini b/tox.ini
+index 7ca990b56..a0708b02c 100644
+--- a/tox.ini
++++ b/tox.ini
+@@ -30,7 +30,7 @@ setenv =
+     PYTHONWARNINGS = all
+     PYTEST_ADDOPTS = {env:PYTEST_ADDOPTS:} --color yes
+ commands=
+-    python -X dev -X warn_default_encoding -m pytest --durations 25 {posargs}
++    python -X dev -X warn_default_encoding -m pytest -rA --durations 25 {posargs}
+ 
+ [testenv:du-latest]
+ commands =
+2025-05-06 07:01:00,339 - INFO - Eval script for sphinx-doc__sphinx-10673 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sphinx-doc__sphinx-10673/eval.sh; copying to container...
+2025-05-06 07:01:04,783 - INFO - Test runtime: 4.28 seconds
+2025-05-06 07:01:04,784 - INFO - Test output for sphinx-doc__sphinx-10673 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sphinx-doc__sphinx-10673/test_output.txt
+2025-05-06 07:01:04,857 - INFO - Git diff after:
+diff --git a/sphinx/environment/adapters/toctree.py b/sphinx/environment/adapters/toctree.py
+index 9678e3c7c..7b571fb41 100644
+--- a/sphinx/environment/adapters/toctree.py
++++ b/sphinx/environment/adapters/toctree.py
+@@ -114,9 +114,12 @@ class TocTree:
+             refs = [(e[0], e[1]) for e in toctreenode['entries']]
+             entries: List[Element] = []
+             for (title, ref) in refs:
++                if ref in ('genindex', 'modindex', 'search'):
++                    continue
+                 try:
+                     refdoc = None
+                     if url_re.match(ref):
++
+                         if title is None:
+                             title = ref
+                         reference = nodes.reference('', '', internal=False,
+diff --git a/tox.ini b/tox.ini
+index 7ca990b56..a0708b02c 100644
+--- a/tox.ini
++++ b/tox.ini
+@@ -30,7 +30,7 @@ setenv =
+     PYTHONWARNINGS = all
+     PYTEST_ADDOPTS = {env:PYTEST_ADDOPTS:} --color yes
+ commands=
+-    python -X dev -X warn_default_encoding -m pytest --durations 25 {posargs}
++    python -X dev -X warn_default_encoding -m pytest -rA --durations 25 {posargs}
+ 
+ [testenv:du-latest]
+ commands =
+2025-05-06 07:01:04,857 - INFO - Grading answer for sphinx-doc__sphinx-10673...
+2025-05-06 07:01:04,866 - INFO - report: {'sphinx-doc__sphinx-10673': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/test_environment_toctree.py::test_toctree_index']}, 'PASS_TO_PASS': {'success': ['tests/test_environment_toctree.py::test_process_doc', 'tests/test_environment_toctree.py::test_glob', 'tests/test_environment_toctree.py::test_get_toc_for', 'tests/test_environment_toctree.py::test_get_toc_for_only', 'tests/test_environment_toctree.py::test_get_toc_for_tocdepth', 'tests/test_environment_toctree.py::test_get_toctree_for', 'tests/test_environment_toctree.py::test_get_toctree_for_collapse', 'tests/test_environment_toctree.py::test_get_toctree_for_maxdepth', 'tests/test_environment_toctree.py::test_get_toctree_for_includehidden'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sphinx-doc__sphinx-10673: resolved: False
+2025-05-06 07:01:04,867 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-10673.20250506_061805...
+2025-05-06 07:01:20,180 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-10673.20250506_061805...
+2025-05-06 07:01:20,193 - INFO - Container sweb.eval.sphinx-doc__sphinx-10673.20250506_061805 removed.

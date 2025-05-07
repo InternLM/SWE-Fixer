@@ -1,58 +1,56 @@
-2025-02-12 13:20:04,281 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15345
+2025-05-06 12:41:40,907 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15345
 Building instance image sweb.eval.x86_64.sympy__sympy-15345:latest for sympy__sympy-15345
-2025-02-12 13:20:04,283 - INFO - Image sweb.eval.x86_64.sympy__sympy-15345:latest already exists, skipping build.
-2025-02-12 13:20:04,284 - INFO - Creating container for sympy__sympy-15345...
-2025-02-12 13:20:04,312 - INFO - Container for sympy__sympy-15345 created: 38c43ab6b712164c31f13e1702f75d4868e54d34fd3fff72620bd7d0fd90fb71
-2025-02-12 13:20:04,605 - INFO - Container for sympy__sympy-15345 started: 38c43ab6b712164c31f13e1702f75d4868e54d34fd3fff72620bd7d0fd90fb71
-2025-02-12 13:20:04,606 - INFO - Intermediate patch for sympy__sympy-15345 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-15345/patch.diff, now applying to container...
-2025-02-12 13:20:04,861 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:20:04,925 - INFO - >>>>> Applied Patch:
+2025-05-06 12:41:40,910 - INFO - Image sweb.eval.x86_64.sympy__sympy-15345:latest already exists, skipping build.
+2025-05-06 12:41:40,911 - INFO - Creating container for sympy__sympy-15345...
+2025-05-06 12:41:40,946 - INFO - Container for sympy__sympy-15345 created: 6c18038ad35b3618d220ff48d130d6db87dcc10bac55968920d281bbbfccb2f9
+2025-05-06 12:41:41,261 - INFO - Container for sympy__sympy-15345 started: 6c18038ad35b3618d220ff48d130d6db87dcc10bac55968920d281bbbfccb2f9
+2025-05-06 12:41:41,262 - INFO - Intermediate patch for sympy__sympy-15345 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-15345/patch.diff, now applying to container...
+2025-05-06 12:41:41,549 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:41:41,611 - INFO - >>>>> Applied Patch:
 patching file sympy/printing/mathematica.py
 
-2025-02-12 13:20:05,406 - INFO - Git diff before:
+2025-05-06 12:41:41,994 - INFO - Git diff before:
 diff --git a/sympy/printing/mathematica.py b/sympy/printing/mathematica.py
-index ea7e3a2d94..93de49d4fd 100644
+index ea7e3a2d94..f9813498ca 100644
 --- a/sympy/printing/mathematica.py
 +++ b/sympy/printing/mathematica.py
-@@ -31,10 +31,12 @@
-     "asech": [(lambda x: True, "ArcSech")],
-     "acsch": [(lambda x: True, "ArcCsch")],
-     "conjugate": [(lambda x: True, "Conjugate")],
--
+@@ -13,9 +13,12 @@
+     "log": [(lambda x: True, "Log")],
+     "sin": [(lambda x: True, "Sin")],
+     "cos": [(lambda x: True, "Cos")],
 +    "Max": [(lambda x: True, "Max")],
- }
- 
- 
++    "Min": [(lambda x: True, "Min")],
+     "tan": [(lambda x: True, "Tan")],
+     "cot": [(lambda x: True, "Cot")],
+     "asin": [(lambda x: True, "ArcSin")],
 +
-+
- class MCodePrinter(CodePrinter):
-     """A printer to convert python expressions to
-     strings of the Wolfram's Mathematica code
-2025-02-12 13:20:05,407 - INFO - Eval script for sympy__sympy-15345 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-15345/eval.sh; copying to container...
-2025-02-12 13:20:09,176 - INFO - Test runtime: 3.58 seconds
-2025-02-12 13:20:09,176 - INFO - Test output for sympy__sympy-15345 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-15345/test_output.txt
-2025-02-12 13:20:09,249 - INFO - Git diff after:
+     "acos": [(lambda x: True, "ArcCos")],
+     "atan": [(lambda x: True, "ArcTan")],
+     "sinh": [(lambda x: True, "Sinh")],
+2025-05-06 12:41:41,994 - INFO - Eval script for sympy__sympy-15345 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-15345/eval.sh; copying to container...
+2025-05-06 12:41:45,713 - INFO - Test runtime: 3.53 seconds
+2025-05-06 12:41:45,713 - INFO - Test output for sympy__sympy-15345 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-15345/test_output.txt
+2025-05-06 12:41:45,781 - INFO - Git diff after:
 diff --git a/sympy/printing/mathematica.py b/sympy/printing/mathematica.py
-index ea7e3a2d94..93de49d4fd 100644
+index ea7e3a2d94..f9813498ca 100644
 --- a/sympy/printing/mathematica.py
 +++ b/sympy/printing/mathematica.py
-@@ -31,10 +31,12 @@
-     "asech": [(lambda x: True, "ArcSech")],
-     "acsch": [(lambda x: True, "ArcCsch")],
-     "conjugate": [(lambda x: True, "Conjugate")],
--
+@@ -13,9 +13,12 @@
+     "log": [(lambda x: True, "Log")],
+     "sin": [(lambda x: True, "Sin")],
+     "cos": [(lambda x: True, "Cos")],
 +    "Max": [(lambda x: True, "Max")],
- }
- 
- 
++    "Min": [(lambda x: True, "Min")],
+     "tan": [(lambda x: True, "Tan")],
+     "cot": [(lambda x: True, "Cot")],
+     "asin": [(lambda x: True, "ArcSin")],
 +
-+
- class MCodePrinter(CodePrinter):
-     """A printer to convert python expressions to
-     strings of the Wolfram's Mathematica code
-2025-02-12 13:20:09,249 - INFO - Grading answer for sympy__sympy-15345...
-2025-02-12 13:20:09,252 - INFO - report: {'sympy__sympy-15345': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Function']}, 'PASS_TO_PASS': {'success': ['test_Integer', 'test_Rational', 'test_Pow', 'test_Mul', 'test_constants', 'test_containers', 'test_Integral', 'test_Derivative'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+     "acos": [(lambda x: True, "ArcCos")],
+     "atan": [(lambda x: True, "ArcTan")],
+     "sinh": [(lambda x: True, "Sinh")],
+2025-05-06 12:41:45,781 - INFO - Grading answer for sympy__sympy-15345...
+2025-05-06 12:41:45,784 - INFO - report: {'sympy__sympy-15345': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Function']}, 'PASS_TO_PASS': {'success': ['test_Integer', 'test_Rational', 'test_Pow', 'test_Mul', 'test_constants', 'test_containers', 'test_Integral', 'test_Derivative'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-15345: resolved: False
-2025-02-12 13:20:09,252 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15345.20250212_130622...
-2025-02-12 13:20:24,525 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15345.20250212_130622...
-2025-02-12 13:20:24,548 - INFO - Container sweb.eval.sympy__sympy-15345.20250212_130622 removed.
+2025-05-06 12:41:45,784 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15345.20250506_122807...
+2025-05-06 12:42:01,164 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15345.20250506_122807...
+2025-05-06 12:42:01,190 - INFO - Container sweb.eval.sympy__sympy-15345.20250506_122807 removed.

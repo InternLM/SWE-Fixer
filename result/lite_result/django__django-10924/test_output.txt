@@ -614,7 +614,6 @@ Installing collected packages: Django
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 Successfully installed Django-3.0.dev20190502071320
 + git checkout bceadd2788dc2dad53eba0caae172bd8522fd483
-M	django/db/models/fields/__init__.py
 Note: switching to 'bceadd2788dc2dad53eba0caae172bd8522fd483'.
 
 You are in 'detached HEAD' state. You can look around, make experimental
@@ -633,6 +632,7 @@ Or undo this operation with:
 Turn off this advice by setting config variable advice.detachedHead to false
 
 HEAD is now at bceadd2788 Fixed #30396 -- Added system checks for uniqueness of indexes and constraints names.
+M	django/db/models/fields/__init__.py
 + git apply -v -
 Checking patch tests/model_fields/test_filepathfield.py...
 Applied patch tests/model_fields/test_filepathfield.py cleanly.

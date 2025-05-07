@@ -1,0 +1,58 @@
+2025-05-06 06:36:37,757 - INFO - Environment image sweb.env.x86_64.934a137824256b612e9dc5:latest found for django__django-15572
+Building instance image sweb.eval.x86_64.django__django-15572:latest for django__django-15572
+2025-05-06 06:36:37,760 - INFO - Image sweb.eval.x86_64.django__django-15572:latest already exists, skipping build.
+2025-05-06 06:36:37,760 - INFO - Creating container for django__django-15572...
+2025-05-06 06:36:37,794 - INFO - Container for django__django-15572 created: c19e92f58a24617ca6db9ed09cc0c429eeefc2716502684eb77c1afd5bca508f
+2025-05-06 06:36:38,156 - INFO - Container for django__django-15572 started: c19e92f58a24617ca6db9ed09cc0c429eeefc2716502684eb77c1afd5bca508f
+2025-05-06 06:36:38,156 - INFO - Intermediate patch for django__django-15572 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15572/patch.diff, now applying to container...
+2025-05-06 06:36:38,411 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:36:38,471 - INFO - >>>>> Applied Patch:
+patching file django/utils/autoreload.py
+
+2025-05-06 06:36:39,133 - INFO - Git diff before:
+diff --git a/django/utils/autoreload.py b/django/utils/autoreload.py
+index 1b3652b41d..a978dbefee 100644
+--- a/django/utils/autoreload.py
++++ b/django/utils/autoreload.py
+@@ -305,9 +305,13 @@ class BaseReloader:
+         yield from self.extra_files
+         if include_globs:
+             for directory, patterns in self.directory_globs.items():
++                if not directory:
++                    continue
+                 for pattern in patterns:
+                     yield from directory.glob(pattern)
+ 
++
++
+     def wait_for_apps_ready(self, app_reg, django_main_thread):
+         """
+         Wait until Django reports that the apps have been loaded. If the given
+2025-05-06 06:36:39,133 - INFO - Eval script for django__django-15572 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15572/eval.sh; copying to container...
+2025-05-06 06:36:46,628 - INFO - Test runtime: 7.29 seconds
+2025-05-06 06:36:46,628 - INFO - Test output for django__django-15572 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-15572/test_output.txt
+2025-05-06 06:36:46,715 - INFO - Git diff after:
+diff --git a/django/utils/autoreload.py b/django/utils/autoreload.py
+index 1b3652b41d..a978dbefee 100644
+--- a/django/utils/autoreload.py
++++ b/django/utils/autoreload.py
+@@ -305,9 +305,13 @@ class BaseReloader:
+         yield from self.extra_files
+         if include_globs:
+             for directory, patterns in self.directory_globs.items():
++                if not directory:
++                    continue
+                 for pattern in patterns:
+                     yield from directory.glob(pattern)
+ 
++
++
+     def wait_for_apps_ready(self, app_reg, django_main_thread):
+         """
+         Wait until Django reports that the apps have been loaded. If the given
+2025-05-06 06:36:46,715 - INFO - Grading answer for django__django-15572...
+2025-05-06 06:36:46,722 - INFO - report: {'django__django-15572': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_template_dirs_ignore_empty_path (template_tests.test_autoreloader.TemplateReloadTests)']}, 'PASS_TO_PASS': {'success': ['test_get_template_directories (template_tests.test_autoreloader.Jinja2TemplateReloadTests)', 'test_reset_all_loaders (template_tests.test_autoreloader.Jinja2TemplateReloadTests)', 'test_watch_for_template_changes (template_tests.test_autoreloader.Jinja2TemplateReloadTests)', 'test_get_template_directories (template_tests.test_autoreloader.TemplateReloadTests)', 'test_non_template_changed (template_tests.test_autoreloader.TemplateReloadTests)', 'test_non_template_changed_in_template_directory (template_tests.test_autoreloader.TemplateReloadTests)', 'test_reset_all_loaders (template_tests.test_autoreloader.TemplateReloadTests)', 'test_template_changed (template_tests.test_autoreloader.TemplateReloadTests)', 'test_template_dirs_normalized_to_paths (template_tests.test_autoreloader.TemplateReloadTests)', 'test_watch_for_template_changes (template_tests.test_autoreloader.TemplateReloadTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-15572: resolved: False
+2025-05-06 06:36:46,723 - INFO - Attempting to stop container sweb.eval.django__django-15572.20250506_061805...
+2025-05-06 06:37:02,039 - INFO - Attempting to remove container sweb.eval.django__django-15572.20250506_061805...
+2025-05-06 06:37:02,065 - INFO - Container sweb.eval.django__django-15572.20250506_061805 removed.

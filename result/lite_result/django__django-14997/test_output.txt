@@ -329,8 +329,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20211018052700-0.editable-py3-none-any.whl size=26746 sha256=dccbb5f2c91be8a7d0512ebe1b24569531e27e0eb08bc85aea4c3322dc7ccd0a
-  Stored in directory: /tmp/pip-ephem-wheel-cache-f07embnw/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20211018052700-0.editable-py3-none-any.whl size=26816 sha256=13aabb8cc2e482ab46fb5c44dd098f221323f928c730bf6bfb5cbe3fa6f228f1
+  Stored in directory: /tmp/pip-ephem-wheel-cache-d6fxay14/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -744,7 +744,7 @@ AssertionError: '(UPPER("other"."last_name")), "other"."first_name"' != '(UPPER(
 
 
 ----------------------------------------------------------------------
-Ran 153 tests in 1.223s
+Ran 153 tests in 1.159s
 
 FAILED (failures=1, errors=2, skipped=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

@@ -390,7 +390,7 @@ index bd974cb1d5..8fb1b972b5 100644
      Middleware that overrides custom HTTP auth user header.
 + git diff d90e34c61b27fba2527834806639eebbcfab9631
 diff --git a/django/utils/cache.py b/django/utils/cache.py
-index 90292ce4da..16244802db 100644
+index 90292ce4da..6a8bd44120 100644
 --- a/django/utils/cache.py
 +++ b/django/utils/cache.py
 @@ -175,10 +175,13 @@ def get_conditional_response(request, etag=None, last_modified=None, response=No
@@ -399,8 +399,8 @@ index 90292ce4da..16244802db 100644
      if_modified_since = request.META.get("HTTP_IF_MODIFIED_SINCE")
 -    if_modified_since = if_modified_since and parse_http_date_safe(if_modified_since)
 +    if_modified_since = (
-+        if_modified_since and if_modified_since != "" and parse_http_date_safe(if_modified_since)
-+    )
++        if_modified_since and if_modified_since.strip() != ""
++    ) and parse_http_date_safe(if_modified_since)
  
      # Step 1 of section 6 of RFC 7232: Test the If-Match precondition.
      if if_match_etags and not _if_match_passes(etag, if_match_etags):
@@ -548,8 +548,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20220310115719-0.editable-py3-none-any.whl size=26933 sha256=c5bb91bc2b1c9f0094fc660e64c18d9a18322525c128f289da80a13ebb2d2238
-  Stored in directory: /tmp/pip-ephem-wheel-cache-lz2bh1j3/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20220310115719-0.editable-py3-none-any.whl size=27001 sha256=ebe137e854267a68545065e25d0c5754155f17e9e3d870de6b937590b8fe54fa
+  Stored in directory: /tmp/pip-ephem-wheel-cache-l7aw7e86/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django

@@ -383,8 +383,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210723111041-0.editable-py3-none-any.whl size=26245 sha256=f2e9bbf32f559e67a7884672ec8d0f748b33c5f7c87814c09a2e9e005878c66d
-  Stored in directory: /tmp/pip-ephem-wheel-cache-304cdz_x/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210723111041-0.editable-py3-none-any.whl size=26247 sha256=bb8db4a651b979bf74d486f81dd7cb3ecbebd9f90736f2f791becddb964de263
+  Stored in directory: /tmp/pip-ephem-wheel-cache-ew49wdf6/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -439,8 +439,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique... OK
-Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
 Operations to perform:
   Synchronize unmigrated apps: auth, contenttypes, invalid_models_tests, m2m_through, messages, sessions, staticfiles
   Apply all migrations: admin, sites
@@ -473,8 +473,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique... OK
-Creating test database for alias 'other' ('file:memorydb_other?mode=memory&cache=shared')...
+  Applying sites.0002_alter_domain_unique...Creating test database for alias 'other' ('file:memorydb_other?mode=memory&cache=shared')...
+ OK
 System check identified no issues (0 silenced).
 test_check_constraint_pointing_to_fk (invalid_models_tests.test_models.ConstraintsTests) ... ok
 test_check_constraint_pointing_to_joined_fields (invalid_models_tests.test_models.ConstraintsTests) ... ok
@@ -659,7 +659,7 @@ test_pointing_to_missing_field (invalid_models_tests.test_models.UniqueTogetherT
 test_valid_model (invalid_models_tests.test_models.UniqueTogetherTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 178 tests in 0.241s
+Ran 178 tests in 0.277s
 
 OK (skipped=10)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

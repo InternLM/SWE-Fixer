@@ -390,8 +390,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20221104112025-0.editable-py3-none-any.whl size=27220 sha256=62f644df9a2ced7d8fe5300f4fcf030f72aa2a08155de4c711972f24d76e46d6
-  Stored in directory: /tmp/pip-ephem-wheel-cache-jzpyihlq/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20221104112025-0.editable-py3-none-any.whl size=27293 sha256=645f96a89064c67923d09c21f0919e60c5367b7534c6a396734a1afa8ef3fa84
+  Stored in directory: /tmp/pip-ephem-wheel-cache-7gpffxs9/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -506,7 +506,7 @@ The Last-Modified header is omitted when lastmod isn't found in all ... ok
 test_x_robots_sitemap (sitemaps_tests.test_http.HTTPSitemapTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 40 tests in 0.115s
+Ran 40 tests in 0.121s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

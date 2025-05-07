@@ -1,0 +1,66 @@
+2025-05-06 07:13:24,611 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-20916
+Building instance image sweb.eval.x86_64.sympy__sympy-20916:latest for sympy__sympy-20916
+2025-05-06 07:13:24,612 - INFO - Image sweb.eval.x86_64.sympy__sympy-20916:latest already exists, skipping build.
+2025-05-06 07:13:24,612 - INFO - Creating container for sympy__sympy-20916...
+2025-05-06 07:13:24,650 - INFO - Container for sympy__sympy-20916 created: 8119c31df6bf1aae75d0d206f57a3a2f6b1b760a9601fd114b16933f53675919
+2025-05-06 07:13:25,090 - INFO - Container for sympy__sympy-20916 started: 8119c31df6bf1aae75d0d206f57a3a2f6b1b760a9601fd114b16933f53675919
+2025-05-06 07:13:25,091 - INFO - Intermediate patch for sympy__sympy-20916 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-20916/patch.diff, now applying to container...
+2025-05-06 07:13:25,361 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:13:25,412 - INFO - >>>>> Applied Patch:
+patching file sympy/printing/pretty/pretty.py
+
+2025-05-06 07:13:25,829 - INFO - Git diff before:
+diff --git a/sympy/printing/pretty/pretty.py b/sympy/printing/pretty/pretty.py
+index d41513e564..84399e5ca0 100644
+--- a/sympy/printing/pretty/pretty.py
++++ b/sympy/printing/pretty/pretty.py
+@@ -2681,10 +2681,16 @@ def _print_BaseScalarField(self, field):
+         return self._print(pretty_symbol(string))
+ 
+     def _print_BaseVectorField(self, field):
+-        s = U('PARTIAL DIFFERENTIAL') + '_' + field._coord_sys.symbols[field._index].name
++        s = U('PARTIAL DIFFERENTIAL')
++        coord_sys_symbol = field._coord_sys.symbols[field._index]
++        if coord_sys_symbol.name in greek_unicode:
++            s += '_' + pretty_symbol(greek_unicode[coord_sys_symbol.name])
++        else:
++            s += '_' + coord_sys_symbol.name
+         return self._print(pretty_symbol(s))
+ 
+     def _print_Differential(self, diff):
++
+         field = diff._form_field
+         if hasattr(field, '_coord_sys'):
+             string = field._coord_sys.symbols[field._index].name
+2025-05-06 07:13:25,829 - INFO - Eval script for sympy__sympy-20916 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-20916/eval.sh; copying to container...
+2025-05-06 07:13:31,751 - INFO - Test runtime: 5.77 seconds
+2025-05-06 07:13:31,751 - INFO - Test output for sympy__sympy-20916 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-20916/test_output.txt
+2025-05-06 07:13:31,808 - INFO - Git diff after:
+diff --git a/sympy/printing/pretty/pretty.py b/sympy/printing/pretty/pretty.py
+index d41513e564..84399e5ca0 100644
+--- a/sympy/printing/pretty/pretty.py
++++ b/sympy/printing/pretty/pretty.py
+@@ -2681,10 +2681,16 @@ def _print_BaseScalarField(self, field):
+         return self._print(pretty_symbol(string))
+ 
+     def _print_BaseVectorField(self, field):
+-        s = U('PARTIAL DIFFERENTIAL') + '_' + field._coord_sys.symbols[field._index].name
++        s = U('PARTIAL DIFFERENTIAL')
++        coord_sys_symbol = field._coord_sys.symbols[field._index]
++        if coord_sys_symbol.name in greek_unicode:
++            s += '_' + pretty_symbol(greek_unicode[coord_sys_symbol.name])
++        else:
++            s += '_' + coord_sys_symbol.name
+         return self._print(pretty_symbol(s))
+ 
+     def _print_Differential(self, diff):
++
+         field = diff._form_field
+         if hasattr(field, '_coord_sys'):
+             string = field._coord_sys.symbols[field._index].name
+2025-05-06 07:13:31,808 - INFO - Grading answer for sympy__sympy-20916...
+2025-05-06 07:13:31,810 - INFO - report: {'sympy__sympy-20916': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_super_sub']}, 'PASS_TO_PASS': {'success': ['test_requires_partial'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-20916: resolved: False
+2025-05-06 07:13:31,810 - INFO - Attempting to stop container sweb.eval.sympy__sympy-20916.20250506_061805...
+2025-05-06 07:13:47,595 - INFO - Attempting to remove container sweb.eval.sympy__sympy-20916.20250506_061805...
+2025-05-06 07:13:47,612 - INFO - Container sweb.eval.sympy__sympy-20916.20250506_061805 removed.

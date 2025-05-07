@@ -1,0 +1,120 @@
+2025-05-06 06:55:29,695 - INFO - Environment image sweb.env.x86_64.7f83a0ba1392a745c061ce:latest found for pytest-dev__pytest-10051
+Building instance image sweb.eval.x86_64.pytest-dev__pytest-10051:latest for pytest-dev__pytest-10051
+2025-05-06 06:55:29,699 - INFO - Image sweb.eval.x86_64.pytest-dev__pytest-10051:latest already exists, skipping build.
+2025-05-06 06:55:29,699 - INFO - Creating container for pytest-dev__pytest-10051...
+2025-05-06 06:55:29,727 - INFO - Container for pytest-dev__pytest-10051 created: 3b57cab9c0f4f09e6bae4a04e017b426171e1e0a8d0a34d029b97172244dccc7
+2025-05-06 06:55:29,989 - INFO - Container for pytest-dev__pytest-10051 started: 3b57cab9c0f4f09e6bae4a04e017b426171e1e0a8d0a34d029b97172244dccc7
+2025-05-06 06:55:29,989 - INFO - Intermediate patch for pytest-dev__pytest-10051 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pytest-dev__pytest-10051/patch.diff, now applying to container...
+2025-05-06 06:55:30,249 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:55:30,322 - INFO - >>>>> Applied Patch:
+patching file src/_pytest/logging.py
+patching file src/_pytest/logging.py
+Hunk #1 succeeded at 441 (offset 1 line).
+patching file src/_pytest/logging.py
+Hunk #1 succeeded at 697 (offset 3 lines).
+
+2025-05-06 06:55:30,454 - INFO - Git diff before:
+diff --git a/src/_pytest/logging.py b/src/_pytest/logging.py
+index a4f4214b1..941180d7d 100644
+--- a/src/_pytest/logging.py
++++ b/src/_pytest/logging.py
+@@ -396,10 +396,11 @@ class LogCaptureFixture:
+ 
+         .. versionadded:: 3.4
+         """
+-        return self._item.stash[caplog_records_key].get(when, [])
++        return self._item.stash[caplog_records_key].get(when, []).copy()
+ 
+     @property
+     def text(self) -> str:
++
+         """The formatted log text."""
+         return _remove_ansi_escape_sequences(self.handler.stream.getvalue())
+ 
+@@ -440,11 +441,13 @@ class LogCaptureFixture:
+ 
+     def clear(self) -> None:
+         """Reset the list of log records and the captured log text."""
+-        self.handler.reset()
++        self.handler.records.clear()
++        self.handler.stream = StringIO()
+ 
+     def set_level(self, level: Union[int, str], logger: Optional[str] = None) -> None:
+         """Set the level of a logger for the duration of a test.
+ 
++
+         .. versionchanged:: 3.4
+             The levels of the loggers changed by this function will be
+             restored to their initial values at the end of the test.
+@@ -694,11 +697,12 @@ class LoggingPlugin:
+             self.report_handler,
+             level=self.log_level,
+         ) as report_handler:
+-            caplog_handler.reset()
+-            report_handler.reset()
++            caplog_handler.records.clear()
++            report_handler.records.clear()
+             item.stash[caplog_records_key][when] = caplog_handler.records
+             item.stash[caplog_handler_key] = caplog_handler
+ 
++
+             yield
+ 
+             log = report_handler.stream.getvalue().strip()
+2025-05-06 06:55:30,454 - INFO - Eval script for pytest-dev__pytest-10051 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pytest-dev__pytest-10051/eval.sh; copying to container...
+2025-05-06 06:55:39,379 - INFO - Test runtime: 8.74 seconds
+2025-05-06 06:55:39,380 - INFO - Test output for pytest-dev__pytest-10051 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pytest-dev__pytest-10051/test_output.txt
+2025-05-06 06:55:39,459 - INFO - Git diff after:
+diff --git a/src/_pytest/logging.py b/src/_pytest/logging.py
+index a4f4214b1..941180d7d 100644
+--- a/src/_pytest/logging.py
++++ b/src/_pytest/logging.py
+@@ -396,10 +396,11 @@ class LogCaptureFixture:
+ 
+         .. versionadded:: 3.4
+         """
+-        return self._item.stash[caplog_records_key].get(when, [])
++        return self._item.stash[caplog_records_key].get(when, []).copy()
+ 
+     @property
+     def text(self) -> str:
++
+         """The formatted log text."""
+         return _remove_ansi_escape_sequences(self.handler.stream.getvalue())
+ 
+@@ -440,11 +441,13 @@ class LogCaptureFixture:
+ 
+     def clear(self) -> None:
+         """Reset the list of log records and the captured log text."""
+-        self.handler.reset()
++        self.handler.records.clear()
++        self.handler.stream = StringIO()
+ 
+     def set_level(self, level: Union[int, str], logger: Optional[str] = None) -> None:
+         """Set the level of a logger for the duration of a test.
+ 
++
+         .. versionchanged:: 3.4
+             The levels of the loggers changed by this function will be
+             restored to their initial values at the end of the test.
+@@ -694,11 +697,12 @@ class LoggingPlugin:
+             self.report_handler,
+             level=self.log_level,
+         ) as report_handler:
+-            caplog_handler.reset()
+-            report_handler.reset()
++            caplog_handler.records.clear()
++            report_handler.records.clear()
+             item.stash[caplog_records_key][when] = caplog_handler.records
+             item.stash[caplog_handler_key] = caplog_handler
+ 
++
+             yield
+ 
+             log = report_handler.stream.getvalue().strip()
+2025-05-06 06:55:39,460 - INFO - Grading answer for pytest-dev__pytest-10051...
+2025-05-06 06:55:39,468 - INFO - report: {'pytest-dev__pytest-10051': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['testing/logging/test_fixture.py::test_clear_for_call_stage']}, 'PASS_TO_PASS': {'success': ['testing/logging/test_fixture.py::test_change_level', 'testing/logging/test_fixture.py::test_with_statement', 'testing/logging/test_fixture.py::test_log_access', 'testing/logging/test_fixture.py::test_messages', 'testing/logging/test_fixture.py::test_record_tuples', 'testing/logging/test_fixture.py::test_unicode', 'testing/logging/test_fixture.py::test_clear', 'testing/logging/test_fixture.py::test_fixture_help', 'testing/logging/test_fixture.py::test_change_level_undo', 'testing/logging/test_fixture.py::test_change_level_undos_handler_level', 'testing/logging/test_fixture.py::test_ini_controls_global_log_level', 'testing/logging/test_fixture.py::test_caplog_can_override_global_log_level', 'testing/logging/test_fixture.py::test_caplog_captures_despite_exception', 'testing/logging/test_fixture.py::test_log_report_captures_according_to_config_option_upon_failure'], 'failure': ['testing/logging/test_fixture.py::test_caplog_captures_for_all_stages']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pytest-dev__pytest-10051: resolved: False
+2025-05-06 06:55:39,468 - INFO - Attempting to stop container sweb.eval.pytest-dev__pytest-10051.20250506_061805...
+2025-05-06 06:55:54,751 - INFO - Attempting to remove container sweb.eval.pytest-dev__pytest-10051.20250506_061805...
+2025-05-06 06:55:54,769 - INFO - Container sweb.eval.pytest-dev__pytest-10051.20250506_061805 removed.

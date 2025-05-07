@@ -1,0 +1,116 @@
+2025-05-06 11:25:47,228 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-10325
+Building instance image sweb.eval.x86_64.sphinx-doc__sphinx-10325:latest for sphinx-doc__sphinx-10325
+2025-05-06 11:25:47,230 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-10325:latest already exists, skipping build.
+2025-05-06 11:25:47,230 - INFO - Creating container for sphinx-doc__sphinx-10325...
+2025-05-06 11:25:47,260 - INFO - Container for sphinx-doc__sphinx-10325 created: f80c29a93932086cff295364a64eaede5e073849e37455087981486d663af608
+2025-05-06 11:25:47,612 - INFO - Container for sphinx-doc__sphinx-10325 started: f80c29a93932086cff295364a64eaede5e073849e37455087981486d663af608
+2025-05-06 11:25:47,612 - INFO - Intermediate patch for sphinx-doc__sphinx-10325 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sphinx-doc__sphinx-10325/patch.diff, now applying to container...
+2025-05-06 11:25:47,871 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:25:47,932 - INFO - >>>>> Applied Patch:
+patching file sphinx/ext/autodoc/__init__.py
+patching file sphinx/ext/autodoc/__init__.py
+Hunk #1 succeeded at 683 (offset 1 line).
+
+2025-05-06 11:25:48,431 - INFO - Git diff before:
+diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
+index 62631f7ff..9b73b41a7 100644
+--- a/sphinx/ext/autodoc/__init__.py
++++ b/sphinx/ext/autodoc/__init__.py
+@@ -112,12 +112,13 @@ def exclude_members_option(arg: Any) -> Union[object, Set[str]]:
+ def inherited_members_option(arg: Any) -> Union[object, Set[str]]:
+     """Used to convert the :members: option to auto directives."""
+     if arg in (None, True):
+-        return 'object'
++        return ['object']
+     else:
+-        return arg
++        return [x.strip() for x in arg.split(',') if x.strip()]
+ 
+ 
+ def member_order_option(arg: Any) -> Optional[str]:
++
+     """Used to convert the :members: option to auto directives."""
+     if arg in (None, True):
+         return None
+@@ -682,10 +683,11 @@ class Documenter:
+         def is_filtered_inherited_member(name: str, obj: Any) -> bool:
+             if inspect.isclass(self.object):
+                 for cls in self.object.__mro__:
+-                    if cls.__name__ == self.options.inherited_members and cls != self.object:
++                    if cls.__name__ in self.options.inherited_members and cls != self.object:
+                         # given member is a member of specified *super class*
+                         return True
+                     elif name in cls.__dict__:
++
+                         return False
+                     elif name in self.get_attr(cls, '__annotations__', {}):
+                         return False
+diff --git a/tox.ini b/tox.ini
+index f0afd779b..30ca90275 100644
+--- a/tox.ini
++++ b/tox.ini
+@@ -28,7 +28,7 @@ setenv =
+     PYTHONWARNINGS = all
+     PYTEST_ADDOPTS = {env:PYTEST_ADDOPTS:} --color yes
+ commands=
+-    python -X dev -m pytest --durations 25 {posargs}
++    python -X dev -m pytest -rA --durations 25 {posargs}
+ 
+ [testenv:du-latest]
+ commands =
+2025-05-06 11:25:48,432 - INFO - Eval script for sphinx-doc__sphinx-10325 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sphinx-doc__sphinx-10325/eval.sh; copying to container...
+2025-05-06 11:25:53,141 - INFO - Test runtime: 4.54 seconds
+2025-05-06 11:25:53,142 - INFO - Test output for sphinx-doc__sphinx-10325 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sphinx-doc__sphinx-10325/test_output.txt
+2025-05-06 11:25:53,213 - INFO - Git diff after:
+diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
+index 62631f7ff..9b73b41a7 100644
+--- a/sphinx/ext/autodoc/__init__.py
++++ b/sphinx/ext/autodoc/__init__.py
+@@ -112,12 +112,13 @@ def exclude_members_option(arg: Any) -> Union[object, Set[str]]:
+ def inherited_members_option(arg: Any) -> Union[object, Set[str]]:
+     """Used to convert the :members: option to auto directives."""
+     if arg in (None, True):
+-        return 'object'
++        return ['object']
+     else:
+-        return arg
++        return [x.strip() for x in arg.split(',') if x.strip()]
+ 
+ 
+ def member_order_option(arg: Any) -> Optional[str]:
++
+     """Used to convert the :members: option to auto directives."""
+     if arg in (None, True):
+         return None
+@@ -682,10 +683,11 @@ class Documenter:
+         def is_filtered_inherited_member(name: str, obj: Any) -> bool:
+             if inspect.isclass(self.object):
+                 for cls in self.object.__mro__:
+-                    if cls.__name__ == self.options.inherited_members and cls != self.object:
++                    if cls.__name__ in self.options.inherited_members and cls != self.object:
+                         # given member is a member of specified *super class*
+                         return True
+                     elif name in cls.__dict__:
++
+                         return False
+                     elif name in self.get_attr(cls, '__annotations__', {}):
+                         return False
+diff --git a/tox.ini b/tox.ini
+index f0afd779b..30ca90275 100644
+--- a/tox.ini
++++ b/tox.ini
+@@ -28,7 +28,7 @@ setenv =
+     PYTHONWARNINGS = all
+     PYTEST_ADDOPTS = {env:PYTEST_ADDOPTS:} --color yes
+ commands=
+-    python -X dev -m pytest --durations 25 {posargs}
++    python -X dev -m pytest -rA --durations 25 {posargs}
+ 
+ [testenv:du-latest]
+ commands =
+2025-05-06 11:25:53,213 - INFO - Grading answer for sphinx-doc__sphinx-10325...
+2025-05-06 11:25:53,224 - INFO - report: {'sphinx-doc__sphinx-10325': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['tests/test_ext_autodoc_automodule.py::test_automodule_inherited_members'], 'failure': []}, 'PASS_TO_PASS': {'success': ['tests/test_ext_autodoc_automodule.py::test_empty_all', 'tests/test_ext_autodoc_automodule.py::test_automodule', 'tests/test_ext_autodoc_automodule.py::test_automodule_undoc_members', 'tests/test_ext_autodoc_automodule.py::test_automodule_special_members', 'tests/test_ext_autodoc_automodule.py::test_subclass_of_mocked_object'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sphinx-doc__sphinx-10325: resolved: True
+2025-05-06 11:25:53,224 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-10325.20250506_111427...
+2025-05-06 11:26:08,530 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-10325.20250506_111427...
+2025-05-06 11:26:08,546 - INFO - Container sweb.eval.sphinx-doc__sphinx-10325.20250506_111427 removed.

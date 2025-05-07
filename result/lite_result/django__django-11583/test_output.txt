@@ -179,22 +179,25 @@ index 1ddbde9393..18ee0b4911 100644
                          val = kwargs.pop(field.attname)
 + git diff 60dc957a825232fdda9138e2f8878b2ca407a7c9
 diff --git a/django/utils/autoreload.py b/django/utils/autoreload.py
-index 25c3b44250..af4dc1587e 100644
+index 25c3b44250..3cb639e9a8 100644
 --- a/django/utils/autoreload.py
 +++ b/django/utils/autoreload.py
-@@ -139,10 +139,11 @@ def iter_modules_and_files(modules, extra_files):
+@@ -139,9 +139,15 @@ def iter_modules_and_files(modules, extra_files):
          path = Path(filename)
          try:
              resolved_path = path.resolve(strict=True).absolute()
--        except FileNotFoundError:
-+        except (FileNotFoundError, ValueError):
++        except ValueError:
++            # A ValueError is raised if the path contains a null byte, which
++            # shouldn't be possible under normal circumstances. Log a warning
++            # and continue.
++            logger.warning('Unable to resolve path %s', path)
+         except FileNotFoundError:
              # The module could have been removed, don't fail loudly if this
              # is the case.
-             continue
 +
+             continue
          results.add(resolved_path)
      return frozenset(results)
- 
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -380,8 +383,7 @@ test_file_added (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
 test_main_module_is_resolved (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
 test_main_module_without_file_is_not_resolved (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
 test_module_without_spec (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
-test_path_with_embedded_null_bytes (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
-test_paths_are_pathlib_instances (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
+test_path_with_embedded_null_bytes (utils_tests.test_autoreload.TestIterModulesAndFiles) ... test_paths_are_pathlib_instances (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
 test_weakref_in_sys_module (utils_tests.test_autoreload.TestIterModulesAndFiles)
 iter_all_python_module_file() ignores weakref modules. ... ok
 test_zip_reload (utils_tests.test_autoreload.TestIterModulesAndFiles) ... ok
@@ -415,10 +417,30 @@ test_watched_roots_contains_directory_globs (utils_tests.test_autoreload.Watchma
 test_watched_roots_contains_files (utils_tests.test_autoreload.WatchmanReloaderTests) ... skipped 'Watchman unavailable: Cannot connect to the watchman service.'
 test_watched_roots_contains_sys_path (utils_tests.test_autoreload.WatchmanReloaderTests) ... skipped 'Watchman unavailable: Cannot connect to the watchman service.'
 
+======================================================================
+ERROR: test_path_with_embedded_null_bytes (utils_tests.test_autoreload.TestIterModulesAndFiles) (path='embedded_null_byte\x00.py')
 ----------------------------------------------------------------------
-Ran 73 tests in 0.459s
+Traceback (most recent call last):
+  File "/testbed/tests/utils_tests/test_autoreload.py", line 150, in test_path_with_embedded_null_bytes
+    autoreload.iter_modules_and_files((), frozenset([path])),
+  File "/testbed/django/utils/autoreload.py", line 152, in iter_modules_and_files
+    results.add(resolved_path)
+UnboundLocalError: local variable 'resolved_path' referenced before assignment
 
-OK (skipped=21)
+======================================================================
+ERROR: test_path_with_embedded_null_bytes (utils_tests.test_autoreload.TestIterModulesAndFiles) (path='di\x00rectory/embedded_null_byte.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/utils_tests/test_autoreload.py", line 150, in test_path_with_embedded_null_bytes
+    autoreload.iter_modules_and_files((), frozenset([path])),
+  File "/testbed/django/utils/autoreload.py", line 152, in iter_modules_and_files
+    results.add(resolved_path)
+UnboundLocalError: local variable 'resolved_path' referenced before assignment
+
+----------------------------------------------------------------------
+Ran 73 tests in 0.533s
+
+FAILED (errors=2, skipped=21)
 Testing against Django installed in '/testbed/django'
 Importing application utils_tests
 Skipping setup of unused database(s): default, other.

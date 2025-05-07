@@ -1,0 +1,72 @@
+2025-05-06 07:08:35,595 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-17318
+Building instance image sweb.eval.x86_64.sympy__sympy-17318:latest for sympy__sympy-17318
+2025-05-06 07:08:35,596 - INFO - Image sweb.eval.x86_64.sympy__sympy-17318:latest already exists, skipping build.
+2025-05-06 07:08:35,597 - INFO - Creating container for sympy__sympy-17318...
+2025-05-06 07:08:35,634 - INFO - Container for sympy__sympy-17318 created: b2ff537c3b944397f6effdac11d5042aba47113549f383475ad811dc094b8c9b
+2025-05-06 07:08:36,016 - INFO - Container for sympy__sympy-17318 started: b2ff537c3b944397f6effdac11d5042aba47113549f383475ad811dc094b8c9b
+2025-05-06 07:08:36,016 - INFO - Intermediate patch for sympy__sympy-17318 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-17318/patch.diff, now applying to container...
+2025-05-06 07:08:36,262 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:08:36,320 - INFO - >>>>> Applied Patch:
+patching file sympy/simplify/sqrtdenest.py
+
+2025-05-06 07:08:36,720 - INFO - Git diff before:
+diff --git a/sympy/simplify/sqrtdenest.py b/sympy/simplify/sqrtdenest.py
+index f0b7653ea8..ab00206f2a 100644
+--- a/sympy/simplify/sqrtdenest.py
++++ b/sympy/simplify/sqrtdenest.py
+@@ -156,13 +156,16 @@ def _sqrt_match(p):
+         res = (p, S.Zero, S.Zero)
+     elif p.is_Add:
+         pargs = sorted(p.args, key=default_sort_key)
+-        if all((x**2).is_Rational for x in pargs):
+-            r, b, a = split_surds(p)
+-            res = a, b, r
+-            return list(res)
++        if len(pargs) == 3 and all((x**2).is_Rational for x in pargs):
++            s = split_surds(p)
++            if len(s) == 3:
++                r, b, a = s
++                res = a, b, r
++                return list(res)
+         # to make the process canonical, the argument is included in the tuple
+         # so when the max is selected, it will be the largest arg having a
+         # given depth
++
+         v = [(sqrt_depth(x), x, i) for i, x in enumerate(pargs)]
+         nmax = max(v, key=default_sort_key)
+         if nmax[0] == 0:
+2025-05-06 07:08:36,720 - INFO - Eval script for sympy__sympy-17318 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-17318/eval.sh; copying to container...
+2025-05-06 07:08:53,646 - INFO - Test runtime: 16.79 seconds
+2025-05-06 07:08:53,646 - INFO - Test output for sympy__sympy-17318 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-17318/test_output.txt
+2025-05-06 07:08:53,702 - INFO - Git diff after:
+diff --git a/sympy/simplify/sqrtdenest.py b/sympy/simplify/sqrtdenest.py
+index f0b7653ea8..ab00206f2a 100644
+--- a/sympy/simplify/sqrtdenest.py
++++ b/sympy/simplify/sqrtdenest.py
+@@ -156,13 +156,16 @@ def _sqrt_match(p):
+         res = (p, S.Zero, S.Zero)
+     elif p.is_Add:
+         pargs = sorted(p.args, key=default_sort_key)
+-        if all((x**2).is_Rational for x in pargs):
+-            r, b, a = split_surds(p)
+-            res = a, b, r
+-            return list(res)
++        if len(pargs) == 3 and all((x**2).is_Rational for x in pargs):
++            s = split_surds(p)
++            if len(s) == 3:
++                r, b, a = s
++                res = a, b, r
++                return list(res)
+         # to make the process canonical, the argument is included in the tuple
+         # so when the max is selected, it will be the largest arg having a
+         # given depth
++
+         v = [(sqrt_depth(x), x, i) for i, x in enumerate(pargs)]
+         nmax = max(v, key=default_sort_key)
+         if nmax[0] == 0:
+2025-05-06 07:08:53,702 - INFO - Grading answer for sympy__sympy-17318...
+2025-05-06 07:08:53,704 - INFO - report: {'sympy__sympy-17318': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_issue_12420'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_sqrtdenest', 'test_sqrtdenest_rec', 'test_issue_6241', 'test_sqrtdenest4', 'test_sqrt_symbolic_denest', 'test_issue_5857', 'test_subsets', 'test_issue_5653'], 'failure': ['test_sqrtdenest2', 'test_sqrtdenest3']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-17318: resolved: False
+2025-05-06 07:08:53,704 - INFO - Attempting to stop container sweb.eval.sympy__sympy-17318.20250506_061805...
+2025-05-06 07:09:09,019 - INFO - Attempting to remove container sweb.eval.sympy__sympy-17318.20250506_061805...
+2025-05-06 07:09:09,033 - INFO - Container sweb.eval.sympy__sympy-17318.20250506_061805 removed.

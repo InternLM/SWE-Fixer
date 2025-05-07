@@ -1,0 +1,58 @@
+2025-05-06 11:28:58,723 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-19254
+Building instance image sweb.eval.x86_64.sympy__sympy-19254:latest for sympy__sympy-19254
+2025-05-06 11:28:58,726 - INFO - Image sweb.eval.x86_64.sympy__sympy-19254:latest already exists, skipping build.
+2025-05-06 11:28:58,727 - INFO - Creating container for sympy__sympy-19254...
+2025-05-06 11:28:58,756 - INFO - Container for sympy__sympy-19254 created: 06a7474ccfd83a77161f6666960cd7736961ca54e71cd8e7a5e7e3630585f68a
+2025-05-06 11:28:59,060 - INFO - Container for sympy__sympy-19254 started: 06a7474ccfd83a77161f6666960cd7736961ca54e71cd8e7a5e7e3630585f68a
+2025-05-06 11:28:59,060 - INFO - Intermediate patch for sympy__sympy-19254 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-19254/patch.diff, now applying to container...
+2025-05-06 11:28:59,320 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:28:59,384 - INFO - >>>>> Applied Patch:
+patching file sympy/core/basic.py
+
+2025-05-06 11:28:59,950 - INFO - Git diff before:
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index bbb285a72f..7337726049 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -105,9 +105,13 @@ class Basic(metaclass=ManagedProperties):
+     is_MatAdd = False
+     is_MatMul = False
+ 
++    is_Matrix = False
++    is_Vector = False
++
+     def __new__(cls, *args):
+         obj = object.__new__(cls)
+         obj._assumptions = cls.default_assumptions
++
+         obj._mhash = None  # will be set by __hash__ method.
+ 
+         obj._args = args  # all items in args must be Basic objects
+2025-05-06 11:28:59,950 - INFO - Eval script for sympy__sympy-19254 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-19254/eval.sh; copying to container...
+2025-05-06 11:29:04,221 - INFO - Test runtime: 4.09 seconds
+2025-05-06 11:29:04,221 - INFO - Test output for sympy__sympy-19254 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-19254/test_output.txt
+2025-05-06 11:29:04,295 - INFO - Git diff after:
+diff --git a/sympy/core/basic.py b/sympy/core/basic.py
+index bbb285a72f..7337726049 100644
+--- a/sympy/core/basic.py
++++ b/sympy/core/basic.py
+@@ -105,9 +105,13 @@ class Basic(metaclass=ManagedProperties):
+     is_MatAdd = False
+     is_MatMul = False
+ 
++    is_Matrix = False
++    is_Vector = False
++
+     def __new__(cls, *args):
+         obj = object.__new__(cls)
+         obj._assumptions = cls.default_assumptions
++
+         obj._mhash = None  # will be set by __hash__ method.
+ 
+         obj._args = args  # all items in args must be Basic objects
+2025-05-06 11:29:04,295 - INFO - Grading answer for sympy__sympy-19254...
+2025-05-06 11:29:04,298 - INFO - report: {'sympy__sympy-19254': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_dup_zz_mignotte_bound']}, 'PASS_TO_PASS': {'success': ['test_dup_trial_division', 'test_dmp_trial_division', 'test_dmp_zz_mignotte_bound', 'test_dup_zz_hensel_step', 'test_dup_zz_hensel_lift', 'test_dup_zz_irreducible_p', 'test_dup_cyclotomic_p', 'test_dup_zz_cyclotomic_poly', 'test_dup_zz_cyclotomic_factor', 'test_dup_zz_factor', 'test_dmp_zz_wang', 'test_issue_6355', 'test_dmp_zz_factor', 'test_dup_ext_factor', 'test_dmp_ext_factor', 'test_dup_factor_list', 'test_dmp_factor_list', 'test_dup_irreducible_p'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-19254: resolved: False
+2025-05-06 11:29:04,298 - INFO - Attempting to stop container sweb.eval.sympy__sympy-19254.20250506_111427...
+2025-05-06 11:29:19,578 - INFO - Attempting to remove container sweb.eval.sympy__sympy-19254.20250506_111427...
+2025-05-06 11:29:19,613 - INFO - Container sweb.eval.sympy__sympy-19254.20250506_111427 removed.

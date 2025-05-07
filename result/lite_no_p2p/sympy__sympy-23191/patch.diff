@@ -1,0 +1,50 @@
+
+diff --git a/sympy/printing/latex.py b/sympy/printing/latex.py
+index a0e3523..709efce 100644
+--- a/sympy/printing/latex.py
++++ b/sympy/printing/latex.py
+@@ -734,6 +734,7 @@ class LatexPrinter(Printer):
+         from sympy.vector import Vector
+ 
+         o1 = []
++        o2 = []
+         if expr == expr.zero:
+             return expr.zero._latex_form
+         if isinstance(expr, Vector):
+@@ -746,22 +747,29 @@ class LatexPrinter(Printer):
+             inneritems.sort(key=lambda x: x[0].__str__())
+             for k, v in inneritems:
+                 if v == 1:
+-                    o1.append(' + ' + k._latex_form)
++                    o1.append(k._latex_form)
+                 elif v == -1:
+-                    o1.append(' - ' + k._latex_form)
++                    o1.append('-' + k._latex_form)
+                 else:
+                     arg_str = '(' + self._print(v) + ')'
+-                    o1.append(' + ' + arg_str + k._latex_form)
++                    o1.append(arg_str + k._latex_form)
++                o2.append(system._latex_form)
+ 
+         outstr = (''.join(o1))
+-        if outstr[1] != '-':
+-            outstr = outstr[3:]
++        if outstr[0] == '-':
++            outstr = outstr
+         else:
+-            outstr = outstr[1:]
+-        return outstr
++            outstr = '+' + outstr
++        if len(o2) == 0:
++            return outstr
++        elif len(o2) == 1:
++            return outstr + '\\,' + o2[0]
++        else:
++            return outstr + '\\,' + '\\,'.join(o2)
+ 
+     def _print_Indexed(self, expr):
+         tex_base = self._print(expr.base)
++
+         tex = '{'+tex_base+'}'+'_{%s}' % ','.join(
+             map(self._print, expr.indices))
+         return tex

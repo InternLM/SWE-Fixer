@@ -1,0 +1,42 @@
+2024-12-06 19:53:17,618 - INFO - Building image sweb.eval.x86_64.pytest-dev__pytest-10081:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.7f83a0ba1392a745c061ce:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-06 19:53:17,618 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/pytest-dev/pytest /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard da9a2b584eb7a6c7e924b2621ed0ddaeca0a7bea
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+python -m pip install -e .
+
+2024-12-06 19:53:17,618 - INFO - Building docker image sweb.eval.x86_64.pytest-dev__pytest-10081:latest in logs/build_images/instances/sweb.eval.x86_64.pytest-dev__pytest-10081__latest with platform linux/x86_64
+2024-12-06 19:53:17,627 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.7f83a0ba1392a745c061ce:latest
+2024-12-06 19:53:17,628 - INFO - 
+2024-12-06 19:53:17,628 - INFO - ---> 2d5357fdad46
+2024-12-06 19:53:17,628 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-06 19:53:17,628 - INFO - 
+2024-12-06 19:53:17,628 - INFO - ---> Using cache
+2024-12-06 19:53:17,628 - INFO - ---> 993387f18c66
+2024-12-06 19:53:17,629 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-06 19:53:17,629 - INFO - 
+2024-12-06 19:53:17,629 - INFO - ---> Using cache
+2024-12-06 19:53:17,629 - INFO - ---> edfc09474b37
+2024-12-06 19:53:17,629 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-06 19:53:17,629 - INFO - 
+2024-12-06 19:53:17,629 - INFO - ---> Using cache
+2024-12-06 19:53:17,630 - INFO - ---> 89b5d9054218
+2024-12-06 19:53:17,630 - INFO - Successfully built 89b5d9054218
+2024-12-06 19:53:17,640 - INFO - Successfully tagged sweb.eval.x86_64.pytest-dev__pytest-10081:latest
+2024-12-06 19:53:17,640 - INFO - Image built successfully!

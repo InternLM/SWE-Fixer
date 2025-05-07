@@ -150,32 +150,23 @@ Date:   Wed Mar 2 14:45:42 2022 +0100
 
 + git diff fa9b4b140ec0eaf75a62c1111131626ef0f6f524
 diff --git a/sympy/printing/latex.py b/sympy/printing/latex.py
-index 03e9138483..ea9227ca0a 100644
+index 03e9138483..e8fe27d4de 100644
 --- a/sympy/printing/latex.py
 +++ b/sympy/printing/latex.py
-@@ -745,18 +745,19 @@ def _print_BasisDependent(self, expr):
-             inneritems = list(vect.components.items())
-             inneritems.sort(key=lambda x: x[0].__str__())
-             for k, v in inneritems:
--                if v == 1:
-+                if v == S(1):
-                     o1.append(' + ' + k._latex_form)
--                elif v == -1:
-+                elif v == S(-1):
+@@ -751,10 +751,12 @@ def _print_BasisDependent(self, expr):
                      o1.append(' - ' + k._latex_form)
                  else:
                      arg_str = '(' + self._print(v) + ')'
-                     o1.append(' + ' + arg_str + k._latex_form)
+-                    o1.append(' + ' + arg_str + k._latex_form)
++                    o1.append(arg_str)
++                    o1.append(k._latex_form)
  
--        outstr = (''.join(o1))
-+        outstr = ''.join(o1)
+         outstr = (''.join(o1))
          if outstr[1] != '-':
++
              outstr = outstr[3:]
          else:
-+
              outstr = outstr[1:]
-         return outstr
- 
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -326,18 +317,24 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        8314473
-hash randomization: on (PYTHONHASHSEED=2391966554)
+random seed:        197488
+hash randomization: on (PYTHONHASHSEED=1611051205)
 
 sympy/vector/tests/test_printing.py[6] 
 test_str_printing ok
 test_pretty_printing_ascii f
 test_pretty_print_unicode_v ok
-test_latex_printing ok
+test_latex_printing F
 test_issue_23058 F
 test_custom_names ok                                                      [FAIL]
 
 
+________________________________________________________________________________
+___________ sympy/vector/tests/test_printing.py:test_latex_printing ____________
+Traceback (most recent call last):
+  File "/testbed/sympy/vector/tests/test_printing.py", line 142, in test_latex_printing
+    assert latex(v[5]) == ('(a)\\mathbf{\\hat{i}_{N}} + ' +
+AssertionError
 ________________________________________________________________________________
 _____________ sympy/vector/tests/test_printing.py:test_issue_23058 _____________
 Traceback (most recent call last):
@@ -345,7 +342,7 @@ Traceback (most recent call last):
     assert upretty(vecB) == vecB_str
 AssertionError
 
-=== tests finished: 4 passed, 1 failed, 1 expected to fail, in 0.57 seconds ====
+=== tests finished: 3 passed, 2 failed, 1 expected to fail, in 0.61 seconds ====
 DO *NOT* COMMIT!
 + git checkout fa9b4b140ec0eaf75a62c1111131626ef0f6f524 sympy/vector/tests/test_printing.py
 Updated 1 path from 209d75a00c

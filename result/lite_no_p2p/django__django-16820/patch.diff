@@ -1,0 +1,74 @@
+
+diff --git a/django/db/migrations/autodetector.py b/django/db/migrations/autodetector.py
+index 42f1c50..0bb9753 100644
+--- a/django/db/migrations/autodetector.py
++++ b/django/db/migrations/autodetector.py
+@@ -1274,7 +1274,10 @@ class MigrationAutodetector:
+                         ):
+                             renamed_index_together_indexes.append(new_index)
+ 
+-                    if len(renamed_index_together_indexes) == 1:
++                    if len(renamed_index_together_indexes) == 1 and not any(
++                        removed_index_together == index.fields
++                        for index in removed_indexes
++                    ):
+                         renamed_index = renamed_index_together_indexes[0]
+                         remove_from_added.append(renamed_index)
+                         renamed_indexes.append(
+@@ -1283,9 +1286,13 @@ class MigrationAutodetector:
+                         self.renamed_index_together_values[
+                             index_together_app_label, index_together_model_name
+                         ].append(removed_index_together)
++                        remove_from_removed.append(
++                            models.Index(*removed_index_together)
++                        )
+             # Remove renamed indexes from the lists of added and removed
+             # indexes.
+             added_indexes = [
++
+                 idx for idx in added_indexes if idx not in remove_from_added
+             ]
+             removed_indexes = [
+
+diff --git a/django/db/migrations/autodetector.py b/django/db/migrations/autodetector.py
+index 42f1c50..1de2051 100644
+--- a/django/db/migrations/autodetector.py
++++ b/django/db/migrations/autodetector.py
+@@ -1453,10 +1453,10 @@ class MigrationAutodetector:
+             old_model_state = self.from_state.models[app_label, old_model_name]
+             new_model_state = self.to_state.models[app_label, model_name]
+ 
+-            # We run the old version through the field renames to account for those
+             old_value = old_model_state.options.get(option_name)
+             old_value = (
+                 {
++
+                     tuple(
+                         self.renamed_fields.get((app_label, model_name, n), n)
+                         for n in unique
+
+diff --git a/django/db/migrations/autodetector.py b/django/db/migrations/autodetector.py
+index 42f1c50..03c75a6 100644
+--- a/django/db/migrations/autodetector.py
++++ b/django/db/migrations/autodetector.py
+@@ -1467,9 +1467,20 @@ class MigrationAutodetector:
+                 else set()
+             )
+ 
++            # We run the old version through the field renames to account for those
++            old_value = {
++                tuple(
++                    self.renamed_fields.get((app_label, model_name, n), n)
++                    for n in unique
++                )
++                for unique in old_value
++            }
++
+             new_value = new_model_state.options.get(option_name)
+             new_value = set(new_value) if new_value else set()
+ 
++
++
+             if old_value != new_value:
+                 dependencies = []
+                 for foo_togethers in new_value:

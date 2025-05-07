@@ -1,0 +1,56 @@
+2025-05-06 07:15:29,693 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-23824
+Building instance image sweb.eval.x86_64.sympy__sympy-23824:latest for sympy__sympy-23824
+2025-05-06 07:15:29,694 - INFO - Image sweb.eval.x86_64.sympy__sympy-23824:latest already exists, skipping build.
+2025-05-06 07:15:29,694 - INFO - Creating container for sympy__sympy-23824...
+2025-05-06 07:15:29,718 - INFO - Container for sympy__sympy-23824 created: 923e7e2981c876929e255636dfdfb3f7151af41af7deb45d9e331d03e54f5fde
+2025-05-06 07:15:30,154 - INFO - Container for sympy__sympy-23824 started: 923e7e2981c876929e255636dfdfb3f7151af41af7deb45d9e331d03e54f5fde
+2025-05-06 07:15:30,154 - INFO - Intermediate patch for sympy__sympy-23824 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-23824/patch.diff, now applying to container...
+2025-05-06 07:15:30,364 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:15:30,429 - INFO - >>>>> Applied Patch:
+patching file sympy/physics/hep/gamma_matrices.py
+
+2025-05-06 07:15:30,905 - INFO - Git diff before:
+diff --git a/sympy/physics/hep/gamma_matrices.py b/sympy/physics/hep/gamma_matrices.py
+index 23284e4a92..8f963ecb46 100644
+--- a/sympy/physics/hep/gamma_matrices.py
++++ b/sympy/physics/hep/gamma_matrices.py
+@@ -695,10 +695,11 @@ def kahane_simplify(expression):
+     # If `first_dum_pos` is not zero, it means that there are trailing free gamma
+     # matrices in front of `expression`, so multiply by them:
+     for i in range(0, first_dum_pos):
+-        [ri.insert(0, free_pos[i]) for ri in resulting_indices]
++        [ri.append(free_pos[i]) for ri in resulting_indices]
+ 
+     resulting_expr = S.Zero
+     for i in resulting_indices:
++
+         temp_expr = S.One
+         for j in i:
+             temp_expr *= GammaMatrix(j)
+2025-05-06 07:15:30,906 - INFO - Eval script for sympy__sympy-23824 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-23824/eval.sh; copying to container...
+2025-05-06 07:15:42,881 - INFO - Test runtime: 11.74 seconds
+2025-05-06 07:15:42,882 - INFO - Test output for sympy__sympy-23824 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-23824/test_output.txt
+2025-05-06 07:15:42,935 - INFO - Git diff after:
+diff --git a/sympy/physics/hep/gamma_matrices.py b/sympy/physics/hep/gamma_matrices.py
+index 23284e4a92..8f963ecb46 100644
+--- a/sympy/physics/hep/gamma_matrices.py
++++ b/sympy/physics/hep/gamma_matrices.py
+@@ -695,10 +695,11 @@ def kahane_simplify(expression):
+     # If `first_dum_pos` is not zero, it means that there are trailing free gamma
+     # matrices in front of `expression`, so multiply by them:
+     for i in range(0, first_dum_pos):
+-        [ri.insert(0, free_pos[i]) for ri in resulting_indices]
++        [ri.append(free_pos[i]) for ri in resulting_indices]
+ 
+     resulting_expr = S.Zero
+     for i in resulting_indices:
++
+         temp_expr = S.One
+         for j in i:
+             temp_expr *= GammaMatrix(j)
+2025-05-06 07:15:42,936 - INFO - Grading answer for sympy__sympy-23824...
+2025-05-06 07:15:42,937 - INFO - report: {'sympy__sympy-23824': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_kahane_simplify1'], 'failure': []}, 'PASS_TO_PASS': {'success': [], 'failure': ['test_kahane_algorithm', 'test_gamma_matrix_class']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-23824: resolved: False
+2025-05-06 07:15:42,937 - INFO - Attempting to stop container sweb.eval.sympy__sympy-23824.20250506_061805...
+2025-05-06 07:15:58,263 - INFO - Attempting to remove container sweb.eval.sympy__sympy-23824.20250506_061805...
+2025-05-06 07:15:58,280 - INFO - Container sweb.eval.sympy__sympy-23824.20250506_061805 removed.

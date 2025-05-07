@@ -154,30 +154,28 @@ Date:   Wed Sep 12 23:36:36 2012 -0700
 
 + git diff a0df2cbb10419037d11d04352b3175405ab52941
 diff --git a/requests/models.py b/requests/models.py
-index d8456375..c1593c4d 100644
+index d8456375..2a56c329 100644
 --- a/requests/models.py
 +++ b/requests/models.py
-@@ -141,15 +141,13 @@ class Request(object):
-         self.sent = False
- 
+@@ -143,8 +143,7 @@ class Request(object):
          #: Event-handling hooks.
--        self.hooks = {}
-+        self.hooks = dict((event, []) for event in HOOKS)
+         self.hooks = {}
  
 -        for event in HOOKS:
 -            self.hooks[event] = []
-+        if hooks:
-+            for (k, v) in list(hooks.items()):
-+                self.register_hook(event=k, hook=v)
++        self.hooks = dict((event, []) for event in HOOKS)
  
--        hooks = hooks or {}
+         hooks = hooks or {}
  
--        for (k, v) in list(hooks.items()):
--            self.register_hook(event=k, hook=v)
- 
+@@ -154,6 +153,7 @@ class Request(object):
          #: Session.
          self.session = session
-@@ -463,10 +461,14 @@ class Request(object):
+ 
++
+         #: SSL Verification.
+         self.verify = verify
+ 
+@@ -463,10 +463,14 @@ class Request(object):
      def register_hook(self, event, hook):
          """Properly register a hook."""
  
@@ -324,8 +322,8 @@ Processing /testbed
 Building wheels for collected packages: requests
   Building wheel for requests (setup.py): started
   Building wheel for requests (setup.py): finished with status 'done'
-  Created wheel for requests: filename=requests-0.14.0-py3-none-any.whl size=364877 sha256=22b7d11499d4063e5caca6cecc52e88bbf713d088685f092851325736dc35077
-  Stored in directory: /tmp/pip-ephem-wheel-cache-99tci10y/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for requests: filename=requests-0.14.0-py3-none-any.whl size=364883 sha256=41fb385333a1da227727f4bf6ae8a3b09c63c8984354c148c6e6d4f4a8864903
+  Stored in directory: /tmp/pip-ephem-wheel-cache-switxdng/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built requests
 Installing collected packages: requests
   Attempting uninstall: requests
@@ -372,11 +370,11 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     return session.request(method=method, url=url, **kwargs)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/sessions.py:241: in request
     r.send(prefetch=prefetch)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:645: in send
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:647: in send
     self._build_response(r)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:228: in _build_response
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:230: in _build_response
     r = build(resp)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:205: in build
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:207: in build
     extract_cookies_to_jar(self.cookies, self, resp)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/cookies.py:103: in extract_cookies_to_jar
     jar.extract_cookies(res, req)
@@ -386,9 +384,9 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     if not fn(cookie, request):
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <http.cookiejar.DefaultCookiePolicy object at 0x7fc5c00a3ee0>
+self = <http.cookiejar.DefaultCookiePolicy object at 0x7f60e04c1ee0>
 cookie = Cookie(version=0, name='stale_after', value='never', port=None, port_specified=False, domain='httpbin.org', domain_spe... path_specified=True, secure=False, expires=None, discard=True, comment=None, comment_url=None, rest={}, rfc2109=False)
-request = <requests.cookies.MockRequest object at 0x7fc5c00b0430>
+request = <requests.cookies.MockRequest object at 0x7f60e04cd430>
 
     def set_ok_verifiability(self, cookie, request):
 >       if request.unverifiable and is_third_party(request):
@@ -418,11 +416,11 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     return session.request(method=method, url=url, **kwargs)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/sessions.py:241: in request
     r.send(prefetch=prefetch)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:645: in send
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:647: in send
     self._build_response(r)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:228: in _build_response
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:230: in _build_response
     r = build(resp)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:205: in build
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:207: in build
     extract_cookies_to_jar(self.cookies, self, resp)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/cookies.py:103: in extract_cookies_to_jar
     jar.extract_cookies(res, req)
@@ -432,9 +430,9 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     if not fn(cookie, request):
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <http.cookiejar.DefaultCookiePolicy object at 0x7fc5bfe4b670>
+self = <http.cookiejar.DefaultCookiePolicy object at 0x7f60e0269670>
 cookie = Cookie(version=0, name='stale_after', value='never', port=None, port_specified=False, domain='httpbin.org', domain_spe... path_specified=True, secure=False, expires=None, discard=True, comment=None, comment_url=None, rest={}, rfc2109=False)
-request = <requests.cookies.MockRequest object at 0x7fc5bfe4b250>
+request = <requests.cookies.MockRequest object at 0x7f60e0269040>
 
     def set_ok_verifiability(self, cookie, request):
 >       if request.unverifiable and is_third_party(request):
@@ -454,11 +452,11 @@ self = <test_requests.RequestsTestSuite testMethod=test_session_cookies_with_ret
 
 tests/test_requests.py:853: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:645: in send
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:647: in send
     self._build_response(r)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:228: in _build_response
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:230: in _build_response
     r = build(resp)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:205: in build
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:207: in build
     extract_cookies_to_jar(self.cookies, self, resp)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/cookies.py:103: in extract_cookies_to_jar
     jar.extract_cookies(res, req)
@@ -468,9 +466,9 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     if not fn(cookie, request):
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <http.cookiejar.DefaultCookiePolicy object at 0x7fc5bfdbdd60>
+self = <http.cookiejar.DefaultCookiePolicy object at 0x7f60e018a4c0>
 cookie = Cookie(version=0, name='k', value='v', port=None, port_specified=False, domain='httpbin.org', domain_specified=False, ... path_specified=True, secure=False, expires=None, discard=True, comment=None, comment_url=None, rest={}, rfc2109=False)
-request = <requests.cookies.MockRequest object at 0x7fc5bfdbd820>
+request = <requests.cookies.MockRequest object at 0x7f60e018a760>
 
     def set_ok_verifiability(self, cookie, request):
 >       if request.unverifiable and is_third_party(request):
@@ -499,7 +497,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     return session.request(method=method, url=url, **kwargs)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/sessions.py:241: in request
     r.send(prefetch=prefetch)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:605: in send
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:607: in send
     cookie_header = get_cookie_header(self.cookies, self)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/cookies.py:109: in get_cookie_header
     jar.add_cookie_header(r)
@@ -513,9 +511,9 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     if not fn(cookie, request):
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <http.cookiejar.DefaultCookiePolicy object at 0x7fc5bfcf8550>
+self = <http.cookiejar.DefaultCookiePolicy object at 0x7f60e00d7be0>
 cookie = Cookie(version=0, name='kenneth', value='reitz', port=None, port_specified=False, domain='', domain_specified=False, d...True, secure=False, expires=None, discard=True, comment=None, comment_url=None, rest={'HttpOnly': None}, rfc2109=False)
-request = <requests.cookies.MockRequest object at 0x7fc5bfcf8250>
+request = <requests.cookies.MockRequest object at 0x7f60e0115d90>
 
     def return_ok_verifiability(self, cookie, request):
 >       if request.unverifiable and is_third_party(request):
@@ -552,11 +550,11 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     return session.request(method=method, url=url, **kwargs)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/sessions.py:241: in request
     r.send(prefetch=prefetch)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:645: in send
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:647: in send
     self._build_response(r)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:228: in _build_response
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:230: in _build_response
     r = build(resp)
-/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:205: in build
+/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/models.py:207: in build
     extract_cookies_to_jar(self.cookies, self, resp)
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/requests/cookies.py:103: in extract_cookies_to_jar
     jar.extract_cookies(res, req)
@@ -566,9 +564,9 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     if not fn(cookie, request):
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <http.cookiejar.DefaultCookiePolicy object at 0x7fc5bfd0bbe0>
+self = <http.cookiejar.DefaultCookiePolicy object at 0x7f60e0441ca0>
 cookie = Cookie(version=0, name='k', value='v', port=None, port_specified=False, domain='httpbin.org', domain_specified=False, ... path_specified=True, secure=False, expires=None, discard=True, comment=None, comment_url=None, rest={}, rfc2109=False)
-request = <requests.cookies.MockRequest object at 0x7fc5bfe932b0>
+request = <requests.cookies.MockRequest object at 0x7f60e0441f40>
 
     def set_ok_verifiability(self, cookie, request):
 >       if request.unverifiable and is_third_party(request):
@@ -659,6 +657,6 @@ FAILED tests/test_requests.py::RequestsTestSuite::test_session_cookies_with_retu
 FAILED tests/test_requests.py::RequestsTestSuite::test_session_persistent_cookies
 FAILED tests/test_requests.py::RequestsTestSuite::test_str_data_content_type
 FAILED tests/test_requests.py::RequestsTestSuite::test_unpickled_session_requests
-============= 6 failed, 70 passed, 1 warning in 147.89s (0:02:27) ==============
+============= 6 failed, 70 passed, 1 warning in 133.81s (0:02:13) ==============
 + git checkout a0df2cbb10419037d11d04352b3175405ab52941 tests/test_requests.py
 Updated 1 path from a840744c

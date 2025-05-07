@@ -222,7 +222,7 @@ index f3b670760..1488ceaba 100644
 +            assert_allclose(Xt_inv_sparse.A, Xt_inv_dense)
 + git diff 96a02f3934952d486589dddd3f00b40d5a5ab5f2
 diff --git a/sklearn/neighbors/base.py b/sklearn/neighbors/base.py
-index 3e5e729c2..53a708e5d 100644
+index 3e5e729c2..7a232886f 100644
 --- a/sklearn/neighbors/base.py
 +++ b/sklearn/neighbors/base.py
 @@ -9,9 +9,12 @@
@@ -238,46 +238,34 @@ index 3e5e729c2..53a708e5d 100644
  from .ball_tree import BallTree
  from .kd_tree import KDTree
  from ..base import BaseEstimator
-@@ -107,9 +110,21 @@ class NeighborsBase(six.with_metaclass(ABCMeta, BaseEstimator)):
-                  algorithm='auto', leaf_size=30, metric='minkowski',
-                  p=2, metric_params=None, n_jobs=1):
- 
-+        if n_neighbors is not None:
-+            if not isinstance(n_neighbors, numbers.Integral):
-+                raise TypeError(
-+                    "n_neighbors does not take %s value, enter integer value"
-+                    % type(n_neighbors))
-+            elif n_neighbors <= 0:
-+                raise ValueError(
-+                    "Expected n_neighbors > 0. Got %d" %
-+                    n_neighbors
-+                )
-+
-         self.n_neighbors = n_neighbors
-         self.radius = radius
-         self.algorithm = algorithm
-+
-         self.leaf_size = leaf_size
-         self.metric = metric
-         self.metric_params = metric_params
-@@ -252,16 +267,10 @@ class NeighborsBase(six.with_metaclass(ABCMeta, BaseEstimator)):
-             raise ValueError("algorithm = '%s' not recognized"
+@@ -253,9 +256,13 @@ class NeighborsBase(six.with_metaclass(ABCMeta, BaseEstimator)):
                               % self.algorithm)
  
--        if self.n_neighbors is not None:
--            if self.n_neighbors <= 0:
--                raise ValueError(
--                    "Expected n_neighbors > 0. Got %d" %
--                    self.n_neighbors
--                )
--
-         return self
- 
-     @property
+         if self.n_neighbors is not None:
++            if not isinstance(self.n_neighbors, numbers.Integral):
++                raise TypeError("n_neighbors must be an integer")
 +
-     def _pairwise(self):
-         # For cross-validation routines to split data correctly
-         return self.metric == 'precomputed'
+             if self.n_neighbors <= 0:
+                 raise ValueError(
+                     "Expected n_neighbors > 0. Got %d" %
++
+                     self.n_neighbors
+                 )
+ 
+@@ -328,9 +335,13 @@ class KNeighborsMixin(object):
+         if n_neighbors is None:
+             n_neighbors = self.n_neighbors
+ 
++        if not isinstance(n_neighbors, numbers.Integral):
++            raise TypeError("n_neighbors must be an integer")
++
+         if X is not None:
+             query_is_train = False
+             X = check_array(X, accept_sparse='csr')
++
+         else:
+             query_is_train = True
+             X = self._fit_X
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -407,17 +395,17 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
     adding license file 'AUTHORS.rst'
-    writing manifest file '/tmp/pip-pip-egg-info-w_gq6qvq/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-sl2bekc5/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.20.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.13.3 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.20.dev0) (1.5.2)
@@ -444,11 +432,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmp5cjnj50x/tmp
-    creating /tmp/tmp5cjnj50x/tmp/tmp5cjnj50x
+    creating /tmp/tmp8okcftcf/tmp
+    creating /tmp/tmp8okcftcf/tmp/tmp8okcftcf
     compile options: '-c'
-    gcc: /tmp/tmp5cjnj50x/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmp5cjnj50x/tmp/tmp5cjnj50x/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmp5cjnj50x/a.out
+    gcc: /tmp/tmp8okcftcf/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmp8okcftcf/tmp/tmp8okcftcf/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmp8okcftcf/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -531,8 +519,8 @@ Installing collected packages: scikit-learn
 
     Installed /testbed
     Partial import of sklearn during the build process.
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 Successfully installed scikit-learn-0.20.dev0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/9f/8b/a094f5da22d7abf5098205367b3296dd15b914f4232af5ca39ba6214d08c/pip-22.0-py3-none-any.whl#sha256=6cb1ea2bd7fda0668e26ae8c3e45188f301a7ef17ff22efe1f70f3643e56a822 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/4a/ca/e72b3b399d7a8cb34311aa8f52924108591c013b09f0268820afb4cd96fb/pip-22.0.tar.gz#sha256=d3fa5c3e42b33de52bddce89de40268c9a263cd6ef7c94c40774808dafb32c82 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
   Link requires a different Python (3.6.13 not in: '>=3.7'): https://files.pythonhosted.org/packages/89/a1/2f4e58eda11e591fbfa518233378835679fc5ab766b690b3df85215014d5/pip-22.0.1-py3-none-any.whl#sha256=30739ac5fb973cfa4399b0afff0523d4fe6bed2f7a5229333f64d9c2ce0d1933 (from https://pypi.org/simple/pip/) (requires-python:>=3.7)
@@ -603,6 +591,10 @@ Successfully installed scikit-learn-0.20.dev0
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout 96a02f3934952d486589dddd3f00b40d5a5ab5f2 sklearn/neighbors/tests/test_neighbors.py
 Updated 0 paths from afb2903b4
 + git apply -v -
@@ -620,6 +612,174 @@ sklearn/neighbors/tests/test_neighbors.py ..F........................... [ 63%]
 =================================== FAILURES ===================================
 __________________________ test_n_neighbors_datatype ___________________________
 
+self = None, name = 'assertRaisesRegex', args = ([[1, 1], [1, 1], [1, 1]],)
+kwargs = {}
+
+    def handle(self, name, args, kwargs):
+        """
+        If args is empty, assertRaises/Warns is being used as a
+        context manager, so check for a 'msg' kwarg and return self.
+        If args is not empty, call a callable passing positional and keyword
+        arguments.
+        """
+        try:
+            if not _is_subtype(self.expected, self._base_type):
+                raise TypeError('%s() arg 1 must be %s' %
+                                (name, self._base_type_str))
+            if args and args[0] is None:
+                warnings.warn("callable is None",
+                              DeprecationWarning, 3)
+                args = ()
+            if not args:
+                self.msg = kwargs.pop('msg', None)
+                if kwargs:
+                    warnings.warn('%r is an invalid keyword argument for '
+                                  'this function' % next(iter(kwargs)),
+                                  DeprecationWarning, 3)
+                return self
+    
+            callable_obj, args = args[0], args[1:]
+            try:
+                self.obj_name = callable_obj.__name__
+            except AttributeError:
+                self.obj_name = str(callable_obj)
+            with self:
+>               callable_obj(*args, **kwargs)
+
+sklearn/utils/_unittest_backport.py:113: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = NearestNeighbors(algorithm='auto', leaf_size=30, metric='minkowski',
+         metric_params=None, n_jobs=1, n_neighbors=3.0, p=2, radius=1.0)
+X = [[1, 1], [1, 1], [1, 1]], y = None
+
+    def fit(self, X, y=None):
+        """Fit the model using X as training data
+    
+        Parameters
+        ----------
+        X : {array-like, sparse matrix, BallTree, KDTree}
+            Training data. If array or matrix, shape [n_samples, n_features],
+            or [n_samples, n_samples] if metric='precomputed'.
+        """
+>       return self._fit(X)
+
+sklearn/neighbors/base.py:820: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = NearestNeighbors(algorithm='auto', leaf_size=30, metric='minkowski',
+         metric_params=None, n_jobs=1, n_neighbors=3.0, p=2, radius=1.0)
+X = array([[1, 1],
+       [1, 1],
+       [1, 1]])
+
+    def _fit(self, X):
+        self._check_algorithm_metric()
+        if self.metric_params is None:
+            self.effective_metric_params_ = {}
+        else:
+            self.effective_metric_params_ = self.metric_params.copy()
+    
+        effective_p = self.effective_metric_params_.get('p', self.p)
+        if self.metric in ['wminkowski', 'minkowski']:
+            self.effective_metric_params_['p'] = effective_p
+    
+        self.effective_metric_ = self.metric
+        # For minkowski distance, use more efficient methods where available
+        if self.metric == 'minkowski':
+            p = self.effective_metric_params_.pop('p', 2)
+            if p < 1:
+                raise ValueError("p must be greater than one "
+                                 "for minkowski metric")
+            elif p == 1:
+                self.effective_metric_ = 'manhattan'
+            elif p == 2:
+                self.effective_metric_ = 'euclidean'
+            elif p == np.inf:
+                self.effective_metric_ = 'chebyshev'
+            else:
+                self.effective_metric_params_['p'] = p
+    
+        if isinstance(X, NeighborsBase):
+            self._fit_X = X._fit_X
+            self._tree = X._tree
+            self._fit_method = X._fit_method
+            return self
+    
+        elif isinstance(X, BallTree):
+            self._fit_X = X.data
+            self._tree = X
+            self._fit_method = 'ball_tree'
+            return self
+    
+        elif isinstance(X, KDTree):
+            self._fit_X = X.data
+            self._tree = X
+            self._fit_method = 'kd_tree'
+            return self
+    
+        X = check_array(X, accept_sparse='csr')
+    
+        n_samples = X.shape[0]
+        if n_samples == 0:
+            raise ValueError("n_samples must be greater than 0")
+    
+        if issparse(X):
+            if self.algorithm not in ('auto', 'brute'):
+                warnings.warn("cannot use tree with sparse input: "
+                              "using brute force")
+            if self.effective_metric_ not in VALID_METRICS_SPARSE['brute'] \
+                    and not callable(self.effective_metric_):
+    
+                raise ValueError("metric '%s' not valid for sparse input"
+                                 % self.effective_metric_)
+            self._fit_X = X.copy()
+            self._tree = None
+            self._fit_method = 'brute'
+            return self
+    
+        self._fit_method = self.algorithm
+        self._fit_X = X
+    
+        if self._fit_method == 'auto':
+            # A tree approach is better for small number of neighbors,
+            # and KDTree is generally faster when available
+            if ((self.n_neighbors is None or
+                 self.n_neighbors < self._fit_X.shape[0] // 2) and
+                    self.metric != 'precomputed'):
+                if self.effective_metric_ in VALID_METRICS['kd_tree']:
+                    self._fit_method = 'kd_tree'
+                elif (callable(self.effective_metric_) or
+                        self.effective_metric_ in VALID_METRICS['ball_tree']):
+                    self._fit_method = 'ball_tree'
+                else:
+                    self._fit_method = 'brute'
+            else:
+                self._fit_method = 'brute'
+    
+        if self._fit_method == 'ball_tree':
+            self._tree = BallTree(X, self.leaf_size,
+                                  metric=self.effective_metric_,
+                                  **self.effective_metric_params_)
+        elif self._fit_method == 'kd_tree':
+            self._tree = KDTree(X, self.leaf_size,
+                                metric=self.effective_metric_,
+                                **self.effective_metric_params_)
+        elif self._fit_method == 'brute':
+            self._tree = None
+        else:
+            raise ValueError("algorithm = '%s' not recognized"
+                             % self.algorithm)
+    
+        if self.n_neighbors is not None:
+            if not isinstance(self.n_neighbors, numbers.Integral):
+>               raise TypeError("n_neighbors must be an integer")
+E               TypeError: n_neighbors must be an integer
+
+sklearn/neighbors/base.py:260: TypeError
+
+During handling of the above exception, another exception occurred:
+
     def test_n_neighbors_datatype():
         # Test to check whether n_neighbors is integer
         X = [[1, 1], [1, 1], [1, 1]]
@@ -627,33 +787,28 @@ __________________________ test_n_neighbors_datatype ___________________________
                        "value, enter integer value"
         msg = "Expected n_neighbors > 0. Got -3"
     
->       neighbors_ = neighbors.NearestNeighbors(n_neighbors=3.)
+        neighbors_ = neighbors.NearestNeighbors(n_neighbors=3.)
+>       assert_raises_regex(TypeError, expected_msg, neighbors_.fit, X)
 
-sklearn/neighbors/tests/test_neighbors.py:119: 
+sklearn/neighbors/tests/test_neighbors.py:120: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-sklearn/neighbors/unsupervised.py:123: in __init__
-    metric_params=metric_params, n_jobs=n_jobs, **kwargs)
+sklearn/utils/_unittest_backport.py:224: in assertRaisesRegex
+    return context.handle('assertRaisesRegex', args, kwargs)
+sklearn/utils/_unittest_backport.py:113: in handle
+    callable_obj(*args, **kwargs)
+sklearn/utils/_unittest_backport.py:147: in __exit__
+    expected_regex.pattern, str(exc_value)))
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = NearestNeighbors(algorithm=None, leaf_size=None, metric=None,
-         metric_params=None, n_jobs=None, n_neighbors=None, p=None,
-         radius=None)
-n_neighbors = 3.0, radius = 1.0, algorithm = 'auto', leaf_size = 30
-metric = 'minkowski', p = 2, metric_params = None, n_jobs = 1
+self = <sklearn.utils._unittest_backport._AssertRaisesContext object at 0x7fe1745ca278>
+standardMsg = '"n_neighbors does not take .*float.* value, enter integer value" does not match "n_neighbors must be an integer"'
 
-    @abstractmethod
-    def __init__(self, n_neighbors=None, radius=None,
-                 algorithm='auto', leaf_size=30, metric='minkowski',
-                 p=2, metric_params=None, n_jobs=1):
-    
-        if n_neighbors is not None:
-            if not isinstance(n_neighbors, numbers.Integral):
-                raise TypeError(
-                    "n_neighbors does not take %s value, enter integer value"
->                   % type(n_neighbors))
-E               TypeError: n_neighbors does not take <class 'float'> value, enter integer value
+    def _raiseFailure(self, standardMsg):
+        msg = self.test_case._formatMessage(self.msg, standardMsg)
+>       raise self.test_case.failureException(msg)
+E       AssertionError: "n_neighbors does not take .*float.* value, enter integer value" does not match "n_neighbors must be an integer"
 
-sklearn/neighbors/base.py:117: TypeError
+sklearn/utils/_unittest_backport.py:69: AssertionError
 ==================================== PASSES ====================================
 _______________________________ test_precomputed _______________________________
 ----------------------------- Captured stdout call -----------------------------
@@ -711,6 +866,6 @@ XFAIL sklearn/neighbors/tests/test_neighbors.py::test_same_knn_parallel
 XFAIL sklearn/neighbors/tests/test_neighbors.py::test_same_radius_neighbors_parallel
   reason: [NOTRUN] yield tests were removed in pytest 4.0 - test_same_radius_neighbors_parallel will be ignored
 FAILED sklearn/neighbors/tests/test_neighbors.py::test_n_neighbors_datatype
-============= 1 failed, 44 passed, 2 xfailed, 3 warnings in 1.64s ==============
+============= 1 failed, 44 passed, 2 xfailed, 3 warnings in 1.56s ==============
 + git checkout 96a02f3934952d486589dddd3f00b40d5a5ab5f2 sklearn/neighbors/tests/test_neighbors.py
 Updated 1 path from afb2903b4

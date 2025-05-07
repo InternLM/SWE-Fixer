@@ -150,26 +150,27 @@ Date:   Thu Feb 23 10:59:28 2023 -0800
 
 + git diff 4c288bc97ea371817199908d0d9b12de9dae327e
 diff --git a/src/flask/config.py b/src/flask/config.py
-index d4fc310f..c1c2eaf7 100644
+index d4fc310f..398fc15b 100644
 --- a/src/flask/config.py
 +++ b/src/flask/config.py
-@@ -234,9 +234,11 @@ class Config(dict):
+@@ -233,9 +233,11 @@ class Config(dict):
+         self,
          filename: str,
          load: t.Callable[[t.IO[t.Any]], t.Mapping],
-         silent: bool = False,
 +        mode: str = "r",
+         silent: bool = False,
      ) -> bool:
          """Update the values in the config from a file that is loaded
-         using the ``load`` parameter. The loaded data is passed to the
 +
+         using the ``load`` parameter. The loaded data is passed to the
          :meth:`from_mapping` method.
  
-         .. code-block:: python
-@@ -254,17 +256,20 @@ class Config(dict):
+@@ -254,17 +256,21 @@ class Config(dict):
          :type load: ``Callable[[Reader], Mapping]`` where ``Reader``
              implements a ``read`` method.
          :param silent: Ignore the file if it doesn't exist.
-+        :param mode: The mode to open the file with.
++        :param mode: Open the file in this mode. Defaults to opening in
++            text mode.
          :return: ``True`` if the file was loaded successfully.
  
          .. versionadded:: 2.0
@@ -329,8 +330,8 @@ Requirement already satisfied: MarkupSafe>=2.0 in /opt/miniconda3/envs/testbed/l
 Building wheels for collected packages: Flask
   Building editable for Flask (pyproject.toml): started
   Building editable for Flask (pyproject.toml): finished with status 'done'
-  Created wheel for Flask: filename=Flask-2.3.0.dev0-0.editable-py3-none-any.whl size=3930 sha256=632a1fa13660f05321d1ce5582926f6f4a2e3454c486d49ca6d5a1339cec0ec7
-  Stored in directory: /tmp/pip-ephem-wheel-cache-t7yc87ud/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for Flask: filename=flask-2.3.0.dev0-0.editable-py3-none-any.whl size=3961 sha256=57e7cc6e2f9dfbf7d7d73f492777210a66b5a0ca7e5d58ee674354e603a3fe5d
+  Stored in directory: /tmp/pip-ephem-wheel-cache-v03ed72y/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built Flask
 Installing collected packages: Flask
   Attempting uninstall: Flask

@@ -419,29 +419,33 @@ index 955c863822..88c0479436 100644
 +        self.assertEqual(check_for_template_tags_with_the_same_name(None), [])
 + git diff 004b4620f6f4ad87261e149898940f2dcd5757ef
 diff --git a/django/utils/decorators.py b/django/utils/decorators.py
-index 5c9a5d01c7..42f159fbda 100644
+index 5c9a5d01c7..2c857f405b 100644
 --- a/django/utils/decorators.py
 +++ b/django/utils/decorators.py
-@@ -13,6 +13,9 @@ class classonlymethod(classmethod):
- def _update_method_wrapper(_wrapper, decorator):
-     # _multi_decorate()'s bound_method isn't available in this scope. Cheat by
-     # using it on a dummy function.
-+    if isinstance(decorator, partial):
-+        # partial objects don't have a __name__ attribute.
-+        dummy.__name__ = ''
-     @decorator
-     def dummy(*args, **kwargs):
-         pass
-@@ -50,6 +53,9 @@ def _multi_decorate(decorators, method):
-     return _wrapper
+@@ -32,16 +32,22 @@ def _multi_decorate(decorators, method):
+     else:
+         decorators = [decorators]
  
++    # partial objects don't have a __name__, so we need to look for the original
++    # function to get the correct name for the bound method.
++    func = method.func if isinstance(method, partial) else method
++
+     def _wrapper(self, *args, **kwargs):
+         # bound_method has the signature that 'decorator' expects i.e. no
+         # 'self' argument, but it's a closure over self so it can call
++
+         # 'func'. Also, wrap method.__get__() in a function because new
+         # attributes can't be set on bound method objects, only on functions.
+-        bound_method = partial(method.__get__(self, type(self)))
++        bound_method = partial(func.__get__(self, type(self)))
+         for dec in decorators:
+             bound_method = dec(bound_method)
+         return bound_method(*args, **kwargs)
  
 +
-+
-+
- def method_decorator(decorator, name=''):
-     """
-     Convert a function decorator into a method decorator
+     # Copy any attributes that a decorator adds to the function it decorates.
+     for dec in decorators:
+         _update_method_wrapper(_wrapper, dec)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -582,8 +586,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20211020091547-0.editable-py3-none-any.whl size=26778 sha256=c3cc9e208780beae9443044de30d75d76656bb031f142f0ebab0447da7a98e04
-  Stored in directory: /tmp/pip-ephem-wheel-cache-_7brkvpp/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20211020091547-0.editable-py3-none-any.whl size=26845 sha256=46b5315a1de581dbfe8b88552554ab80c139dc31dad5cc9993719c084a2711cd
+  Stored in directory: /tmp/pip-ephem-wheel-cache-e2wtmk2l/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django

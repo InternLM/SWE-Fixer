@@ -1,0 +1,21 @@
+
+diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
+index b1efba3..85948e1 100644
+--- a/django/db/models/fields/__init__.py
++++ b/django/db/models/fields/__init__.py
+@@ -869,9 +869,14 @@ class Field(RegisterLookupMixin):
+         """Flattened version of choices tuple."""
+         if self.choices is None:
+             return []
++        if Field.is_class_attribute('choices'):
++            choices = self.model._meta.get_field(self.name).choices
++        else:
++            choices = self.choices
+         flat = []
+-        for choice, value in self.choices:
++        for choice, value in choices:
+             if isinstance(value, (list, tuple)):
++
+                 flat.extend(value)
+             else:
+                 flat.append((choice, value))

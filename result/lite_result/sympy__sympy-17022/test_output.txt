@@ -150,15 +150,21 @@ Date:   Wed Jun 12 16:15:02 2019 -0400
 
 + git diff f91de695585c1fbc7d4f49ee061f64fcb1c2c4d8
 diff --git a/sympy/utilities/lambdify.py b/sympy/utilities/lambdify.py
-index a940509b47..f628538363 100644
+index a940509b47..fc2ce5728a 100644
 --- a/sympy/utilities/lambdify.py
 +++ b/sympy/utilities/lambdify.py
-@@ -708,10 +708,11 @@ def _lambdifygenerated(x):
+@@ -707,11 +707,18 @@ def _lambdifygenerated(x):
+             from sympy.printing.pycode import MpmathPrinter as Printer
          elif _module_present('scipy', namespaces):
              from sympy.printing.pycode import SciPyPrinter as Printer
++            class SciPyPrinter(SciPyPrinter):
++                def _print_Identity(self, expr):
++                    return 'scipy.sparse.eye(%s)' % expr.shape[0]
          elif _module_present('numpy', namespaces):
--            from sympy.printing.pycode import NumPyPrinter as Printer
-+            from sympy.printing.lambdarepr import NumPyPrinter as Printer
+             from sympy.printing.pycode import NumPyPrinter as Printer
++            class NumPyPrinter(NumPyPrinter):
++                def _print_Identity(self, expr):
++                    return 'numpy.eye(%s)' % expr.shape[0]
          elif _module_present('numexpr', namespaces):
              from sympy.printing.lambdarepr import NumExprPrinter as Printer
          elif _module_present('tensorflow', namespaces):
@@ -318,8 +324,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        49916061
-hash randomization: on (PYTHONHASHSEED=4030252509)
+random seed:        75622451
+hash randomization: on (PYTHONHASHSEED=3435775249)
 
 sympy/printing/tests/test_numpy.py[18] 
 test_numpy_piecewise_regression ok

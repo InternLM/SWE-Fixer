@@ -1,23 +1,21 @@
-2025-02-12 13:17:20,035 - INFO - Environment image sweb.env.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-10297
+2025-05-06 12:38:58,514 - INFO - Environment image sweb.env.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-10297
 Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-10297:latest for scikit-learn__scikit-learn-10297
-2025-02-12 13:17:20,038 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-10297:latest already exists, skipping build.
-2025-02-12 13:17:20,038 - INFO - Creating container for scikit-learn__scikit-learn-10297...
-2025-02-12 13:17:20,065 - INFO - Container for scikit-learn__scikit-learn-10297 created: 0466703dd0d5c08af432ea2b327bfaaa11f1071e491002a5dade7a97c12082bb
-2025-02-12 13:17:20,341 - INFO - Container for scikit-learn__scikit-learn-10297 started: 0466703dd0d5c08af432ea2b327bfaaa11f1071e491002a5dade7a97c12082bb
-2025-02-12 13:17:20,342 - INFO - Intermediate patch for scikit-learn__scikit-learn-10297 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-10297/patch.diff, now applying to container...
-2025-02-12 13:17:20,616 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:17:20,668 - INFO - >>>>> Applied Patch:
+2025-05-06 12:38:58,516 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-10297:latest already exists, skipping build.
+2025-05-06 12:38:58,516 - INFO - Creating container for scikit-learn__scikit-learn-10297...
+2025-05-06 12:38:58,547 - INFO - Container for scikit-learn__scikit-learn-10297 created: 994373c8c0b667ee9797d014f66b565199a1bfc2fb1bd797420d02d4c0722755
+2025-05-06 12:38:58,863 - INFO - Container for scikit-learn__scikit-learn-10297 started: 994373c8c0b667ee9797d014f66b565199a1bfc2fb1bd797420d02d4c0722755
+2025-05-06 12:38:58,864 - INFO - Intermediate patch for scikit-learn__scikit-learn-10297 written to logs/run_evaluation/20250506_122807/SWE-Fixer/scikit-learn__scikit-learn-10297/patch.diff, now applying to container...
+2025-05-06 12:38:59,105 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:38:59,151 - INFO - >>>>> Applied Patch:
 patching file sklearn/linear_model/ridge.py
 patching file sklearn/linear_model/ridge.py
 Hunk #1 succeeded at 1311 (offset 7 lines).
 patching file sklearn/linear_model/ridge.py
 Hunk #1 succeeded at 1341 (offset 8 lines).
-patching file sklearn/linear_model/ridge.py
-Hunk #1 succeeded at 1383 (offset 10 lines).
 
-2025-02-12 13:17:20,944 - INFO - Git diff before:
+2025-05-06 12:38:59,505 - INFO - Git diff before:
 diff --git a/sklearn/linear_model/ridge.py b/sklearn/linear_model/ridge.py
-index 911c74ae3..f918a8c13 100644
+index 911c74ae3..1092ec64e 100644
 --- a/sklearn/linear_model/ridge.py
 +++ b/sklearn/linear_model/ridge.py
 @@ -1293,10 +1293,17 @@ class RidgeClassifierCV(LinearClassifierMixin, _BaseRidgeCV):
@@ -43,7 +41,7 @@ index 911c74ae3..f918a8c13 100644
      ----------
      cv_values_ : array, shape = [n_samples, n_alphas] or \
 -    shape = [n_samples, n_responses, n_alphas], optional
-+        shape = [n_samples, n_responses, n_alphas], optional
++        shape = [n_samples, n_classes, n_alphas], optional
          Cross-validation values for each alpha (if `store_cv_values=True` and
 -    `cv=None`). After `fit()` has been called, this attribute will contain \
 -    the mean squared errors (by default) or the values of the \
@@ -77,24 +75,12 @@ index 911c74ae3..f918a8c13 100644
          """Fit the ridge classifier.
  
          Parameters
-@@ -1373,9 +1383,10 @@ class RidgeClassifierCV(LinearClassifierMixin, _BaseRidgeCV):
-             sample_weight = (sample_weight *
-                              compute_sample_weight(self.class_weight, y))
- 
--        _BaseRidgeCV.fit(self, X, Y, sample_weight=sample_weight)
-+        super(RidgeClassifierCV, self).fit(X, Y, sample_weight=sample_weight)
-         return self
- 
-     @property
-+
-     def classes_(self):
-         return self._label_binarizer.classes_
-2025-02-12 13:17:20,944 - INFO - Eval script for scikit-learn__scikit-learn-10297 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-10297/eval.sh; copying to container...
-2025-02-12 13:17:25,137 - INFO - Test runtime: 4.01 seconds
-2025-02-12 13:17:25,138 - INFO - Test output for scikit-learn__scikit-learn-10297 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-10297/test_output.txt
-2025-02-12 13:17:25,202 - INFO - Git diff after:
+2025-05-06 12:38:59,505 - INFO - Eval script for scikit-learn__scikit-learn-10297 written to logs/run_evaluation/20250506_122807/SWE-Fixer/scikit-learn__scikit-learn-10297/eval.sh; copying to container...
+2025-05-06 12:39:05,853 - INFO - Test runtime: 6.16 seconds
+2025-05-06 12:39:05,853 - INFO - Test output for scikit-learn__scikit-learn-10297 written to logs/run_evaluation/20250506_122807/SWE-Fixer/scikit-learn__scikit-learn-10297/test_output.txt
+2025-05-06 12:39:05,918 - INFO - Git diff after:
 diff --git a/sklearn/linear_model/ridge.py b/sklearn/linear_model/ridge.py
-index 911c74ae3..f918a8c13 100644
+index 911c74ae3..1092ec64e 100644
 --- a/sklearn/linear_model/ridge.py
 +++ b/sklearn/linear_model/ridge.py
 @@ -1293,10 +1293,17 @@ class RidgeClassifierCV(LinearClassifierMixin, _BaseRidgeCV):
@@ -120,7 +106,7 @@ index 911c74ae3..f918a8c13 100644
      ----------
      cv_values_ : array, shape = [n_samples, n_alphas] or \
 -    shape = [n_samples, n_responses, n_alphas], optional
-+        shape = [n_samples, n_responses, n_alphas], optional
++        shape = [n_samples, n_classes, n_alphas], optional
          Cross-validation values for each alpha (if `store_cv_values=True` and
 -    `cv=None`). After `fit()` has been called, this attribute will contain \
 -    the mean squared errors (by default) or the values of the \
@@ -154,21 +140,9 @@ index 911c74ae3..f918a8c13 100644
          """Fit the ridge classifier.
  
          Parameters
-@@ -1373,9 +1383,10 @@ class RidgeClassifierCV(LinearClassifierMixin, _BaseRidgeCV):
-             sample_weight = (sample_weight *
-                              compute_sample_weight(self.class_weight, y))
- 
--        _BaseRidgeCV.fit(self, X, Y, sample_weight=sample_weight)
-+        super(RidgeClassifierCV, self).fit(X, Y, sample_weight=sample_weight)
-         return self
- 
-     @property
-+
-     def classes_(self):
-         return self._label_binarizer.classes_
-2025-02-12 13:17:25,202 - INFO - Grading answer for scikit-learn__scikit-learn-10297...
-2025-02-12 13:17:25,211 - INFO - report: {'scikit-learn__scikit-learn-10297': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_cv_store_cv_values'], 'failure': []}, 'PASS_TO_PASS': {'success': ['sklearn/linear_model/tests/test_ridge.py::test_ridge', 'sklearn/linear_model/tests/test_ridge.py::test_primal_dual_relationship', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_singular', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_regression_sample_weights', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_sample_weights', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_shapes', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_intercept', 'sklearn/linear_model/tests/test_ridge.py::test_toy_ridge_object', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_vs_lstsq', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_individual_penalties', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_cv_sparse_svd', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_sparse_svd', 'sklearn/linear_model/tests/test_ridge.py::test_class_weights', 'sklearn/linear_model/tests/test_ridge.py::test_class_weight_vs_sample_weight', 'sklearn/linear_model/tests/test_ridge.py::test_class_weights_cv', 'sklearn/linear_model/tests/test_ridge.py::test_ridgecv_store_cv_values', 'sklearn/linear_model/tests/test_ridge.py::test_ridgecv_sample_weight', 'sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_sample_weights_greater_than_1d', 'sklearn/linear_model/tests/test_ridge.py::test_sparse_design_with_sample_weights', 'sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_solver_not_supported', 'sklearn/linear_model/tests/test_ridge.py::test_sparse_cg_max_iter', 'sklearn/linear_model/tests/test_ridge.py::test_n_iter', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_fit_intercept_sparse', 'sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_helper', 'sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_svd_helper', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_no_support_multilabel', 'sklearn/linear_model/tests/test_ridge.py::test_dtype_match', 'sklearn/linear_model/tests/test_ridge.py::test_dtype_match_cholesky'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:39:05,918 - INFO - Grading answer for scikit-learn__scikit-learn-10297...
+2025-05-06 12:39:05,929 - INFO - report: {'scikit-learn__scikit-learn-10297': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_cv_store_cv_values'], 'failure': []}, 'PASS_TO_PASS': {'success': ['sklearn/linear_model/tests/test_ridge.py::test_ridge', 'sklearn/linear_model/tests/test_ridge.py::test_primal_dual_relationship', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_singular', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_regression_sample_weights', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_sample_weights', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_shapes', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_intercept', 'sklearn/linear_model/tests/test_ridge.py::test_toy_ridge_object', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_vs_lstsq', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_individual_penalties', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_cv_sparse_svd', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_sparse_svd', 'sklearn/linear_model/tests/test_ridge.py::test_class_weights', 'sklearn/linear_model/tests/test_ridge.py::test_class_weight_vs_sample_weight', 'sklearn/linear_model/tests/test_ridge.py::test_class_weights_cv', 'sklearn/linear_model/tests/test_ridge.py::test_ridgecv_store_cv_values', 'sklearn/linear_model/tests/test_ridge.py::test_ridgecv_sample_weight', 'sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_sample_weights_greater_than_1d', 'sklearn/linear_model/tests/test_ridge.py::test_sparse_design_with_sample_weights', 'sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_solver_not_supported', 'sklearn/linear_model/tests/test_ridge.py::test_sparse_cg_max_iter', 'sklearn/linear_model/tests/test_ridge.py::test_n_iter', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_fit_intercept_sparse', 'sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_helper', 'sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_svd_helper', 'sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_no_support_multilabel', 'sklearn/linear_model/tests/test_ridge.py::test_dtype_match', 'sklearn/linear_model/tests/test_ridge.py::test_dtype_match_cholesky'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for scikit-learn__scikit-learn-10297: resolved: True
-2025-02-12 13:17:25,212 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-10297.20250212_130622...
-2025-02-12 13:17:40,445 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-10297.20250212_130622...
-2025-02-12 13:17:40,462 - INFO - Container sweb.eval.scikit-learn__scikit-learn-10297.20250212_130622 removed.
+2025-05-06 12:39:05,930 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-10297.20250506_122807...
+2025-05-06 12:39:21,451 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-10297.20250506_122807...
+2025-05-06 12:39:21,474 - INFO - Container sweb.eval.scikit-learn__scikit-learn-10297.20250506_122807 removed.

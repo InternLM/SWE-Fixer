@@ -1,23 +1,19 @@
 
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 8b01d4f..78d063c 100644
+index 8b01d4f..8ecb225 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -1694,11 +1694,15 @@ class Expr(Basic, EvalfMixin):
-                 return has_other
-             return has_other or e.has(*(e.free_symbols & sym))
+@@ -1670,9 +1670,13 @@ class Expr(Basic, EvalfMixin):
+         if self.is_zero:
+             return S.Zero, S.Zero
  
--        if (want is not func or
--                func is not Add and func is not Mul):
-+        if (want is not func or func is not Add and func is not Mul or
-+                # don't let simplification mask division by zero
-+                # e.g. if x is in the denominator and we are separating x
-+                # then don't simplify
-+                (want is Mul and has(self))):
-             if has(self):
-                 return (want.identity, self)
-             else:
++        if self is S.NaN:
++            return want.identity, want.identity
 +
-                 return (self, want.identity)
+         func = self.func
+         if hint.get('as_Add', isinstance(self, Add) ):
+             want = Add
++
          else:
-             if func is Add:
+             want = Mul
+ 

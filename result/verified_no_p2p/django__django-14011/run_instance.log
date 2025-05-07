@@ -1,0 +1,54 @@
+2025-05-06 06:31:47,640 - INFO - Environment image sweb.env.x86_64.297af196949a2a635bce66:latest found for django__django-14011
+Building instance image sweb.eval.x86_64.django__django-14011:latest for django__django-14011
+2025-05-06 06:31:47,643 - INFO - Image sweb.eval.x86_64.django__django-14011:latest already exists, skipping build.
+2025-05-06 06:31:47,643 - INFO - Creating container for django__django-14011...
+2025-05-06 06:31:47,674 - INFO - Container for django__django-14011 created: 867a1fd35efdd8ebcee7a0417e42b87442c99c85bf02a2b05976cac92c85a918
+2025-05-06 06:31:47,953 - INFO - Container for django__django-14011 started: 867a1fd35efdd8ebcee7a0417e42b87442c99c85bf02a2b05976cac92c85a918
+2025-05-06 06:31:47,953 - INFO - Intermediate patch for django__django-14011 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-14011/patch.diff, now applying to container...
+2025-05-06 06:31:48,221 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:31:48,283 - INFO - >>>>> Applied Patch:
+patching file django/core/servers/basehttp.py
+
+2025-05-06 06:31:48,961 - INFO - Git diff before:
+diff --git a/django/core/servers/basehttp.py b/django/core/servers/basehttp.py
+index 14dab517c9..c15e9a4229 100644
+--- a/django/core/servers/basehttp.py
++++ b/django/core/servers/basehttp.py
+@@ -79,10 +79,10 @@ class WSGIServer(simple_server.WSGIServer):
+ 
+ class ThreadedWSGIServer(socketserver.ThreadingMixIn, WSGIServer):
+     """A threaded version of the WSGIServer"""
+-    daemon_threads = True
+ 
+ 
+ class ServerHandler(simple_server.ServerHandler):
++
+     http_version = '1.1'
+ 
+     def __init__(self, stdin, stdout, stderr, environ, **kwargs):
+2025-05-06 06:31:48,961 - INFO - Eval script for django__django-14011 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-14011/eval.sh; copying to container...
+2025-05-06 06:31:58,864 - INFO - Test runtime: 9.71 seconds
+2025-05-06 06:31:58,864 - INFO - Test output for django__django-14011 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-14011/test_output.txt
+2025-05-06 06:31:58,951 - INFO - Git diff after:
+diff --git a/django/core/servers/basehttp.py b/django/core/servers/basehttp.py
+index 14dab517c9..c15e9a4229 100644
+--- a/django/core/servers/basehttp.py
++++ b/django/core/servers/basehttp.py
+@@ -79,10 +79,10 @@ class WSGIServer(simple_server.WSGIServer):
+ 
+ class ThreadedWSGIServer(socketserver.ThreadingMixIn, WSGIServer):
+     """A threaded version of the WSGIServer"""
+-    daemon_threads = True
+ 
+ 
+ class ServerHandler(simple_server.ServerHandler):
++
+     http_version = '1.1'
+ 
+     def __init__(self, stdin, stdout, stderr, environ, **kwargs):
+2025-05-06 06:31:58,951 - INFO - Grading answer for django__django-14011...
+2025-05-06 06:31:58,964 - INFO - report: {'django__django-14011': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_live_server_url_is_class_property (servers.tests.LiveServerAddress)', 'Data written to the database by a view can be read.', 'Fixtures are properly loaded and visible to the live server thread.', 'test_check_model_instance_from_subview (servers.tests.LiveServerThreadedTests)', 'test_view_calls_subview (servers.tests.LiveServerThreadedTests)', 'test_404 (servers.tests.LiveServerViews)', 'A HTTP 1.1 server is supposed to support keep-alive. Since our', 'test_environ (servers.tests.LiveServerViews)', 'test_keep_alive_connection_clears_previous_request_data (servers.tests.LiveServerViews)', 'See `test_closes_connection_without_content_length` for details. This', 'test_media_files (servers.tests.LiveServerViews)', 'LiveServerTestCase reports a 404 status code when HTTP client', 'Launched server serves with HTTP 1.1.', 'test_static_files (servers.tests.LiveServerViews)', 'test_view (servers.tests.LiveServerViews)', 'Each LiveServerTestCase binds to a unique port or fails to start a', "LiveServerTestCase.port customizes the server's port."]}, 'PASS_TO_PASS': {'success': ['test_set_up_class (servers.tests.LiveServerTestCaseSetupTest)', 'Contrast to'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-14011: resolved: False
+2025-05-06 06:31:58,965 - INFO - Attempting to stop container sweb.eval.django__django-14011.20250506_061805...
+2025-05-06 06:32:14,242 - INFO - Attempting to remove container sweb.eval.django__django-14011.20250506_061805...
+2025-05-06 06:32:14,265 - INFO - Container sweb.eval.django__django-14011.20250506_061805 removed.

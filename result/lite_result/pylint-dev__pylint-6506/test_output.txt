@@ -341,7 +341,7 @@ tests/config/test_config.py ..FF....                                     [100%]
 =================================== FAILURES ===================================
 ___________________________ test_unknown_option_name ___________________________
 
-capsys = <_pytest.capture.CaptureFixture object at 0x7f8f5338d0a0>
+capsys = <_pytest.capture.CaptureFixture object at 0x7f2fa064fdf0>
 
     def test_unknown_option_name(capsys: CaptureFixture) -> None:
         """Check that we correctly raise a message on an unknown option."""
@@ -355,7 +355,7 @@ E        +  where '' = CaptureResult(out='************* Module Command line\nCom
 tests/config/test_config.py:70: AssertionError
 ________________________ test_unknown_short_option_name ________________________
 
-capsys = <_pytest.capture.CaptureFixture object at 0x7f8f5327d970>
+capsys = <_pytest.capture.CaptureFixture object at 0x7f2fa05379a0>
 
     def test_unknown_short_option_name(capsys: CaptureFixture) -> None:
         """Check that we correctly raise a message on an unknown short option."""
@@ -383,6 +383,6 @@ PASSED tests/config/test_config.py::test_unknown_py_version
 PASSED tests/config/test_config.py::test_short_verbose
 FAILED tests/config/test_config.py::test_unknown_option_name - AssertionError...
 FAILED tests/config/test_config.py::test_unknown_short_option_name - Assertio...
-==================== 2 failed, 6 passed, 1 warning in 0.30s ====================
+==================== 2 failed, 6 passed, 1 warning in 0.32s ====================
 + git checkout 0a4204fd7555cfedd43f43017c94d24ef48244a5 tests/config/test_config.py
 Updated 1 path from 8cc4d926e

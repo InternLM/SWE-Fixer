@@ -150,41 +150,56 @@ Date:   Fri Sep 30 17:29:53 2022 -0600
 
 + git diff 58598660a3f6ab3d918781c4988c2e4b2bdd9297
 diff --git a/sympy/parsing/mathematica.py b/sympy/parsing/mathematica.py
-index 7ea14ce33a..1245df4dd7 100644
+index 7ea14ce33a..ea5c5f9af1 100644
 --- a/sympy/parsing/mathematica.py
 +++ b/sympy/parsing/mathematica.py
-@@ -1055,10 +1055,17 @@ def converter(expr):
-     _atom_conversions = {
-         "I": I,
-         "Pi": pi,
-+        "E": S.Exp1,
-+        "True": S.true,
-+        "False": S.false,
-+        "Infinity": S.Infinity,
-+        "ComplexInfinity": S.ComplexInfinity,
-+        "Indeterminate": S.NaN,
-     }
+@@ -666,18 +666,22 @@ def _from_mathematica_to_tokens(self, code: str):
  
-     def _from_fullformlist_to_sympy(self, full_form_list):
+         return tokens
  
+-    def _is_op(self, token: tUnion[str, list]) -> bool:
++    def _is_symbol(self, token: tUnion[str, list]) -> bool:
+         if isinstance(token, list):
+             return False
+         if re.match(self._literal, token):
+-            return False
++            return True
+         if re.match("-?" + self._number, token):
+             return False
+-        return True
++        return False
 +
-         def recurse(expr):
-             if isinstance(expr, list):
-                 if isinstance(expr[0], list):
-@@ -1067,10 +1074,12 @@ def recurse(expr):
-                     head = self._node_conversions.get(expr[0], Function(expr[0]))
-                 return head(*list(recurse(arg) for arg in expr[1:]))
-             else:
--                return self._atom_conversions.get(expr, sympify(expr))
-+                return self._atom_conversions.get(expr, expr)
++    def _is_op(self, token: tUnion[str, list]) -> bool:
++        return not self._is_symbol(token)
  
-         return recurse(full_form_list)
- 
+     def _is_valid_star1(self, token: tUnion[str, list]) -> bool:
+         if token in (")", "}"):
+             return True
 +
-+
-     def _from_fullformsympy_to_sympy(self, mform):
+         return not self._is_op(token)
  
-         expr = mform
+     def _is_valid_star2(self, token: tUnion[str, list]) -> bool:
+@@ -779,15 +783,16 @@ def _util_add_missing_asterisks(self, tokens: list):
+         pointer: int = 0
+         while pointer < size:
+             if (pointer > 0 and
+-                    self._is_valid_star1(tokens[pointer - 1]) and
+-                    self._is_valid_star2(tokens[pointer])):
++                    self._is_symbol(tokens[pointer - 1]) and
++                    self._is_symbol(tokens[pointer])):
+                 # This is a trick to add missing * operators in the expression,
+                 # `"*" in op_dict` makes sure the precedence level is the same as "*",
+-                # while `not self._is_op( ... )` makes sure this and the previous
+-                # expression are not operators.
++                # while `self._is_symbol( ... )` makes sure this and the previous
++                # expression are symbols.
+                 if tokens[pointer] == "(":
+                     # ( has already been processed by now, replace:
+                     tokens[pointer] = "*"
++
+                     tokens[pointer + 1] = tokens[pointer + 1][0]
+                 else:
+                     tokens.insert(pointer, "*")
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -337,8 +352,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        26226950
-hash randomization: on (PYTHONHASHSEED=2538465740)
+random seed:        40452231
+hash randomization: on (PYTHONHASHSEED=344313823)
 
 sympy/parsing/tests/test_mathematica.py[3] 
 test_mathematica E
@@ -353,31 +368,25 @@ Traceback (most recent call last):
     assert parse_mathematica(e) == sympify(d[e])
   File "/testbed/sympy/parsing/mathematica.py", line 82, in parse_mathematica
     return parser.parse(s)
-  File "/testbed/sympy/parsing/mathematica.py", line 536, in parse
-    s4 = self._from_fullformlist_to_sympy(s3)
-  File "/testbed/sympy/parsing/mathematica.py", line 1079, in _from_fullformlist_to_sympy
-    return recurse(full_form_list)
-  File "/testbed/sympy/parsing/mathematica.py", line 1075, in recurse
-    return head(*list(recurse(arg) for arg in expr[1:]))
-  File "/testbed/sympy/core/operations.py", line 57, in __new__
-    args = list(map(_sympify_, args))
-  File "/testbed/sympy/core/sympify.py", line 529, in _sympify
-    return sympify(a, strict=True)
-  File "/testbed/sympy/core/sympify.py", line 450, in sympify
-    raise SympifyError(a)
-sympy.core.sympify.SympifyError: SympifyError: '-6'
+  File "/testbed/sympy/parsing/mathematica.py", line 535, in parse
+    s3 = self._from_tokens_to_fullformlist(s2)
+  File "/testbed/sympy/parsing/mathematica.py", line 744, in _from_tokens_to_fullformlist
+    return self._parse_after_braces(stack[0])
+  File "/testbed/sympy/parsing/mathematica.py", line 883, in _parse_after_braces
+    tokens[pointer] = self._missing_arguments_default[token]()
+KeyError: '-'
 ________________________________________________________________________________
 __ sympy/parsing/tests/test_mathematica.py:test_parser_mathematica_tokenizer ___
 Traceback (most recent call last):
-  File "/testbed/sympy/parsing/tests/test_mathematica.py", line 98, in test_parser_mathematica_tokenizer
-    assert chain("α") == "α"
+  File "/testbed/sympy/parsing/tests/test_mathematica.py", line 96, in test_parser_mathematica_tokenizer
+    assert chain("-1") == "-1"
   File "/testbed/sympy/parsing/tests/test_mathematica.py", line 89, in <lambda>
     chain = lambda expr: parser._from_tokens_to_fullformlist(parser._from_mathematica_to_tokens(expr))
-  File "/testbed/sympy/parsing/mathematica.py", line 740, in _from_tokens_to_fullformlist
+  File "/testbed/sympy/parsing/mathematica.py", line 744, in _from_tokens_to_fullformlist
     return self._parse_after_braces(stack[0])
-  File "/testbed/sympy/parsing/mathematica.py", line 909, in _parse_after_braces
-    raise SyntaxError("unable to create a single AST for the expression")
-SyntaxError: unable to create a single AST for the expression
+  File "/testbed/sympy/parsing/mathematica.py", line 883, in _parse_after_braces
+    tokens[pointer] = self._missing_arguments_default[token]()
+KeyError: '-'
 
 =========== tests finished: 1 passed, 2 exceptions, in 0.16 seconds ============
 DO *NOT* COMMIT!

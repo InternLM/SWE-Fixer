@@ -1,82 +1,80 @@
-2025-02-12 13:20:05,736 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15346
+2025-05-06 12:41:44,435 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15346
 Building instance image sweb.eval.x86_64.sympy__sympy-15346:latest for sympy__sympy-15346
-2025-02-12 13:20:05,739 - INFO - Image sweb.eval.x86_64.sympy__sympy-15346:latest already exists, skipping build.
-2025-02-12 13:20:05,739 - INFO - Creating container for sympy__sympy-15346...
-2025-02-12 13:20:05,779 - INFO - Container for sympy__sympy-15346 created: a9e421bb21bd4065107e86c8a1c48f316c96033b0527cf58f6f3684a0338b4fb
-2025-02-12 13:20:06,377 - INFO - Container for sympy__sympy-15346 started: a9e421bb21bd4065107e86c8a1c48f316c96033b0527cf58f6f3684a0338b4fb
-2025-02-12 13:20:06,377 - INFO - Intermediate patch for sympy__sympy-15346 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-15346/patch.diff, now applying to container...
-2025-02-12 13:20:06,629 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:20:06,692 - INFO - >>>>> Applied Patch:
+2025-05-06 12:41:44,438 - INFO - Image sweb.eval.x86_64.sympy__sympy-15346:latest already exists, skipping build.
+2025-05-06 12:41:44,438 - INFO - Creating container for sympy__sympy-15346...
+2025-05-06 12:41:44,474 - INFO - Container for sympy__sympy-15346 created: a3e5820131241ca984cac8536eee6b3cb1eeffa5b5871fca1e6ec214e704acc6
+2025-05-06 12:41:44,847 - INFO - Container for sympy__sympy-15346 started: a3e5820131241ca984cac8536eee6b3cb1eeffa5b5871fca1e6ec214e704acc6
+2025-05-06 12:41:44,847 - INFO - Intermediate patch for sympy__sympy-15346 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-15346/patch.diff, now applying to container...
+2025-05-06 12:41:45,103 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:41:45,175 - INFO - >>>>> Applied Patch:
 patching file sympy/simplify/fu.py
 
-2025-02-12 13:20:07,465 - INFO - Git diff before:
+2025-05-06 12:41:45,655 - INFO - Git diff before:
 diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
-index 9d939727c5..fd880eb810 100644
+index 9d939727c5..830b10c2b4 100644
 --- a/sympy/simplify/fu.py
 +++ b/sympy/simplify/fu.py
-@@ -720,9 +720,12 @@ def do(rv, first=True):
-                         aj = args[j]
-                         if aj is None:
-                             continue
-+                        if ai is None:
-+                            continue
-                         was = ai + aj
-                         new = do(was)
-                         if new != was:
+@@ -877,19 +877,21 @@ def do(rv, first=True):
+                 return rv
+             gcd, n1, n2, a, b, same = split
+ 
+-            # identify and get c1 to be cos then apply rule if possible
++            # identify and get c1 to be cos then apply rule if possible;
++            # if a and b are equal then the result will be 0 or 1
+             if same:  # coscos, sinsin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*cos(a - b)
++                    return gcd*(S.One if a == b else cos(a - b))
+                 return gcd*cos(a + b)
+             else:  #cossin, cossin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*sin(a + b)
++                    return gcd*(S.Zero if a == b else sin(a + b))
+                 return gcd*sin(b - a)
+ 
+         rv = process_common_addends(
 +
-                             args[i] = new  # update in place
-                             args[j] = None
-                             hit = True
-@@ -857,9 +860,12 @@ def do(rv, first=True):
-                         aj = args[j]
-                         if aj is None:
-                             continue
-+                        if ai is None:
-+                            continue
-                         was = ai + aj
-                         new = do(was)
-                         if new != was:
-+
-                             args[i] = new  # update in place
-                             args[j] = None
-                             hit = True
-2025-02-12 13:20:07,466 - INFO - Eval script for sympy__sympy-15346 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-15346/eval.sh; copying to container...
-2025-02-12 13:20:42,039 - INFO - Test runtime: 34.36 seconds
-2025-02-12 13:20:42,040 - INFO - Test output for sympy__sympy-15346 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-15346/test_output.txt
-2025-02-12 13:20:42,109 - INFO - Git diff after:
+             rv, do, lambda x: tuple(ordered(x.free_symbols)))
+ 
+         # need to check for inducible pairs in ratio of sqrt(3):1 that
+2025-05-06 12:41:45,655 - INFO - Eval script for sympy__sympy-15346 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-15346/eval.sh; copying to container...
+2025-05-06 12:42:20,042 - INFO - Test runtime: 34.21 seconds
+2025-05-06 12:42:20,043 - INFO - Test output for sympy__sympy-15346 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-15346/test_output.txt
+2025-05-06 12:42:20,115 - INFO - Git diff after:
 diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
-index 9d939727c5..fd880eb810 100644
+index 9d939727c5..830b10c2b4 100644
 --- a/sympy/simplify/fu.py
 +++ b/sympy/simplify/fu.py
-@@ -720,9 +720,12 @@ def do(rv, first=True):
-                         aj = args[j]
-                         if aj is None:
-                             continue
-+                        if ai is None:
-+                            continue
-                         was = ai + aj
-                         new = do(was)
-                         if new != was:
+@@ -877,19 +877,21 @@ def do(rv, first=True):
+                 return rv
+             gcd, n1, n2, a, b, same = split
+ 
+-            # identify and get c1 to be cos then apply rule if possible
++            # identify and get c1 to be cos then apply rule if possible;
++            # if a and b are equal then the result will be 0 or 1
+             if same:  # coscos, sinsin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*cos(a - b)
++                    return gcd*(S.One if a == b else cos(a - b))
+                 return gcd*cos(a + b)
+             else:  #cossin, cossin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*sin(a + b)
++                    return gcd*(S.Zero if a == b else sin(a + b))
+                 return gcd*sin(b - a)
+ 
+         rv = process_common_addends(
 +
-                             args[i] = new  # update in place
-                             args[j] = None
-                             hit = True
-@@ -857,9 +860,12 @@ def do(rv, first=True):
-                         aj = args[j]
-                         if aj is None:
-                             continue
-+                        if ai is None:
-+                            continue
-                         was = ai + aj
-                         new = do(was)
-                         if new != was:
-+
-                             args[i] = new  # update in place
-                             args[j] = None
-                             hit = True
-2025-02-12 13:20:42,109 - INFO - Grading answer for sympy__sympy-15346...
-2025-02-12 13:20:42,113 - INFO - report: {'sympy__sympy-15346': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_15129_trigsimp_methods']}, 'PASS_TO_PASS': {'success': ['test_trigsimp1', 'test_trigsimp1a', 'test_trigsimp2', 'test_issue_4373', 'test_trigsimp3', 'test_issue_4661', 'test_issue_4494', 'test_issue_5948', 'test_issue_4775', 'test_issue_4280', 'test_issue_3210', 'test_trigsimp_issues', 'test_trigsimp_issue_2515', 'test_trigsimp_issue_3826', 'test_trigsimp_issue_4032', 'test_trigsimp_issue_7761', 'test_trigsimp_noncommutative', 'test_hyperbolic_simp', 'test_trigsimp_groebner', 'test_issue_2827_trigsimp_methods', 'test_exptrigsimp', 'test_powsimp_on_numbers'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+             rv, do, lambda x: tuple(ordered(x.free_symbols)))
+ 
+         # need to check for inducible pairs in ratio of sqrt(3):1 that
+2025-05-06 12:42:20,115 - INFO - Grading answer for sympy__sympy-15346...
+2025-05-06 12:42:20,118 - INFO - report: {'sympy__sympy-15346': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_15129_trigsimp_methods']}, 'PASS_TO_PASS': {'success': ['test_trigsimp1', 'test_trigsimp1a', 'test_trigsimp2', 'test_issue_4373', 'test_trigsimp3', 'test_issue_4661', 'test_issue_4494', 'test_issue_5948', 'test_issue_4775', 'test_issue_4280', 'test_issue_3210', 'test_trigsimp_issues', 'test_trigsimp_issue_2515', 'test_trigsimp_issue_3826', 'test_trigsimp_issue_4032', 'test_trigsimp_issue_7761', 'test_trigsimp_noncommutative', 'test_hyperbolic_simp', 'test_trigsimp_groebner', 'test_issue_2827_trigsimp_methods', 'test_exptrigsimp', 'test_powsimp_on_numbers'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-15346: resolved: False
-2025-02-12 13:20:42,113 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15346.20250212_130622...
-2025-02-12 13:20:57,431 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15346.20250212_130622...
-2025-02-12 13:20:57,458 - INFO - Container sweb.eval.sympy__sympy-15346.20250212_130622 removed.
+2025-05-06 12:42:20,118 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15346.20250506_122807...
+2025-05-06 12:42:35,425 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15346.20250506_122807...
+2025-05-06 12:42:35,449 - INFO - Container sweb.eval.sympy__sympy-15346.20250506_122807 removed.

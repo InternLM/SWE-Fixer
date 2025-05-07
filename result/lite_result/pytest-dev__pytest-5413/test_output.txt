@@ -302,27 +302,27 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (1.11.0)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (23.1)
-Requirement already satisfied: attrs>=17.4.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (23.1.0)
-Requirement already satisfied: more-itertools>=4.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (10.1.0)
-Requirement already satisfied: atomicwrites>=1.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (1.4.1)
-Requirement already satisfied: pluggy<1.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (0.13.1)
-Requirement already satisfied: importlib-metadata>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (8.2.0)
-Requirement already satisfied: wcwidth in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250212) (0.2.6)
-Requirement already satisfied: zipp>=0.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from importlib-metadata>=0.12->pytest==4.6.1.dev72+g450d26462.d20250212) (3.19.2)
+Requirement already satisfied: py>=1.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (1.11.0)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (23.1)
+Requirement already satisfied: attrs>=17.4.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (23.1.0)
+Requirement already satisfied: more-itertools>=4.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (10.1.0)
+Requirement already satisfied: atomicwrites>=1.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (1.4.1)
+Requirement already satisfied: pluggy<1.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (0.13.1)
+Requirement already satisfied: importlib-metadata>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (8.2.0)
+Requirement already satisfied: wcwidth in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==4.6.1.dev72+g450d26462.d20250506) (0.2.6)
+Requirement already satisfied: zipp>=0.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from importlib-metadata>=0.12->pytest==4.6.1.dev72+g450d26462.d20250506) (3.19.2)
 Building wheels for collected packages: pytest
   Building editable for pytest (pyproject.toml): started
   Building editable for pytest (pyproject.toml): finished with status 'done'
-  Created wheel for pytest: filename=pytest-4.6.1.dev72+g450d26462.d20250212-0.editable-py3-none-any.whl size=4920 sha256=9e584e35a27f803522b2651267b8059ab27fc9c86da97ac07fd912117ca0f2f4
-  Stored in directory: /tmp/pip-ephem-wheel-cache-x3pk3nr0/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for pytest: filename=pytest-4.6.1.dev72+g450d26462.d20250506-0.editable-py3-none-any.whl size=4951 sha256=69380d8384b3a48771e39af26117f017b81f9d92803af91dd61e8d7b4542ca63
+  Stored in directory: /tmp/pip-ephem-wheel-cache-tbkl00v6/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built pytest
 Installing collected packages: pytest
   Attempting uninstall: pytest
     Found existing installation: pytest 4.6.1.dev72+g450d26462
     Uninstalling pytest-4.6.1.dev72+g450d26462:
       Successfully uninstalled pytest-4.6.1.dev72+g450d26462
-Successfully installed pytest-4.6.1.dev72+g450d26462.d20250212
+Successfully installed pytest-4.6.1.dev72+g450d26462.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout 450d2646233c670654744d3d24330b69895bb9d2 testing/code/test_excinfo.py
 Updated 0 paths from 2db0ae8f4
@@ -331,7 +331,7 @@ Checking patch testing/code/test_excinfo.py...
 Applied patch testing/code/test_excinfo.py cleanly.
 + pytest -rA testing/code/test_excinfo.py
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-4.6.1.dev72+g450d26462.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-4.6.1.dev72+g450d26462.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /testbed, inifile: tox.ini
 collected 95 items
 
@@ -379,13 +379,13 @@ ________________ TestFormattedExcinfo.test_traceback_repr_style ________________
     def f():
 >       g()
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
 :3: 
 ('_ ', None)
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
 :5: in g
     h()
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
 :7: in h
     i()
 ('_ ', None)
@@ -394,7 +394,7 @@ ________________ TestFormattedExcinfo.test_traceback_repr_style ________________
 >       raise ValueError()
 E       ValueError
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_traceback_repr_style0/mod.py')
 :9: ValueError
 ___________________ TestFormattedExcinfo.test_exc_chain_repr ___________________
 ----------------------------- Captured stdout call -----------------------------
@@ -403,7 +403,7 @@ ___________________ TestFormattedExcinfo.test_exc_chain_repr ___________________
         try:
 >           g()
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
 :6: 
 ('_ ', None)
 
@@ -411,7 +411,7 @@ ___________________ TestFormattedExcinfo.test_exc_chain_repr ___________________
 >       raise ValueError()
 E       ValueError
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
 :12: ValueError
 
 The above exception was the direct cause of the following exception:
@@ -423,7 +423,7 @@ The above exception was the direct cause of the following exception:
 >           raise Err() from e
 E           test_exc_chain_repr0.mod.Err
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
 :8: Err
 
 During handling of the above exception, another exception occurred:
@@ -436,7 +436,7 @@ During handling of the above exception, another exception occurred:
         finally:
 >           h()
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
 :10: 
 ('_ ', None)
 
@@ -444,7 +444,7 @@ During handling of the above exception, another exception occurred:
 >       raise AttributeError()
 E       AttributeError
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_exc_chain_repr0/mod.py')
 :15: AttributeError
 _______ TestFormattedExcinfo.test_exc_repr_chain_suppression[from_none] ________
 ----------------------------- Captured stdout call -----------------------------
@@ -456,7 +456,7 @@ _______ TestFormattedExcinfo.test_exc_repr_chain_suppression[from_none] ________
 >           raise AttributeError() from None
 E           AttributeError
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_exc_repr_chain_suppressio0/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_exc_repr_chain_suppressio0/mod.py')
 :6: AttributeError
 ___ TestFormattedExcinfo.test_exc_repr_chain_suppression[explicit_suppress] ____
 ----------------------------- Captured stdout call -----------------------------
@@ -468,12 +468,12 @@ ___ TestFormattedExcinfo.test_exc_repr_chain_suppression[explicit_suppress] ____
 >           raise AttributeError()
 E           AttributeError
 
-(<object object at 0x7f23e02c53d0>, '/tmp/pytest-of-root/pytest-0/test_exc_repr_chain_suppressio1/mod.py')
+(<object object at 0x7f0c6602e3d0>, '/tmp/pytest-of-root/pytest-0/test_exc_repr_chain_suppressio1/mod.py')
 :6: AttributeError
 ___________________________ test_match_raises_error ____________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-4.6.1.dev72+g450d26462.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-4.6.1.dev72+g450d26462.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_match_raises_error0
 collected 1 item
 
@@ -493,7 +493,7 @@ test_match_raises_error.py:5: AssertionError
 _______________________________ test_cwd_deleted _______________________________
 ----------------------------- Captured stdout call -----------------------------
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-4.6.1.dev72+g450d26462.d20250212, py-1.11.0, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-4.6.1.dev72+g450d26462.d20250506, py-1.11.0, pluggy-0.13.1
 rootdir: /tmp/pytest-of-root/pytest-0/test_cwd_deleted0
 collected 1 item
 

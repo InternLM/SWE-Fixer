@@ -178,7 +178,7 @@ Date:   Tue Apr 12 18:07:58 2022 +0200
 
 + git diff c33557d120eefe3148ebfcf2e758ff2357966000
 diff --git a/lib/matplotlib/colors.py b/lib/matplotlib/colors.py
-index 2e51914952..a9e4c160df 100644
+index 2e51914952..675961d59a 100644
 --- a/lib/matplotlib/colors.py
 +++ b/lib/matplotlib/colors.py
 @@ -40,9 +40,11 @@ Colors that Matplotlib recognizes are listed at
@@ -193,7 +193,7 @@ index 2e51914952..a9e4c160df 100644
  import importlib
  import inspect
  import io
-@@ -1903,16 +1905,17 @@ class BoundaryNorm(Normalize):
+@@ -1903,16 +1905,30 @@ class BoundaryNorm(Normalize):
  
      def inverse(self, value):
          """
@@ -202,12 +202,25 @@ index 2e51914952..a9e4c160df 100644
 -        ValueError
 -            BoundaryNorm is not invertible, so calling this method will always
 -            raise an error
-+        Since `BoundaryNorm` is not invertible, calling this method will
-+        always issue a warning, and return ``np.nan``.
++        BoundaryNorm is not invertible; return `np.nan`.
++
++        Parameters
++        ----------
++        value : number
++
++        Returns
++        -------
++        number
++            Returns `np.nan`.
++
++        See Also
++        --------
++        Normalize.inverse : The documentation of `Normalize.inverse` has an
++            explanation why no inverse exists for `BoundaryNorm`.
          """
 -        raise ValueError("BoundaryNorm is not invertible")
 +        warnings.warn(
-+            "BoundaryNorm is not invertible, returning np.nan.",
++            "BoundaryNorm is not invertible.",
 +            stacklevel=2)
 +        return np.nan
  
@@ -387,26 +400,26 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2034+gc33557d120.d20250212) (4.7.1)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=4 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=4->matplotlib==3.6.0.dev2034+gc33557d120.d20250506) (4.7.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.6.0.dev2034+gc33557d120
     Uninstalling matplotlib-3.6.0.dev2034+gc33557d120:
       Successfully uninstalled matplotlib-3.6.0.dev2034+gc33557d120
-  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2034+gc33557d120.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.6.0.dev2034+gc33557d120.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
-Successfully installed matplotlib-3.6.0.dev2034+gc33557d120.d20250212
+Successfully installed matplotlib-3.6.0.dev2034+gc33557d120.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout c33557d120eefe3148ebfcf2e758ff2357966000 lib/matplotlib/tests/test_artist.py
 Updated 0 paths from e7299aa0b6
@@ -466,20 +479,33 @@ lib/matplotlib/artist.py:1307: in format_cursor_data
     neighbors = self.norm.inverse(
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <matplotlib.colors.BoundaryNorm object at 0x7fb934d1b710>
+self = <matplotlib.colors.BoundaryNorm object at 0x7fee3c0eefd0>
 value = array([255.        , 255.00390625])
 
     def inverse(self, value):
         """
-        Since `BoundaryNorm` is not invertible, calling this method will
-        always issue a warning, and return ``np.nan``.
+        BoundaryNorm is not invertible; return `np.nan`.
+    
+        Parameters
+        ----------
+        value : number
+    
+        Returns
+        -------
+        number
+            Returns `np.nan`.
+    
+        See Also
+        --------
+        Normalize.inverse : The documentation of `Normalize.inverse` has an
+            explanation why no inverse exists for `BoundaryNorm`.
         """
 >       warnings.warn(
-            "BoundaryNorm is not invertible, returning np.nan.",
+            "BoundaryNorm is not invertible.",
             stacklevel=2)
-E       UserWarning: BoundaryNorm is not invertible, returning np.nan.
+E       UserWarning: BoundaryNorm is not invertible.
 
-lib/matplotlib/colors.py:1911: UserWarning
+lib/matplotlib/colors.py:1924: UserWarning
 ==================================== PASSES ====================================
 =========================== short test summary info ============================
 PASSED lib/matplotlib/tests/test_artist.py::test_patch_transform_of_none
@@ -510,6 +536,6 @@ PASSED lib/matplotlib/tests/test_artist.py::test_set_signature
 PASSED lib/matplotlib/tests/test_artist.py::test_set_is_overwritten
 SKIPPED [2] ../opt/miniconda3/envs/testbed/lib/python3.11/contextlib.py:81: Cannot compare svg files on this system
 FAILED lib/matplotlib/tests/test_artist.py::test_format_cursor_data_BoundaryNorm
-=================== 1 failed, 26 passed, 2 skipped in 4.25s ====================
+=================== 1 failed, 26 passed, 2 skipped in 4.47s ====================
 + git checkout c33557d120eefe3148ebfcf2e758ff2357966000 lib/matplotlib/tests/test_artist.py
 Updated 1 path from e7299aa0b6

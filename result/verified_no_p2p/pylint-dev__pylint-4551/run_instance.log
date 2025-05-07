@@ -1,0 +1,58 @@
+2025-05-06 06:54:30,179 - INFO - Environment image sweb.env.x86_64.76dba6316c7a61a263917f:latest found for pylint-dev__pylint-4551
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-4551:latest for pylint-dev__pylint-4551
+2025-05-06 06:54:30,181 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-4551:latest already exists, skipping build.
+2025-05-06 06:54:30,181 - INFO - Creating container for pylint-dev__pylint-4551...
+2025-05-06 06:54:30,211 - INFO - Container for pylint-dev__pylint-4551 created: a01f8df71173b3dd9ba6b387228502bb1712cb5f5130bd62778301d9baf697c1
+2025-05-06 06:54:30,462 - INFO - Container for pylint-dev__pylint-4551 started: a01f8df71173b3dd9ba6b387228502bb1712cb5f5130bd62778301d9baf697c1
+2025-05-06 06:54:30,462 - INFO - Intermediate patch for pylint-dev__pylint-4551 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pylint-dev__pylint-4551/patch.diff, now applying to container...
+2025-05-06 06:54:30,726 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:54:30,795 - INFO - >>>>> Applied Patch:
+patching file pylint/pyreverse/diadefslib.py
+
+2025-05-06 06:54:30,950 - INFO - Git diff before:
+diff --git a/pylint/pyreverse/diadefslib.py b/pylint/pyreverse/diadefslib.py
+index 5d803c929..0a6767522 100644
+--- a/pylint/pyreverse/diadefslib.py
++++ b/pylint/pyreverse/diadefslib.py
+@@ -169,9 +169,14 @@ class DefaultDiadefGenerator(LocalsVisitor, DiaDefGenerator):
+         """
+         anc_level, association_level = self._get_levels()
+         self.extract_classes(node, anc_level, association_level)
++        for method in node.mymethods():
++            for arg in method.args.args:
++                if arg.annotation:
++                    node.instance_attrs[arg.name] = arg.annotation
+ 
+     def visit_importfrom(self, node):
+         """visit astroid.ImportFrom  and catch modules for package diagram"""
++
+         if self.pkgdiagram:
+             self.pkgdiagram.add_from_depend(node, node.modname)
+2025-05-06 06:54:30,950 - INFO - Eval script for pylint-dev__pylint-4551 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pylint-dev__pylint-4551/eval.sh; copying to container...
+2025-05-06 06:54:36,178 - INFO - Test runtime: 5.03 seconds
+2025-05-06 06:54:36,179 - INFO - Test output for pylint-dev__pylint-4551 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pylint-dev__pylint-4551/test_output.txt
+2025-05-06 06:54:36,247 - INFO - Git diff after:
+diff --git a/pylint/pyreverse/diadefslib.py b/pylint/pyreverse/diadefslib.py
+index 5d803c929..0a6767522 100644
+--- a/pylint/pyreverse/diadefslib.py
++++ b/pylint/pyreverse/diadefslib.py
+@@ -169,9 +169,14 @@ class DefaultDiadefGenerator(LocalsVisitor, DiaDefGenerator):
+         """
+         anc_level, association_level = self._get_levels()
+         self.extract_classes(node, anc_level, association_level)
++        for method in node.mymethods():
++            for arg in method.args.args:
++                if arg.annotation:
++                    node.instance_attrs[arg.name] = arg.annotation
+ 
+     def visit_importfrom(self, node):
+         """visit astroid.ImportFrom  and catch modules for package diagram"""
++
+         if self.pkgdiagram:
+             self.pkgdiagram.add_from_depend(node, node.modname)
+2025-05-06 06:54:36,247 - INFO - Grading answer for pylint-dev__pylint-4551...
+2025-05-06 06:54:36,249 - INFO - report: {'pylint-dev__pylint-4551': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/unittest_pyreverse_writer.py::test_dot_files[packages_No_Name.dot]', 'tests/unittest_pyreverse_writer.py::test_dot_files[classes_No_Name.dot]', 'tests/unittest_pyreverse_writer.py::test_get_visibility[names0-special]', 'tests/unittest_pyreverse_writer.py::test_get_visibility[names1-private]', 'tests/unittest_pyreverse_writer.py::test_get_visibility[names2-public]', 'tests/unittest_pyreverse_writer.py::test_get_visibility[names3-protected]', 'tests/unittest_pyreverse_writer.py::test_get_annotation_annassign[a:', 'tests/unittest_pyreverse_writer.py::test_get_annotation_assignattr[def', 'tests/unittest_pyreverse_writer.py::test_infer_node_1', 'tests/unittest_pyreverse_writer.py::test_infer_node_2']}, 'PASS_TO_PASS': {'success': [], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-4551: resolved: False
+2025-05-06 06:54:36,249 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-4551.20250506_061805...
+2025-05-06 06:54:51,787 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-4551.20250506_061805...
+2025-05-06 06:54:51,803 - INFO - Container sweb.eval.pylint-dev__pylint-4551.20250506_061805 removed.

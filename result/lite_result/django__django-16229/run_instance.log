@@ -1,19 +1,19 @@
-2025-02-12 13:11:30,381 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-16229
+2025-05-06 12:33:04,130 - INFO - Environment image sweb.env.x86_64.a33dddf55cdff5d8e23374:latest found for django__django-16229
 Building instance image sweb.eval.x86_64.django__django-16229:latest for django__django-16229
-2025-02-12 13:11:30,384 - INFO - Image sweb.eval.x86_64.django__django-16229:latest already exists, skipping build.
-2025-02-12 13:11:30,384 - INFO - Creating container for django__django-16229...
-2025-02-12 13:11:30,421 - INFO - Container for django__django-16229 created: 2c4e591a67f73bb903b9b9a25cc508a14b571ee48c2c7b4f533a02c469015362
-2025-02-12 13:11:31,375 - INFO - Container for django__django-16229 started: 2c4e591a67f73bb903b9b9a25cc508a14b571ee48c2c7b4f533a02c469015362
-2025-02-12 13:11:31,376 - INFO - Intermediate patch for django__django-16229 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-16229/patch.diff, now applying to container...
-2025-02-12 13:11:31,610 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:11:31,680 - INFO - >>>>> Applied Patch:
+2025-05-06 12:33:04,133 - INFO - Image sweb.eval.x86_64.django__django-16229:latest already exists, skipping build.
+2025-05-06 12:33:04,133 - INFO - Creating container for django__django-16229...
+2025-05-06 12:33:04,193 - INFO - Container for django__django-16229 created: 4666fc6e8c2a89962a4dbfcfdbf23c6451a704a5f777e6a3c65307290e6793eb
+2025-05-06 12:33:05,288 - INFO - Container for django__django-16229 started: 4666fc6e8c2a89962a4dbfcfdbf23c6451a704a5f777e6a3c65307290e6793eb
+2025-05-06 12:33:05,289 - INFO - Intermediate patch for django__django-16229 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-16229/patch.diff, now applying to container...
+2025-05-06 12:33:05,499 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:33:05,540 - INFO - >>>>> Applied Patch:
 patching file django/forms/models.py
 patching file django/forms/models.py
 Hunk #1 succeeded at 1131 (offset 3 lines).
 
-2025-02-12 13:11:33,489 - INFO - Git diff before:
+2025-05-06 12:33:06,721 - INFO - Git diff before:
 diff --git a/django/forms/models.py b/django/forms/models.py
-index 35ecdc1c0d..f7e1d38aad 100644
+index 35ecdc1c0d..72c75247ce 100644
 --- a/django/forms/models.py
 +++ b/django/forms/models.py
 @@ -65,18 +65,21 @@ def construct_instance(form, instance, fields=None, exclude=None):
@@ -44,24 +44,24 @@ index 35ecdc1c0d..f7e1d38aad 100644
              fk_value = getattr(self.instance, self.fk.remote_field.field_name)
              fk_value = getattr(fk_value, "pk", fk_value)
          setattr(form.instance, self.fk.get_attname(), fk_value)
-+        # Set default values for fields with callable defaults.
++        # Set defaults for fields with callable defaults.
 +        for name, field in form.fields.items():
 +            if field.widget.value_omitted_from_data(
 +                form.data, form.files, form.add_prefix(name)
 +            ):
-+                field.initial = field.initial() if callable(field.initial) else field.initial
++                form.initial[name] = field.initial
          return form
  
      @classmethod
 +
      def get_default_prefix(cls):
          return cls.fk.remote_field.get_accessor_name(model=cls.model).replace("+", "")
-2025-02-12 13:11:33,489 - INFO - Eval script for django__django-16229 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-16229/eval.sh; copying to container...
-2025-02-12 13:11:45,552 - INFO - Test runtime: 11.89 seconds
-2025-02-12 13:11:45,552 - INFO - Test output for django__django-16229 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-16229/test_output.txt
-2025-02-12 13:11:45,608 - INFO - Git diff after:
+2025-05-06 12:33:06,722 - INFO - Eval script for django__django-16229 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-16229/eval.sh; copying to container...
+2025-05-06 12:33:17,483 - INFO - Test runtime: 10.59 seconds
+2025-05-06 12:33:17,484 - INFO - Test output for django__django-16229 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-16229/test_output.txt
+2025-05-06 12:33:17,568 - INFO - Git diff after:
 diff --git a/django/forms/models.py b/django/forms/models.py
-index 35ecdc1c0d..f7e1d38aad 100644
+index 35ecdc1c0d..72c75247ce 100644
 --- a/django/forms/models.py
 +++ b/django/forms/models.py
 @@ -65,18 +65,21 @@ def construct_instance(form, instance, fields=None, exclude=None):
@@ -92,21 +92,21 @@ index 35ecdc1c0d..f7e1d38aad 100644
              fk_value = getattr(self.instance, self.fk.remote_field.field_name)
              fk_value = getattr(fk_value, "pk", fk_value)
          setattr(form.instance, self.fk.get_attname(), fk_value)
-+        # Set default values for fields with callable defaults.
++        # Set defaults for fields with callable defaults.
 +        for name, field in form.fields.items():
 +            if field.widget.value_omitted_from_data(
 +                form.data, form.files, form.add_prefix(name)
 +            ):
-+                field.initial = field.initial() if callable(field.initial) else field.initial
++                form.initial[name] = field.initial
          return form
  
      @classmethod
 +
      def get_default_prefix(cls):
          return cls.fk.remote_field.get_accessor_name(model=cls.model).replace("+", "")
-2025-02-12 13:11:45,608 - INFO - Grading answer for django__django-16229...
-2025-02-12 13:11:45,613 - INFO - report: {'django__django-16229': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_callable_default_hidden_widget_value_not_overridden (forms_tests.tests.tests.ModelFormCallableModelDefault)']}, 'PASS_TO_PASS': {'success': ['Test for issue 10405', "If a model's ManyToManyField has blank=True and is saved with no data,", 'test_m2m_field_exclusion (forms_tests.tests.tests.ManyToManyExclusionTestCase)', 'test_empty_field_char (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_empty_field_char_none (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_empty_field_integer (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_get_display_value_on_none (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_html_rendering_of_prepopulated_models (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_save_empty_label_forms (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_boundary_conditions (forms_tests.tests.tests.FormsModelTestCase)', 'test_formfield_initial (forms_tests.tests.tests.FormsModelTestCase)', 'test_unicode_filename (forms_tests.tests.tests.FormsModelTestCase)', 'test_empty_field_char (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_empty_field_char_none (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_empty_field_integer (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_get_display_value_on_none (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_html_rendering_of_prepopulated_models (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_save_empty_label_forms (forms_tests.tests.tests.EmptyLabelTestCase)', 'The initial value for a callable default returning a queryset is the', 'Initial instances for model fields may also be instances (refs #7287)', "If a model's ForeignKey has blank=False and a default, no empty option"], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:33:17,568 - INFO - Grading answer for django__django-16229...
+2025-05-06 12:33:17,570 - INFO - report: {'django__django-16229': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_callable_default_hidden_widget_value_not_overridden (forms_tests.tests.tests.ModelFormCallableModelDefault)']}, 'PASS_TO_PASS': {'success': ['Test for issue 10405', "If a model's ManyToManyField has blank=True and is saved with no data,", 'test_m2m_field_exclusion (forms_tests.tests.tests.ManyToManyExclusionTestCase)', 'test_empty_field_char (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_empty_field_char_none (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_empty_field_integer (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_get_display_value_on_none (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_html_rendering_of_prepopulated_models (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_save_empty_label_forms (forms_tests.tests.tests.Jinja2EmptyLabelTestCase)', 'test_boundary_conditions (forms_tests.tests.tests.FormsModelTestCase)', 'test_formfield_initial (forms_tests.tests.tests.FormsModelTestCase)', 'test_unicode_filename (forms_tests.tests.tests.FormsModelTestCase)', 'test_empty_field_char (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_empty_field_char_none (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_empty_field_integer (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_get_display_value_on_none (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_html_rendering_of_prepopulated_models (forms_tests.tests.tests.EmptyLabelTestCase)', 'test_save_empty_label_forms (forms_tests.tests.tests.EmptyLabelTestCase)', 'The initial value for a callable default returning a queryset is the', 'Initial instances for model fields may also be instances (refs #7287)', "If a model's ForeignKey has blank=False and a default, no empty option"], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-16229: resolved: False
-2025-02-12 13:11:45,613 - INFO - Attempting to stop container sweb.eval.django__django-16229.20250212_130622...
-2025-02-12 13:12:01,057 - INFO - Attempting to remove container sweb.eval.django__django-16229.20250212_130622...
-2025-02-12 13:12:01,085 - INFO - Container sweb.eval.django__django-16229.20250212_130622 removed.
+2025-05-06 12:33:17,570 - INFO - Attempting to stop container sweb.eval.django__django-16229.20250506_122807...
+2025-05-06 12:33:33,018 - INFO - Attempting to remove container sweb.eval.django__django-16229.20250506_122807...
+2025-05-06 12:33:33,048 - INFO - Container sweb.eval.django__django-16229.20250506_122807 removed.

@@ -1,43 +1,45 @@
-2025-02-12 13:16:00,792 - INFO - Environment image sweb.env.x86_64.0c609b65ef40b42410cb20:latest found for pylint-dev__pylint-7114
+2025-05-06 12:37:36,512 - INFO - Environment image sweb.env.x86_64.0c609b65ef40b42410cb20:latest found for pylint-dev__pylint-7114
 Building instance image sweb.eval.x86_64.pylint-dev__pylint-7114:latest for pylint-dev__pylint-7114
-2025-02-12 13:16:00,795 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-7114:latest already exists, skipping build.
-2025-02-12 13:16:00,796 - INFO - Creating container for pylint-dev__pylint-7114...
-2025-02-12 13:16:00,825 - INFO - Container for pylint-dev__pylint-7114 created: 64456c9f94e9ccb5884ece613f4a6327d9cd55a95bbde71aa8c6fbb277cc3c03
-2025-02-12 13:16:01,085 - INFO - Container for pylint-dev__pylint-7114 started: 64456c9f94e9ccb5884ece613f4a6327d9cd55a95bbde71aa8c6fbb277cc3c03
-2025-02-12 13:16:01,086 - INFO - Intermediate patch for pylint-dev__pylint-7114 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pylint-dev__pylint-7114/patch.diff, now applying to container...
-2025-02-12 13:16:01,326 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:16:01,392 - INFO - >>>>> Applied Patch:
+2025-05-06 12:37:36,514 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-7114:latest already exists, skipping build.
+2025-05-06 12:37:36,515 - INFO - Creating container for pylint-dev__pylint-7114...
+2025-05-06 12:37:36,581 - INFO - Container for pylint-dev__pylint-7114 created: e705225b931529e092556b34853bb061b3ea9b4fbba06ec620afffd8b4ea97b6
+2025-05-06 12:37:36,831 - INFO - Container for pylint-dev__pylint-7114 started: e705225b931529e092556b34853bb061b3ea9b4fbba06ec620afffd8b4ea97b6
+2025-05-06 12:37:36,831 - INFO - Intermediate patch for pylint-dev__pylint-7114 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pylint-dev__pylint-7114/patch.diff, now applying to container...
+2025-05-06 12:37:37,102 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:37:37,168 - INFO - >>>>> Applied Patch:
 patching file pylint/lint/pylinter.py
 patching file pylint/lint/pylinter.py
-Hunk #1 succeeded at 612 (offset 6 lines).
+Hunk #1 succeeded at 605 (offset -1 lines).
 
-2025-02-12 13:16:01,750 - INFO - Git diff before:
+2025-05-06 12:37:37,452 - INFO - Git diff before:
 diff --git a/pylint/lint/pylinter.py b/pylint/lint/pylinter.py
-index bc227d2c4..545794fb9 100644
+index bc227d2c4..6ce8805de 100644
 --- a/pylint/lint/pylinter.py
 +++ b/pylint/lint/pylinter.py
-@@ -587,9 +587,15 @@ class PyLinter(
- 
+@@ -588,12 +588,11 @@ class PyLinter(
          Returns iterator of paths to discovered modules and packages.
          """
-+
-+        def module_name_collision(root: str, files: list[str]) -> bool:
-+            basename = os.path.basename(root)
-+            return any(Path(file).stem == basename for file in files)
-+
          for something in files_or_modules:
-             if os.path.isdir(something) and not os.path.isfile(
-                 os.path.join(something, "__init__.py")
-+
-             ):
+-            if os.path.isdir(something) and not os.path.isfile(
+-                os.path.join(something, "__init__.py")
+-            ):
++            if os.path.isdir(something):
                  skip_subtrees: list[str] = []
                  for root, _, files in os.walk(something):
-@@ -606,10 +612,11 @@ class PyLinter(
+                     if any(root.startswith(s) for s in skip_subtrees):
++
+                         # Skip subtree of already discovered package.
+                         continue
+ 
+@@ -606,10 +605,14 @@ class PyLinter(
                          skip_subtrees.append(root)
                          continue
  
 -                    if "__init__.py" in files:
-+                    if "__init__.py" in files or module_name_collision(root, files):
++                    if (
++                        "__init__.py" in files
++                        or os.path.basename(root) + ".py" in files
++                    ):
                          skip_subtrees.append(root)
                          yield root
                      else:
@@ -45,36 +47,38 @@ index bc227d2c4..545794fb9 100644
                          yield from (
                              os.path.join(root, file)
                              for file in files
-2025-02-12 13:16:01,751 - INFO - Eval script for pylint-dev__pylint-7114 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pylint-dev__pylint-7114/eval.sh; copying to container...
-2025-02-12 13:16:16,491 - INFO - Test runtime: 14.54 seconds
-2025-02-12 13:16:16,492 - INFO - Test output for pylint-dev__pylint-7114 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pylint-dev__pylint-7114/test_output.txt
-2025-02-12 13:16:16,566 - INFO - Git diff after:
+2025-05-06 12:37:37,452 - INFO - Eval script for pylint-dev__pylint-7114 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pylint-dev__pylint-7114/eval.sh; copying to container...
+2025-05-06 12:37:51,079 - INFO - Test runtime: 13.41 seconds
+2025-05-06 12:37:51,080 - INFO - Test output for pylint-dev__pylint-7114 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pylint-dev__pylint-7114/test_output.txt
+2025-05-06 12:37:51,155 - INFO - Git diff after:
 diff --git a/pylint/lint/pylinter.py b/pylint/lint/pylinter.py
-index bc227d2c4..545794fb9 100644
+index bc227d2c4..6ce8805de 100644
 --- a/pylint/lint/pylinter.py
 +++ b/pylint/lint/pylinter.py
-@@ -587,9 +587,15 @@ class PyLinter(
- 
+@@ -588,12 +588,11 @@ class PyLinter(
          Returns iterator of paths to discovered modules and packages.
          """
-+
-+        def module_name_collision(root: str, files: list[str]) -> bool:
-+            basename = os.path.basename(root)
-+            return any(Path(file).stem == basename for file in files)
-+
          for something in files_or_modules:
-             if os.path.isdir(something) and not os.path.isfile(
-                 os.path.join(something, "__init__.py")
-+
-             ):
+-            if os.path.isdir(something) and not os.path.isfile(
+-                os.path.join(something, "__init__.py")
+-            ):
++            if os.path.isdir(something):
                  skip_subtrees: list[str] = []
                  for root, _, files in os.walk(something):
-@@ -606,10 +612,11 @@ class PyLinter(
+                     if any(root.startswith(s) for s in skip_subtrees):
++
+                         # Skip subtree of already discovered package.
+                         continue
+ 
+@@ -606,10 +605,14 @@ class PyLinter(
                          skip_subtrees.append(root)
                          continue
  
 -                    if "__init__.py" in files:
-+                    if "__init__.py" in files or module_name_collision(root, files):
++                    if (
++                        "__init__.py" in files
++                        or os.path.basename(root) + ".py" in files
++                    ):
                          skip_subtrees.append(root)
                          yield root
                      else:
@@ -82,9 +86,9 @@ index bc227d2c4..545794fb9 100644
                          yield from (
                              os.path.join(root, file)
                              for file in files
-2025-02-12 13:16:16,566 - INFO - Grading answer for pylint-dev__pylint-7114...
-2025-02-12 13:16:16,575 - INFO - report: {'pylint-dev__pylint-7114': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/lint/unittest_lint.py::test_identically_named_nested_module']}, 'PASS_TO_PASS': {'success': ['tests/checkers/unittest_imports.py::TestImportsChecker::test_relative_beyond_top_level', 'tests/checkers/unittest_imports.py::TestImportsChecker::test_relative_beyond_top_level_three', 'tests/checkers/unittest_imports.py::TestImportsChecker::test_relative_beyond_top_level_four', 'tests/lint/unittest_lint.py::test_no_args', 'tests/lint/unittest_lint.py::test_one_arg[case0]', 'tests/lint/unittest_lint.py::test_one_arg[case1]', 'tests/lint/unittest_lint.py::test_one_arg[case2]', 'tests/lint/unittest_lint.py::test_one_arg[case3]', 'tests/lint/unittest_lint.py::test_one_arg[case4]', 'tests/lint/unittest_lint.py::test_two_similar_args[case0]', 'tests/lint/unittest_lint.py::test_two_similar_args[case1]', 'tests/lint/unittest_lint.py::test_two_similar_args[case2]', 'tests/lint/unittest_lint.py::test_two_similar_args[case3]', 'tests/lint/unittest_lint.py::test_more_args[case0]', 'tests/lint/unittest_lint.py::test_more_args[case1]', 'tests/lint/unittest_lint.py::test_more_args[case2]', 'tests/lint/unittest_lint.py::test_pylint_visit_method_taken_in_account', 'tests/lint/unittest_lint.py::test_enable_message', 'tests/lint/unittest_lint.py::test_enable_message_category', 'tests/lint/unittest_lint.py::test_message_state_scope', 'tests/lint/unittest_lint.py::test_enable_message_block', 'tests/lint/unittest_lint.py::test_enable_by_symbol', 'tests/lint/unittest_lint.py::test_enable_report', 'tests/lint/unittest_lint.py::test_report_output_format_aliased', 'tests/lint/unittest_lint.py::test_set_unsupported_reporter', 'tests/lint/unittest_lint.py::test_set_option_1', 'tests/lint/unittest_lint.py::test_set_option_2', 'tests/lint/unittest_lint.py::test_enable_checkers', 'tests/lint/unittest_lint.py::test_errors_only', 'tests/lint/unittest_lint.py::test_disable_similar', 'tests/lint/unittest_lint.py::test_disable_alot', 'tests/lint/unittest_lint.py::test_addmessage', 'tests/lint/unittest_lint.py::test_addmessage_invalid', 'tests/lint/unittest_lint.py::test_load_plugin_command_line', 'tests/lint/unittest_lint.py::test_load_plugin_config_file', 'tests/lint/unittest_lint.py::test_load_plugin_configuration', 'tests/lint/unittest_lint.py::test_init_hooks_called_before_load_plugins', 'tests/lint/unittest_lint.py::test_analyze_explicit_script', 'tests/lint/unittest_lint.py::test_full_documentation', 'tests/lint/unittest_lint.py::test_list_msgs_enabled', 'tests/lint/unittest_lint.py::test_pylint_home', 'tests/lint/unittest_lint.py::test_pylint_home_from_environ', 'tests/lint/unittest_lint.py::test_warn_about_old_home', 'tests/lint/unittest_lint.py::test_pylintrc', 'tests/lint/unittest_lint.py::test_pylintrc_parentdir', 'tests/lint/unittest_lint.py::test_pylintrc_parentdir_no_package', 'tests/lint/unittest_lint.py::test_custom_should_analyze_file', 'tests/lint/unittest_lint.py::test_multiprocessing[1]', 'tests/lint/unittest_lint.py::test_multiprocessing[2]', 'tests/lint/unittest_lint.py::test_filename_with__init__', 'tests/lint/unittest_lint.py::test_by_module_statement_value', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-failing.py]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-ignored_subdirectory]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-patterns-failing.*]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-patterns-ignored_*]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-paths-.*directory/ignored.*]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-paths-.*ignored.*/failing.*]', 'tests/lint/unittest_lint.py::test_import_sibling_module_from_namespace', 'tests/lint/unittest_lint.py::test_lint_namespace_package_under_dir'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:37:51,155 - INFO - Grading answer for pylint-dev__pylint-7114...
+2025-05-06 12:37:51,164 - INFO - report: {'pylint-dev__pylint-7114': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/lint/unittest_lint.py::test_identically_named_nested_module']}, 'PASS_TO_PASS': {'success': ['tests/checkers/unittest_imports.py::TestImportsChecker::test_relative_beyond_top_level', 'tests/checkers/unittest_imports.py::TestImportsChecker::test_relative_beyond_top_level_three', 'tests/checkers/unittest_imports.py::TestImportsChecker::test_relative_beyond_top_level_four', 'tests/lint/unittest_lint.py::test_no_args', 'tests/lint/unittest_lint.py::test_one_arg[case0]', 'tests/lint/unittest_lint.py::test_one_arg[case1]', 'tests/lint/unittest_lint.py::test_one_arg[case2]', 'tests/lint/unittest_lint.py::test_one_arg[case3]', 'tests/lint/unittest_lint.py::test_one_arg[case4]', 'tests/lint/unittest_lint.py::test_two_similar_args[case0]', 'tests/lint/unittest_lint.py::test_two_similar_args[case1]', 'tests/lint/unittest_lint.py::test_two_similar_args[case2]', 'tests/lint/unittest_lint.py::test_two_similar_args[case3]', 'tests/lint/unittest_lint.py::test_more_args[case0]', 'tests/lint/unittest_lint.py::test_more_args[case1]', 'tests/lint/unittest_lint.py::test_more_args[case2]', 'tests/lint/unittest_lint.py::test_pylint_visit_method_taken_in_account', 'tests/lint/unittest_lint.py::test_enable_message', 'tests/lint/unittest_lint.py::test_enable_message_category', 'tests/lint/unittest_lint.py::test_message_state_scope', 'tests/lint/unittest_lint.py::test_enable_message_block', 'tests/lint/unittest_lint.py::test_enable_by_symbol', 'tests/lint/unittest_lint.py::test_enable_report', 'tests/lint/unittest_lint.py::test_report_output_format_aliased', 'tests/lint/unittest_lint.py::test_set_unsupported_reporter', 'tests/lint/unittest_lint.py::test_set_option_1', 'tests/lint/unittest_lint.py::test_set_option_2', 'tests/lint/unittest_lint.py::test_enable_checkers', 'tests/lint/unittest_lint.py::test_errors_only', 'tests/lint/unittest_lint.py::test_disable_similar', 'tests/lint/unittest_lint.py::test_disable_alot', 'tests/lint/unittest_lint.py::test_addmessage', 'tests/lint/unittest_lint.py::test_addmessage_invalid', 'tests/lint/unittest_lint.py::test_load_plugin_command_line', 'tests/lint/unittest_lint.py::test_load_plugin_config_file', 'tests/lint/unittest_lint.py::test_load_plugin_configuration', 'tests/lint/unittest_lint.py::test_init_hooks_called_before_load_plugins', 'tests/lint/unittest_lint.py::test_analyze_explicit_script', 'tests/lint/unittest_lint.py::test_full_documentation', 'tests/lint/unittest_lint.py::test_list_msgs_enabled', 'tests/lint/unittest_lint.py::test_pylint_home', 'tests/lint/unittest_lint.py::test_pylint_home_from_environ', 'tests/lint/unittest_lint.py::test_warn_about_old_home', 'tests/lint/unittest_lint.py::test_pylintrc', 'tests/lint/unittest_lint.py::test_pylintrc_parentdir', 'tests/lint/unittest_lint.py::test_pylintrc_parentdir_no_package', 'tests/lint/unittest_lint.py::test_filename_with__init__', 'tests/lint/unittest_lint.py::test_by_module_statement_value', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-failing.py]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-ignored_subdirectory]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-patterns-failing.*]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-patterns-ignored_*]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-paths-.*directory/ignored.*]', 'tests/lint/unittest_lint.py::test_recursive_ignore[--ignore-paths-.*ignored.*/failing.*]', 'tests/lint/unittest_lint.py::test_import_sibling_module_from_namespace', 'tests/lint/unittest_lint.py::test_lint_namespace_package_under_dir'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for pylint-dev__pylint-7114: resolved: False
-2025-02-12 13:16:16,575 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-7114.20250212_130622...
-2025-02-12 13:16:31,861 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-7114.20250212_130622...
-2025-02-12 13:16:31,877 - INFO - Container sweb.eval.pylint-dev__pylint-7114.20250212_130622 removed.
+2025-05-06 12:37:51,164 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-7114.20250506_122807...
+2025-05-06 12:38:06,444 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-7114.20250506_122807...
+2025-05-06 12:38:06,461 - INFO - Container sweb.eval.pylint-dev__pylint-7114.20250506_122807 removed.

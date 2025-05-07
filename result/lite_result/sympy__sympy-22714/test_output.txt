@@ -150,16 +150,29 @@ Date:   Sun Dec 19 19:58:20 2021 +0100
 
 + git diff 3ff4717b6aef6086e78f01cdfa06f64ae23aed7e
 diff --git a/sympy/parsing/sympy_parser.py b/sympy/parsing/sympy_parser.py
-index e403654cb4..e3cbc0634e 100644
+index e403654cb4..c258fd9a85 100644
 --- a/sympy/parsing/sympy_parser.py
 +++ b/sympy/parsing/sympy_parser.py
-@@ -1201,11 +1201,13 @@ def visit_BinOp(self, node):
- 
-     def visit_Call(self, node):
+@@ -1203,9 +1203,28 @@ def visit_Call(self, node):
          new_node = self.generic_visit(node)
--        if isinstance(node.func, ast.Name) and node.func.id in self.functions:
--            new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
-+        new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
+         if isinstance(node.func, ast.Name) and node.func.id in self.functions:
+             new_node.keywords.append(ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load())))
++            if node.func.id in ('im', 're'):
++                new_node.args = [ast.Call(
++                    func=ast.Name(id='Mul', ctx=ast.Load()),
++                    args=[
++                        ast.Call(
++                            func=ast.Name(id='Pow', ctx=ast.Load()),
++                            args=[
++                                ast.Name(id='I', ctx=ast.Load()),
++                                ast.Num(n=-1)
++                            ],
++                            keywords=[ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load()))],
++                        ),
++                        new_node.args[0],
++                    ],
++                    keywords=[ast.keyword(arg='evaluate', value=ast.NameConstant(value=False, ctx=ast.Load()))],
++                )]
          return new_node
  
  
@@ -319,8 +332,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        52954364
-hash randomization: on (PYTHONHASHSEED=355990654)
+random seed:        7081976
+hash randomization: on (PYTHONHASHSEED=4039427624)
 
 sympy/geometry/tests/test_point.py[13] 
 test_point ok
@@ -347,7 +360,7 @@ Traceback (most recent call last):
     raise ValueError('Imaginary coordinates are not permitted.')
 ValueError: Imaginary coordinates are not permitted.
 
-=========== tests finished: 12 passed, 1 exceptions, in 4.94 seconds ===========
+=========== tests finished: 12 passed, 1 exceptions, in 4.82 seconds ===========
 DO *NOT* COMMIT!
 + git checkout 3ff4717b6aef6086e78f01cdfa06f64ae23aed7e sympy/geometry/tests/test_point.py
 Updated 1 path from f1caf41aa5

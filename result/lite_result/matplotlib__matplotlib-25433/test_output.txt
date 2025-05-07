@@ -178,21 +178,22 @@ Date:   Fri Mar 10 12:47:38 2023 -0500
 
 + git diff 7eafdd8af3c523c1c77b027d378fb337dd489f18
 diff --git a/lib/matplotlib/widgets.py b/lib/matplotlib/widgets.py
-index ebe5da43e2..17222b9c93 100644
+index ebe5da43e2..9542c91f21 100644
 --- a/lib/matplotlib/widgets.py
 +++ b/lib/matplotlib/widgets.py
-@@ -148,9 +148,11 @@ class AxesWidget(Widget):
-         """Disconnect all events created by this widget."""
-         for c in self._cids:
-             self.canvas.mpl_disconnect(c)
-+        self._cids.clear()
+@@ -295,11 +295,11 @@ class SliderBase(AxesWidget):
+         ax.set_navigate(False)
  
+         self.connect_event("button_press_event", self._update)
+-        self.connect_event("button_release_event", self._update)
+         if dragging:
+             self.connect_event("motion_notify_event", self._update)
+         self._observers = cbook.CallbackRegistry(signals=["changed"])
  
- class Button(AxesWidget):
 +
-     """
-     A GUI neutral button.
- 
+     def _stepped_value(self, val):
+         """Return *val* coerced to closest number in the ``valstep`` grid."""
+         if isinstance(self.valstep, Number):
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -369,31 +370,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev565+g7eafdd8af3.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev565+g7eafdd8af3.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev565+g7eafdd8af3.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23380 sha256=26de1caad986abea009e94fcd0fd6a626b1c3fcb5ff95019c2d4803e7faf4863
-  Stored in directory: /tmp/pip-ephem-wheel-cache-2e8pfgcy/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev565+g7eafdd8af3.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=23809 sha256=e9a4477892f51f2872a0fbeee7280ecd61f46a9ba7539bef500dc7c2bdf40207
+  Stored in directory: /tmp/pip-ephem-wheel-cache-nt5eougx/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.8.0.dev565+g7eafdd8af3
     Uninstalling matplotlib-3.8.0.dev565+g7eafdd8af3:
       Successfully uninstalled matplotlib-3.8.0.dev565+g7eafdd8af3
-Successfully installed matplotlib-3.8.0.dev565+g7eafdd8af3.d20250212
+Successfully installed matplotlib-3.8.0.dev565+g7eafdd8af3.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 7eafdd8af3c523c1c77b027d378fb337dd489f18 lib/matplotlib/tests/test_backend_bases.py
 Updated 0 paths from ad7d900860
@@ -423,8 +424,8 @@ _______________________________ test_grab_clear ________________________________
         fig.clear()
 >       assert fig.canvas.mouse_grabber is None
 E       assert <Axes: > is None
-E        +  where <Axes: > = <matplotlib.backends.backend_agg.FigureCanvasAgg object at 0x7f4d98f27590>.mouse_grabber
-E        +    where <matplotlib.backends.backend_agg.FigureCanvasAgg object at 0x7f4d98f27590> = <Figure size 640x480 with 0 Axes>.canvas
+E        +  where <Axes: > = <matplotlib.backends.backend_agg.FigureCanvasAgg object at 0x7f529a837090>.mouse_grabber
+E        +    where <matplotlib.backends.backend_agg.FigureCanvasAgg object at 0x7f529a837090> = <Figure size 640x480 with 0 Axes>.canvas
 
 lib/matplotlib/tests/test_backend_bases.py:105: AssertionError
 ==================================== PASSES ====================================
@@ -485,6 +486,6 @@ PASSED lib/matplotlib/tests/test_backend_bases.py::test_toolmanager_remove
 PASSED lib/matplotlib/tests/test_backend_bases.py::test_toolmanager_get_tool
 PASSED lib/matplotlib/tests/test_backend_bases.py::test_toolmanager_update_keymap
 FAILED lib/matplotlib/tests/test_backend_bases.py::test_grab_clear - assert <...
-========================= 1 failed, 55 passed in 9.52s =========================
+======================== 1 failed, 55 passed in 10.02s =========================
 + git checkout 7eafdd8af3c523c1c77b027d378fb337dd489f18 lib/matplotlib/tests/test_backend_bases.py
 Updated 1 path from ad7d900860

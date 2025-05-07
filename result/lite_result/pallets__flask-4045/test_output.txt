@@ -150,18 +150,17 @@ Date:   Thu May 13 13:35:12 2021 -0700
 
 + git diff d8c37f43724cd9fb0870f77877b7c4c7e38a19e0
 diff --git a/src/flask/blueprints.py b/src/flask/blueprints.py
-index 5fb84d86..0decb525 100644
+index 5fb84d86..0cf509fb 100644
 --- a/src/flask/blueprints.py
 +++ b/src/flask/blueprints.py
-@@ -189,10 +189,18 @@ class Blueprint(Scaffold):
+@@ -189,10 +189,17 @@ class Blueprint(Scaffold):
              root_path=root_path,
          )
          self.name = name
 +
 +        if "." in name:
 +            raise ValueError(
-+                f"Blueprint name '{name}' may not contain a dot ('.') character"
-+                " as it would be parsed as a nested blueprint."
++                f"Blueprint name '{name}' may not contain a dot ('.') character."
 +            )
 +
          self.url_prefix = url_prefix
@@ -741,7 +740,7 @@ E       DeprecationWarning: 'werkzeug.urls.url_parse' is deprecated and will be 
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/werkzeug/urls.py:505: DeprecationWarning
 _________________ ERROR at setup of test_templates_and_static __________________
 
-monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3b66f3ec70>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f23ee1f0c70>
 
     @pytest.fixture
     def test_apps(monkeypatch):
@@ -849,7 +848,7 @@ E   DeprecationWarning: pkg_resources is deprecated as an API. See https://setup
 /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pkg_resources/__init__.py:89: DeprecationWarning
 ____________________ ERROR at setup of test_templates_list _____________________
 
-monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3b66ff8c10>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f23ee0e6c10>
 
     @pytest.fixture
     def test_apps(monkeypatch):
@@ -5106,7 +5105,7 @@ E       DeprecationWarning: 'werkzeug.urls.url_parse' is deprecated and will be 
 ________________ test_before_first_request_functions_concurrent ________________
 
 cls = <class '_pytest.runner.CallInfo'>
-func = <function call_runtest_hook.<locals>.<lambda> at 0x7f3b670d8e50>
+func = <function call_runtest_hook.<locals>.<lambda> at 0x7f23ee462430>
 when = 'call'
 reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
 
@@ -7382,7 +7381,7 @@ src/flask/scaffold.py:433: in decorator
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 self = <Blueprint 'bp'>, rule = '/', endpoint = 'a.b'
-view_func = <function test_route_decorator_custom_endpoint_with_dots.<locals>.<lambda> at 0x7f3b6721a9d0>
+view_func = <function test_route_decorator_custom_endpoint_with_dots.<locals>.<lambda> at 0x7f23ee06a790>
 options = {}
 
     def add_url_rule(
@@ -7399,7 +7398,7 @@ options = {}
 >           assert "." not in endpoint, "Blueprint endpoints should not contain dots"
 E           AssertionError: Blueprint endpoints should not contain dots
 
-src/flask/blueprints.py:372: AssertionError
+src/flask/blueprints.py:371: AssertionError
 ___________________________ test_endpoint_decorator ____________________________
 
 app = <Flask 'flask_test'>, client = <FlaskClient <Flask 'flask_test'>>
@@ -8826,6 +8825,6 @@ FAILED tests/test_blueprints.py::test_request_processing - DeprecationWarning...
 FAILED tests/test_blueprints.py::test_app_request_processing - DeprecationWar...
 FAILED tests/test_blueprints.py::test_app_url_processors - DeprecationWarning...
 FAILED tests/test_blueprints.py::test_nested_blueprint - DeprecationWarning: ...
-================== 117 failed, 51 passed, 11 errors in 7.92s ===================
+================== 117 failed, 51 passed, 11 errors in 8.11s ===================
 + git checkout d8c37f43724cd9fb0870f77877b7c4c7e38a19e0 tests/test_basic.py tests/test_blueprints.py
 Updated 2 paths from a6c31469

@@ -1,0 +1,56 @@
+2025-05-06 11:27:43,124 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15345
+Building instance image sweb.eval.x86_64.sympy__sympy-15345:latest for sympy__sympy-15345
+2025-05-06 11:27:43,127 - INFO - Image sweb.eval.x86_64.sympy__sympy-15345:latest already exists, skipping build.
+2025-05-06 11:27:43,127 - INFO - Creating container for sympy__sympy-15345...
+2025-05-06 11:27:43,159 - INFO - Container for sympy__sympy-15345 created: 072032a4688a2ebbd8a4c373debe5a9689cc8082fbe202d968e31b6db8f49dea
+2025-05-06 11:27:43,456 - INFO - Container for sympy__sympy-15345 started: 072032a4688a2ebbd8a4c373debe5a9689cc8082fbe202d968e31b6db8f49dea
+2025-05-06 11:27:43,456 - INFO - Intermediate patch for sympy__sympy-15345 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-15345/patch.diff, now applying to container...
+2025-05-06 11:27:43,719 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:27:43,778 - INFO - >>>>> Applied Patch:
+patching file sympy/printing/mathematica.py
+
+2025-05-06 11:27:44,265 - INFO - Git diff before:
+diff --git a/sympy/printing/mathematica.py b/sympy/printing/mathematica.py
+index ea7e3a2d94..f9813498ca 100644
+--- a/sympy/printing/mathematica.py
++++ b/sympy/printing/mathematica.py
+@@ -13,9 +13,12 @@
+     "log": [(lambda x: True, "Log")],
+     "sin": [(lambda x: True, "Sin")],
+     "cos": [(lambda x: True, "Cos")],
++    "Max": [(lambda x: True, "Max")],
++    "Min": [(lambda x: True, "Min")],
+     "tan": [(lambda x: True, "Tan")],
+     "cot": [(lambda x: True, "Cot")],
+     "asin": [(lambda x: True, "ArcSin")],
++
+     "acos": [(lambda x: True, "ArcCos")],
+     "atan": [(lambda x: True, "ArcTan")],
+     "sinh": [(lambda x: True, "Sinh")],
+2025-05-06 11:27:44,265 - INFO - Eval script for sympy__sympy-15345 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-15345/eval.sh; copying to container...
+2025-05-06 11:27:49,947 - INFO - Test runtime: 5.49 seconds
+2025-05-06 11:27:49,947 - INFO - Test output for sympy__sympy-15345 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-15345/test_output.txt
+2025-05-06 11:27:50,013 - INFO - Git diff after:
+diff --git a/sympy/printing/mathematica.py b/sympy/printing/mathematica.py
+index ea7e3a2d94..f9813498ca 100644
+--- a/sympy/printing/mathematica.py
++++ b/sympy/printing/mathematica.py
+@@ -13,9 +13,12 @@
+     "log": [(lambda x: True, "Log")],
+     "sin": [(lambda x: True, "Sin")],
+     "cos": [(lambda x: True, "Cos")],
++    "Max": [(lambda x: True, "Max")],
++    "Min": [(lambda x: True, "Min")],
+     "tan": [(lambda x: True, "Tan")],
+     "cot": [(lambda x: True, "Cot")],
+     "asin": [(lambda x: True, "ArcSin")],
++
+     "acos": [(lambda x: True, "ArcCos")],
+     "atan": [(lambda x: True, "ArcTan")],
+     "sinh": [(lambda x: True, "Sinh")],
+2025-05-06 11:27:50,013 - INFO - Grading answer for sympy__sympy-15345...
+2025-05-06 11:27:50,015 - INFO - report: {'sympy__sympy-15345': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Function']}, 'PASS_TO_PASS': {'success': ['test_Integer', 'test_Rational', 'test_Pow', 'test_Mul', 'test_constants', 'test_containers', 'test_Integral', 'test_Derivative'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-15345: resolved: False
+2025-05-06 11:27:50,015 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15345.20250506_111427...
+2025-05-06 11:28:05,306 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15345.20250506_111427...
+2025-05-06 11:28:05,336 - INFO - Container sweb.eval.sympy__sympy-15345.20250506_111427 removed.

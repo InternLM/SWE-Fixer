@@ -174,64 +174,49 @@ index 1667e911e2..5813fc03e6 100644
  
 + git diff fc2b1cc926e34041953738e58fa6ad3053059b22
 diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
-index d610dc86f0..3a637dab38 100644
+index d610dc86f0..f243d2ea68 100644
 --- a/django/db/models/fields/__init__.py
 +++ b/django/db/models/fields/__init__.py
-@@ -5,9 +5,12 @@ import decimal
+@@ -2,9 +2,11 @@ import collections.abc
+ import copy
+ import datetime
+ import decimal
++import enum
  import operator
  import uuid
  import warnings
-+import enum
++
  from base64 import b64decode, b64encode
  from functools import partialmethod, total_ordering
  
-+
-+
- from django import forms
- from django.apps import apps
- from django.conf import settings
-@@ -1010,10 +1013,13 @@ class CharField(Field):
+@@ -1008,10 +1010,12 @@ class CharField(Field):
+         return "CharField"
+ 
      def to_python(self, value):
-         if isinstance(value, str) or value is None:
+-        if isinstance(value, str) or value is None:
++        if isinstance(value, str) or value is None or isinstance(value, enum.Enum):
              return value
-+        if isinstance(value, enum.Enum):
-+            return value.value
          return str(value)
  
++
++
      def get_prep_value(self, value):
          value = super().get_prep_value(value)
-+
          return self.to_python(value)
+@@ -1767,11 +1771,12 @@ class IntegerField(Field):
+         return "IntegerField"
  
-     def formfield(self, **kwargs):
-@@ -1770,10 +1776,13 @@ class IntegerField(Field):
-         if value is None:
+     def to_python(self, value):
+-        if value is None:
++        if value is None or isinstance(value, enum.Enum):
              return value
          try:
-+            if isinstance(value, enum.Enum):
-+                return value.value
              return int(value)
          except (TypeError, ValueError):
++
              raise exceptions.ValidationError(
                  self.error_messages['invalid'],
-+
                  code='invalid',
-                 params={'value': value},
-             )
-@@ -2025,10 +2034,13 @@ class TextField(Field):
-     def to_python(self, value):
-         if isinstance(value, str) or value is None:
-             return value
-+        if isinstance(value, enum.Enum):
-+            return value.value
-         return str(value)
- 
-     def get_prep_value(self, value):
-         value = super().get_prep_value(value)
-+
-         return self.to_python(value)
- 
-     def formfield(self, **kwargs):
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -559,7 +544,7 @@ AssertionError: 'Vehicle.JET_SKI' != '3'
 
 
 ----------------------------------------------------------------------
-Ran 17 tests in 0.003s
+Ran 17 tests in 0.004s
 
 FAILED (failures=15)
 Testing against Django installed in '/testbed/django'

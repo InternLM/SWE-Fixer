@@ -150,17 +150,33 @@ Date:   Wed Jun 3 19:17:23 2020 -0500
 
 + git diff 25fbcce5b1a4c7e3956e6062930f4a44ce95a632
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 84395f8a88..a598e4452c 100644
+index 84395f8a88..5577383cd6 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -3841,9 +3841,15 @@ def _eval_derivative_matrix_lines(self, x):
+@@ -2449,9 +2449,15 @@ def could_extract_minus_sign(self):
+ 
+             # As a last resort, we choose the one with greater value of .sort_key()
+             return bool(self.sort_key() < negative_self.sort_key())
++    
++    def _eval_rewrite_as_Abs(self, arg):
++        from sympy import Abs, sign, Piecewise, nan
++        if self.func is sign:
++            return Piecewise((nan, arg.is_zero), (arg/Abs(arg), True))
+ 
+     def extract_branch_factor(self, allow_half=False):
+         """
++
+         Try to write self as ``exp_polar(2*pi*I*n)*z`` in a nice way.
+         Return (z, n).
+ 
+@@ -3841,9 +3847,15 @@ def _eval_derivative_matrix_lines(self, x):
          from sympy.matrices.expressions.matexpr import _LeftRightArgs
          return [_LeftRightArgs([S.One, S.One], higher=self._eval_derivative(x))]
  
-+    def _eval_rewrite_as_Abs(self, *args, **kwargs):
-+        from sympy.functions.elementary.complexes import Abs
-+        from sympy.functions.elementary.piecewise import Piecewise
-+        return Piecewise((S.Zero, self.is_zero), (self/Abs(self), True))
++    def _eval_rewrite_as_Abs(self, arg):
++        from sympy import Abs, sign, Piecewise, nan
++        if self.func is sign:
++            return Piecewise((nan, arg.is_zero), (arg/Abs(arg), True))
 +
  
  class AtomicExpr(Atom, Expr):
@@ -321,8 +337,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        34364834
-hash randomization: on (PYTHONHASHSEED=2350160417)
+random seed:        48995168
+hash randomization: on (PYTHONHASHSEED=86910453)
 
 sympy/core/tests/test_subs.py[66] 
 test_subs ok
@@ -439,16 +455,9 @@ Traceback (most recent call last):
     args = [a._eval_rewrite(pattern, rule, **hints)
   File "/testbed/sympy/core/basic.py", line 1704, in _eval_rewrite
     return getattr(self, rule)()
-  File "/testbed/sympy/core/expr.py", line 3847, in _eval_rewrite_as_Abs
-    return Piecewise((S.Zero, self.is_zero), (self/Abs(self), True))
-  File "/testbed/sympy/functions/elementary/piecewise.py", line 127, in __new__
-    pair = ExprCondPair(*getattr(ec, 'args', ec))
-  File "/testbed/sympy/functions/elementary/piecewise.py", line 30, in __new__
-    raise TypeError(filldedent('''
-TypeError: 
-Second argument must be a Boolean, not `NoneType`
+TypeError: _eval_rewrite_as_Abs() missing 1 required positional argument: 'arg'
 
-= tests finished: 92 passed, 4 expected to fail, 1 exceptions, in 7.43 seconds =
+= tests finished: 92 passed, 4 expected to fail, 1 exceptions, in 7.30 seconds =
 DO *NOT* COMMIT!
 + git checkout 25fbcce5b1a4c7e3956e6062930f4a44ce95a632 sympy/core/tests/test_subs.py sympy/functions/elementary/tests/test_complexes.py
 Updated 2 paths from 91f694b2d2

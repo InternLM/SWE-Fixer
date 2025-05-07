@@ -1,17 +1,17 @@
-2025-02-12 13:21:39,071 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-21055
+2025-05-06 12:43:30,229 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-21055
 Building instance image sweb.eval.x86_64.sympy__sympy-21055:latest for sympy__sympy-21055
-2025-02-12 13:21:39,074 - INFO - Image sweb.eval.x86_64.sympy__sympy-21055:latest already exists, skipping build.
-2025-02-12 13:21:39,074 - INFO - Creating container for sympy__sympy-21055...
-2025-02-12 13:21:39,107 - INFO - Container for sympy__sympy-21055 created: a5c5bd90e4ac150d3eec2d796781ce82bfe5b4b7a89b5bd6cb6528d9e776079e
-2025-02-12 13:21:39,438 - INFO - Container for sympy__sympy-21055 started: a5c5bd90e4ac150d3eec2d796781ce82bfe5b4b7a89b5bd6cb6528d9e776079e
-2025-02-12 13:21:39,438 - INFO - Intermediate patch for sympy__sympy-21055 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-21055/patch.diff, now applying to container...
-2025-02-12 13:21:39,699 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:21:39,762 - INFO - >>>>> Applied Patch:
+2025-05-06 12:43:30,231 - INFO - Image sweb.eval.x86_64.sympy__sympy-21055:latest already exists, skipping build.
+2025-05-06 12:43:30,231 - INFO - Creating container for sympy__sympy-21055...
+2025-05-06 12:43:30,261 - INFO - Container for sympy__sympy-21055 created: 685404ef3a115c726f005d6af7b2985d8b26375544881ce6b63aa100e9b7c96a
+2025-05-06 12:43:30,609 - INFO - Container for sympy__sympy-21055 started: 685404ef3a115c726f005d6af7b2985d8b26375544881ce6b63aa100e9b7c96a
+2025-05-06 12:43:30,610 - INFO - Intermediate patch for sympy__sympy-21055 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-21055/patch.diff, now applying to container...
+2025-05-06 12:43:30,858 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:43:30,915 - INFO - >>>>> Applied Patch:
 patching file sympy/assumptions/refine.py
 patching file sympy/assumptions/refine.py
 Hunk #1 succeeded at 403 (offset 23 lines).
 
-2025-02-12 13:21:40,338 - INFO - Git diff before:
+2025-05-06 12:43:31,340 - INFO - Git diff before:
 diff --git a/sympy/assumptions/refine.py b/sympy/assumptions/refine.py
 index e1f97190c0..6933ca888a 100644
 --- a/sympy/assumptions/refine.py
@@ -57,10 +57,10 @@ index e1f97190c0..6933ca888a 100644
 +    'arg': refine_arg,
      'MatrixElement': refine_matrixelement
  }  # type: Dict[str, Callable[[Expr, Boolean], Expr]]
-2025-02-12 13:21:40,338 - INFO - Eval script for sympy__sympy-21055 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-21055/eval.sh; copying to container...
-2025-02-12 13:21:49,561 - INFO - Test runtime: 9.03 seconds
-2025-02-12 13:21:49,562 - INFO - Test output for sympy__sympy-21055 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-21055/test_output.txt
-2025-02-12 13:21:49,629 - INFO - Git diff after:
+2025-05-06 12:43:31,340 - INFO - Eval script for sympy__sympy-21055 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-21055/eval.sh; copying to container...
+2025-05-06 12:43:40,838 - INFO - Test runtime: 9.34 seconds
+2025-05-06 12:43:40,838 - INFO - Test output for sympy__sympy-21055 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-21055/test_output.txt
+2025-05-06 12:43:40,908 - INFO - Git diff after:
 diff --git a/sympy/assumptions/refine.py b/sympy/assumptions/refine.py
 index e1f97190c0..6933ca888a 100644
 --- a/sympy/assumptions/refine.py
@@ -106,9 +106,9 @@ index e1f97190c0..6933ca888a 100644
 +    'arg': refine_arg,
      'MatrixElement': refine_matrixelement
  }  # type: Dict[str, Callable[[Expr, Boolean], Expr]]
-2025-02-12 13:21:49,629 - INFO - Grading answer for sympy__sympy-21055...
-2025-02-12 13:21:49,632 - INFO - report: {'sympy__sympy-21055': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_arg']}, 'PASS_TO_PASS': {'success': ['test_Abs', 'test_pow1', 'test_pow2', 'test_exp', 'test_Piecewise', 'test_atan2', 'test_re', 'test_im', 'test_complex', 'test_sign', 'test_func_args', 'test_eval_refine', 'test_refine_issue_12724'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:43:40,908 - INFO - Grading answer for sympy__sympy-21055...
+2025-05-06 12:43:40,911 - INFO - report: {'sympy__sympy-21055': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_arg']}, 'PASS_TO_PASS': {'success': ['test_Abs', 'test_pow1', 'test_pow2', 'test_exp', 'test_Piecewise', 'test_atan2', 'test_re', 'test_im', 'test_complex', 'test_sign', 'test_func_args', 'test_eval_refine', 'test_refine_issue_12724'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-21055: resolved: False
-2025-02-12 13:21:49,632 - INFO - Attempting to stop container sweb.eval.sympy__sympy-21055.20250212_130622...
-2025-02-12 13:22:04,914 - INFO - Attempting to remove container sweb.eval.sympy__sympy-21055.20250212_130622...
-2025-02-12 13:22:04,938 - INFO - Container sweb.eval.sympy__sympy-21055.20250212_130622 removed.
+2025-05-06 12:43:40,911 - INFO - Attempting to stop container sweb.eval.sympy__sympy-21055.20250506_122807...
+2025-05-06 12:43:56,208 - INFO - Attempting to remove container sweb.eval.sympy__sympy-21055.20250506_122807...
+2025-05-06 12:43:56,244 - INFO - Container sweb.eval.sympy__sympy-21055.20250506_122807 removed.

@@ -150,7 +150,7 @@ Date:   Tue Dec 26 08:24:02 2017 -0600
 
 + git diff 7121bdf1facdd90d05b6994b4c2e5b2865a4638a
 diff --git a/sympy/matrices/common.py b/sympy/matrices/common.py
-index 379a2917aa..1ce7ee2783 100644
+index 379a2917aa..100eae35f3 100644
 --- a/sympy/matrices/common.py
 +++ b/sympy/matrices/common.py
 @@ -1973,9 +1973,12 @@ def __div__(self, other):
@@ -158,7 +158,7 @@ index 379a2917aa..1ce7ee2783 100644
      @call_highest_priority('__rmatmul__')
      def __matmul__(self, other):
 +        if not getattr(other, 'is_Matrix', False):
-+            raise TypeError("Scalars cannot be multiplied by `@`, use `*` instead.")
++            raise TypeError('Second operand of `@` must be a matrix')
          return self.__mul__(other)
  
      @call_highest_priority('__rmul__')
@@ -171,7 +171,7 @@ index 379a2917aa..1ce7ee2783 100644
      @call_highest_priority('__matmul__')
      def __rmatmul__(self, other):
 +        if not getattr(other, 'is_Matrix', False):
-+            raise TypeError("Scalars cannot be multiplied by `@`, use `*` instead.")
++            raise TypeError('First operand of `@` must be a matrix')
          return self.__rmul__(other)
  
      @call_highest_priority('__mul__')
@@ -341,8 +341,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        70695887
-hash randomization: on (PYTHONHASHSEED=2992160279)
+random seed:        57951676
+hash randomization: on (PYTHONHASHSEED=2172877949)
 
 sympy/matrices/tests/test_commonmatrix.py[83] 
 test__MinimalMatrix ok
@@ -495,8 +495,8 @@ ____________ sympy/matrices/tests/test_commonmatrix.py:test_matmul _____________
   File "/testbed/sympy/core/decorators.py", line 132, in binary_op_wrapper
     return func(self, other)
   File "/testbed/sympy/matrices/common.py", line 1977, in __matmul__
-    raise TypeError("Scalars cannot be multiplied by `@`, use `*` instead.")
-TypeError: Scalars cannot be multiplied by `@`, use `*` instead.
+    raise TypeError('Second operand of `@` must be a matrix')
+TypeError: Second operand of `@` must be a matrix
 ________________________________________________________________________________
 ______________ sympy/matrices/tests/test_commonmatrix.py:test_div ______________
   File "/testbed/sympy/matrices/tests/test_commonmatrix.py", line 723, in test_div
@@ -706,10 +706,13 @@ _____________ sympy/matrices/tests/test_commonmatrix.py:test_limit _____________
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  [Previous line repeated 1 more time]
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
-  File "/testbed/sympy/core/mul.py", line 1325, in _eval_is_composite
-    if self.is_integer and self.is_positive:
+  File "/testbed/sympy/core/mul.py", line 1316, in _eval_is_even
+    is_integer = self.is_integer
   File "/testbed/sympy/core/assumptions.py", line 248, in getit
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
@@ -732,12 +735,27 @@ _____________ sympy/matrices/tests/test_commonmatrix.py:test_limit _____________
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  [Previous line repeated 1 more time]
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
   File "/testbed/sympy/core/power.py", line 1130, in _eval_is_algebraic
     if self.base.is_zero or _is_one(self.base):
   File "/testbed/sympy/core/power.py", line 1125, in _is_one
     return (expr - 1).is_zero
+  File "/testbed/sympy/core/assumptions.py", line 248, in getit
+    return _ask(fact, self)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
+    a = evaluate(obj)
+  File "/testbed/sympy/core/add.py", line 522, in _eval_is_imaginary
+    if b.is_zero:
   File "/testbed/sympy/core/assumptions.py", line 248, in getit
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
@@ -777,7 +795,7 @@ __________ sympy/matrices/tests/test_commonmatrix.py:test_issue_13774 __________
     warnings.warn("Using or importing the ABCs from 'collections' instead "
 DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
 
- tests finished: 69 passed, 1 expected to fail, 13 exceptions, in 2.66 seconds =
+ tests finished: 69 passed, 1 expected to fail, 13 exceptions, in 2.69 seconds =
 DO *NOT* COMMIT!
 + git checkout 7121bdf1facdd90d05b6994b4c2e5b2865a4638a sympy/matrices/tests/test_commonmatrix.py
 Updated 1 path from 72f278ebf0

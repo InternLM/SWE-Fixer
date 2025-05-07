@@ -150,110 +150,59 @@ Date:   Thu Mar 12 02:28:26 2020 +0300
 
 + git diff 516fa83e69caf1e68306cfc912a13f36c434d51c
 diff --git a/sympy/utilities/iterables.py b/sympy/utilities/iterables.py
-index d96e76263b..a9b52b5254 100644
+index d96e76263b..ecbf4969d7 100644
 --- a/sympy/utilities/iterables.py
 +++ b/sympy/utilities/iterables.py
-@@ -2085,9 +2085,109 @@ def has_variety(seq):
+@@ -2085,9 +2085,58 @@ def has_variety(seq):
      return False
  
  
 +class ModificationDetector(list):
-+    """A list that raises an error if it is modified."""
-+    def _check(self, *args, **kwargs):
-+        if len(self) != self._original_len:
-+            raise RuntimeError('The list was modified during iteration.')
++    def __init__(self, data, callback):
++        super().__init__(data)
++        self.callback = callback
 +
-+    def __setitem__(self, *args, **kwargs):
-+        self._check()
-+        super().__setitem__(*args, **kwargs)
++    def __setitem__(self, key, value):
++        super().__setitem__(key, value)
++        self.callback()
 +
-+    def __delitem__(self, *args, **kwargs):
-+        self._check()
-+        super().__delitem__(*args, **kwargs)
++    def __delitem__(self, key):
++        super().__delitem__(key)
++        self.callback()
 +
-+    def __iadd__(self, *args, **kwargs):
-+        self._check()
-+        super().__iadd__(*args, **kwargs)
++    def append(self, value):
++        super().append(value)
++        self.callback()
 +
-+    def __imul__(self, *args, **kwargs):
-+        self._check()
-+        super().__imul__(*args, **kwargs)
++    def pop(self, index=-1):
++        super().pop(index)
++        self.callback()
 +
-+    def __ior__(self, *args, **kwargs):
-+        self._check()
-+        super().__ior__(*args, **kwargs)
++    def remove(self, value):
++        super().remove(value)
++        self.callback()
 +
-+    def __ixor__(self, *args, **kwargs):
-+        self._check()
-+        super().__ixor__(*args, **kwargs)
++    def extend(self, other):
++        super().extend(other)
++        self.callback()
 +
-+    def __iand__(self, *args, **kwargs):
-+        self._check()
-+        super().__iand__(*args, **kwargs)
++    def insert(self, index, value):
++        super().insert(index, value)
++        self.callback()
 +
-+    def __itruediv__(self, *args, **kwargs):
-+        self._check()
-+        super().__itruediv__(*args, **kwargs)
++    def clear(self):
++        super().clear()
++        self.callback()
 +
-+    def __ifloordiv__(self, *args, **kwargs):
-+        self._check()
-+        super().__ifloordiv__(*args, **kwargs)
++    def __iadd__(self, other):
++        super().__iadd__(other)
++        self.callback()
++        return self
 +
-+    def __imod__(self, *args, **kwargs):
-+        self._check()
-+        super().__imod__(*args, **kwargs)
-+
-+    def __ipow__(self, *args, **kwargs):
-+        self._check()
-+        super().__ipow__(*args, **kwargs)
-+
-+    def __ilshift__(self, *args, **kwargs):
-+        self._check()
-+        super().__ilshift__(*args, **kwargs)
-+
-+    def __irshift__(self, *args, **kwargs):
-+        self._check()
-+        super().__irshift__(*args, **kwargs)
-+
-+    def __iadd__(self, *args, **kwargs):
-+        self._check()
-+        super().__iadd__(*args, **kwargs)
-+
-+    def __isub__(self, *args, **kwargs):
-+        self._check()
-+        super().__isub__(*args, **kwargs)
-+
-+    def append(self, *args, **kwargs):
-+        self._check()
-+        super().append(*args, **kwargs)
-+
-+    def extend(self, *args, **kwargs):
-+        self._check()
-+        super().extend(*args, **kwargs)
-+
-+    def insert(self, *args, **kwargs):
-+        self._check()
-+        super().insert(*args, **kwargs)
-+
-+    def pop(self, *args, **kwargs):
-+        self._check()
-+        super().pop(*args, **kwargs)
-+
-+    def remove(self, *args, **kwargs):
-+        self._check()
-+        super().remove(*args, **kwargs)
-+
-+    def reverse(self, *args, **kwargs):
-+        self._check()
-+        super().reverse(*args, **kwargs)
-+
-+    def sort(self, *args, **kwargs):
-+        self._check()
-+        super().sort(*args, **kwargs)
-+
-+    def __init__(self, *args, **kwargs):
-+        super().__init__(*args, **kwargs)
-+        self._original_len = len(self)
++    def __imul__(self, other):
++        super().__imul__(other)
++        self.callback()
++        return self
 +
 +
  def uniq(seq, result=None):
@@ -263,43 +212,46 @@ index d96e76263b..a9b52b5254 100644
      parameter ``result``  is used internally; it is not necessary to pass
      anything for this.
  
-@@ -2105,13 +2205,36 @@ def uniq(seq, result=None):
-     [1, 4, 5, 2]
+@@ -2106,26 +2155,29 @@ def uniq(seq, result=None):
      >>> list(uniq([[1], [2, 1], [1]]))
      [[1], [2, 1]]
-+
-+    If you want to modify the sequence during iteration, you can
-+    do so but you must return the sequence to its original state
-+    before the iteration completes or a ``RuntimeError`` will be
-+    raised:
-+
-+    >>> from sympy.utilities.iterables import uniq
-+    >>> dat = [1, 4, 1, 5, 4, 2, 1, 2]
-+    >>> it = uniq(dat)
-+    >>> next(it)
-+    1
-+    >>> dat[1] = 1
-+    >>> next(it)
-+    5
-+    >>> next(it)
-+    2
-+    >>> next(it)
-+    Traceback (most recent call last):
-+    ...
-+    RuntimeError: The list was modified during iteration.
-+
      """
++    if result is None:
++        result = []
++
++    def raise_error():
++        raise RuntimeError('sequence changed size during iteration')
++
++    seq = ModificationDetector(seq, raise_error)
++
      try:
          seen = set()
-         result = result or []
-+        seq = ModificationDetector(seq)
-         for i, s in enumerate(seq):
+-        result = result or []
+-        for i, s in enumerate(seq):
++        for s in seq:
              if not (s in seen or seen.add(s)):
                  yield s
-+
      except TypeError:
-         if s not in result:
-             yield s
+-        if s not in result:
+-            yield s
+-            result.append(s)
+-        if hasattr(seq, '__getitem__'):
+-            for s in uniq(seq[i + 1:], result):
+-                yield s
+-        else:
+-            for s in uniq(seq, result):
++        for s in seq:
++            if s not in result:
+                 yield s
++                result.append(s)
+ 
+ 
+ def generate_bell(n):
+     """Return permutations of [0, 1, ..., n - 1] such that each permutation
++
+     differs from the last by the exchange of a single pair of neighbors.
+     The ``n!`` permutations are returned as an iterator. In order to obtain
+     the next permutation from a random starting permutation, use the
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -450,8 +402,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        55570392
-hash randomization: on (PYTHONHASHSEED=3756369474)
+random seed:        73213138
+hash randomization: on (PYTHONHASHSEED=1235959259)
 
 sympy/utilities/tests/test_iterables.py[43] 
 test_is_palindromic ok
@@ -490,7 +442,7 @@ test_minlex ok
 test_ordered ok
 test_runs ok
 test_reshape ok
-test_uniq E
+test_uniq F
 test_kbins ok
 test_has_dups ok
 test__partition ok
@@ -502,13 +454,11 @@ test_ibin ok                                                              [FAIL]
 ________________________________________________________________________________
 ______________ sympy/utilities/tests/test_iterables.py:test_uniq _______________
 Traceback (most recent call last):
-  File "/testbed/sympy/utilities/tests/test_iterables.py", line 707, in test_uniq
-    raises(RuntimeError, lambda: [f.remove(i) for i in uniq(f)])
-  File "/testbed/sympy/testing/pytest.py", line 97, in raises
-    raise Failed("DID NOT RAISE")
-sympy.testing.pytest.Failed: DID NOT RAISE
+  File "/testbed/sympy/utilities/tests/test_iterables.py", line 704, in test_uniq
+    assert list(uniq([2, 3, 2, 4, [2], [1], [2], [3], [1]])) == \
+AssertionError
 
-=========== tests finished: 42 passed, 1 exceptions, in 0.42 seconds ===========
+============= tests finished: 42 passed, 1 failed, in 0.44 seconds =============
 DO *NOT* COMMIT!
 + git checkout 516fa83e69caf1e68306cfc912a13f36c434d51c sympy/utilities/tests/test_iterables.py
 Updated 1 path from ce4fe549cf

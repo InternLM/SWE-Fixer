@@ -150,33 +150,22 @@ Date:   Mon Dec 16 21:35:07 2019 +0000
 
 + git diff 62000f37b8821573ba00280524ffb4ac4a380875
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index 24d89897f7..38f7d75bc6 100644
+index 24d89897f7..f9ff46e5b6 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -122,12 +122,12 @@ def _hashable_content(self):
+@@ -122,10 +122,11 @@ def _hashable_content(self):
      def __eq__(self, other):
          try:
              other = sympify(other)
 -            if not isinstance(other, Expr):
--                return False
++            if not isinstance(other, Expr) or type(self) != type(other):
+                 return False
          except (SympifyError, SyntaxError):
              return False
-+        if not isinstance(other, Expr):
-+            return False
-         # check for pure number expr
--        if  not (self.is_Number and other.is_Number) and (
-+        if not (self.is_Number and other.is_Number) and (
-                 type(self) != type(other)):
-             return False
-         a, b = self._hashable_content(), other._hashable_content()
-@@ -143,6 +143,7 @@ def __eq__(self, other):
- 
-     # ***************
-     # * Arithmetics *
 +
-     # ***************
-     # Expr and its sublcasses use _op_priority to determine which object
-     # passed to a binary special method (__mul__, etc.) will handle the
+         # check for pure number expr
+         if  not (self.is_Number and other.is_Number) and (
+                 type(self) != type(other)):
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -329,8 +318,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        76723602
-hash randomization: on (PYTHONHASHSEED=3101206896)
+random seed:        78634118
+hash randomization: on (PYTHONHASHSEED=1616608844)
 
 sympy/core/tests/test_expr.py[98] 
 test_basic ok
@@ -441,7 +430,7 @@ test_var_cls ok                                                           [FAIL]
 
 
 ________________________________ slowest tests _________________________________
-test_equals - Took 106.164 seconds
+test_equals - Took 108.716 seconds
 ________________________________________________________________________________
 ____________ sympy/core/tests/test_expr.py:test_non_string_equality ____________
 Traceback (most recent call last):
@@ -455,7 +444,7 @@ Traceback (most recent call last):
     assert v != ['d', 'e', 'fg']
 AssertionError
 
-== tests finished: 99 passed, 2 failed, 2 expected to fail, in 129.31 seconds ==
+== tests finished: 99 passed, 2 failed, 2 expected to fail, in 132.57 seconds ==
 DO *NOT* COMMIT!
 + git checkout 62000f37b8821573ba00280524ffb4ac4a380875 sympy/core/tests/test_expr.py sympy/core/tests/test_var.py
 Updated 2 paths from 12b2b41a9c

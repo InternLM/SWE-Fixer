@@ -330,8 +330,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        38871027
-hash randomization: on (PYTHONHASHSEED=3737704957)
+random seed:        92428955
+hash randomization: on (PYTHONHASHSEED=1434761359)
 
 sympy/functions/combinatorial/tests/test_comb_numbers.py[20] 
 test_bernoulli ok
@@ -364,7 +364,7 @@ ______ sympy/functions/combinatorial/tests/test_comb_numbers.py:test_bell ______
     raise AssertionError("DID NOT RAISE")
 AssertionError: DID NOT RAISE
 
-=== tests finished: 16 passed, 1 failed, 3 expected to fail, in 7.65 seconds ===
+=== tests finished: 16 passed, 1 failed, 3 expected to fail, in 7.94 seconds ===
 DO *NOT* COMMIT!
 + git checkout 674afc619d7f5c519b6a5393a8b0532a131e57e0 sympy/functions/combinatorial/tests/test_comb_numbers.py
 Updated 1 path from d9528f8f3e

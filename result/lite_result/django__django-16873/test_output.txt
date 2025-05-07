@@ -324,8 +324,8 @@ Requirement already satisfied: sqlparse>=0.3.1 in /opt/miniconda3/envs/testbed/l
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-5.0.dev20230518171721-0.editable-py3-none-any.whl size=27402 sha256=27697142a25bf321fc47fccf72df1280e542e0971d920e0a650d7c9323c99d4f
-  Stored in directory: /tmp/pip-ephem-wheel-cache-2zr_l4j5/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for Django: filename=django-5.0.dev20230518171721-0.editable-py3-none-any.whl size=27471 sha256=41cf71b9ffa1b56f7f17a3e0c645dad49c4d7fac9fc7854779d7cade01dd26ea
+  Stored in directory: /tmp/pip-ephem-wheel-cache-9s_p71zf/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -361,7 +361,7 @@ test_join08 (template_tests.filter_tests.test_join.JoinTests.test_join08) ... ok
 test_join_autoescape_off (template_tests.filter_tests.test_join.JoinTests.test_join_autoescape_off) ... ok
 
 ----------------------------------------------------------------------
-Ran 14 tests in 0.007s
+Ran 14 tests in 0.008s
 
 OK
 + git checkout fce90950bef348803fa7cc3e6bc65f4bce429b82 tests/template_tests/filter_tests/test_join.py

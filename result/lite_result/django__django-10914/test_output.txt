@@ -558,7 +558,7 @@ test_simple_not_equal_raise (test_utils.tests.XMLEqualTests) ... ok
 test_simple_not_equal_with_whitespace_in_the_middle (test_utils.tests.XMLEqualTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 100 tests in 0.076s
+Ran 100 tests in 0.078s
 
 OK (skipped=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')…

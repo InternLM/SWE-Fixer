@@ -1,15 +1,15 @@
-2025-02-12 13:18:16,352 - INFO - Environment image sweb.env.x86_64.3a59860bcd0dab8bbfb2ff:latest found for scikit-learn__scikit-learn-25747
+2025-05-06 12:39:46,927 - INFO - Environment image sweb.env.x86_64.3a59860bcd0dab8bbfb2ff:latest found for scikit-learn__scikit-learn-25747
 Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-25747:latest for scikit-learn__scikit-learn-25747
-2025-02-12 13:18:16,355 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-25747:latest already exists, skipping build.
-2025-02-12 13:18:16,355 - INFO - Creating container for scikit-learn__scikit-learn-25747...
-2025-02-12 13:18:16,384 - INFO - Container for scikit-learn__scikit-learn-25747 created: 9c8142f25fc9d994440326dcb542b57abce3ddbae0d706d549ebb88111a94a8e
-2025-02-12 13:18:16,668 - INFO - Container for scikit-learn__scikit-learn-25747 started: 9c8142f25fc9d994440326dcb542b57abce3ddbae0d706d549ebb88111a94a8e
-2025-02-12 13:18:16,669 - INFO - Intermediate patch for scikit-learn__scikit-learn-25747 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-25747/patch.diff, now applying to container...
-2025-02-12 13:18:16,894 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:18:16,934 - INFO - >>>>> Applied Patch:
+2025-05-06 12:39:46,931 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-25747:latest already exists, skipping build.
+2025-05-06 12:39:46,931 - INFO - Creating container for scikit-learn__scikit-learn-25747...
+2025-05-06 12:39:46,953 - INFO - Container for scikit-learn__scikit-learn-25747 created: b4b6b65050210352694baa8ceeaa146d14498de015963b2e138afb0357212b3d
+2025-05-06 12:39:47,264 - INFO - Container for scikit-learn__scikit-learn-25747 started: b4b6b65050210352694baa8ceeaa146d14498de015963b2e138afb0357212b3d
+2025-05-06 12:39:47,265 - INFO - Intermediate patch for scikit-learn__scikit-learn-25747 written to logs/run_evaluation/20250506_122807/SWE-Fixer/scikit-learn__scikit-learn-25747/patch.diff, now applying to container...
+2025-05-06 12:39:47,451 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:39:47,492 - INFO - >>>>> Applied Patch:
 patching file sklearn/utils/_set_output.py
 
-2025-02-12 13:18:17,316 - INFO - Git diff before:
+2025-05-06 12:39:47,774 - INFO - Git diff before:
 diff --git a/sklearn/utils/_set_output.py b/sklearn/utils/_set_output.py
 index 335773c6a..2671f28ff 100644
 --- a/sklearn/utils/_set_output.py
@@ -26,10 +26,10 @@ index 335773c6a..2671f28ff 100644
 +
 +
      return pd.DataFrame(data_to_wrap, index=index, columns=columns)
-2025-02-12 13:18:17,317 - INFO - Eval script for scikit-learn__scikit-learn-25747 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-25747/eval.sh; copying to container...
-2025-02-12 13:18:24,080 - INFO - Test runtime: 6.60 seconds
-2025-02-12 13:18:24,081 - INFO - Test output for scikit-learn__scikit-learn-25747 written to logs/run_evaluation/20250212_130622/SWE-Fixer/scikit-learn__scikit-learn-25747/test_output.txt
-2025-02-12 13:18:24,154 - INFO - Git diff after:
+2025-05-06 12:39:47,774 - INFO - Eval script for scikit-learn__scikit-learn-25747 written to logs/run_evaluation/20250506_122807/SWE-Fixer/scikit-learn__scikit-learn-25747/eval.sh; copying to container...
+2025-05-06 12:39:55,275 - INFO - Test runtime: 7.33 seconds
+2025-05-06 12:39:55,276 - INFO - Test output for scikit-learn__scikit-learn-25747 written to logs/run_evaluation/20250506_122807/SWE-Fixer/scikit-learn__scikit-learn-25747/test_output.txt
+2025-05-06 12:39:55,322 - INFO - Git diff after:
 diff --git a/sklearn/utils/_set_output.py b/sklearn/utils/_set_output.py
 index 335773c6a..2671f28ff 100644
 --- a/sklearn/utils/_set_output.py
@@ -46,9 +46,9 @@ index 335773c6a..2671f28ff 100644
 +
 +
      return pd.DataFrame(data_to_wrap, index=index, columns=columns)
-2025-02-12 13:18:24,154 - INFO - Grading answer for scikit-learn__scikit-learn-25747...
-2025-02-12 13:18:24,177 - INFO - report: {'scikit-learn__scikit-learn-25747': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['sklearn/utils/tests/test_set_output.py::test_set_output_pandas_keep_index']}, 'PASS_TO_PASS': {'success': ['sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_dense', 'sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_dense_update_columns_and_index', 'sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_error_validation', 'sklearn/utils/tests/test_set_output.py::test__safe_set_output', 'sklearn/utils/tests/test_set_output.py::test_set_output_mixin', 'sklearn/utils/tests/test_set_output.py::test__safe_set_output_error', 'sklearn/utils/tests/test_set_output.py::test_set_output_method', 'sklearn/utils/tests/test_set_output.py::test_set_output_method_error', 'sklearn/utils/tests/test_set_output.py::test__get_output_config', 'sklearn/utils/tests/test_set_output.py::test_get_output_auto_wrap_false', 'sklearn/utils/tests/test_set_output.py::test_auto_wrap_output_keys_errors_with_incorrect_input', 'sklearn/utils/tests/test_set_output.py::test_set_output_mixin_custom_mixin', 'sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_column_errors', 'sklearn/utils/tests/test_set_output.py::test_set_output_mro'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:39:55,322 - INFO - Grading answer for scikit-learn__scikit-learn-25747...
+2025-05-06 12:39:55,333 - INFO - report: {'scikit-learn__scikit-learn-25747': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['sklearn/utils/tests/test_set_output.py::test_set_output_pandas_keep_index']}, 'PASS_TO_PASS': {'success': ['sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_dense', 'sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_dense_update_columns_and_index', 'sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_error_validation', 'sklearn/utils/tests/test_set_output.py::test__safe_set_output', 'sklearn/utils/tests/test_set_output.py::test_set_output_mixin', 'sklearn/utils/tests/test_set_output.py::test__safe_set_output_error', 'sklearn/utils/tests/test_set_output.py::test_set_output_method', 'sklearn/utils/tests/test_set_output.py::test_set_output_method_error', 'sklearn/utils/tests/test_set_output.py::test__get_output_config', 'sklearn/utils/tests/test_set_output.py::test_get_output_auto_wrap_false', 'sklearn/utils/tests/test_set_output.py::test_auto_wrap_output_keys_errors_with_incorrect_input', 'sklearn/utils/tests/test_set_output.py::test_set_output_mixin_custom_mixin', 'sklearn/utils/tests/test_set_output.py::test__wrap_in_pandas_container_column_errors', 'sklearn/utils/tests/test_set_output.py::test_set_output_mro'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for scikit-learn__scikit-learn-25747: resolved: False
-2025-02-12 13:18:24,177 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-25747.20250212_130622...
-2025-02-12 13:18:39,435 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-25747.20250212_130622...
-2025-02-12 13:18:39,452 - INFO - Container sweb.eval.scikit-learn__scikit-learn-25747.20250212_130622 removed.
+2025-05-06 12:39:55,333 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-25747.20250506_122807...
+2025-05-06 12:40:10,643 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-25747.20250506_122807...
+2025-05-06 12:40:10,665 - INFO - Container sweb.eval.scikit-learn__scikit-learn-25747.20250506_122807 removed.

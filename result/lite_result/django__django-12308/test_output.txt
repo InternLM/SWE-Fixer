@@ -213,26 +213,15 @@ index 1e723a7b66..cac3ccabc4 100644
          msg = "Multiple fixtures named 'fixture5'"
 + git diff 2e0f04507b17362239ba49830d26fec504d46978
 diff --git a/django/contrib/admin/utils.py b/django/contrib/admin/utils.py
-index e4ddc8f017..80529075a4 100644
+index e4ddc8f017..ae0607aec5 100644
 --- a/django/contrib/admin/utils.py
 +++ b/django/contrib/admin/utils.py
-@@ -1,8 +1,10 @@
- import datetime
- import decimal
-+import json
- from collections import defaultdict
- 
- from django.core.exceptions import FieldDoesNotExist
-+
- from django.db import models, router
- from django.db.models.constants import LOOKUP_SEP
- from django.db.models.deletion import Collector
-@@ -398,10 +400,14 @@ def display_for_field(value, field, empty_value_display):
+@@ -398,10 +398,14 @@ def display_for_field(value, field, empty_value_display):
          return formats.number_format(value)
      elif isinstance(field, models.FileField) and value:
          return format_html('<a href="{}">{}</a>', value.url, value)
 +    elif isinstance(field, models.JSONField):
-+        return json.dumps(value)
++        return field.prepare_value(value)
      else:
          return display_for_value(value, empty_value_display)
  
@@ -378,8 +367,8 @@ Installing collected packages: Django
     Uninstalling Django-3.1:
       Successfully uninstalled Django-3.1
   Running setup.py develop for Django
-Successfully installed Django-3.1
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+Successfully installed Django-3.1
 + git checkout 2e0f04507b17362239ba49830d26fec504d46978 tests/admin_utils/tests.py
 Updated 0 paths from be0eb0e2d4
 + git apply -v -
@@ -407,7 +396,54 @@ test_number_formats_with_thousand_separator_display_for_field (admin_utils.tests
 test_quote (admin_utils.tests.UtilsTests) ... ok
 test_related_name (admin_utils.tests.UtilsTests) ... ok
 test_safestring_in_field_label (admin_utils.tests.UtilsTests) ... ok
-test_values_from_lookup_field (admin_utils.tests.UtilsTests) ... Testing against Django installed in '/testbed/django'
+test_values_from_lookup_field (admin_utils.tests.UtilsTests) ... ok
+
+======================================================================
+ERROR: test_json_display_for_field (admin_utils.tests.UtilsTests) (value={'a': {'b': 'c'}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/admin_utils/tests.py", line 192, in test_json_display_for_field
+    display_for_field(value, models.JSONField(), self.empty_value),
+  File "/testbed/django/contrib/admin/utils.py", line 402, in display_for_field
+    return field.prepare_value(value)
+AttributeError: 'JSONField' object has no attribute 'prepare_value'
+
+======================================================================
+ERROR: test_json_display_for_field (admin_utils.tests.UtilsTests) (value=['a', 'b'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/admin_utils/tests.py", line 192, in test_json_display_for_field
+    display_for_field(value, models.JSONField(), self.empty_value),
+  File "/testbed/django/contrib/admin/utils.py", line 402, in display_for_field
+    return field.prepare_value(value)
+AttributeError: 'JSONField' object has no attribute 'prepare_value'
+
+======================================================================
+ERROR: test_json_display_for_field (admin_utils.tests.UtilsTests) (value='a')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/admin_utils/tests.py", line 192, in test_json_display_for_field
+    display_for_field(value, models.JSONField(), self.empty_value),
+  File "/testbed/django/contrib/admin/utils.py", line 402, in display_for_field
+    return field.prepare_value(value)
+AttributeError: 'JSONField' object has no attribute 'prepare_value'
+
+======================================================================
+ERROR: test_json_display_for_field (admin_utils.tests.UtilsTests) (value={('a', 'b'): 'c'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/testbed/tests/admin_utils/tests.py", line 192, in test_json_display_for_field
+    display_for_field(value, models.JSONField(), self.empty_value),
+  File "/testbed/django/contrib/admin/utils.py", line 402, in display_for_field
+    return field.prepare_value(value)
+AttributeError: 'JSONField' object has no attribute 'prepare_value'
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.045s
+
+FAILED (errors=4)
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+Testing against Django installed in '/testbed/django'
 Importing application admin_utils
 Skipping setup of unused database(s): other.
 Operations to perform:
@@ -437,28 +473,5 @@ Running migrations:
   Applying sites.0001_initial... OK
   Applying sites.0002_alter_domain_unique... OK
 System check identified no issues (0 silenced).
-ok
-
-======================================================================
-ERROR: test_json_display_for_field (admin_utils.tests.UtilsTests) (value={('a', 'b'): 'c'})
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/testbed/tests/admin_utils/tests.py", line 192, in test_json_display_for_field
-    display_for_field(value, models.JSONField(), self.empty_value),
-  File "/testbed/django/contrib/admin/utils.py", line 404, in display_for_field
-    return json.dumps(value)
-  File "/opt/miniconda3/envs/testbed/lib/python3.6/json/__init__.py", line 231, in dumps
-    return _default_encoder.encode(obj)
-  File "/opt/miniconda3/envs/testbed/lib/python3.6/json/encoder.py", line 199, in encode
-    chunks = self.iterencode(o, _one_shot=True)
-  File "/opt/miniconda3/envs/testbed/lib/python3.6/json/encoder.py", line 257, in iterencode
-    return _iterencode(o, 0)
-TypeError: keys must be a string
-
-----------------------------------------------------------------------
-Ran 22 tests in 0.054s
-
-FAILED (errors=1)
-Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 + git checkout 2e0f04507b17362239ba49830d26fec504d46978 tests/admin_utils/tests.py
 Updated 1 path from be0eb0e2d4

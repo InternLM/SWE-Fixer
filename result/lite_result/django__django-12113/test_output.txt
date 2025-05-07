@@ -172,25 +172,24 @@ index cb25a7a5b1..cacdeb91a0 100644
                  templates.append({
 + git diff 62254c5202e80a68f4fe6572a2be46a3d953de1a
 diff --git a/django/db/backends/base/creation.py b/django/db/backends/base/creation.py
-index dd3407bac3..c81e614e43 100644
+index dd3407bac3..abcdd744cf 100644
 --- a/django/db/backends/base/creation.py
 +++ b/django/db/backends/base/creation.py
-@@ -170,14 +170,12 @@ class BaseDatabaseCreation:
-             try:
-                 self._execute_create_test_db(cursor, test_db_params, keepdb)
-             except Exception as e:
--                # if we want to keep the db, then no need to do any of the below,
--                # just return and skip it all.
-                 if keepdb:
-                     return test_database_name
--
-                 self.log('Got an error creating the test database: %s' % e)
-                 if not autoclobber:
-                     confirm = input(
+@@ -55,10 +55,14 @@ class BaseDatabaseCreation:
+         # where the test DB doesn't exist, in which case we need to
+         # create it, then just not destroy it. If we instead skip
+         # this, we will get an exception.
++        old_db_name = self.connection.settings_dict['NAME']
++        if self.connection.get_dsn_parameters()['dbname'] == test_database_name:
++            self.connection.close()
+         self._create_test_db(verbosity, autoclobber, keepdb)
+ 
+         self.connection.close()
+         settings.DATABASES[self.connection.alias]["NAME"] = test_database_name
 +
-                         "Type 'yes' if you would like to try deleting the test "
-                         "database '%s', or 'no' to cancel: " % test_database_name)
-                 if autoclobber or confirm == 'yes':
+         self.connection.settings_dict["NAME"] = test_database_name
+ 
+         if self.connection.settings_dict['TEST']['MIGRATE']:
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -327,9 +326,10 @@ Installing collected packages: Django
     Uninstalling Django-3.1:
       Successfully uninstalled Django-3.1
   Running setup.py develop for Django
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 Successfully installed Django-3.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout 62254c5202e80a68f4fe6572a2be46a3d953de1a
+M	django/db/backends/base/creation.py
 Note: switching to '62254c5202e80a68f4fe6572a2be46a3d953de1a'.
 
 You are in 'detached HEAD' state. You can look around, make experimental
@@ -348,7 +348,6 @@ Or undo this operation with:
 Turn off this advice by setting config variable advice.detachedHead to false
 
 HEAD is now at 62254c5202 Simplified TemplateDetailView with pathlib.Path.read_text().
-M	django/db/backends/base/creation.py
 + git apply -v -
 Checking patch tests/backends/sqlite/test_creation.py...
 Applied patch tests/backends/sqlite/test_creation.py cleanly.

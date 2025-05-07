@@ -323,8 +323,8 @@ executable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.19-final-0) [C
 architecture:       64-bit
 cache:              no
 ground types:       python 
-random seed:        76069903
-hash randomization: on (PYTHONHASHSEED=1246475203)
+random seed:        73763671
+hash randomization: on (PYTHONHASHSEED=3605467182)
 
 sympy/printing/tests/test_mathematica.py[10] 
 test_Integer ok
@@ -345,7 +345,7 @@ ___________ sympy/printing/tests/test_mathematica.py:test_Derivative ___________
     assert mcode(Derivative(sin(x), x)) == "Hold[D[Sin[x], x]]"
 AssertionError
 
-============= tests finished: 9 passed, 1 failed, in 0.04 seconds ==============
+============= tests finished: 9 passed, 1 failed, in 0.03 seconds ==============
 DO *NOT* COMMIT!
 + git checkout ca6ef27272be31c9dc3753ede9232c39df9a75d8 sympy/printing/tests/test_mathematica.py
 Updated 1 path from 9ead13ef9d

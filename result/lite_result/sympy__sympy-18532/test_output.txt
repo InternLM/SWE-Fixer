@@ -318,8 +318,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        2491155
-hash randomization: on (PYTHONHASHSEED=2772320222)
+random seed:        71438426
+hash randomization: on (PYTHONHASHSEED=957727172)
 
 sympy/codegen/tests/test_cnodes.py[10] 
 test_alignof ok
@@ -375,7 +375,7 @@ Traceback (most recent call last):
     if isinstance(expr, types):
 TypeError: isinstance() arg 2 must be a type or tuple of types
 
-=========== tests finished: 30 passed, 2 exceptions, in 0.19 seconds ===========
+=========== tests finished: 30 passed, 2 exceptions, in 0.18 seconds ===========
 DO *NOT* COMMIT!
 + git checkout 74227f900b05009d4eed62e34a166228788a32ca sympy/codegen/tests/test_cnodes.py sympy/core/tests/test_basic.py
 Updated 2 paths from 9ba38f7254

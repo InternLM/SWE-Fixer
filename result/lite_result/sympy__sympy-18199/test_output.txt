@@ -320,8 +320,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        92014130
-hash randomization: on (PYTHONHASHSEED=4025227133)
+random seed:        75723195
+hash randomization: on (PYTHONHASHSEED=4281592649)
 
 sympy/ntheory/tests/test_residue.py[1] 
 test_residue E                                                            [FAIL]
@@ -461,7 +461,7 @@ test_solve_modular_fail f                                                 [FAIL]
 
 
 ________________________________ slowest tests _________________________________
-test_issue_17479 - Took 15.476 seconds
+test_issue_17479 - Took 16.198 seconds
 ________________________________________________________________________________
 _______________ sympy/ntheory/tests/test_residue.py:test_residue _______________
 Traceback (most recent call last):
@@ -491,7 +491,7 @@ Traceback (most recent call last):
 AssertionError
 
  tests finished: 113 passed, 3 failed, 3 skipped, 12 expected to fail, 
-1 exceptions, in 92.67 seconds 
+1 exceptions, in 92.18 seconds 
 DO *NOT* COMMIT!
 + git checkout ba80d1e493f21431b4bf729b3e0452cd47eb9566 sympy/ntheory/tests/test_residue.py sympy/solvers/tests/test_solveset.py
 Updated 2 paths from c922b8dd9a

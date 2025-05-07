@@ -1,15 +1,15 @@
-2025-02-12 13:21:24,081 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-20212
+2025-05-06 12:43:09,638 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-20212
 Building instance image sweb.eval.x86_64.sympy__sympy-20212:latest for sympy__sympy-20212
-2025-02-12 13:21:24,084 - INFO - Image sweb.eval.x86_64.sympy__sympy-20212:latest already exists, skipping build.
-2025-02-12 13:21:24,084 - INFO - Creating container for sympy__sympy-20212...
-2025-02-12 13:21:24,118 - INFO - Container for sympy__sympy-20212 created: b4f2d1672270bb5893f7c482ef1625519ff62a626499d4bc3a5f03b568548071
-2025-02-12 13:21:24,381 - INFO - Container for sympy__sympy-20212 started: b4f2d1672270bb5893f7c482ef1625519ff62a626499d4bc3a5f03b568548071
-2025-02-12 13:21:24,382 - INFO - Intermediate patch for sympy__sympy-20212 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20212/patch.diff, now applying to container...
-2025-02-12 13:21:24,635 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:21:24,692 - INFO - >>>>> Applied Patch:
+2025-05-06 12:43:09,641 - INFO - Image sweb.eval.x86_64.sympy__sympy-20212:latest already exists, skipping build.
+2025-05-06 12:43:09,641 - INFO - Creating container for sympy__sympy-20212...
+2025-05-06 12:43:09,668 - INFO - Container for sympy__sympy-20212 created: ceae543967904a2ba1cf8121bc8e3edb10ed0ec167c13d10075643646f425e64
+2025-05-06 12:43:10,060 - INFO - Container for sympy__sympy-20212 started: ceae543967904a2ba1cf8121bc8e3edb10ed0ec167c13d10075643646f425e64
+2025-05-06 12:43:10,061 - INFO - Intermediate patch for sympy__sympy-20212 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20212/patch.diff, now applying to container...
+2025-05-06 12:43:10,296 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:43:10,355 - INFO - >>>>> Applied Patch:
 patching file sympy/core/power.py
 
-2025-02-12 13:21:25,227 - INFO - Git diff before:
+2025-05-06 12:43:10,796 - INFO - Git diff before:
 diff --git a/sympy/core/power.py b/sympy/core/power.py
 index 984398c760..3580e40b4c 100644
 --- a/sympy/core/power.py
@@ -27,10 +27,10 @@ index 984398c760..3580e40b4c 100644
                  if e.is_even:
                      b = -b
                  elif e.is_odd:
-2025-02-12 13:21:25,228 - INFO - Eval script for sympy__sympy-20212 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20212/eval.sh; copying to container...
-2025-02-12 13:21:51,887 - INFO - Test runtime: 26.47 seconds
-2025-02-12 13:21:51,888 - INFO - Test output for sympy__sympy-20212 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-20212/test_output.txt
-2025-02-12 13:21:51,962 - INFO - Git diff after:
+2025-05-06 12:43:10,797 - INFO - Eval script for sympy__sympy-20212 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20212/eval.sh; copying to container...
+2025-05-06 12:43:35,914 - INFO - Test runtime: 24.95 seconds
+2025-05-06 12:43:35,914 - INFO - Test output for sympy__sympy-20212 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-20212/test_output.txt
+2025-05-06 12:43:35,983 - INFO - Git diff after:
 diff --git a/sympy/core/power.py b/sympy/core/power.py
 index 984398c760..3580e40b4c 100644
 --- a/sympy/core/power.py
@@ -48,9 +48,9 @@ index 984398c760..3580e40b4c 100644
                  if e.is_even:
                      b = -b
                  elif e.is_odd:
-2025-02-12 13:21:51,962 - INFO - Grading answer for sympy__sympy-20212...
-2025-02-12 13:21:51,965 - INFO - report: {'sympy__sympy-20212': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_zero'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_rational', 'test_large_rational', 'test_negative_real', 'test_expand', 'test_issue_3449', 'test_issue_3866', 'test_negative_one', 'test_issue_4362', 'test_Pow_Expr_args', 'test_Pow_signs', 'test_power_with_noncommutative_mul_as_base', 'test_power_rewrite_exp', 'test_pow_as_base_exp', 'test_nseries', 'test_issue_6100_12942_4473', 'test_issue_6208', 'test_issue_6990', 'test_issue_6068', 'test_issue_6782', 'test_issue_6653', 'test_issue_6429', 'test_issue_7638', 'test_issue_8582', 'test_issue_8650', 'test_issue_13914', 'test_better_sqrt', 'test_issue_2993', 'test_issue_17450', 'test_issue_18190', 'test_issue_14815', 'test_issue_18509', 'test_issue_18762'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:43:35,983 - INFO - Grading answer for sympy__sympy-20212...
+2025-05-06 12:43:35,986 - INFO - report: {'sympy__sympy-20212': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_zero'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_rational', 'test_large_rational', 'test_negative_real', 'test_expand', 'test_issue_3449', 'test_issue_3866', 'test_negative_one', 'test_issue_4362', 'test_Pow_Expr_args', 'test_Pow_signs', 'test_power_with_noncommutative_mul_as_base', 'test_power_rewrite_exp', 'test_pow_as_base_exp', 'test_nseries', 'test_issue_6100_12942_4473', 'test_issue_6208', 'test_issue_6990', 'test_issue_6068', 'test_issue_6782', 'test_issue_6653', 'test_issue_6429', 'test_issue_7638', 'test_issue_8582', 'test_issue_8650', 'test_issue_13914', 'test_better_sqrt', 'test_issue_2993', 'test_issue_17450', 'test_issue_18190', 'test_issue_14815', 'test_issue_18509', 'test_issue_18762'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-20212: resolved: True
-2025-02-12 13:21:51,966 - INFO - Attempting to stop container sweb.eval.sympy__sympy-20212.20250212_130622...
-2025-02-12 13:22:07,253 - INFO - Attempting to remove container sweb.eval.sympy__sympy-20212.20250212_130622...
-2025-02-12 13:22:07,280 - INFO - Container sweb.eval.sympy__sympy-20212.20250212_130622 removed.
+2025-05-06 12:43:35,987 - INFO - Attempting to stop container sweb.eval.sympy__sympy-20212.20250506_122807...
+2025-05-06 12:43:51,314 - INFO - Attempting to remove container sweb.eval.sympy__sympy-20212.20250506_122807...
+2025-05-06 12:43:51,349 - INFO - Container sweb.eval.sympy__sympy-20212.20250506_122807 removed.

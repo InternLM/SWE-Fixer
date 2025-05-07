@@ -1,0 +1,80 @@
+2025-05-06 06:58:30,957 - INFO - Environment image sweb.env.x86_64.aa92880033da20ca313928:latest found for scikit-learn__scikit-learn-14053
+Building instance image sweb.eval.x86_64.scikit-learn__scikit-learn-14053:latest for scikit-learn__scikit-learn-14053
+2025-05-06 06:58:30,960 - INFO - Image sweb.eval.x86_64.scikit-learn__scikit-learn-14053:latest already exists, skipping build.
+2025-05-06 06:58:30,960 - INFO - Creating container for scikit-learn__scikit-learn-14053...
+2025-05-06 06:58:30,993 - INFO - Container for scikit-learn__scikit-learn-14053 created: dc677bb8072809c4b6b01d1d79b8cfe5c52988d238e6fac7128335e409692100
+2025-05-06 06:58:31,298 - INFO - Container for scikit-learn__scikit-learn-14053 started: dc677bb8072809c4b6b01d1d79b8cfe5c52988d238e6fac7128335e409692100
+2025-05-06 06:58:31,299 - INFO - Intermediate patch for scikit-learn__scikit-learn-14053 written to logs/run_evaluation/20250506_061805/SWE-Fixer/scikit-learn__scikit-learn-14053/patch.diff, now applying to container...
+2025-05-06 06:58:31,576 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:58:31,633 - INFO - >>>>> Applied Patch:
+patching file sklearn/__init__.py
+
+2025-05-06 06:58:31,895 - INFO - Git diff before:
+diff --git a/sklearn/__init__.py b/sklearn/__init__.py
+index 4f8c5d6d7..6b2327148 100644
+--- a/sklearn/__init__.py
++++ b/sklearn/__init__.py
+@@ -81,16 +81,17 @@ else:
+     __all__ = ['calibration', 'cluster', 'covariance', 'cross_decomposition',
+                'datasets', 'decomposition', 'dummy', 'ensemble', 'exceptions',
+                'experimental', 'externals', 'feature_extraction',
+-               'feature_selection', 'gaussian_process', 'inspection',
+-               'isotonic', 'kernel_approximation', 'kernel_ridge',
+-               'linear_model', 'manifold', 'metrics', 'mixture',
+-               'model_selection', 'multiclass', 'multioutput',
++               'feature_selection', 'gaussian_process', 'get_config',
++               'impute', 'inspection', 'isotonic', 'kernel_approximation',
++               'kernel_ridge', 'linear_model', 'manifold', 'metrics',
++               'mixture', 'model_selection', 'multiclass', 'multioutput',
+                'naive_bayes', 'neighbors', 'neural_network', 'pipeline',
+                'preprocessing', 'random_projection', 'semi_supervised',
+-               'svm', 'tree', 'discriminant_analysis', 'impute', 'compose',
++               'set_config', 'show_versions', 'svm', 'tree',
++               'discriminant_analysis', 'compose',
+                # Non-modules:
+-               'clone', 'get_config', 'set_config', 'config_context',
+-               'show_versions']
++               'clone', 'config_context']
++
+ 
+ 
+ def setup_module(module):
+2025-05-06 06:58:31,896 - INFO - Eval script for scikit-learn__scikit-learn-14053 written to logs/run_evaluation/20250506_061805/SWE-Fixer/scikit-learn__scikit-learn-14053/eval.sh; copying to container...
+2025-05-06 06:58:35,851 - INFO - Test runtime: 3.77 seconds
+2025-05-06 06:58:35,851 - INFO - Test output for scikit-learn__scikit-learn-14053 written to logs/run_evaluation/20250506_061805/SWE-Fixer/scikit-learn__scikit-learn-14053/test_output.txt
+2025-05-06 06:58:35,913 - INFO - Git diff after:
+diff --git a/sklearn/__init__.py b/sklearn/__init__.py
+index 4f8c5d6d7..6b2327148 100644
+--- a/sklearn/__init__.py
++++ b/sklearn/__init__.py
+@@ -81,16 +81,17 @@ else:
+     __all__ = ['calibration', 'cluster', 'covariance', 'cross_decomposition',
+                'datasets', 'decomposition', 'dummy', 'ensemble', 'exceptions',
+                'experimental', 'externals', 'feature_extraction',
+-               'feature_selection', 'gaussian_process', 'inspection',
+-               'isotonic', 'kernel_approximation', 'kernel_ridge',
+-               'linear_model', 'manifold', 'metrics', 'mixture',
+-               'model_selection', 'multiclass', 'multioutput',
++               'feature_selection', 'gaussian_process', 'get_config',
++               'impute', 'inspection', 'isotonic', 'kernel_approximation',
++               'kernel_ridge', 'linear_model', 'manifold', 'metrics',
++               'mixture', 'model_selection', 'multiclass', 'multioutput',
+                'naive_bayes', 'neighbors', 'neural_network', 'pipeline',
+                'preprocessing', 'random_projection', 'semi_supervised',
+-               'svm', 'tree', 'discriminant_analysis', 'impute', 'compose',
++               'set_config', 'show_versions', 'svm', 'tree',
++               'discriminant_analysis', 'compose',
+                # Non-modules:
+-               'clone', 'get_config', 'set_config', 'config_context',
+-               'show_versions']
++               'clone', 'config_context']
++
+ 
+ 
+ def setup_module(module):
+2025-05-06 06:58:35,913 - INFO - Grading answer for scikit-learn__scikit-learn-14053...
+2025-05-06 06:58:35,923 - INFO - report: {'scikit-learn__scikit-learn-14053': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['sklearn/tree/tests/test_export.py::test_export_text']}, 'PASS_TO_PASS': {'success': ['sklearn/tree/tests/test_export.py::test_graphviz_toy', 'sklearn/tree/tests/test_export.py::test_graphviz_errors', 'sklearn/tree/tests/test_export.py::test_friedman_mse_in_graphviz', 'sklearn/tree/tests/test_export.py::test_precision', 'sklearn/tree/tests/test_export.py::test_export_text_errors'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for scikit-learn__scikit-learn-14053: resolved: False
+2025-05-06 06:58:35,925 - INFO - Attempting to stop container sweb.eval.scikit-learn__scikit-learn-14053.20250506_061805...
+2025-05-06 06:58:51,188 - INFO - Attempting to remove container sweb.eval.scikit-learn__scikit-learn-14053.20250506_061805...
+2025-05-06 06:58:51,204 - INFO - Container sweb.eval.scikit-learn__scikit-learn-14053.20250506_061805 removed.

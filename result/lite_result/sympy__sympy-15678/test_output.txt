@@ -150,10 +150,10 @@ Date:   Thu Dec 20 07:47:58 2018 -0600
 
 + git diff 31c68eef3ffef39e2e792b0ec92cd92b7010eb2a
 diff --git a/sympy/geometry/util.py b/sympy/geometry/util.py
-index d32adc3066..2942d672ed 100644
+index d32adc3066..7e1e4a87c8 100644
 --- a/sympy/geometry/util.py
 +++ b/sympy/geometry/util.py
-@@ -12,13 +12,17 @@
+@@ -12,10 +12,11 @@
  """
  from __future__ import division, print_function
  
@@ -162,22 +162,19 @@ index d32adc3066..2942d672ed 100644
  from sympy.core.compatibility import (
      is_sequence, range, string_types, ordered)
  from sympy.core.containers import OrderedSet
-+from sympy.core.function import AppliedUndef
++
  from .point import Point, Point2D
  
  
-+
-+
-+
- def find(x, equation):
-     """
-     Checks whether the parameter 'x' is present in 'equation' or not.
-@@ -565,10 +569,12 @@ def idiff(eq, y, x, n=1):
+@@ -565,19 +566,28 @@ def idiff(eq, y, x, n=1):
      sympy.core.function.diff: explicitly differentiates wrt symbols
  
      """
++    from sympy.core.function import AppliedUndef
++
 +    if isinstance(eq, Eq):
-+        eq = eq.lhs - eq.rhs
++        eq = eq.lhs
++
      if is_sequence(y):
          dep = set(y)
          y = y[0]
@@ -186,32 +183,19 @@ index d32adc3066..2942d672ed 100644
          dep = {y}
      else:
          raise ValueError("expecting x-dependent symbol(s) but got: %s" % y)
-@@ -579,7 +585,16 @@ def idiff(eq, y, x, n=1):
+ 
+     f = dict([(s, Function(
+         s.name)(x)) for s in eq.free_symbols if s != x and s in dep])
++    if isinstance(y, AppliedUndef):
++        f[y] = y
++
+     dydx = Function(y.name)(x).diff(x)
      eq = eq.subs(f)
      derivs = {}
-     for i in range(n):
--        yp = solve(eq.diff(x), dydx)[0].subs(derivs)
-+        yp = solve(eq.diff(x), dydx)
-+        if yp:
-+            yp = yp[0].subs(derivs)
-+        else:
-+            # the following line is equivalent to
-+            # Derivative(f(x), x) - Derivative(y, x)
-+            # where f(x) is what `eq` is written in terms of
-+            # and y is the symbol that we are differentiating wrt
-+            # e.g. eq = Eq(f(x), y) -> f(x) - y -> D(f(x), x) - D(y, x)
-+            yp = eq.as_poly().gen
-         if i == n - 1:
-             return yp.subs([(v, k) for k, v in f.items()])
-         derivs[dydx] = yp
-@@ -588,6 +603,7 @@ def idiff(eq, y, x, n=1):
- 
- 
- def intersection(*entities, **kwargs):
 +
-     """The intersection of a collection of GeometryEntity instances.
- 
-     Parameters
+     for i in range(n):
+         yp = solve(eq.diff(x), dydx)[0].subs(derivs)
+         if i == n - 1:
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -362,8 +346,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        66070312
-hash randomization: on (PYTHONHASHSEED=1949828997)
+random seed:        55647695
+hash randomization: on (PYTHONHASHSEED=212729409)
 
 sympy/geometry/tests/test_util.py[5] 
 test_idiff E
@@ -378,11 +362,11 @@ _________________ sympy/geometry/tests/test_util.py:test_idiff _________________
 Traceback (most recent call last):
   File "/testbed/sympy/geometry/tests/test_util.py", line 24, in test_idiff
     assert idiff(f(x) * exp(f(x)) - x * exp(x), f(x), x) == (x + 1) * exp(x - f(x))/(f(x) + 1)
-  File "/testbed/sympy/geometry/util.py", line 584, in idiff
+  File "/testbed/sympy/geometry/util.py", line 587, in idiff
     dydx = Function(y.name)(x).diff(x)
 AttributeError: 'f' object has no attribute 'name'
 
-=========== tests finished: 4 passed, 1 exceptions, in 5.94 seconds ============
+=========== tests finished: 4 passed, 1 exceptions, in 5.96 seconds ============
 DO *NOT* COMMIT!
 + git checkout 31c68eef3ffef39e2e792b0ec92cd92b7010eb2a sympy/geometry/tests/test_util.py
 Updated 1 path from 40219bbbd3

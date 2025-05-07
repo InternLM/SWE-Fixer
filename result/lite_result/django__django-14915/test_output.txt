@@ -345,8 +345,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20210930092617-0.editable-py3-none-any.whl size=26701 sha256=faf6ca014c0690f7f4e1bb44b15bb66ff31930e7aafe5c415604450543023113
-  Stored in directory: /tmp/pip-ephem-wheel-cache-ba1t0kn1/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20210930092617-0.editable-py3-none-any.whl size=26772 sha256=c2f1a76f8a8adba16a06fc6b32e3e3994c4a3f1d6f64db80c9854bd6e5390d8e
+  Stored in directory: /tmp/pip-ephem-wheel-cache-ipnvkjwe/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -462,7 +462,7 @@ test_queryset_none (model_forms.test_modelchoicefield.ModelChoiceFieldTests) ...
 test_result_cache_not_shared (model_forms.test_modelchoicefield.ModelChoiceFieldTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 0.042s
+Ran 24 tests in 0.044s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

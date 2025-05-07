@@ -1,15 +1,15 @@
-2025-02-12 13:09:49,525 - INFO - Environment image sweb.env.x86_64.297af196949a2a635bce66:latest found for django__django-14667
+2025-05-06 12:31:34,504 - INFO - Environment image sweb.env.x86_64.297af196949a2a635bce66:latest found for django__django-14667
 Building instance image sweb.eval.x86_64.django__django-14667:latest for django__django-14667
-2025-02-12 13:09:49,526 - INFO - Image sweb.eval.x86_64.django__django-14667:latest already exists, skipping build.
-2025-02-12 13:09:49,526 - INFO - Creating container for django__django-14667...
-2025-02-12 13:09:49,550 - INFO - Container for django__django-14667 created: f5692abe1dd1d0d932ee9879949123713367395ce177ee7883b11b76210d569d
-2025-02-12 13:09:49,844 - INFO - Container for django__django-14667 started: f5692abe1dd1d0d932ee9879949123713367395ce177ee7883b11b76210d569d
-2025-02-12 13:09:49,845 - INFO - Intermediate patch for django__django-14667 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-14667/patch.diff, now applying to container...
-2025-02-12 13:09:50,088 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:09:50,145 - INFO - >>>>> Applied Patch:
+2025-05-06 12:31:34,508 - INFO - Image sweb.eval.x86_64.django__django-14667:latest already exists, skipping build.
+2025-05-06 12:31:34,508 - INFO - Creating container for django__django-14667...
+2025-05-06 12:31:34,634 - INFO - Container for django__django-14667 created: ee4ad8a174eb0663be56584d3f62371234054640c7c51e547c670f412a64dd30
+2025-05-06 12:31:35,050 - INFO - Container for django__django-14667 started: ee4ad8a174eb0663be56584d3f62371234054640c7c51e547c670f412a64dd30
+2025-05-06 12:31:35,051 - INFO - Intermediate patch for django__django-14667 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-14667/patch.diff, now applying to container...
+2025-05-06 12:31:35,270 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:31:35,333 - INFO - >>>>> Applied Patch:
 patching file django/db/models/sql/query.py
 
-2025-02-12 13:09:51,213 - INFO - Git diff before:
+2025-05-06 12:31:36,224 - INFO - Git diff before:
 diff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py
 index 8837881579..7a67d835d0 100644
 --- a/django/db/models/sql/query.py
@@ -32,10 +32,10 @@ index 8837881579..7a67d835d0 100644
              # appear in "seen" (for all models that appear in "seen"). The only
              # slight complexity here is handling fields that exist on parent
              # models.
-2025-02-12 13:09:51,213 - INFO - Eval script for django__django-14667 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-14667/eval.sh; copying to container...
-2025-02-12 13:10:02,050 - INFO - Test runtime: 10.56 seconds
-2025-02-12 13:10:02,050 - INFO - Test output for django__django-14667 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-14667/test_output.txt
-2025-02-12 13:10:02,131 - INFO - Git diff after:
+2025-05-06 12:31:36,225 - INFO - Eval script for django__django-14667 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-14667/eval.sh; copying to container...
+2025-05-06 12:31:46,854 - INFO - Test runtime: 10.44 seconds
+2025-05-06 12:31:46,855 - INFO - Test output for django__django-14667 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-14667/test_output.txt
+2025-05-06 12:31:46,937 - INFO - Git diff after:
 diff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py
 index 8837881579..7a67d835d0 100644
 --- a/django/db/models/sql/query.py
@@ -58,9 +58,9 @@ index 8837881579..7a67d835d0 100644
              # appear in "seen" (for all models that appear in "seen"). The only
              # slight complexity here is handling fields that exist on parent
              # models.
-2025-02-12 13:10:02,131 - INFO - Grading answer for django__django-14667...
-2025-02-12 13:10:02,137 - INFO - report: {'django__django-14667': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_defer_only_chaining (defer.tests.DeferTests)']}, 'PASS_TO_PASS': {'success': ['test_custom_refresh_on_deferred_loading (defer.tests.TestDefer2)', 'When an inherited model is fetched from the DB, its PK is also fetched.', 'Ensure select_related together with only on a proxy model behaves', 'test_eq (defer.tests.TestDefer2)', 'test_refresh_not_loading_deferred_fields (defer.tests.TestDefer2)', 'test_only_baseclass_when_subclass_has_added_field (defer.tests.BigChildDeferTests)', 'test_only_subclass (defer.tests.BigChildDeferTests)', 'test_defer_only_clear (defer.tests.DeferTests)', 'test_defer_values_does_not_defer (defer.tests.DeferTests)', 'test_only (defer.tests.DeferTests)', 'test_only_baseclass_when_subclass_has_no_added_fields (defer.tests.DeferTests)', 'test_only_none_raises_error (defer.tests.DeferTests)', 'test_only_select_related_raises_invalid_query (defer.tests.DeferTests)', 'test_only_values_does_not_defer (defer.tests.DeferTests)', 'test_only_with_select_related (defer.tests.DeferTests)'], 'failure': ['test_defer_baseclass_when_subclass_has_added_field (defer.tests.BigChildDeferTests)', 'test_defer_subclass (defer.tests.BigChildDeferTests)', 'test_defer_subclass_both (defer.tests.BigChildDeferTests)', 'test_defer (defer.tests.DeferTests)', 'test_defer_baseclass_when_subclass_has_no_added_fields (defer.tests.DeferTests)', 'test_defer_extra (defer.tests.DeferTests)', 'test_defer_foreign_keys_are_deferred_and_not_traversed (defer.tests.DeferTests)', 'test_defer_none_to_clear_deferred_set (defer.tests.DeferTests)', 'test_defer_of_overridden_scalar (defer.tests.DeferTests)', 'test_defer_on_an_already_deferred_field (defer.tests.DeferTests)', 'test_defer_select_related_raises_invalid_query (defer.tests.DeferTests)', 'test_defer_with_select_related (defer.tests.DeferTests)', 'test_get (defer.tests.DeferTests)', 'test_saving_object_with_deferred_field (defer.tests.DeferTests)']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:31:46,937 - INFO - Grading answer for django__django-14667...
+2025-05-06 12:31:46,950 - INFO - report: {'django__django-14667': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_defer_only_chaining (defer.tests.DeferTests)']}, 'PASS_TO_PASS': {'success': ['test_custom_refresh_on_deferred_loading (defer.tests.TestDefer2)', 'When an inherited model is fetched from the DB, its PK is also fetched.', 'Ensure select_related together with only on a proxy model behaves', 'test_eq (defer.tests.TestDefer2)', 'test_refresh_not_loading_deferred_fields (defer.tests.TestDefer2)', 'test_only_baseclass_when_subclass_has_added_field (defer.tests.BigChildDeferTests)', 'test_only_subclass (defer.tests.BigChildDeferTests)', 'test_defer_only_clear (defer.tests.DeferTests)', 'test_defer_values_does_not_defer (defer.tests.DeferTests)', 'test_only (defer.tests.DeferTests)', 'test_only_baseclass_when_subclass_has_no_added_fields (defer.tests.DeferTests)', 'test_only_none_raises_error (defer.tests.DeferTests)', 'test_only_select_related_raises_invalid_query (defer.tests.DeferTests)', 'test_only_values_does_not_defer (defer.tests.DeferTests)', 'test_only_with_select_related (defer.tests.DeferTests)'], 'failure': ['test_defer_baseclass_when_subclass_has_added_field (defer.tests.BigChildDeferTests)', 'test_defer_subclass (defer.tests.BigChildDeferTests)', 'test_defer_subclass_both (defer.tests.BigChildDeferTests)', 'test_defer (defer.tests.DeferTests)', 'test_defer_baseclass_when_subclass_has_no_added_fields (defer.tests.DeferTests)', 'test_defer_extra (defer.tests.DeferTests)', 'test_defer_foreign_keys_are_deferred_and_not_traversed (defer.tests.DeferTests)', 'test_defer_none_to_clear_deferred_set (defer.tests.DeferTests)', 'test_defer_of_overridden_scalar (defer.tests.DeferTests)', 'test_defer_on_an_already_deferred_field (defer.tests.DeferTests)', 'test_defer_select_related_raises_invalid_query (defer.tests.DeferTests)', 'test_defer_with_select_related (defer.tests.DeferTests)', 'test_get (defer.tests.DeferTests)', 'test_saving_object_with_deferred_field (defer.tests.DeferTests)']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-14667: resolved: False
-2025-02-12 13:10:02,137 - INFO - Attempting to stop container sweb.eval.django__django-14667.20250212_130622...
-2025-02-12 13:10:17,574 - INFO - Attempting to remove container sweb.eval.django__django-14667.20250212_130622...
-2025-02-12 13:10:17,596 - INFO - Container sweb.eval.django__django-14667.20250212_130622 removed.
+2025-05-06 12:31:46,950 - INFO - Attempting to stop container sweb.eval.django__django-14667.20250506_122807...
+2025-05-06 12:32:02,479 - INFO - Attempting to remove container sweb.eval.django__django-14667.20250506_122807...
+2025-05-06 12:32:02,502 - INFO - Container sweb.eval.django__django-14667.20250506_122807 removed.

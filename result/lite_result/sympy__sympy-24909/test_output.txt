@@ -150,26 +150,25 @@ Date:   Sat Mar 11 13:48:08 2023 -0600
 
 + git diff d3b4158dea271485e3daa11bf82e69b8dab348ce
 diff --git a/sympy/physics/units/prefixes.py b/sympy/physics/units/prefixes.py
-index ca6a642156..f62abcfce2 100644
+index ca6a642156..7043859335 100644
 --- a/sympy/physics/units/prefixes.py
 +++ b/sympy/physics/units/prefixes.py
-@@ -83,19 +83,17 @@ def __mul__(self, other):
+@@ -83,11 +83,11 @@ def __mul__(self, other):
          if not isinstance(other, (Quantity, Prefix)):
              return super().__mul__(other)
  
--        fact = self.scale_factor * other.scale_factor
--
++        if self.scale_factor == 1 and other.scale_factor == 1:
++            return 1
+         fact = self.scale_factor * other.scale_factor
+ 
 -        if fact == 1:
 -            return 1
 -        elif isinstance(other, Prefix):
 +        if isinstance(other, Prefix):
              # simplify prefix
              for p in PREFIXES:
--                if PREFIXES[p].scale_factor == fact:
-+                if PREFIXES[p].scale_factor == self.scale_factor * other.scale_factor:
-                     return PREFIXES[p]
--            return fact
-+            return self.scale_factor * other.scale_factor
+                 if PREFIXES[p].scale_factor == fact:
+@@ -96,6 +96,8 @@ def __mul__(self, other):
  
          return self.scale_factor * other
  
@@ -316,8 +315,8 @@ Requirement already satisfied: mpmath>=0.19 in /opt/miniconda3/envs/testbed/lib/
 Building wheels for collected packages: sympy
   Building editable for sympy (pyproject.toml): started
   Building editable for sympy (pyproject.toml): finished with status 'done'
-  Created wheel for sympy: filename=sympy-1.13.dev0-0.editable-py3-none-any.whl size=31342 sha256=45dcedf78423cb1758c50fefee9fd23684bd9e40239d7fc070f821847273954c
-  Stored in directory: /tmp/pip-ephem-wheel-cache-y74x278x/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for sympy: filename=sympy-1.13.dev0-0.editable-py3-none-any.whl size=31392 sha256=ed9af111f1988a168e83bc2b61c9cbe3840666c32e56300ac7886c120ddb870b
+  Stored in directory: /tmp/pip-ephem-wheel-cache-_e2pes2i/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built sympy
 Installing collected packages: sympy
   Attempting uninstall: sympy
@@ -339,8 +338,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        6847711
-hash randomization: on (PYTHONHASHSEED=446865301)
+random seed:        39590962
+hash randomization: on (PYTHONHASHSEED=3971899474)
 
 sympy/physics/units/tests/test_prefixes.py[4] 
 test_prefix_operations F

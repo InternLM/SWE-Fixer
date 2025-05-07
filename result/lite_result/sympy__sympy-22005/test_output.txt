@@ -329,8 +329,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        87500313
-hash randomization: on (PYTHONHASHSEED=561443717)
+random seed:        32518422
+hash randomization: on (PYTHONHASHSEED=1743218088)
 
 sympy/solvers/tests/test_polysys.py[4] 
 test_solve_poly_system E
@@ -353,7 +353,7 @@ Traceback (most recent call last):
 NotImplementedError: 
 only zero-dimensional systems supported (finite number of solutions)
 
-=========== tests finished: 3 passed, 1 exceptions, in 2.06 seconds ============
+=========== tests finished: 3 passed, 1 exceptions, in 2.07 seconds ============
 DO *NOT* COMMIT!
 + git checkout 2c83657ff1c62fc2761b639469fdac7f7561a72a sympy/solvers/tests/test_polysys.py
 Updated 1 path from b0147ce84f

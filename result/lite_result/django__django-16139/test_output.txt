@@ -369,8 +369,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20221027064103-0.editable-py3-none-any.whl size=27192 sha256=3b531639b23b6a45da784df71bdf5c77a46986e5157f5f674abfba9b8a902781
-  Stored in directory: /tmp/pip-ephem-wheel-cache-dagahu8u/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20221027064103-0.editable-py3-none-any.whl size=27262 sha256=6932dced063677ad9622ada9c0fea49e8523ea3b8eb839e7c45326f7cc04a7da
+  Stored in directory: /tmp/pip-ephem-wheel-cache-ob2wb3wm/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -527,7 +527,7 @@ test_readonly_field_has_changed (auth_tests.test_forms.ReadOnlyPasswordHashTest)
 test_render (auth_tests.test_forms.ReadOnlyPasswordHashTest) ... ok
 
 ----------------------------------------------------------------------
-Ran 87 tests in 0.226s
+Ran 87 tests in 0.223s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

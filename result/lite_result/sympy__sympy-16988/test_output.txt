@@ -316,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        27480004
-hash randomization: on (PYTHONHASHSEED=1404997931)
+random seed:        13620416
+hash randomization: on (PYTHONHASHSEED=3362624466)
 
 sympy/sets/tests/test_sets.py[78] 
 test_imageset ok
@@ -401,8 +401,8 @@ test_issue_16878b f                                                       [FAIL]
 
 
 ________________________________ slowest tests _________________________________
-test_image_interval - Took 38.349 seconds
-test_issue_10113 - Took 51.157 seconds
+test_image_interval - Took 36.797 seconds
+test_issue_10113 - Took 51.594 seconds
 ________________________________________________________________________________
 ____________ sympy/sets/tests/test_sets.py:test_issue_Symbol_inter _____________
 Traceback (most recent call last):
@@ -410,7 +410,7 @@ Traceback (most recent call last):
     assert Intersection(FiniteSet(m, n, 3), FiniteSet(m, n, x), r) == \
 AssertionError
 
-== tests finished: 73 passed, 1 failed, 4 expected to fail, in 97.20 seconds ===
+== tests finished: 73 passed, 1 failed, 4 expected to fail, in 97.21 seconds ===
 DO *NOT* COMMIT!
 + git checkout e727339af6dc22321b00f52d971cda39e4ce89fb sympy/sets/tests/test_sets.py
 Updated 1 path from 3be1a44635

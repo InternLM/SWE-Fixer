@@ -4286,8 +4286,8 @@ xarray/tests/test_concat.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         [100%]
 =================================== FAILURES ===================================
 _____________________ TestCombineND.test_concat_once[dim1] _____________________
 
-self = <xarray.tests.test_combine.TestCombineND object at 0x7fc8194049d0>
-create_combined_ids = <function _create_combined_ids at 0x7fc81a4aed40>
+self = <xarray.tests.test_combine.TestCombineND object at 0x7f7165fad420>
+create_combined_ids = <function _create_combined_ids at 0x7f7165cb2d40>
 concat_dim = 'dim1'
 
     @pytest.mark.parametrize("concat_dim", ["dim1", "new_dim"])
@@ -4402,8 +4402,8 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestCombineND.test_concat_once[new_dim] ____________________
 
-self = <xarray.tests.test_combine.TestCombineND object at 0x7fc819404df0>
-create_combined_ids = <function _create_combined_ids at 0x7fc81a4aed40>
+self = <xarray.tests.test_combine.TestCombineND object at 0x7f7165fad480>
+create_combined_ids = <function _create_combined_ids at 0x7f7165cb2d40>
 concat_dim = 'new_dim'
 
     @pytest.mark.parametrize("concat_dim", ["dim1", "new_dim"])
@@ -4519,8 +4519,8 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestCombineND.test_concat_only_first_dim ___________________
 
-self = <xarray.tests.test_combine.TestCombineND object at 0x7fc8194049a0>
-create_combined_ids = <function _create_combined_ids at 0x7fc81a4aed40>
+self = <xarray.tests.test_combine.TestCombineND object at 0x7f7165fad3f0>
+create_combined_ids = <function _create_combined_ids at 0x7f7165cb2d40>
 
     def test_concat_only_first_dim(self, create_combined_ids):
         shape = (2, 3)
@@ -4632,8 +4632,8 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____________________ TestCombineND.test_concat_twice[dim1] _____________________
 
-self = <xarray.tests.test_combine.TestCombineND object at 0x7fc8194050c0>
-create_combined_ids = <function _create_combined_ids at 0x7fc81a4aed40>
+self = <xarray.tests.test_combine.TestCombineND object at 0x7f7165fad210>
+create_combined_ids = <function _create_combined_ids at 0x7f7165cb2d40>
 concat_dim = 'dim1'
 
     @pytest.mark.parametrize("concat_dim", ["dim1", "new_dim"])
@@ -4743,8 +4743,8 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestCombineND.test_concat_twice[new_dim] ___________________
 
-self = <xarray.tests.test_combine.TestCombineND object at 0x7fc819404250>
-create_combined_ids = <function _create_combined_ids at 0x7fc81a4aed40>
+self = <xarray.tests.test_combine.TestCombineND object at 0x7f7165facfa0>
+create_combined_ids = <function _create_combined_ids at 0x7f7165cb2d40>
 concat_dim = 'new_dim'
 
     @pytest.mark.parametrize("concat_dim", ["dim1", "new_dim"])
@@ -4854,7 +4854,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________________ TestNestedCombine.test_nested_concat _____________________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc8194046d0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fac7c0>
 
     def test_nested_concat(self):
         objs = [Dataset({"x": [0]}), Dataset({"x": [1]})]
@@ -4972,7 +4972,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________ TestNestedCombine.test_combine_nested_join[outer-expected0] __________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819404be0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fac580>
 join = 'outer'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 2)
@@ -5106,7 +5106,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________ TestNestedCombine.test_combine_nested_join[inner-expected1] __________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc8194052a0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fad120>
 join = 'inner'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 0)
@@ -5241,7 +5241,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestNestedCombine.test_combine_nested_join[left-expected2] __________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc8194056f0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fad4e0>
 join = 'left'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 1)
@@ -5376,7 +5376,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________ TestNestedCombine.test_combine_nested_join[right-expected3] __________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819405720>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fad9c0>
 join = 'right'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 1)
@@ -5511,7 +5511,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ______________ TestNestedCombine.test_nested_concat_along_new_dim ______________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819405ab0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fadab0>
 
     def test_nested_concat_along_new_dim(self):
         objs = [
@@ -5632,7 +5632,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________________ TestNestedCombine.test_nested_merge ______________________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819405bd0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165facf70>
 
     def test_nested_merge(self):
         data = Dataset({"x": 0})
@@ -5765,7 +5765,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestNestedCombine.test_concat_multiple_dims __________________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc8194067a0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fadd20>
 
     def test_concat_multiple_dims(self):
         objs = [
@@ -5883,7 +5883,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestNestedCombine.test_concat_name_symmetry __________________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc8194073a0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fade70>
 
     def test_concat_name_symmetry(self):
         """Inspired by the discussion on GH issue #2777"""
@@ -5909,7 +5909,7 @@ xarray/core/combine.py:241: in _combine_1d
     combined = concat(
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc81a2c9690>, dim = 'x', data_vars = 'all'
+objs = <itertools.chain object at 0x7f7165eac7f0>, dim = 'x', data_vars = 'all'
 coords = 'different', compat = 'no_conflicts', positions = None
 fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -6074,7 +6074,7 @@ E       TypeError: _dataarray_concat() takes from 6 to 8 positional arguments bu
 xarray/core/concat.py:155: TypeError
 _____________ TestNestedCombine.test_concat_one_dim_merge_another ______________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819406e90>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fadf60>
 
     def test_concat_one_dim_merge_another(self):
         data = create_test_data()
@@ -6109,8 +6109,8 @@ datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 4)
 Coordinates:
   * dim2     (dim2) float64 0.0 0.5 1.0 1.5
-Dimensions ...256 1.683 0.3802 ... -0.08264 -0.8179 2.15
-    var2     (dim1, dim2) float64 0.6605 -1.215 -2.676 ... -0.05693 -0.1387)
+Dimensions ...527 -0.1542 -0.3997 ... -0.2933 -0.8934
+    var2     (dim1, dim2) float64 1.023 -0.2033 -0.979 ... 0.8539 1.631 0.9842)
 dim = 'dim2', data_vars = 'all', coords = 'different', compat = 'no_conflicts'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -6195,7 +6195,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____________________ TestNestedCombine.test_auto_combine_2d ____________________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819407760>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fae110>
 
     def test_auto_combine_2d(self):
         ds = create_test_data
@@ -6297,7 +6297,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestNestedCombine.test_combine_nested_missing_data_new_dim __________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc8194069b0>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fae860>
 
     def test_combine_nested_missing_data_new_dim(self):
         # Your data includes "time" and "station" dimensions, and each year's
@@ -6422,7 +6422,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________ TestNestedCombine.test_merge_one_dim_concat_another ______________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819405f30>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165faee30>
 
     def test_merge_one_dim_concat_another(self):
         objs = [
@@ -6542,7 +6542,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________ TestNestedCombine.test_combine_concat_over_redundant_nesting _________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819405c90>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fae1a0>
 
     def test_combine_concat_over_redundant_nesting(self):
         objs = [[Dataset({"x": [0]}), Dataset({"x": [1]})]]
@@ -6659,7 +6659,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ________ TestNestedCombine.test_combine_nested_fill_value[fill_value0] _________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819405d20>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fae230>
 fill_value = nan
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -6789,7 +6789,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________ TestNestedCombine.test_combine_nested_fill_value[2] ______________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819406800>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fae890>
 fill_value = 2
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -6919,7 +6919,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____________ TestNestedCombine.test_combine_nested_fill_value[2.0] _____________
 
-self = <xarray.tests.test_combine.TestNestedCombine object at 0x7fc819407580>
+self = <xarray.tests.test_combine.TestNestedCombine object at 0x7f7165fadf00>
 fill_value = 2.0
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -7049,7 +7049,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____________________ TestCombineAuto.test_combine_by_coords ____________________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc819405ae0>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165fadae0>
 
     def test_combine_by_coords(self):
         objs = [Dataset({"x": [0]}), Dataset({"x": [1]})]
@@ -7164,7 +7164,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestCombineAuto.test_combine_coords_join[outer-expected0] ___________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc8194055a0>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165fac2e0>
 join = 'outer'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 2)
@@ -7298,7 +7298,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestCombineAuto.test_combine_coords_join[inner-expected1] ___________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc8194047f0>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165facc70>
 join = 'inner'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 0)
@@ -7433,7 +7433,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________ TestCombineAuto.test_combine_coords_join[left-expected2] ___________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc8194064a0>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165fae4a0>
 join = 'left'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 1)
@@ -7568,7 +7568,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestCombineAuto.test_combine_coords_join[right-expected3] ___________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc8194063e0>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165fae2c0>
 join = 'right'
 expected = <xarray.Dataset>
 Dimensions:  (x: 2, y: 1)
@@ -7703,7 +7703,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestCombineAuto.test_infer_order_from_coords _________________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc8194062f0>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165fae920>
 
     def test_infer_order_from_coords(self):
         data = create_test_data()
@@ -7727,8 +7727,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 4, dim3: 10, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] ... 1.71 -0.9374 -1.301 ... 0.5549 -0.5 -1.475
-    var3     (dim3, dim1) float64 -0.5764 -1.273 -0.05659 ... -0.2689 1.04)
+  * time     (time) datetime64[ns] ...2 0.0218 0.1943 ... 1.17 1.868 -0.7393
+    var3     (dim3, dim1) float64 -0.2589 0.8209 -0.8087 ... 2.319 -1.997 1.743)
 dim = 'dim2', data_vars = 'all', coords = 'different', compat = 'no_conflicts'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -7813,7 +7813,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestCombineAuto.test_combine_leaving_bystander_dimensions ___________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc8194066e0>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165faeb00>
 
     def test_combine_leaving_bystander_dimensions(self):
         # Check non-monotonic bystander dimension coord doesn't raise
@@ -7857,9 +7857,9 @@ datasets = (<xarray.Dataset>
 Dimensions:  (x: 3, y: 3)
 Coordinates:
   * x        (x) int64 1 2 3
-  * y        (y) <U1 'a' 'c' 'b'...        (y) <U1 'a' 'c' 'b'
+  * y        (y) <U1 'a' 'c' 'b'...   (y) <U1 'a' 'c' 'b'
 Data variables:
-    data     (x, y) float64 0.2646 0.4895 0.06175 ... 0.8734 0.5847 0.5118)
+    data     (x, y) float64 0.8673 0.6589 0.7456 0.549 ... 0.6431 0.3213 0.9649)
 dim = 'x', data_vars = 'all', coords = 'different', compat = 'no_conflicts'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -7944,7 +7944,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________ TestCombineAuto.test_combine_by_coords_previously_failed ___________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc819406890>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165fae290>
 
     def test_combine_by_coords_previously_failed(self):
         # In the above scenario, one file is missing, containing the data for
@@ -8066,7 +8066,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ______________ TestCombineAuto.test_check_for_impossible_ordering ______________
 
-self = <xarray.tests.test_combine.TestCombineAuto object at 0x7fc819406b60>
+self = <xarray.tests.test_combine.TestCombineAuto object at 0x7f7165faf040>
 
     def test_check_for_impossible_ordering(self):
         ds0 = Dataset({"x": [0, 1, 5]})
@@ -8185,7 +8185,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestAutoCombineOldAPI.test_auto_combine ____________________
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819407280>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165faf2e0>
 
     def test_auto_combine(self):
         objs = [Dataset({"x": [0]}), Dataset({"x": [1]})]
@@ -8300,7 +8300,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestAutoCombineOldAPI.test_auto_combine_previously_failed ___________
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819407160>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165faf1c0>
 
     def test_auto_combine_previously_failed(self):
         # In the above scenario, one file is missing, containing the data for
@@ -8422,7 +8422,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestAutoCombineOldAPI.test_auto_combine_with_new_variables __________
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819406ec0>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165faf490>
 
     def test_auto_combine_with_new_variables(self):
         datasets = [Dataset({"x": 0}, {"y": 0}), Dataset({"x": 1}, {"y": 1, "z": 1})]
@@ -8521,7 +8521,7 @@ E                   ValueError: variables {'z'} are present in some datasets but
 xarray/core/concat.py:354: ValueError
 ______________ TestAutoCombineOldAPI.test_auto_combine_no_concat _______________
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819407070>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165faf460>
 
     def test_auto_combine_no_concat(self):
         objs = [Dataset({"x": 0}), Dataset({"y": 1})]
@@ -8647,7 +8647,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____ TestAutoCombineOldAPI.test_auto_combine_order_by_appearance_not_coords ____
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819407460>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165faf880>
 
     def test_auto_combine_order_by_appearance_not_coords(self):
         objs = [
@@ -8765,7 +8765,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _______ TestAutoCombineOldAPI.test_auto_combine_fill_value[fill_value0] ________
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819407a30>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165fafac0>
 fill_value = nan
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -8893,7 +8893,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____________ TestAutoCombineOldAPI.test_auto_combine_fill_value[2] _____________
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819407490>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165faf8b0>
 fill_value = 2
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -9021,7 +9021,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________ TestAutoCombineOldAPI.test_auto_combine_fill_value[2.0] ____________
 
-self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7fc819407100>
+self = <xarray.tests.test_combine.TestAutoCombineOldAPI object at 0x7f7165faf370>
 fill_value = 2.0
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -9149,7 +9149,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________ TestAutoCombineDeprecation.test_auto_combine_with_concat_dim _________
 
-self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7fc819406aa0>
+self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7f7165faef20>
 
     def test_auto_combine_with_concat_dim(self):
         objs = [Dataset({"x": [0]}), Dataset({"x": [1]})]
@@ -9265,7 +9265,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ______ TestAutoCombineDeprecation.test_auto_combine_with_merge_and_concat ______
 
-self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7fc819406650>
+self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7f7165faeb60>
 
     def test_auto_combine_with_merge_and_concat(self):
         objs = [Dataset({"x": [0]}), Dataset({"x": [1]}), Dataset({"z": ((), 99)})]
@@ -9381,7 +9381,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________ TestAutoCombineDeprecation.test_auto_combine_with_coords ___________
 
-self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7fc819406230>
+self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7f7165fae5c0>
 
     def test_auto_combine_with_coords(self):
         objs = [
@@ -9500,7 +9500,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________ TestAutoCombineDeprecation.test_auto_combine_without_coords __________
 
-self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7fc819407b80>
+self = <xarray.tests.test_combine.TestAutoCombineDeprecation object at 0x7f7165faf580>
 
     def test_auto_combine_without_coords(self):
         objs = [Dataset({"foo": ("x", [0])}), Dataset({"foo": ("x", [1])})]
@@ -9735,12 +9735,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________ TestConcatDataset.test_concat_simple[dim1-different] _____________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc818f87760>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2b90>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ... 1.113 3.205 1.769 ... -0.9408 -1.456 -0.1976
-    var2     (dim1, dim2) float64 -0.2397 0.0243 0.6189 ... 0.434 -0.8588
+  * time     (time) datetime64[ns] 2000-01-01 ...-1.499 0.6068 ... 0.3143 -1.061 -0.5331
+    var2     (dim1, dim2) float64 0.5177 -1.011 1.697 ... 0.2641 0.5593 -0.6619
 dim = 'dim1', coords = 'different'
 
     @pytest.mark.parametrize("coords", ["different", "minimal"])
@@ -9758,8 +9758,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 1, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...7 -0.317 ... -1.453 0.1441 -1.487
-    var2     (dim1, dim2) float64 1.123 0.5836 0.3833 ... 0.07656 1.197 0.08335, ...)
+  * time     (time) datetime64[ns] 2000-01-01... 1.438 ... -0.4564 -2.947 -0.9917
+    var2     (dim1, dim2) float64 0.4349 -0.7576 -1.369 ... -0.8006 0.2286 1.98, ...)
 dim = 'dim1', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -9844,12 +9844,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ______________ TestConcatDataset.test_concat_simple[dim1-minimal] ______________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8e80>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3310>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ...9 0.1899 1.65 ... -0.4544 0.9279 0.8691
-    var2     (dim1, dim2) float64 -1.605 1.742 -1.097 ... -0.2632 0.1897 0.3821
+  * time     (time) datetime64[ns] 2000-01-01 ...4 -1.643 0.1205 -0.2167 ... -1.949 -0.1013
+    var2     (dim1, dim2) float64 -0.987 1.428 -1.873 ... 0.3588 0.8664 2.13
 dim = 'dim1', coords = 'minimal'
 
     @pytest.mark.parametrize("coords", ["different", "minimal"])
@@ -9867,8 +9867,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 1, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...0.8714 0.5618 ... -0.2765 0.2267
-    var2     (dim1, dim2) float64 -1.153 0.5582 -0.1289 ... -0.343 -1.233 0.5549, ...)
+  * time     (time) datetime64[ns] 2000-01-01...9 -0.09593 ... 0.9409 -0.768 -1.379
+    var2     (dim1, dim2) float64 1.834 0.1787 -0.4594 ... 1.172 -2.32 0.8223, ...)
 dim = 'dim1', data_vars = 'all', coords = 'minimal', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -9953,12 +9953,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________ TestConcatDataset.test_concat_simple[dim2-different] _____________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c9b70>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2bc0>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ... -1.265 -0.5091 ... 0.2987 2.346 -1.233
-    var2     (dim1, dim2) float64 -0.8579 1.027 -1.311 ... -0.799 0.7814 -0.398
+  * time     (time) datetime64[ns] 2000-01-01 ... 1.075 -1.505 ... -0.3794 1.208 -0.7565
+    var2     (dim1, dim2) float64 0.2696 0.4424 0.6976 ... 1.594 -0.4396 0.2478
 dim = 'dim2', coords = 'different'
 
     @pytest.mark.parametrize("coords", ["different", "minimal"])
@@ -9976,8 +9976,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 1, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01... 0.03571 0.01075 ... 0.2849 1.12 0.8176
-    var2     (dim1, dim2) float64 -1.505 1.696 -0.9131 ... -0.7441 0.2071, ...)
+  * time     (time) datetime64[ns] 2000-01-01....25 0.07015 ... 0.2979 1.281 1.202
+    var2     (dim1, dim2) float64 1.648 0.1285 0.8469 ... -0.6571 1.643 -1.609, ...)
 dim = 'dim2', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10062,12 +10062,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ______________ TestConcatDataset.test_concat_simple[dim2-minimal] ______________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cb4f0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea29b0>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ...at64 1.451 -0.3683 -0.4545 ... -0.6264 1.323
-    var2     (dim1, dim2) float64 -0.1736 1.505 0.2167 ... -0.4686 -0.5339
+  * time     (time) datetime64[ns] 2000-01-01 ... 0.3014 -0.4988 ... 0.8573 -0.6 -0.438
+    var2     (dim1, dim2) float64 1.288 0.4169 -0.2643 ... 0.4171 -1.066 -0.4058
 dim = 'dim2', coords = 'minimal'
 
     @pytest.mark.parametrize("coords", ["different", "minimal"])
@@ -10085,8 +10085,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 1, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...795 0.3013 ... 0.1208 -1.296 -0.4052
-    var2     (dim1, dim2) float64 1.042 0.2796 -0.966 ... 1.176 0.8034 2.969, ...)
+  * time     (time) datetime64[ns] 2000-01-01...595 1.284 ... -0.9937 0.1701 1.16
+    var2     (dim1, dim2) float64 0.3608 0.4672 -1.095 ... 1.079 -0.7539 0.2336, ...)
 dim = 'dim2', data_vars = 'all', coords = 'minimal', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10171,12 +10171,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____ TestConcatDataset.test_concat_merge_variables_present_in_some_datasets ____
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c9b10>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea1ba0>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ....2464 2.364 -0.6225 ... -0.965 0.3314 -0.637
-    var2     (dim1, dim2) float64 -0.2104 0.9266 0.4118 ... -1.514 0.06862
+  * time     (time) datetime64[ns] 2000-01-01 ...t64 1.814 0.1431 0.01169 ... 0.05162 0.07691
+    var2     (dim1, dim2) float64 -0.09259 0.6147 1.133 ... -0.2015 0.7871
 
     def test_concat_merge_variables_present_in_some_datasets(self, data):
         # coordinates present in some datasets but not others
@@ -10269,12 +10269,12 @@ E                   ValueError: variables {'z'} are present in some datasets but
 xarray/core/concat.py:354: ValueError
 _______________________ TestConcatDataset.test_concat_2 ________________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cb340>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2a10>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ... 1.525 -2.026 -0.2561 ... 0.3226 0.2358
-    var2     (dim1, dim2) float64 -1.443 -0.5535 0.3431 ... -1.993 2.186 -1.159
+  * time     (time) datetime64[ns] 2000-01-01 ...6416 0.5068 -0.05389 ... -1.245 0.1952
+    var2     (dim1, dim2) float64 0.5912 -0.2922 -0.2315 ... 0.2808 2.096 -1.492
 
     def test_concat_2(self, data):
         dim = "dim2"
@@ -10291,8 +10291,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = [<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 1, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...2068 -0.5953 ... -0.3512 -0.1575
-    var2     (dim2, dim1) float64 0.5599 -0.9605 1.242 ... 0.3711 -0.334 -0.2641, ...]
+  * time     (time) datetime64[ns] 2000-01-01...6624 1.101 ... -1.194 1.105 0.5439
+    var2     (dim2, dim1) float64 -0.04169 0.4383 0.9616 ... 1.73 0.686 0.5565, ...]
 dim = 'dim2', data_vars = 'all', coords = [], compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10377,12 +10377,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestConcatDataset.test_concat_coords_kwarg[dim1-different] __________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8160>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3d00>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 20...5035 0.783 0.409 ... 1.301 1.636 -0.3114
-    var2     (dim1, dim2) float64 -1.38 0.3272 0.4173 ... 0.3061 -0.3754 -1.26
+  * time     (time) datetime64[ns] 20....322 0.05149 -0.7641 ... 1.48 -1.557 -0.7363
+    var2     (dim1, dim2) float64 -0.7586 -0.3158 -0.2732 ... 0.4026 1.372
 dim = 'dim1', coords = 'different'
 
     @pytest.mark.parametrize("coords", ["different", "minimal", "all"])
@@ -10404,8 +10404,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...228 -0.3046 ... -1.087 -2.258 -1.141
-    var2     (dim2) float64 -0.2588 0.5662 0.9778 ... -1.669 -0.8632 -0.1677, ...)
+  * time     (time) datetime64[ns] 2000-01-01... 0.1268 0.6364 ... -2.855 1.141 0.1575
+    var2     (dim2) float64 -0.667 -2.143 0.3121 ... -0.6357 -0.1386 1.423, ...)
 dim = 'dim1', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10490,12 +10490,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________ TestConcatDataset.test_concat_coords_kwarg[dim1-minimal] ___________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8520>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3a60>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 20...-0.9532 1.586 ... -0.2511 -0.8842 -1.275
-    var2     (dim1, dim2) float64 1.641 -2.272 0.4115 ... -0.6382 0.8277 1.822
+  * time     (time) datetime64[ns] 20...0.1589 -0.8928 ... 0.5567 0.6729 1.046
+    var2     (dim1, dim2) float64 -0.3583 -0.687 -1.012 ... -0.0347 1.192 -1.247
 dim = 'dim1', coords = 'minimal'
 
     @pytest.mark.parametrize("coords", ["different", "minimal", "all"])
@@ -10517,8 +10517,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...5 0.6735 1.656 ... 2.47 -0.5884 0.4396
-    var2     (dim2) float64 0.7224 -1.073 -0.0595 ... -0.627 1.878 -0.3738, ...)
+  * time     (time) datetime64[ns] 2000-01-01...2 -0.006123 ... 1.381 1.286 -0.4629
+    var2     (dim2) float64 -0.01625 -0.4477 -0.5927 ... 0.3943 2.015 -0.3719, ...)
 dim = 'dim1', data_vars = 'all', coords = 'minimal', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10603,12 +10603,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________ TestConcatDataset.test_concat_coords_kwarg[dim1-all] _____________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8280>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3a30>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 20...-0.1085 -1.469 -2.505 ... 1.536 0.523 1.277
-    var2     (dim1, dim2) float64 0.4638 0.08439 -0.5267 ... -1.783 0.04767
+  * time     (time) datetime64[ns] 20...1 0.3911 -0.7242 ... -0.3491 0.5404 0.8906
+    var2     (dim1, dim2) float64 0.1736 -0.5106 -0.02921 ... 0.4457 0.05025
 dim = 'dim1', coords = 'all'
 
     @pytest.mark.parametrize("coords", ["different", "minimal", "all"])
@@ -10630,8 +10630,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...4754 -0.09262 ... 1.613 -0.6696 -0.3695
-    var2     (dim2) float64 0.5597 0.488 -0.9483 ... 1.306 -0.8076 0.1927, ...)
+  * time     (time) datetime64[ns] 2000-01-01...8 -1.425 ... -1.646 0.1787 1.262
+    var2     (dim2) float64 1.609 -0.9881 -0.7493 0.6385 ... 0.4727 1.361 -2.425, ...)
 dim = 'dim1', data_vars = 'all', coords = 'all', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10716,12 +10716,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 __________ TestConcatDataset.test_concat_coords_kwarg[dim2-different] __________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8220>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea39a0>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 20...1 1.094 0.7514 ... 0.547 -1.028 0.1242
-    var2     (dim1, dim2) float64 0.06146 1.189 0.3124 ... 0.5694 -0.2696 -1.404
+  * time     (time) datetime64[ns] 20....7237 0.8464 1.197 ... 1.418 -0.6359 0.6893
+    var2     (dim1, dim2) float64 -0.3008 -0.7809 0.3041 ... -0.6191 -1.346
 dim = 'dim2', coords = 'different'
 
     @pytest.mark.parametrize("coords", ["different", "minimal", "all"])
@@ -10743,8 +10743,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = [<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 1, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2...5 0.623 ... 0.932 0.2637 -0.6728
-    var2     (dim2, dim1) float64 0.1661 0.3837 -0.1952 ... 0.2441 0.6418 0.3835, ...]
+  * time     (time) datetime64[ns] 2...1 -1.503 -0.3617 ... -0.5844 -0.6426
+    var2     (dim2, dim1) float64 -0.2178 -0.5158 -1.185 ... -0.2802 -0.7287, ...]
 dim = 'dim2', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10829,12 +10829,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________ TestConcatDataset.test_concat_coords_kwarg[dim2-minimal] ___________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c83a0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3880>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 20...8 0.143 0.05697 ... 0.6422 1.909 -0.02569
-    var2     (dim1, dim2) float64 -0.1178 1.06 -1.563 ... 0.0557 2.41 -0.7849
+  * time     (time) datetime64[ns] 20...-0.9436 0.04628 ... 0.4044 0.602 -1.205
+    var2     (dim1, dim2) float64 -0.08106 0.4382 -0.4823 ... 1.68 -1.719 1.006
 dim = 'dim2', coords = 'minimal'
 
     @pytest.mark.parametrize("coords", ["different", "minimal", "all"])
@@ -10856,8 +10856,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = [<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 1, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2...-0.6017 1.323 ... -1.558 -0.2945
-    var2     (dim2, dim1) float64 -0.6737 -0.4652 -0.7012 ... 1.024 -1.405 1.256, ...]
+  * time     (time) datetime64[ns] 2...-0.7792 -1.65 ... -2.015 0.9848 0.5521
+    var2     (dim2, dim1) float64 -0.3629 -0.4653 -1.358 ... -0.159 0.1118, ...]
 dim = 'dim2', data_vars = 'all', coords = 'minimal', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -10942,12 +10942,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________ TestConcatDataset.test_concat_coords_kwarg[dim2-all] _____________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8100>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3460>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 20...-1.225 0.2979 1.034 ... -0.7725 -0.6477 0.6436
-    var2     (dim1, dim2) float64 1.01 0.8591 -0.3869 ... -0.9464 0.3488
+  * time     (time) datetime64[ns] 20...08 0.705 -0.4746 ... 0.4098 -1.248 1.224
+    var2     (dim1, dim2) float64 0.5268 -0.1169 -0.0567 ... 1.47 0.969 -0.825
 dim = 'dim2', coords = 'all'
 
     @pytest.mark.parametrize("coords", ["different", "minimal", "all"])
@@ -10969,8 +10969,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = [<xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 1, dim4: 3, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2... -0.7981 1.662 ... -1.282 -0.9068
-    var2     (dim2, dim1) float64 0.7783 1.302 0.93 1.02 ... -1.391 0.509 1.041, ...]
+  * time     (time) datetime64[ns] 2...0.4887 -0.6263 ... -0.0452 1.155
+    var2     (dim2, dim1) float64 0.4754 1.238 0.8073 ... 0.7807 -0.8558 -0.3376, ...]
 dim = 'dim2', data_vars = 'all', coords = 'all', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -11055,12 +11055,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ________________________ TestConcatDataset.test_concat _________________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cb2e0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3250>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ...33 -0.04668 -0.4178 ... 0.9481 -0.4697
-    var2     (dim1, dim2) float64 -1.44 -1.632 -0.3907 ... -0.8599 0.2113 -1.802
+  * time     (time) datetime64[ns] 2000-01-01 ...495 -0.4086 -1.538 ... 0.3297 -0.2065 -1.374
+    var2     (dim1, dim2) float64 0.2653 0.02714 0.6455 ... 0.4068 -0.3547
 
     def test_concat(self, data):
         split_data = [
@@ -11079,8 +11079,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 3, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01... 0.915 0.1565 ... -2.304 0.9481 -0.4697
-    var2     (dim1, dim2) float64 -0.3456 0.533 1.88 ... -0.8599 0.2113 -1.802)
+  * time     (time) datetime64[ns] 2000-01-01...64 -1.724 0.3865 -0.4469 ... -0.2065 -1.374
+    var2     (dim1, dim2) float64 0.2281 0.4107 0.06861 ... 0.4068 -0.3547)
 dim = 'dim1', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -11165,12 +11165,12 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestConcatDataset.test_concat_dim_precedence _________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8730>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea1ae0>
 data = <xarray.Dataset>
 Dimensions:  (dim1: 8, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01 ...4 0.2358 0.4181 1.792 ... 1.108 0.868 -1.01
-    var2     (dim1, dim2) float64 -0.4661 -0.1359 -1.209 ... -0.4555 0.2275
+  * time     (time) datetime64[ns] 2000-01-01 ...7 -0.3107 0.888 ... -0.8697 0.09134 1.317
+    var2     (dim1, dim2) float64 1.9 -1.327 1.338 ... -2.083 -0.08914 0.9516
 
     def test_concat_dim_precedence(self, data):
         # verify that the dim argument takes precedence over
@@ -11190,8 +11190,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 1, dim2: 9, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] 2000-01-01...7 -0.1009 -0.9927 ... -1.61 -2.047
-    var2     (dim1, dim2) float64 2.517 1.107 0.2251 ... -1.184 0.2346 -0.7371, ...)
+  * time     (time) datetime64[ns] 2000-01-01...0.5139 -0.8622 ... 0.6734 -1.481
+    var2     (dim1, dim2) float64 0.7721 0.4317 1.002 ... 0.7516 -0.7676 -0.5333, ...)
 dim = 'dim1', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -11276,7 +11276,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestConcatDataset.test_concat_data_vars ____________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8a30>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea32b0>
 
     def test_concat_data_vars(self):
         data = Dataset({"foo": ("x", np.random.randn(10))})
@@ -11294,10 +11294,10 @@ datasets = (<xarray.Dataset>
 Dimensions:  (x: 5)
 Dimensions without coordinates: x
 Data variables:
-    foo      (x) float64 -2.15... (x: 5)
+    foo      (x) float64 1.163...  (x: 5)
 Dimensions without coordinates: x
 Data variables:
-    foo      (x) float64 0.7898 1.095 -0.5544 -0.506 -0.1149)
+    foo      (x) float64 -0.1146 1.017 -0.3665 1.584 0.1549)
 dim = 'x', data_vars = 'minimal', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -11382,7 +11382,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________________ TestConcatDataset.test_concat_coords _____________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c89d0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2e00>
 
     def test_concat_coords(self):
         data = Dataset({"foo": ("x", np.random.randn(10))})
@@ -11405,10 +11405,10 @@ Dimensions:  (x: 5)
 Coordinates:
     c        int64 0
 Dimensions without coordinates: x
-Data variabl...t64 1
+Data variabl...int64 1
 Dimensions without coordinates: x
 Data variables:
-    foo      (x) float64 -0.5069 -0.2393 -1.407 -1.265 -0.3288)
+    foo      (x) float64 -0.3817 1.003 1.292 -0.2851 -0.3657)
 dim = 'x', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -11493,7 +11493,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestConcatDataset.test_concat_constant_index _________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cb0d0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2ec0>
 
     def test_concat_constant_index(self):
         # GH425
@@ -11604,7 +11604,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________________ TestConcatDataset.test_concat_size0 ______________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cadd0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2590>
 
     def test_concat_size0(self):
         data = create_test_data()
@@ -11620,8 +11620,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 0, dim2: 9, dim3: 10, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] ....9402 0.6578 1.383 ... 0.2164 0.4832 0.8166
-    var3     (dim3, dim1) float64 -1.838 0.0938 0.3986 ... -0.5636 0.09955)
+  * time     (time) datetime64[ns] ...03 1.282 -1.375 ... -0.2817 -1.082 -0.4185
+    var3     (dim3, dim1) float64 -1.447 -0.6335 -1.074 ... 0.06017 -0.6067)
 dim = 'dim1', data_vars = 'all', coords = 'different', compat = 'equals'
 positions = None, fill_value = <NA>, join = 'outer', combine_attrs = 'override'
 
@@ -11706,7 +11706,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestConcatDataset.test_concat_autoalign ____________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c86d0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea20e0>
 
     def test_concat_autoalign(self):
         ds1 = Dataset({"foo": DataArray([1, 2], coords=[("x", [1, 2])])})
@@ -11814,7 +11814,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _____________________ TestConcatDataset.test_concat_errors _____________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c80d0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2800>
 
     def test_concat_errors(self):
         data = create_test_data()
@@ -11848,8 +11848,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 datasets = (<xarray.Dataset>
 Dimensions:  (dim1: 3, dim2: 9, dim3: 10, time: 20)
 Coordinates:
-  * time     (time) datetime64[ns] ...1244 0.3111
-    var3     (dim3, dim1) float64 -0.4076 0.7066 0.2812 ... -0.4366 -0.06056
+  * time     (time) datetime64[ns] ...35 -1.232
+    var3     (dim3, dim1) float64 0.5671 1.369 -1.449 ... 0.3464 0.6902 0.7549
 Attributes:
     foo:      bar)
 dim = 'dim1', data_vars = 'all', coords = 'different', compat = 'identical'
@@ -11936,7 +11936,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestConcatDataset.test_concat_join_kwarg ___________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8550>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea3130>
 
     def test_concat_join_kwarg(self):
         ds1 = Dataset({"a": (("x", "y"), [[0]])}, coords={"x": [0], "y": [0]})
@@ -12069,7 +12069,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestConcatDataset.test_concat_promote_shape __________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c85e0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2ad0>
 
     def test_concat_promote_shape(self):
         # mixed dims within variables
@@ -12177,7 +12177,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestConcatDataset.test_concat_do_not_promote _________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2c8040>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2860>
 
     def test_concat_do_not_promote(self):
         # GH438
@@ -12290,7 +12290,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ________________ TestConcatDataset.test_concat_dim_is_variable _________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2caef0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea2350>
 
     def test_concat_dim_is_variable(self):
         objs = [Dataset({"x": 0}), Dataset({"x": 1})]
@@ -12395,7 +12395,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ___________________ TestConcatDataset.test_concat_multiindex ___________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cb8b0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea25f0>
 
     def test_concat_multiindex(self):
         x = pd.MultiIndex.from_product([[1, 2, 3], ["a", "b"]])
@@ -12504,7 +12504,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ____________ TestConcatDataset.test_concat_fill_value[fill_value0] _____________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cad70>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea12a0>
 fill_value = nan
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -12624,7 +12624,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _________________ TestConcatDataset.test_concat_fill_value[2] __________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cae90>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea1e70>
 fill_value = 2
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -12744,7 +12744,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 ________________ TestConcatDataset.test_concat_fill_value[2.0] _________________
 
-self = <xarray.tests.test_concat.TestConcatDataset object at 0x7fc81a2cbfa0>
+self = <xarray.tests.test_concat.TestConcatDataset object at 0x7f7166ea1e10>
 fill_value = 2.0
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -12864,7 +12864,7 @@ E       AttributeError: module 'xarray.core.utils' has no attribute 'combine_att
 xarray/core/concat.py:371: AttributeError
 _______________________ TestConcatDataArray.test_concat ________________________
 
-self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2cb280>
+self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7f7166ea21a0>
 
     def test_concat(self):
         ds = Dataset(
@@ -12888,7 +12888,7 @@ self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2cb280>
 xarray/tests/test_concat.py:360: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc819458070>, dim = 'w', data_vars = 'all'
+objs = <itertools.chain object at 0x7f7165eafac0>, dim = 'w', data_vars = 'all'
 coords = 'different', compat = 'equals', positions = None, fill_value = <NA>
 join = 'outer', combine_attrs = 'override'
 
@@ -13053,7 +13053,7 @@ E       TypeError: _dataarray_concat() takes from 6 to 8 positional arguments bu
 xarray/core/concat.py:155: TypeError
 ___________________ TestConcatDataArray.test_concat_encoding ___________________
 
-self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2cbb80>
+self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7f7166ea1cc0>
 
     def test_concat_encoding(self):
         # Regression test for GH1297
@@ -13072,7 +13072,7 @@ self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2cbb80>
 xarray/tests/test_concat.py:396: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc8196fce20>, dim = 'x', data_vars = 'all'
+objs = <itertools.chain object at 0x7f716640dc90>, dim = 'x', data_vars = 'all'
 coords = 'different', compat = 'equals', positions = None, fill_value = <NA>
 join = 'outer', combine_attrs = 'override'
 
@@ -13237,7 +13237,7 @@ E       TypeError: _dataarray_concat() takes from 6 to 8 positional arguments bu
 xarray/core/concat.py:155: TypeError
 _____________________ TestConcatDataArray.test_concat_lazy _____________________
 
-self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2cbd30>
+self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7f7166ea1d20>
 
     @requires_dask
     def test_concat_lazy(self):
@@ -13255,7 +13255,7 @@ self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2cbd30>
 xarray/tests/test_concat.py:410: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc81a15bc40>, dim = 'z', data_vars = 'all'
+objs = <itertools.chain object at 0x7f7166aac130>, dim = 'z', data_vars = 'all'
 coords = 'different', compat = 'equals', positions = None, fill_value = <NA>
 join = 'outer', combine_attrs = 'override'
 
@@ -13420,7 +13420,7 @@ E       TypeError: _dataarray_concat() takes from 6 to 8 positional arguments bu
 xarray/core/concat.py:155: TypeError
 ___________ TestConcatDataArray.test_concat_fill_value[fill_value0] ____________
 
-self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2cbe20>
+self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7f7166ea14e0>
 fill_value = nan
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -13441,7 +13441,7 @@ fill_value = nan
 xarray/tests/test_concat.py:427: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc819ee5570>, dim = 'y', data_vars = 'all'
+objs = <itertools.chain object at 0x7f7166b1c5b0>, dim = 'y', data_vars = 'all'
 coords = 'different', compat = 'equals', positions = None, fill_value = nan
 join = 'outer', combine_attrs = 'override'
 
@@ -13606,7 +13606,7 @@ E       TypeError: _dataarray_concat() takes from 6 to 8 positional arguments bu
 xarray/core/concat.py:155: TypeError
 ________________ TestConcatDataArray.test_concat_fill_value[2] _________________
 
-self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2ca1d0>
+self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7f7166ea12d0>
 fill_value = 2
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -13627,7 +13627,7 @@ fill_value = 2
 xarray/tests/test_concat.py:427: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc819e9d8d0>, dim = 'y', data_vars = 'all'
+objs = <itertools.chain object at 0x7f716637fa30>, dim = 'y', data_vars = 'all'
 coords = 'different', compat = 'equals', positions = None, fill_value = 2
 join = 'outer', combine_attrs = 'override'
 
@@ -13792,7 +13792,7 @@ E       TypeError: _dataarray_concat() takes from 6 to 8 positional arguments bu
 xarray/core/concat.py:155: TypeError
 _______________ TestConcatDataArray.test_concat_fill_value[2.0] ________________
 
-self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2ca050>
+self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7f7166ea10f0>
 fill_value = 2.0
 
     @pytest.mark.parametrize("fill_value", [dtypes.NA, 2, 2.0])
@@ -13813,7 +13813,7 @@ fill_value = 2.0
 xarray/tests/test_concat.py:427: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc819ef62c0>, dim = 'y', data_vars = 'all'
+objs = <itertools.chain object at 0x7f716640e6b0>, dim = 'y', data_vars = 'all'
 coords = 'different', compat = 'equals', positions = None, fill_value = 2.0
 join = 'outer', combine_attrs = 'override'
 
@@ -13978,7 +13978,7 @@ E       TypeError: _dataarray_concat() takes from 6 to 8 positional arguments bu
 xarray/core/concat.py:155: TypeError
 __________________ TestConcatDataArray.test_concat_join_kwarg __________________
 
-self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2c9f90>
+self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7f7166ea0580>
 
     def test_concat_join_kwarg(self):
         ds1 = Dataset(
@@ -14015,7 +14015,7 @@ self = <xarray.tests.test_concat.TestConcatDataArray object at 0x7fc81a2c9f90>
 xarray/tests/test_concat.py:460: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-objs = <itertools.chain object at 0x7fc819318e20>, dim = 'x', data_vars = 'all'
+objs = <itertools.chain object at 0x7f7166d34a00>, dim = 'x', data_vars = 'all'
 coords = 'different', compat = 'equals', positions = None, fill_value = <NA>
 join = 'exact', combine_attrs = 'override'
 
@@ -14337,6 +14337,6 @@ FAILED xarray/tests/test_concat.py::TestConcatDataArray::test_concat_fill_value[
 FAILED xarray/tests/test_concat.py::TestConcatDataArray::test_concat_fill_value[2]
 FAILED xarray/tests/test_concat.py::TestConcatDataArray::test_concat_fill_value[2.0]
 FAILED xarray/tests/test_concat.py::TestConcatDataArray::test_concat_join_kwarg
-=========== 79 failed, 33 passed, 1 xfailed, 4609 warnings in 8.02s ============
+=========== 79 failed, 33 passed, 1 xfailed, 4609 warnings in 8.29s ============
 + git checkout 863e49066ca4d61c9adfe62aca3bf21b90e1af8c xarray/tests/test_combine.py xarray/tests/test_concat.py
 Updated 2 paths from 5831e739

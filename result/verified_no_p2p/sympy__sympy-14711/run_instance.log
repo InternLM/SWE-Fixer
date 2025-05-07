@@ -1,0 +1,56 @@
+2025-05-06 07:06:52,027 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-14711
+Building instance image sweb.eval.x86_64.sympy__sympy-14711:latest for sympy__sympy-14711
+2025-05-06 07:06:52,029 - INFO - Image sweb.eval.x86_64.sympy__sympy-14711:latest already exists, skipping build.
+2025-05-06 07:06:52,029 - INFO - Creating container for sympy__sympy-14711...
+2025-05-06 07:06:52,058 - INFO - Container for sympy__sympy-14711 created: c5031e34e113091f45b57aaf53e8e0a42ee3a0fb9855752164c47ee6352ac798
+2025-05-06 07:06:52,382 - INFO - Container for sympy__sympy-14711 started: c5031e34e113091f45b57aaf53e8e0a42ee3a0fb9855752164c47ee6352ac798
+2025-05-06 07:06:52,382 - INFO - Intermediate patch for sympy__sympy-14711 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-14711/patch.diff, now applying to container...
+2025-05-06 07:06:52,609 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 07:06:52,678 - INFO - >>>>> Applied Patch:
+patching file sympy/physics/vector/vector.py
+
+2025-05-06 07:06:53,032 - INFO - Git diff before:
+diff --git a/sympy/physics/vector/vector.py b/sympy/physics/vector/vector.py
+index a048ee57f1..6352c0f969 100644
+--- a/sympy/physics/vector/vector.py
++++ b/sympy/physics/vector/vector.py
+@@ -57,9 +57,13 @@ def __hash__(self):
+ 
+     def __add__(self, other):
+         """The add operator for Vector. """
++        if other == 0:
++            return self
+         other = _check_vector(other)
+         return Vector(self.args + other.args)
+ 
++
++
+     def __and__(self, other):
+         """Dot product of two vectors.
+2025-05-06 07:06:53,032 - INFO - Eval script for sympy__sympy-14711 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-14711/eval.sh; copying to container...
+2025-05-06 07:06:59,215 - INFO - Test runtime: 5.99 seconds
+2025-05-06 07:06:59,216 - INFO - Test output for sympy__sympy-14711 written to logs/run_evaluation/20250506_061805/SWE-Fixer/sympy__sympy-14711/test_output.txt
+2025-05-06 07:06:59,284 - INFO - Git diff after:
+diff --git a/sympy/physics/vector/vector.py b/sympy/physics/vector/vector.py
+index a048ee57f1..6352c0f969 100644
+--- a/sympy/physics/vector/vector.py
++++ b/sympy/physics/vector/vector.py
+@@ -57,9 +57,13 @@ def __hash__(self):
+ 
+     def __add__(self, other):
+         """The add operator for Vector. """
++        if other == 0:
++            return self
+         other = _check_vector(other)
+         return Vector(self.args + other.args)
+ 
++
++
+     def __and__(self, other):
+         """Dot product of two vectors.
+2025-05-06 07:06:59,284 - INFO - Grading answer for sympy__sympy-14711...
+2025-05-06 07:06:59,286 - INFO - report: {'sympy__sympy-14711': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_Vector'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_Vector_diffs', 'test_vector_var_in_dcm'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-14711: resolved: True
+2025-05-06 07:06:59,286 - INFO - Attempting to stop container sweb.eval.sympy__sympy-14711.20250506_061805...
+2025-05-06 07:07:14,562 - INFO - Attempting to remove container sweb.eval.sympy__sympy-14711.20250506_061805...
+2025-05-06 07:07:14,580 - INFO - Container sweb.eval.sympy__sympy-14711.20250506_061805 removed.

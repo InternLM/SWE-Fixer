@@ -193,22 +193,29 @@ index d6d303f0f0..044a752c7a 100644
      def _set_field_new_type_null_status(self, field, new_type):
 + git diff ec13e801b820614ff374cb0046092caab8d67249
 diff --git a/django/contrib/admin/options.py b/django/contrib/admin/options.py
-index 8ccacd6213..73c89a45bf 100644
+index 8ccacd6213..b051dbc782 100644
 --- a/django/contrib/admin/options.py
 +++ b/django/contrib/admin/options.py
-@@ -1072,10 +1072,11 @@ class ModelAdmin(BaseModelAdmin):
+@@ -1070,14 +1070,15 @@ class ModelAdmin(BaseModelAdmin):
+         on the changelist. The list_display parameter is the list of fields
+         returned by get_list_display().
          """
++        if self.list_display_links is not None and not list_display:
++            return self.list_display_links
          if (
-             self.list_display_links
+-            self.list_display_links
 -            or self.list_display_links is None
-+            or self.list_display_links is None  # Backward compatibility.
++            self.list_display_links is None
++            or not self.list_display_links
              or not list_display
          ):
-             return self.list_display_links
-+
-         else:
+-            return self.list_display_links
+-        else:
              # Use only the first item in list_display as link
++
              return list(list_display)[:1]
+ 
+     def get_list_filter(self, request):
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -349,8 +356,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20220912065218-0.editable-py3-none-any.whl size=27189 sha256=0a6c5951e32e38d2b6f00edb91214a92f78e7638bcee6a8e1d5ccd940f449bf6
-  Stored in directory: /tmp/pip-ephem-wheel-cache-8bb8hytp/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20220912065218-0.editable-py3-none-any.whl size=27260 sha256=1f0a91b8eef5456a3bbbf6324f2ab2c5622f34807f62d092ced987f09c58a319
+  Stored in directory: /tmp/pip-ephem-wheel-cache-fagglmx1/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django

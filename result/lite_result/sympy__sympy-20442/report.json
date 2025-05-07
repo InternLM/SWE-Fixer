@@ -22,8 +22,6 @@
                     "test_add_sub",
                     "test_quantity_abs",
                     "test_check_unit_consistency",
-                    "test_mul_div",
-                    "test_units",
                     "test_issue_quart",
                     "test_issue_5565",
                     "test_find_unit",
@@ -38,7 +36,10 @@
                     "test_issue_14932",
                     "test_issue_14547"
                 ],
-                "failure": []
+                "failure": [
+                    "test_mul_div",
+                    "test_units"
+                ]
             },
             "FAIL_TO_FAIL": {
                 "success": [],

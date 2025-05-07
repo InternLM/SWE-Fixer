@@ -148,32 +148,22 @@ Date:   Tue Nov 30 22:47:35 2021 +1100
 
 + git diff e2ee3144ed6e241dea8d96215fcdca18b3892551
 diff --git a/src/_pytest/_code/code.py b/src/_pytest/_code/code.py
-index b19ee7c64..b82e44730 100644
+index b19ee7c64..b122c1521 100644
 --- a/src/_pytest/_code/code.py
 +++ b/src/_pytest/_code/code.py
-@@ -254,7 +254,7 @@ class TracebackEntry:
+@@ -254,10 +254,11 @@ class TracebackEntry:
              key = self.frame.code.path
              if key is not None:
                  astnode = astcache.get(key, None)
 -        start = self.getfirstlinesource()
-+        start = self.getfirstlinesource() + self.relline
++        start = self.lineno
          try:
              astnode, _, end = getstatementrange_ast(
                  self.lineno, source, astnode=astnode
-@@ -264,10 +264,12 @@ class TracebackEntry:
-         else:
-             if key is not None and astcache is not None:
-                 astcache[key] = astnode
--        return source[start:end]
-+        return source[start - self.relline : end]
- 
-     source = property(getsource)
- 
 +
-+
-     def ishidden(self) -> bool:
-         """Return True if the current frame has a var __tracebackhide__
-         resolving to True.
+             )
+         except SyntaxError:
+             end = self.lineno + 1
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -308,24 +298,24 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: attrs>=19.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250212) (23.1.0)
-Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250212) (2.0.0)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250212) (23.1)
-Requirement already satisfied: pluggy<2.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250212) (0.13.1)
-Requirement already satisfied: py>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250212) (1.11.0)
-Requirement already satisfied: tomli>=1.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250212) (2.0.1)
+Requirement already satisfied: attrs>=19.2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250506) (23.1.0)
+Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250506) (2.0.0)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250506) (23.1)
+Requirement already satisfied: pluggy<2.0,>=0.12 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250506) (0.13.1)
+Requirement already satisfied: py>=1.8.2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250506) (1.11.0)
+Requirement already satisfied: tomli>=1.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest==7.0.0.dev332+ge2ee3144e.d20250506) (2.0.1)
 Building wheels for collected packages: pytest
   Building editable for pytest (pyproject.toml): started
   Building editable for pytest (pyproject.toml): finished with status 'done'
-  Created wheel for pytest: filename=pytest-7.0.0.dev332+ge2ee3144e.d20250212-0.editable-py3-none-any.whl size=5371 sha256=1a17929163b7d5b13ceb978653d101330b6f8dc71cfad73928c8664881421a08
-  Stored in directory: /tmp/pip-ephem-wheel-cache-4p1aj03b/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for pytest: filename=pytest-7.0.0.dev332+ge2ee3144e.d20250506-0.editable-py3-none-any.whl size=5406 sha256=d2e2ef6c1cb8db5b9b62785975fa4506d90dfe51ff1dc14905f8054c886f40e4
+  Stored in directory: /tmp/pip-ephem-wheel-cache-tpnwv5lm/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built pytest
 Installing collected packages: pytest
   Attempting uninstall: pytest
     Found existing installation: pytest 7.0.0.dev332+ge2ee3144e
     Uninstalling pytest-7.0.0.dev332+ge2ee3144e:
       Successfully uninstalled pytest-7.0.0.dev332+ge2ee3144e
-Successfully installed pytest-7.0.0.dev332+ge2ee3144e.d20250212
+Successfully installed pytest-7.0.0.dev332+ge2ee3144e.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
 + git checkout e2ee3144ed6e241dea8d96215fcdca18b3892551 testing/code/test_source.py
 Updated 0 paths from af314a412
@@ -334,7 +324,7 @@ Checking patch testing/code/test_source.py...
 Applied patch testing/code/test_source.py cleanly.
 + pytest -rA testing/code/test_source.py
 ============================= test session starts ==============================
-platform linux -- Python 3.9.19, pytest-7.0.0.dev332+ge2ee3144e.d20250212, pluggy-0.13.1
+platform linux -- Python 3.9.19, pytest-7.0.0.dev332+ge2ee3144e.d20250506, pluggy-0.13.1
 rootdir: /testbed, configfile: pyproject.toml
 collected 55 items
 
@@ -344,19 +334,9 @@ testing/code/test_source.py ............................................ [ 80%]
 =================================== FAILURES ===================================
 ________________________________ test_decorator ________________________________
 
-    def test_decorator() -> None:
-        s = """\
-    def foo(f):
-        pass
-    
-    @foo
-    def bar():
-        pass
-        """
-        source = getstatement(3, s)
->       assert "@foo" in str(source)
-E       AssertionError: assert '@foo' in '    pass'
-E        +  where '    pass' = str(<_pytest._code.source.Source object at 0x7eff5733dc70>)
+>   ???
+E   AssertionError: assert '@foo' in '    pass'
+E    +  where '    pass' = str(<_pytest._code.source.Source object at 0x7f2137cd9100>)
 
 testing/code/test_source.py:631: AssertionError
 ==================================== PASSES ====================================

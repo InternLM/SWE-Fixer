@@ -1,38 +1,25 @@
-2025-02-12 13:08:26,635 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12308
+2025-05-06 12:30:07,095 - INFO - Environment image sweb.env.x86_64.a18371b03f944585b4f08c:latest found for django__django-12308
 Building instance image sweb.eval.x86_64.django__django-12308:latest for django__django-12308
-2025-02-12 13:08:26,639 - INFO - Image sweb.eval.x86_64.django__django-12308:latest already exists, skipping build.
-2025-02-12 13:08:26,639 - INFO - Creating container for django__django-12308...
-2025-02-12 13:08:26,680 - INFO - Container for django__django-12308 created: 3c269594cc7e9be31f46c8987d2fdb7b757302c73cf52ff2c548a7523226d83f
-2025-02-12 13:08:27,576 - INFO - Container for django__django-12308 started: 3c269594cc7e9be31f46c8987d2fdb7b757302c73cf52ff2c548a7523226d83f
-2025-02-12 13:08:27,578 - INFO - Intermediate patch for django__django-12308 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12308/patch.diff, now applying to container...
-2025-02-12 13:08:27,773 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:08:27,839 - INFO - >>>>> Applied Patch:
+2025-05-06 12:30:07,098 - INFO - Image sweb.eval.x86_64.django__django-12308:latest already exists, skipping build.
+2025-05-06 12:30:07,099 - INFO - Creating container for django__django-12308...
+2025-05-06 12:30:07,137 - INFO - Container for django__django-12308 created: 7e6db2e7ed0b5cc96ab19150f9ac771852e7361d97b126de293c8d410cfb1062
+2025-05-06 12:30:07,772 - INFO - Container for django__django-12308 started: 7e6db2e7ed0b5cc96ab19150f9ac771852e7361d97b126de293c8d410cfb1062
+2025-05-06 12:30:07,773 - INFO - Intermediate patch for django__django-12308 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12308/patch.diff, now applying to container...
+2025-05-06 12:30:08,017 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:30:08,074 - INFO - >>>>> Applied Patch:
 patching file django/contrib/admin/utils.py
-patching file django/contrib/admin/utils.py
-Hunk #1 succeeded at 400 (offset 2 lines).
 
-2025-02-12 13:08:28,608 - INFO - Git diff before:
+2025-05-06 12:30:09,022 - INFO - Git diff before:
 diff --git a/django/contrib/admin/utils.py b/django/contrib/admin/utils.py
-index e4ddc8f017..80529075a4 100644
+index e4ddc8f017..ae0607aec5 100644
 --- a/django/contrib/admin/utils.py
 +++ b/django/contrib/admin/utils.py
-@@ -1,8 +1,10 @@
- import datetime
- import decimal
-+import json
- from collections import defaultdict
- 
- from django.core.exceptions import FieldDoesNotExist
-+
- from django.db import models, router
- from django.db.models.constants import LOOKUP_SEP
- from django.db.models.deletion import Collector
-@@ -398,10 +400,14 @@ def display_for_field(value, field, empty_value_display):
+@@ -398,10 +398,14 @@ def display_for_field(value, field, empty_value_display):
          return formats.number_format(value)
      elif isinstance(field, models.FileField) and value:
          return format_html('<a href="{}">{}</a>', value.url, value)
 +    elif isinstance(field, models.JSONField):
-+        return json.dumps(value)
++        return field.prepare_value(value)
      else:
          return display_for_value(value, empty_value_display)
  
@@ -41,31 +28,20 @@ index e4ddc8f017..80529075a4 100644
 +
  def display_for_value(value, empty_value_display, boolean=False):
      from django.contrib.admin.templatetags.admin_list import _boolean_icon
-2025-02-12 13:08:28,608 - INFO - Eval script for django__django-12308 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12308/eval.sh; copying to container...
-2025-02-12 13:08:35,432 - INFO - Test runtime: 6.64 seconds
-2025-02-12 13:08:35,432 - INFO - Test output for django__django-12308 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-12308/test_output.txt
-2025-02-12 13:08:35,512 - INFO - Git diff after:
+2025-05-06 12:30:09,026 - INFO - Eval script for django__django-12308 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12308/eval.sh; copying to container...
+2025-05-06 12:30:18,143 - INFO - Test runtime: 8.94 seconds
+2025-05-06 12:30:18,144 - INFO - Test output for django__django-12308 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-12308/test_output.txt
+2025-05-06 12:30:18,226 - INFO - Git diff after:
 diff --git a/django/contrib/admin/utils.py b/django/contrib/admin/utils.py
-index e4ddc8f017..80529075a4 100644
+index e4ddc8f017..ae0607aec5 100644
 --- a/django/contrib/admin/utils.py
 +++ b/django/contrib/admin/utils.py
-@@ -1,8 +1,10 @@
- import datetime
- import decimal
-+import json
- from collections import defaultdict
- 
- from django.core.exceptions import FieldDoesNotExist
-+
- from django.db import models, router
- from django.db.models.constants import LOOKUP_SEP
- from django.db.models.deletion import Collector
-@@ -398,10 +400,14 @@ def display_for_field(value, field, empty_value_display):
+@@ -398,10 +398,14 @@ def display_for_field(value, field, empty_value_display):
          return formats.number_format(value)
      elif isinstance(field, models.FileField) and value:
          return format_html('<a href="{}">{}</a>', value.url, value)
 +    elif isinstance(field, models.JSONField):
-+        return json.dumps(value)
++        return field.prepare_value(value)
      else:
          return display_for_value(value, empty_value_display)
  
@@ -74,9 +50,9 @@ index e4ddc8f017..80529075a4 100644
 +
  def display_for_value(value, empty_value_display, boolean=False):
      from django.contrib.admin.templatetags.admin_list import _boolean_icon
-2025-02-12 13:08:35,512 - INFO - Grading answer for django__django-12308...
-2025-02-12 13:08:35,516 - INFO - report: {'django__django-12308': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_json_display_for_field (admin_utils.tests.UtilsTests)', 'test_label_for_field (admin_utils.tests.UtilsTests)']}, 'PASS_TO_PASS': {'success': ['test_cyclic (admin_utils.tests.NestedObjectsTests)', 'test_non_added_parent (admin_utils.tests.NestedObjectsTests)', 'test_on_delete_do_nothing (admin_utils.tests.NestedObjectsTests)', 'test_queries (admin_utils.tests.NestedObjectsTests)', 'test_relation_on_abstract (admin_utils.tests.NestedObjectsTests)', 'test_siblings (admin_utils.tests.NestedObjectsTests)', 'test_unrelated_roots (admin_utils.tests.NestedObjectsTests)', 'test_flatten (admin_utils.tests.UtilsTests)', 'test_flatten_fieldsets (admin_utils.tests.UtilsTests)', 'test_label_for_field_form_argument (admin_utils.tests.UtilsTests)', 'test_label_for_property (admin_utils.tests.UtilsTests)', 'test_list_display_for_value (admin_utils.tests.UtilsTests)', 'test_list_display_for_value_boolean (admin_utils.tests.UtilsTests)', 'test_null_display_for_field (admin_utils.tests.UtilsTests)', 'test_number_formats_display_for_field (admin_utils.tests.UtilsTests)', 'test_number_formats_with_thousand_separator_display_for_field (admin_utils.tests.UtilsTests)', 'test_quote (admin_utils.tests.UtilsTests)', 'test_related_name (admin_utils.tests.UtilsTests)', 'test_safestring_in_field_label (admin_utils.tests.UtilsTests)', 'test_values_from_lookup_field (admin_utils.tests.UtilsTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:30:18,227 - INFO - Grading answer for django__django-12308...
+2025-05-06 12:30:18,233 - INFO - report: {'django__django-12308': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_json_display_for_field (admin_utils.tests.UtilsTests)', 'test_label_for_field (admin_utils.tests.UtilsTests)']}, 'PASS_TO_PASS': {'success': ['test_cyclic (admin_utils.tests.NestedObjectsTests)', 'test_non_added_parent (admin_utils.tests.NestedObjectsTests)', 'test_on_delete_do_nothing (admin_utils.tests.NestedObjectsTests)', 'test_queries (admin_utils.tests.NestedObjectsTests)', 'test_relation_on_abstract (admin_utils.tests.NestedObjectsTests)', 'test_siblings (admin_utils.tests.NestedObjectsTests)', 'test_unrelated_roots (admin_utils.tests.NestedObjectsTests)', 'test_flatten (admin_utils.tests.UtilsTests)', 'test_flatten_fieldsets (admin_utils.tests.UtilsTests)', 'test_label_for_field_form_argument (admin_utils.tests.UtilsTests)', 'test_label_for_property (admin_utils.tests.UtilsTests)', 'test_list_display_for_value (admin_utils.tests.UtilsTests)', 'test_list_display_for_value_boolean (admin_utils.tests.UtilsTests)', 'test_null_display_for_field (admin_utils.tests.UtilsTests)', 'test_number_formats_display_for_field (admin_utils.tests.UtilsTests)', 'test_number_formats_with_thousand_separator_display_for_field (admin_utils.tests.UtilsTests)', 'test_quote (admin_utils.tests.UtilsTests)', 'test_related_name (admin_utils.tests.UtilsTests)', 'test_safestring_in_field_label (admin_utils.tests.UtilsTests)', 'test_values_from_lookup_field (admin_utils.tests.UtilsTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-12308: resolved: False
-2025-02-12 13:08:35,516 - INFO - Attempting to stop container sweb.eval.django__django-12308.20250212_130622...
-2025-02-12 13:08:50,900 - INFO - Attempting to remove container sweb.eval.django__django-12308.20250212_130622...
-2025-02-12 13:08:50,919 - INFO - Container sweb.eval.django__django-12308.20250212_130622 removed.
+2025-05-06 12:30:18,234 - INFO - Attempting to stop container sweb.eval.django__django-12308.20250506_122807...
+2025-05-06 12:30:33,838 - INFO - Attempting to remove container sweb.eval.django__django-12308.20250506_122807...
+2025-05-06 12:30:33,858 - INFO - Container sweb.eval.django__django-12308.20250506_122807 removed.

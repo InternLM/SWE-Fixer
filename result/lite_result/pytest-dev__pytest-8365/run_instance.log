@@ -1,58 +1,54 @@
-2025-02-12 13:17:14,134 - INFO - Environment image sweb.env.x86_64.8f1f7b974f0c57c7aeba39:latest found for pytest-dev__pytest-8365
+2025-05-06 12:38:48,349 - INFO - Environment image sweb.env.x86_64.8f1f7b974f0c57c7aeba39:latest found for pytest-dev__pytest-8365
 Building instance image sweb.eval.x86_64.pytest-dev__pytest-8365:latest for pytest-dev__pytest-8365
-2025-02-12 13:17:14,137 - INFO - Image sweb.eval.x86_64.pytest-dev__pytest-8365:latest already exists, skipping build.
-2025-02-12 13:17:14,137 - INFO - Creating container for pytest-dev__pytest-8365...
-2025-02-12 13:17:14,170 - INFO - Container for pytest-dev__pytest-8365 created: 50e3650d70eccb843770e6c9ac6f057aaac073dbbcf56c91edf2f316fca5edd8
-2025-02-12 13:17:14,419 - INFO - Container for pytest-dev__pytest-8365 started: 50e3650d70eccb843770e6c9ac6f057aaac073dbbcf56c91edf2f316fca5edd8
-2025-02-12 13:17:14,419 - INFO - Intermediate patch for pytest-dev__pytest-8365 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-8365/patch.diff, now applying to container...
-2025-02-12 13:17:14,700 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:17:14,770 - INFO - >>>>> Applied Patch:
+2025-05-06 12:38:48,352 - INFO - Image sweb.eval.x86_64.pytest-dev__pytest-8365:latest already exists, skipping build.
+2025-05-06 12:38:48,352 - INFO - Creating container for pytest-dev__pytest-8365...
+2025-05-06 12:38:48,383 - INFO - Container for pytest-dev__pytest-8365 created: ac8b9b13b08df85d56b3c0a1fc159b645b9a02dcc5cc854d81ccb16c6a647f5f
+2025-05-06 12:38:48,673 - INFO - Container for pytest-dev__pytest-8365 started: ac8b9b13b08df85d56b3c0a1fc159b645b9a02dcc5cc854d81ccb16c6a647f5f
+2025-05-06 12:38:48,673 - INFO - Intermediate patch for pytest-dev__pytest-8365 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-8365/patch.diff, now applying to container...
+2025-05-06 12:38:48,956 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:38:49,018 - INFO - >>>>> Applied Patch:
 patching file src/_pytest/tmpdir.py
 
-2025-02-12 13:17:14,922 - INFO - Git diff before:
+2025-05-06 12:38:49,189 - INFO - Git diff before:
 diff --git a/src/_pytest/tmpdir.py b/src/_pytest/tmpdir.py
-index 29c7e19d7..2494cb1ef 100644
+index 29c7e19d7..13d906ef9 100644
 --- a/src/_pytest/tmpdir.py
 +++ b/src/_pytest/tmpdir.py
-@@ -154,11 +154,13 @@ def get_user() -> Optional[str]:
-     import getpass
- 
-     try:
--        return getpass.getuser()
-+        return re.sub(r"[\W]", "_", getpass.getuser())
-     except (ImportError, KeyError):
-         return None
- 
- 
+@@ -112,9 +112,11 @@ class TempPathFactory:
+             from_env = os.environ.get("PYTEST_DEBUG_TEMPROOT")
+             temproot = Path(from_env or tempfile.gettempdir()).resolve()
+             user = get_user() or "unknown"
++            user = re.sub(r"[\W]", "_", user)
+             # use a sub-directory in the temproot to speed-up
+             # make_numbered_dir() call
+             rootdir = temproot.joinpath(f"pytest-of-{user}")
 +
-+
- def pytest_configure(config: Config) -> None:
-     """Create a TempdirFactory and attach it to the config object.
-2025-02-12 13:17:14,922 - INFO - Eval script for pytest-dev__pytest-8365 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-8365/eval.sh; copying to container...
-2025-02-12 13:17:30,951 - INFO - Test runtime: 15.85 seconds
-2025-02-12 13:17:30,951 - INFO - Test output for pytest-dev__pytest-8365 written to logs/run_evaluation/20250212_130622/SWE-Fixer/pytest-dev__pytest-8365/test_output.txt
-2025-02-12 13:17:31,019 - INFO - Git diff after:
+             rootdir.mkdir(exist_ok=True)
+             basetemp = make_numbered_dir_with_cleanup(
+                 prefix="pytest-", root=rootdir, keep=3, lock_timeout=LOCK_TIMEOUT
+2025-05-06 12:38:49,189 - INFO - Eval script for pytest-dev__pytest-8365 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-8365/eval.sh; copying to container...
+2025-05-06 12:38:59,320 - INFO - Test runtime: 9.96 seconds
+2025-05-06 12:38:59,320 - INFO - Test output for pytest-dev__pytest-8365 written to logs/run_evaluation/20250506_122807/SWE-Fixer/pytest-dev__pytest-8365/test_output.txt
+2025-05-06 12:38:59,376 - INFO - Git diff after:
 diff --git a/src/_pytest/tmpdir.py b/src/_pytest/tmpdir.py
-index 29c7e19d7..2494cb1ef 100644
+index 29c7e19d7..13d906ef9 100644
 --- a/src/_pytest/tmpdir.py
 +++ b/src/_pytest/tmpdir.py
-@@ -154,11 +154,13 @@ def get_user() -> Optional[str]:
-     import getpass
- 
-     try:
--        return getpass.getuser()
-+        return re.sub(r"[\W]", "_", getpass.getuser())
-     except (ImportError, KeyError):
-         return None
- 
- 
+@@ -112,9 +112,11 @@ class TempPathFactory:
+             from_env = os.environ.get("PYTEST_DEBUG_TEMPROOT")
+             temproot = Path(from_env or tempfile.gettempdir()).resolve()
+             user = get_user() or "unknown"
++            user = re.sub(r"[\W]", "_", user)
+             # use a sub-directory in the temproot to speed-up
+             # make_numbered_dir() call
+             rootdir = temproot.joinpath(f"pytest-of-{user}")
 +
-+
- def pytest_configure(config: Config) -> None:
-     """Create a TempdirFactory and attach it to the config object.
-2025-02-12 13:17:31,019 - INFO - Grading answer for pytest-dev__pytest-8365...
-2025-02-12 13:17:31,024 - INFO - report: {'pytest-dev__pytest-8365': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['testing/test_tmpdir.py::test_tmp_path_factory_handles_invalid_dir_characters']}, 'PASS_TO_PASS': {'success': ['testing/test_tmpdir.py::TestTempdirHandler::test_mktemp', 'testing/test_tmpdir.py::TestTempdirHandler::test_tmppath_relative_basetemp_absolute', 'testing/test_tmpdir.py::test_get_user_uid_not_found', 'testing/test_tmpdir.py::TestNumberedDir::test_make', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_lock_create', 'testing/test_tmpdir.py::TestNumberedDir::test_lock_register_cleanup_removal', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_keep', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_locked', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_ignores_symlink', 'testing/test_tmpdir.py::TestNumberedDir::test_removal_accepts_lock', 'testing/test_tmpdir.py::TestRmRf::test_rm_rf', 'testing/test_tmpdir.py::TestRmRf::test_rm_rf_with_read_only_file', 'testing/test_tmpdir.py::TestRmRf::test_rm_rf_with_read_only_directory', 'testing/test_tmpdir.py::TestRmRf::test_on_rm_rf_error', 'testing/test_tmpdir.py::test_tmpdir_equals_tmp_path', 'testing/test_tmpdir.py::test_tmpdir_fixture', 'testing/test_tmpdir.py::TestConfigTmpdir::test_getbasetemp_custom_removes_old', 'testing/test_tmpdir.py::test_mktemp[mypath-True]', 'testing/test_tmpdir.py::test_mktemp[/mypath1-False]', 'testing/test_tmpdir.py::test_mktemp[./mypath1-True]', 'testing/test_tmpdir.py::test_mktemp[../mypath3-False]', 'testing/test_tmpdir.py::test_mktemp[../../mypath4-False]', 'testing/test_tmpdir.py::test_mktemp[mypath5/..-False]', 'testing/test_tmpdir.py::test_mktemp[mypath6/../mypath6-True]', 'testing/test_tmpdir.py::test_mktemp[mypath7/../mypath7/..-False]', 'testing/test_tmpdir.py::test_tmpdir_always_is_realpath', 'testing/test_tmpdir.py::test_tmp_path_always_is_realpath', 'testing/test_tmpdir.py::test_tmpdir_too_long_on_parametrization', 'testing/test_tmpdir.py::test_tmpdir_factory', 'testing/test_tmpdir.py::test_tmpdir_fallback_tox_env', 'testing/test_tmpdir.py::test_tmpdir_fallback_uid_not_found', 'testing/test_tmpdir.py::test_basetemp_with_read_only_files'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+             rootdir.mkdir(exist_ok=True)
+             basetemp = make_numbered_dir_with_cleanup(
+                 prefix="pytest-", root=rootdir, keep=3, lock_timeout=LOCK_TIMEOUT
+2025-05-06 12:38:59,376 - INFO - Grading answer for pytest-dev__pytest-8365...
+2025-05-06 12:38:59,380 - INFO - report: {'pytest-dev__pytest-8365': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['testing/test_tmpdir.py::test_tmp_path_factory_handles_invalid_dir_characters']}, 'PASS_TO_PASS': {'success': ['testing/test_tmpdir.py::TestTempdirHandler::test_mktemp', 'testing/test_tmpdir.py::TestTempdirHandler::test_tmppath_relative_basetemp_absolute', 'testing/test_tmpdir.py::test_get_user_uid_not_found', 'testing/test_tmpdir.py::TestNumberedDir::test_make', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_lock_create', 'testing/test_tmpdir.py::TestNumberedDir::test_lock_register_cleanup_removal', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_keep', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_locked', 'testing/test_tmpdir.py::TestNumberedDir::test_cleanup_ignores_symlink', 'testing/test_tmpdir.py::TestNumberedDir::test_removal_accepts_lock', 'testing/test_tmpdir.py::TestRmRf::test_rm_rf', 'testing/test_tmpdir.py::TestRmRf::test_rm_rf_with_read_only_file', 'testing/test_tmpdir.py::TestRmRf::test_rm_rf_with_read_only_directory', 'testing/test_tmpdir.py::TestRmRf::test_on_rm_rf_error', 'testing/test_tmpdir.py::test_tmpdir_equals_tmp_path', 'testing/test_tmpdir.py::test_tmpdir_fixture', 'testing/test_tmpdir.py::TestConfigTmpdir::test_getbasetemp_custom_removes_old', 'testing/test_tmpdir.py::test_mktemp[mypath-True]', 'testing/test_tmpdir.py::test_mktemp[/mypath1-False]', 'testing/test_tmpdir.py::test_mktemp[./mypath1-True]', 'testing/test_tmpdir.py::test_mktemp[../mypath3-False]', 'testing/test_tmpdir.py::test_mktemp[../../mypath4-False]', 'testing/test_tmpdir.py::test_mktemp[mypath5/..-False]', 'testing/test_tmpdir.py::test_mktemp[mypath6/../mypath6-True]', 'testing/test_tmpdir.py::test_mktemp[mypath7/../mypath7/..-False]', 'testing/test_tmpdir.py::test_tmpdir_always_is_realpath', 'testing/test_tmpdir.py::test_tmp_path_always_is_realpath', 'testing/test_tmpdir.py::test_tmpdir_too_long_on_parametrization', 'testing/test_tmpdir.py::test_tmpdir_factory', 'testing/test_tmpdir.py::test_tmpdir_fallback_tox_env', 'testing/test_tmpdir.py::test_tmpdir_fallback_uid_not_found', 'testing/test_tmpdir.py::test_basetemp_with_read_only_files'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for pytest-dev__pytest-8365: resolved: False
-2025-02-12 13:17:31,025 - INFO - Attempting to stop container sweb.eval.pytest-dev__pytest-8365.20250212_130622...
-2025-02-12 13:17:46,364 - INFO - Attempting to remove container sweb.eval.pytest-dev__pytest-8365.20250212_130622...
-2025-02-12 13:17:46,388 - INFO - Container sweb.eval.pytest-dev__pytest-8365.20250212_130622 removed.
+2025-05-06 12:38:59,381 - INFO - Attempting to stop container sweb.eval.pytest-dev__pytest-8365.20250506_122807...
+2025-05-06 12:39:14,650 - INFO - Attempting to remove container sweb.eval.pytest-dev__pytest-8365.20250506_122807...
+2025-05-06 12:39:14,675 - INFO - Container sweb.eval.pytest-dev__pytest-8365.20250506_122807 removed.

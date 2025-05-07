@@ -1,0 +1,351 @@
+2025-05-06 06:28:58,584 - INFO - Environment image sweb.env.x86_64.e83e37f52c09532c62acfb:latest found for django__django-13212
+Building instance image sweb.eval.x86_64.django__django-13212:latest for django__django-13212
+2025-05-06 06:28:58,587 - INFO - Image sweb.eval.x86_64.django__django-13212:latest already exists, skipping build.
+2025-05-06 06:28:58,587 - INFO - Creating container for django__django-13212...
+2025-05-06 06:28:58,616 - INFO - Container for django__django-13212 created: 32e673b295633c09f9d8218743d153aceb54060328bc8bfbec36d54f1aad9fe8
+2025-05-06 06:28:58,886 - INFO - Container for django__django-13212 started: 32e673b295633c09f9d8218743d153aceb54060328bc8bfbec36d54f1aad9fe8
+2025-05-06 06:28:58,886 - INFO - Intermediate patch for django__django-13212 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13212/patch.diff, now applying to container...
+2025-05-06 06:28:59,145 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:28:59,205 - INFO - >>>>> Applied Patch:
+patching file django/core/validators.py
+patching file django/core/validators.py
+Hunk #1 succeeded at 101 (offset 1 line).
+patching file django/core/validators.py
+Hunk #1 succeeded at 117 (offset 2 lines).
+patching file django/core/validators.py
+Hunk #1 succeeded at 135 (offset 3 lines).
+patching file django/core/validators.py
+Hunk #1 succeeded at 212 (offset 4 lines).
+Hunk #2 succeeded at 229 (offset 4 lines).
+patching file django/core/validators.py
+Hunk #1 succeeded at 277 (offset 5 lines).
+patching file django/core/validators.py
+Hunk #1 succeeded at 293 (offset 6 lines).
+patching file django/core/validators.py
+Hunk #1 succeeded at 516 (offset 7 lines).
+patching file django/core/validators.py
+Hunk #1 succeeded at 560 (offset 10 lines).
+
+2025-05-06 06:28:59,850 - INFO - Git diff before:
+diff --git a/django/core/validators.py b/django/core/validators.py
+index 84b4f31ec7..c80767ec09 100644
+--- a/django/core/validators.py
++++ b/django/core/validators.py
+@@ -48,10 +48,11 @@ class RegexValidator:
+         regex_matches = self.regex.search(str(value))
+         invalid_input = regex_matches if self.inverse_match else not regex_matches
+         if invalid_input:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+     def __eq__(self, other):
+         return (
++
+             isinstance(other, RegexValidator) and
+             self.regex.pattern == other.regex.pattern and
+             self.regex.flags == other.regex.flags and
+@@ -100,14 +101,15 @@ class URLValidator(RegexValidator):
+ 
+     def __call__(self, value):
+         if not isinstance(value, str):
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+         # Check if the scheme is valid.
+         scheme = value.split('://')[0].lower()
+         if scheme not in self.schemes:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         # Then check full URL
+         try:
++
+             super().__call__(value)
+         except ValidationError as e:
+             # Trivial case failed. Try for possible IDN domain
+@@ -115,10 +117,11 @@ class URLValidator(RegexValidator):
+                 try:
+                     scheme, netloc, path, query, fragment = urlsplit(value)
+                 except ValueError:  # for example, "Invalid IPv6 URL"
+-                    raise ValidationError(self.message, code=self.code)
++                    raise ValidationError(self.message, code=self.code, params={'value': value})
+                 try:
+                     netloc = punycode(netloc)  # IDN -> ACE
+                 except UnicodeError:  # invalid domain part
++
+                     raise e
+                 url = urlunsplit((scheme, netloc, path, query, fragment))
+                 super().__call__(url)
+@@ -132,17 +135,18 @@ class URLValidator(RegexValidator):
+                 try:
+                     validate_ipv6_address(potential_ip)
+                 except ValidationError:
+-                    raise ValidationError(self.message, code=self.code)
++                    raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         # The maximum length of a full host name is 253 characters per RFC 1034
+         # section 3.1. It's defined to be 255 bytes or less, but this includes
+         # one byte for the length of the name and one byte for the trailing dot
+         # that's used to indicate absolute names in DNS.
+         if len(urlsplit(value).netloc) > 253:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+ 
+ integer_validator = RegexValidator(
++
+     _lazy_re_compile(r'^-?\d+\Z'),
+     message=_('Enter a valid integer.'),
+     code='invalid',
+@@ -208,12 +212,12 @@ class EmailValidator:
+ 
+     def __call__(self, value):
+         if not value or '@' not in value:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         user_part, domain_part = value.rsplit('@', 1)
+ 
+         if not self.user_regex.match(user_part):
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         if (domain_part not in self.domain_allowlist and
+                 not self.validate_domain_part(domain_part)):
+@@ -225,10 +229,11 @@ class EmailValidator:
+             else:
+                 if self.validate_domain_part(domain_part):
+                     return
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+     def validate_domain_part(self, domain_part):
+         if self.domain_regex.match(domain_part):
++
+             return True
+ 
+         literal_match = self.literal_regex.match(domain_part)
+@@ -272,25 +277,27 @@ def validate_ipv4_address(value):
+     try:
+         ipaddress.IPv4Address(value)
+     except ValueError:
+-        raise ValidationError(_('Enter a valid IPv4 address.'), code='invalid')
++        raise ValidationError(_('Enter a valid IPv4 address.'), code='invalid', params={'value': value})
+ 
+ 
+ def validate_ipv6_address(value):
+     if not is_valid_ipv6_address(value):
+-        raise ValidationError(_('Enter a valid IPv6 address.'), code='invalid')
++        raise ValidationError(_('Enter a valid IPv6 address.'), code='invalid', params={'value': value})
+ 
+ 
+ def validate_ipv46_address(value):
++
+     try:
+         validate_ipv4_address(value)
+     except ValidationError:
+         try:
+             validate_ipv6_address(value)
+         except ValidationError:
+-            raise ValidationError(_('Enter a valid IPv4 or IPv6 address.'), code='invalid')
++            raise ValidationError(_('Enter a valid IPv4 or IPv6 address.'), code='invalid', params={'value': value})
+ 
+ 
+ ip_address_validator_map = {
++
+     'both': ([validate_ipv46_address], _('Enter a valid IPv4 or IPv6 address.')),
+     'ipv4': ([validate_ipv4_address], _('Enter a valid IPv4 address.')),
+     'ipv6': ([validate_ipv6_address], _('Enter a valid IPv6 address.')),
+@@ -509,10 +516,13 @@ class FileExtensionValidator:
+                 code=self.code,
+                 params={
+                     'extension': extension,
+-                    'allowed_extensions': ', '.join(self.allowed_extensions)
++                    'allowed_extensions': ', '.join(self.allowed_extensions),
++                    'value': value,
+                 }
+             )
+ 
++
++
+     def __eq__(self, other):
+         return (
+             isinstance(other, self.__class__) and
+@@ -550,10 +560,11 @@ class ProhibitNullCharactersValidator:
+ 
+     def __call__(self, value):
+         if '\x00' in str(value):
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+     def __eq__(self, other):
+         return (
++
+             isinstance(other, self.__class__) and
+             self.message == other.message and
+             self.code == other.code
+2025-05-06 06:28:59,850 - INFO - Eval script for django__django-13212 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13212/eval.sh; copying to container...
+2025-05-06 06:29:08,238 - INFO - Test runtime: 8.19 seconds
+2025-05-06 06:29:08,238 - INFO - Test output for django__django-13212 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13212/test_output.txt
+2025-05-06 06:29:08,321 - INFO - Git diff after:
+diff --git a/django/core/validators.py b/django/core/validators.py
+index 84b4f31ec7..c80767ec09 100644
+--- a/django/core/validators.py
++++ b/django/core/validators.py
+@@ -48,10 +48,11 @@ class RegexValidator:
+         regex_matches = self.regex.search(str(value))
+         invalid_input = regex_matches if self.inverse_match else not regex_matches
+         if invalid_input:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+     def __eq__(self, other):
+         return (
++
+             isinstance(other, RegexValidator) and
+             self.regex.pattern == other.regex.pattern and
+             self.regex.flags == other.regex.flags and
+@@ -100,14 +101,15 @@ class URLValidator(RegexValidator):
+ 
+     def __call__(self, value):
+         if not isinstance(value, str):
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+         # Check if the scheme is valid.
+         scheme = value.split('://')[0].lower()
+         if scheme not in self.schemes:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         # Then check full URL
+         try:
++
+             super().__call__(value)
+         except ValidationError as e:
+             # Trivial case failed. Try for possible IDN domain
+@@ -115,10 +117,11 @@ class URLValidator(RegexValidator):
+                 try:
+                     scheme, netloc, path, query, fragment = urlsplit(value)
+                 except ValueError:  # for example, "Invalid IPv6 URL"
+-                    raise ValidationError(self.message, code=self.code)
++                    raise ValidationError(self.message, code=self.code, params={'value': value})
+                 try:
+                     netloc = punycode(netloc)  # IDN -> ACE
+                 except UnicodeError:  # invalid domain part
++
+                     raise e
+                 url = urlunsplit((scheme, netloc, path, query, fragment))
+                 super().__call__(url)
+@@ -132,17 +135,18 @@ class URLValidator(RegexValidator):
+                 try:
+                     validate_ipv6_address(potential_ip)
+                 except ValidationError:
+-                    raise ValidationError(self.message, code=self.code)
++                    raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         # The maximum length of a full host name is 253 characters per RFC 1034
+         # section 3.1. It's defined to be 255 bytes or less, but this includes
+         # one byte for the length of the name and one byte for the trailing dot
+         # that's used to indicate absolute names in DNS.
+         if len(urlsplit(value).netloc) > 253:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+ 
+ integer_validator = RegexValidator(
++
+     _lazy_re_compile(r'^-?\d+\Z'),
+     message=_('Enter a valid integer.'),
+     code='invalid',
+@@ -208,12 +212,12 @@ class EmailValidator:
+ 
+     def __call__(self, value):
+         if not value or '@' not in value:
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         user_part, domain_part = value.rsplit('@', 1)
+ 
+         if not self.user_regex.match(user_part):
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+         if (domain_part not in self.domain_allowlist and
+                 not self.validate_domain_part(domain_part)):
+@@ -225,10 +229,11 @@ class EmailValidator:
+             else:
+                 if self.validate_domain_part(domain_part):
+                     return
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+     def validate_domain_part(self, domain_part):
+         if self.domain_regex.match(domain_part):
++
+             return True
+ 
+         literal_match = self.literal_regex.match(domain_part)
+@@ -272,25 +277,27 @@ def validate_ipv4_address(value):
+     try:
+         ipaddress.IPv4Address(value)
+     except ValueError:
+-        raise ValidationError(_('Enter a valid IPv4 address.'), code='invalid')
++        raise ValidationError(_('Enter a valid IPv4 address.'), code='invalid', params={'value': value})
+ 
+ 
+ def validate_ipv6_address(value):
+     if not is_valid_ipv6_address(value):
+-        raise ValidationError(_('Enter a valid IPv6 address.'), code='invalid')
++        raise ValidationError(_('Enter a valid IPv6 address.'), code='invalid', params={'value': value})
+ 
+ 
+ def validate_ipv46_address(value):
++
+     try:
+         validate_ipv4_address(value)
+     except ValidationError:
+         try:
+             validate_ipv6_address(value)
+         except ValidationError:
+-            raise ValidationError(_('Enter a valid IPv4 or IPv6 address.'), code='invalid')
++            raise ValidationError(_('Enter a valid IPv4 or IPv6 address.'), code='invalid', params={'value': value})
+ 
+ 
+ ip_address_validator_map = {
++
+     'both': ([validate_ipv46_address], _('Enter a valid IPv4 or IPv6 address.')),
+     'ipv4': ([validate_ipv4_address], _('Enter a valid IPv4 address.')),
+     'ipv6': ([validate_ipv6_address], _('Enter a valid IPv6 address.')),
+@@ -509,10 +516,13 @@ class FileExtensionValidator:
+                 code=self.code,
+                 params={
+                     'extension': extension,
+-                    'allowed_extensions': ', '.join(self.allowed_extensions)
++                    'allowed_extensions': ', '.join(self.allowed_extensions),
++                    'value': value,
+                 }
+             )
+ 
++
++
+     def __eq__(self, other):
+         return (
+             isinstance(other, self.__class__) and
+@@ -550,10 +560,11 @@ class ProhibitNullCharactersValidator:
+ 
+     def __call__(self, value):
+         if '\x00' in str(value):
+-            raise ValidationError(self.message, code=self.code)
++            raise ValidationError(self.message, code=self.code, params={'value': value})
+ 
+     def __eq__(self, other):
+         return (
++
+             isinstance(other, self.__class__) and
+             self.message == other.message and
+             self.code == other.code
+2025-05-06 06:29:08,321 - INFO - Grading answer for django__django-13212...
+2025-05-06 06:29:08,328 - INFO - report: {'django__django-13212': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_value_placeholder_with_char_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)', 'test_value_placeholder_with_integer_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)', 'test_value_placeholder_with_null_character (forms_tests.tests.test_validators.ValidatorCustomMessageTests)'], 'failure': ['test_value_placeholder_with_decimal_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)', 'test_value_placeholder_with_file_field (forms_tests.tests.test_validators.ValidatorCustomMessageTests)']}, 'PASS_TO_PASS': {'success': ['test_all_errors_get_reported (forms_tests.tests.test_validators.TestFieldWithValidators)', 'test_field_validators_can_be_any_iterable (forms_tests.tests.test_validators.TestFieldWithValidators)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-13212: resolved: False
+2025-05-06 06:29:08,328 - INFO - Attempting to stop container sweb.eval.django__django-13212.20250506_061805...
+2025-05-06 06:29:23,617 - INFO - Attempting to remove container sweb.eval.django__django-13212.20250506_061805...
+2025-05-06 06:29:23,649 - INFO - Container sweb.eval.django__django-13212.20250506_061805 removed.

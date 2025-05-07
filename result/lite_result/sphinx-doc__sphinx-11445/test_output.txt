@@ -375,8 +375,8 @@ Requirement already satisfied: webencodings in /opt/miniconda3/envs/testbed/lib/
 Building wheels for collected packages: Sphinx
   Building editable for Sphinx (pyproject.toml): started
   Building editable for Sphinx (pyproject.toml): finished with status 'done'
-  Created wheel for Sphinx: filename=sphinx-7.1.0-py3-none-any.whl size=4481 sha256=fd6e416eba29e91755a9ac9a51f33839708ba71e636fe66036932c700eb2bfab
-  Stored in directory: /tmp/pip-ephem-wheel-cache-yf3h5hxk/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Sphinx: filename=sphinx-7.1.0-py3-none-any.whl size=4520 sha256=da9d26a351e03a786c27a0911122508e009538f826bb21455f370790e4fe78e4
+  Stored in directory: /tmp/pip-ephem-wheel-cache-y4ctroa3/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Sphinx
 Installing collected packages: Sphinx
   Attempting uninstall: Sphinx
@@ -528,9 +528,9 @@ app = <SphinxTestApp buildername='html'>
 0.05s setup    tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_without_newline
 0.04s call     tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline
 0.02s setup    tests/test_util_rst.py::test_prepend_prolog_without_CR
-0.02s setup    tests/test_util_rst.py::test_prepend_prolog
 0.02s setup    tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections
 0.02s setup    tests/test_util_rst.py::test_prepend_prolog_with_roles_in_sections_with_newline
+0.02s setup    tests/test_util_rst.py::test_prepend_prolog
 0.02s setup    tests/test_util_rst.py::test_prepend_prolog_with_CR
 
 (17 durations < 0.005s hidden.  Use -vv to show these durations.)
@@ -545,9 +545,9 @@ app = <SphinxTestApp buildername='html'>
 [32mPASSED[0m tests/test_util_rst.py::[1mtest_heading[0m
 [31mFAILED[0m tests/test_util_rst.py::[1mtest_prepend_prolog_with_roles_in_sections_with_newline[0m - AssertionError: assert [('dummy.rst'...------'), ...] == [('<rst_prolo..., ...
 [31mFAILED[0m tests/test_util_rst.py::[1mtest_prepend_prolog_with_roles_in_sections_without_newline[0m - AssertionError: assert [('dummy.rst'...------'), ...] == [('<rst_prolo..., ...
-[31m========================= [31m[1m2 failed[0m, [32m8 passed[0m[31m in 0.74s[0m[31m ==========================[0m
-py39: exit 1 (1.39 seconds) /testbed> python -X dev -X warn_default_encoding -m pytest -rA --durations 25 tests/test_util_rst.py pid=115
-  py39: FAIL code 1 (1.40=setup[0.02]+cmd[1.39] seconds)
-  evaluation failed :( (1.50 seconds)
+[31m========================= [31m[1m2 failed[0m, [32m8 passed[0m[31m in 0.75s[0m[31m ==========================[0m
+py39: exit 1 (1.40 seconds) /testbed> python -X dev -X warn_default_encoding -m pytest -rA --durations 25 tests/test_util_rst.py pid=116
+  py39: FAIL code 1 (1.42=setup[0.02]+cmd[1.40] seconds)
+  evaluation failed :( (1.52 seconds)
 + git checkout 71db08c05197545944949d5aa76cd340e7143627 tests/test_util_rst.py
 Updated 1 path from 1afe5fca8

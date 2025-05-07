@@ -1,0 +1,68 @@
+2025-05-06 06:24:11,447 - INFO - Environment image sweb.env.x86_64.2baaea72acc974f6c02079:latest found for django__django-11239
+Building instance image sweb.eval.x86_64.django__django-11239:latest for django__django-11239
+2025-05-06 06:24:11,450 - INFO - Image sweb.eval.x86_64.django__django-11239:latest already exists, skipping build.
+2025-05-06 06:24:11,450 - INFO - Creating container for django__django-11239...
+2025-05-06 06:24:11,477 - INFO - Container for django__django-11239 created: 589ee5c5a4e04e66d1a32e1417178d9a58e67b9494374eb9edca0e2838710d1d
+2025-05-06 06:24:11,738 - INFO - Container for django__django-11239 started: 589ee5c5a4e04e66d1a32e1417178d9a58e67b9494374eb9edca0e2838710d1d
+2025-05-06 06:24:11,739 - INFO - Intermediate patch for django__django-11239 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-11239/patch.diff, now applying to container...
+2025-05-06 06:24:12,001 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:24:12,067 - INFO - >>>>> Applied Patch:
+patching file django/db/backends/postgresql/base.py
+
+2025-05-06 06:24:12,678 - INFO - Git diff before:
+diff --git a/django/db/backends/postgresql/base.py b/django/db/backends/postgresql/base.py
+index 250691aeda..efef162176 100644
+--- a/django/db/backends/postgresql/base.py
++++ b/django/db/backends/postgresql/base.py
+@@ -172,9 +172,18 @@ class DatabaseWrapper(BaseDatabaseWrapper):
+             conn_params['host'] = settings_dict['HOST']
+         if settings_dict['PORT']:
+             conn_params['port'] = settings_dict['PORT']
++        if 'sslmode' in options:
++            conn_params['sslmode'] = options['sslmode']
++        if 'sslrootcert' in options:
++            conn_params['sslrootcert'] = options['sslrootcert']
++        if 'sslcert' in options:
++            conn_params['sslcert'] = options['sslcert']
++        if 'sslkey' in options:
++            conn_params['sslkey'] = options['sslkey']
+         return conn_params
+ 
+     def get_new_connection(self, conn_params):
++
+         connection = Database.connect(**conn_params)
+ 
+         # self.isolation_level must be set:
+2025-05-06 06:24:12,680 - INFO - Eval script for django__django-11239 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-11239/eval.sh; copying to container...
+2025-05-06 06:24:18,666 - INFO - Test runtime: 5.79 seconds
+2025-05-06 06:24:18,667 - INFO - Test output for django__django-11239 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-11239/test_output.txt
+2025-05-06 06:24:18,750 - INFO - Git diff after:
+diff --git a/django/db/backends/postgresql/base.py b/django/db/backends/postgresql/base.py
+index 250691aeda..efef162176 100644
+--- a/django/db/backends/postgresql/base.py
++++ b/django/db/backends/postgresql/base.py
+@@ -172,9 +172,18 @@ class DatabaseWrapper(BaseDatabaseWrapper):
+             conn_params['host'] = settings_dict['HOST']
+         if settings_dict['PORT']:
+             conn_params['port'] = settings_dict['PORT']
++        if 'sslmode' in options:
++            conn_params['sslmode'] = options['sslmode']
++        if 'sslrootcert' in options:
++            conn_params['sslrootcert'] = options['sslrootcert']
++        if 'sslcert' in options:
++            conn_params['sslcert'] = options['sslcert']
++        if 'sslkey' in options:
++            conn_params['sslkey'] = options['sslkey']
+         return conn_params
+ 
+     def get_new_connection(self, conn_params):
++
+         connection = Database.connect(**conn_params)
+ 
+         # self.isolation_level must be set:
+2025-05-06 06:24:18,750 - INFO - Grading answer for django__django-11239...
+2025-05-06 06:24:18,757 - INFO - report: {'django__django-11239': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_ssl_certificate (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)']}, 'PASS_TO_PASS': {'success': ['test_accent (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)', 'test_basic (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)', 'test_column (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)', 'test_nopass (dbshell.test_postgresql.PostgreSqlDbshellCommandTestCase)', 'SIGINT is ignored in Python and passed to psql to abort quries.'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-11239: resolved: False
+2025-05-06 06:24:18,758 - INFO - Attempting to stop container sweb.eval.django__django-11239.20250506_061805...
+2025-05-06 06:24:34,055 - INFO - Attempting to remove container sweb.eval.django__django-11239.20250506_061805...
+2025-05-06 06:24:34,077 - INFO - Container sweb.eval.django__django-11239.20250506_061805 removed.

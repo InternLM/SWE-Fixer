@@ -436,7 +436,7 @@ tests/test_self.py ..........x.......................................... [ 42%]
 =================================== FAILURES ===================================
 _______________ TestRunTC.test_ignore_path_recursive_current_dir _______________
 
-self = <test_self.TestRunTC object at 0x7fd1fd7f0eb0>
+self = <test_self.TestRunTC object at 0x7f30f4075eb0>
 
     def test_ignore_path_recursive_current_dir(self) -> None:
         """Tests that path is normalized before checked that is ignored. GitHub issue #6964"""
@@ -462,9 +462,9 @@ self = <test_self.TestRunTC object at 0x7fd1fd7f0eb0>
 tests/test_self.py:1345: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <test_self.TestRunTC object at 0x7fd1fd7f0eb0>
+self = <test_self.TestRunTC object at 0x7f30f4075eb0>
 args = ['--rcfile=/testbed/pylint/testutils/testing_pylintrc', '.', '--recursive=y', '--ignore-paths=^ignored_subdirectory/.*']
-reporter = None, out = <_io.StringIO object at 0x7fd1f4eec310>, code = 0
+reporter = None, out = <_io.StringIO object at 0x7f30e3768310>, code = 0
 
     def _runtest(
         self,
@@ -2008,6 +2008,6 @@ XFAIL tests/test_self.py::TestRunTC::test_abbreviations_are_not_supported
 FAILED tests/test_self.py::TestRunTC::test_ignore_path_recursive_current_dir
 FAILED tests/test_self.py::TestCallbackOptions::test_generate_toml_config - a...
 FAILED tests/test_self.py::TestCallbackOptions::test_generate_toml_config_disable_symbolic_names
-============= 3 failed, 121 passed, 1 xfailed, 1 warning in 19.48s =============
+============= 3 failed, 121 passed, 1 xfailed, 1 warning in 20.32s =============
 + git checkout 3c5eca2ded3dd2b59ebaf23eb289453b5d2930f0 tests/test_self.py
 Updated 1 path from bd33b01d1

@@ -1,0 +1,84 @@
+2025-05-06 11:30:01,384 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-21847
+Building instance image sweb.eval.x86_64.sympy__sympy-21847:latest for sympy__sympy-21847
+2025-05-06 11:30:01,387 - INFO - Image sweb.eval.x86_64.sympy__sympy-21847:latest already exists, skipping build.
+2025-05-06 11:30:01,387 - INFO - Creating container for sympy__sympy-21847...
+2025-05-06 11:30:01,424 - INFO - Container for sympy__sympy-21847 created: 7dd64b0987419a021a257a720a5d4f3d9d62b7fcced8743e1cc6db58e45c01b8
+2025-05-06 11:30:01,775 - INFO - Container for sympy__sympy-21847 started: 7dd64b0987419a021a257a720a5d4f3d9d62b7fcced8743e1cc6db58e45c01b8
+2025-05-06 11:30:01,776 - INFO - Intermediate patch for sympy__sympy-21847 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-21847/patch.diff, now applying to container...
+2025-05-06 11:30:02,007 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:30:02,071 - INFO - >>>>> Applied Patch:
+patching file sympy/polys/monomials.py
+patching file sympy/polys/monomials.py
+Hunk #1 succeeded at 140 (offset 1 line).
+
+2025-05-06 11:30:02,649 - INFO - Git diff before:
+diff --git a/sympy/polys/monomials.py b/sympy/polys/monomials.py
+index 0e84403307..e551cd86c6 100644
+--- a/sympy/polys/monomials.py
++++ b/sympy/polys/monomials.py
+@@ -127,10 +127,11 @@ def itermonomials(variables, max_degrees, min_degrees=None):
+                 for variable in item:
+                     if variable != 1:
+                         powers[variable] += 1
+-                if max(powers.values()) >= min_degree:
++                if sum(powers.values()) >= min_degree:
+                     monomials_list_comm.append(Mul(*item))
+             yield from set(monomials_list_comm)
+         else:
++
+             monomials_list_non_comm = []
+             for item in product(variables, repeat=max_degree):
+                 powers = dict()
+@@ -139,10 +140,11 @@ def itermonomials(variables, max_degrees, min_degrees=None):
+                 for variable in item:
+                     if variable != 1:
+                         powers[variable] += 1
+-                if max(powers.values()) >= min_degree:
++                if sum(powers.values()) >= min_degree:
+                     monomials_list_non_comm.append(Mul(*item))
+             yield from set(monomials_list_non_comm)
+     else:
++
+         if any(min_degrees[i] > max_degrees[i] for i in range(n)):
+             raise ValueError('min_degrees[i] must be <= max_degrees[i] for all i')
+         power_lists = []
+2025-05-06 11:30:02,649 - INFO - Eval script for sympy__sympy-21847 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-21847/eval.sh; copying to container...
+2025-05-06 11:30:06,607 - INFO - Test runtime: 3.77 seconds
+2025-05-06 11:30:06,607 - INFO - Test output for sympy__sympy-21847 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-21847/test_output.txt
+2025-05-06 11:30:06,676 - INFO - Git diff after:
+diff --git a/sympy/polys/monomials.py b/sympy/polys/monomials.py
+index 0e84403307..e551cd86c6 100644
+--- a/sympy/polys/monomials.py
++++ b/sympy/polys/monomials.py
+@@ -127,10 +127,11 @@ def itermonomials(variables, max_degrees, min_degrees=None):
+                 for variable in item:
+                     if variable != 1:
+                         powers[variable] += 1
+-                if max(powers.values()) >= min_degree:
++                if sum(powers.values()) >= min_degree:
+                     monomials_list_comm.append(Mul(*item))
+             yield from set(monomials_list_comm)
+         else:
++
+             monomials_list_non_comm = []
+             for item in product(variables, repeat=max_degree):
+                 powers = dict()
+@@ -139,10 +140,11 @@ def itermonomials(variables, max_degrees, min_degrees=None):
+                 for variable in item:
+                     if variable != 1:
+                         powers[variable] += 1
+-                if max(powers.values()) >= min_degree:
++                if sum(powers.values()) >= min_degree:
+                     monomials_list_non_comm.append(Mul(*item))
+             yield from set(monomials_list_non_comm)
+     else:
++
+         if any(min_degrees[i] > max_degrees[i] for i in range(n)):
+             raise ValueError('min_degrees[i] must be <= max_degrees[i] for all i')
+         power_lists = []
+2025-05-06 11:30:06,677 - INFO - Grading answer for sympy__sympy-21847...
+2025-05-06 11:30:06,680 - INFO - report: {'sympy__sympy-21847': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_monomials'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_monomial_count', 'test_monomial_mul', 'test_monomial_div', 'test_monomial_gcd', 'test_monomial_lcm', 'test_monomial_max', 'test_monomial_pow', 'test_monomial_min', 'test_monomial_divides'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-21847: resolved: True
+2025-05-06 11:30:06,680 - INFO - Attempting to stop container sweb.eval.sympy__sympy-21847.20250506_111427...
+2025-05-06 11:30:21,959 - INFO - Attempting to remove container sweb.eval.sympy__sympy-21847.20250506_111427...
+2025-05-06 11:30:21,985 - INFO - Container sweb.eval.sympy__sympy-21847.20250506_111427 removed.

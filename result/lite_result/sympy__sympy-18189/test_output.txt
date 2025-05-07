@@ -320,8 +320,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        29465249
-hash randomization: on (PYTHONHASHSEED=313784389)
+random seed:        85474037
+hash randomization: on (PYTHONHASHSEED=1597260522)
 
 sympy/solvers/tests/test_diophantine.py[46] 
 test_input_format ok
@@ -373,7 +373,7 @@ test_ternary_quadratic ok                                                 [FAIL]
 
 
 ________________________________ slowest tests _________________________________
-test_quadratic_non_perfect_square - Took 10.419 seconds
+test_quadratic_non_perfect_square - Took 10.749 seconds
 ________________________________________________________________________________
 ___________ sympy/solvers/tests/test_diophantine.py:test_diophantine ___________
 Traceback (most recent call last):
@@ -382,7 +382,7 @@ Traceback (most recent call last):
 AssertionError
 
  tests finished: 42 passed, 1 failed, 1 skipped, 2 expected to fail, 
-in 27.12 seconds 
+in 28.09 seconds 
 DO *NOT* COMMIT!
 + git checkout 1923822ddf8265199dbd9ef9ce09641d3fd042b9 sympy/solvers/tests/test_diophantine.py
 Updated 1 path from 2384b0e8d9

@@ -345,8 +345,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        21173664
-hash randomization: on (PYTHONHASHSEED=2228152502)
+random seed:        63466423
+hash randomization: on (PYTHONHASHSEED=2329670595)
 
 sympy/utilities/tests/test_codegen.py[56] 
 test_Routine_argument_order ok
@@ -414,7 +414,7 @@ Traceback (most recent call last):
     assert source == expected
 AssertionError
 
-============= tests finished: 55 passed, 1 failed, in 1.34 seconds =============
+============= tests finished: 55 passed, 1 failed, in 1.36 seconds =============
 DO *NOT* COMMIT!
 + git checkout 09786a173e7a0a488f46dd6000177c23e5d24eed sympy/utilities/tests/test_codegen.py
 Updated 1 path from e741e2dcac

@@ -287,15 +287,24 @@ index ff8d21ea7c..22d85604d1 100644
  ]
 + git diff 36fa071d6ebd18a61c4d7f1b5c9d17106134bd44
 diff --git a/django/db/migrations/writer.py b/django/db/migrations/writer.py
-index 4918261fb0..887a9a9dc7 100644
+index 4918261fb0..6f46ecc0c1 100644
 --- a/django/db/migrations/writer.py
 +++ b/django/db/migrations/writer.py
-@@ -167,9 +167,13 @@ class MigrationWriter:
-         if "from django.db import models" in imports:
-             imports.discard("from django.db import models")
+@@ -164,12 +164,20 @@ class MigrationWriter:
+ 
+         # django.db.migrations is always used, but models import may not be.
+         # If models import exists, merge it with migrations import.
+-        if "from django.db import models" in imports:
+-            imports.discard("from django.db import models")
++        if any(
++            re.match(r"^from django\.db import (models|[^\s,]+, models)", line)
++            for line in imports
++        ):
++            imports = {
++                line for line in imports
++                if not re.match(r"^from django\.db import (models|[^\s,]+, models)", line)
++            }
              imports.add("from django.db import migrations, models")
-+        elif any("models." in im for im in imports):
-+            imports.add("from django.db import migrations, models")
          else:
              imports.add("from django.db import migrations")
  
@@ -445,8 +454,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210701101319-0.editable-py3-none-any.whl size=26189 sha256=70c24795fa3d29bf851a958bf40a2aec661d9c19d7a827472623ef1a1bfe37d4
-  Stored in directory: /tmp/pip-ephem-wheel-cache-h9pbb1kd/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210701101319-0.editable-py3-none-any.whl size=26186 sha256=6dd0e99e851c15b895f0232ceab0e1ae3d071b495fb9abd0aae82205f9a5825d
+  Stored in directory: /tmp/pip-ephem-wheel-cache-5llu0mhn/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -539,7 +548,7 @@ First differing element 0:
 + ("('models.Model', {'from django.db import models'})", set())
 
 ----------------------------------------------------------------------
-Ran 50 tests in 0.037s
+Ran 50 tests in 0.036s
 
 FAILED (failures=1)
 Testing against Django installed in '/testbed/django'

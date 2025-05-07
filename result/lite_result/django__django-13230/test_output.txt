@@ -386,7 +386,7 @@ test_template_feed (syndication_tests.tests.SyndicationFeedTest) ... ok
 test_title_escaping (syndication_tests.tests.SyndicationFeedTest) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 0.110s
+Ran 24 tests in 0.162s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

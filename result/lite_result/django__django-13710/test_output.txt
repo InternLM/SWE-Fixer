@@ -311,7 +311,7 @@ index 74b10d80b3..261c4f0148 100644
  
 + git diff 1bd6a7a0acc11e249fca11c017505ad39f15ebf6
 diff --git a/django/contrib/admin/options.py b/django/contrib/admin/options.py
-index dadd4acfa1..f1372e43e5 100644
+index dadd4acfa1..44da5ef01e 100644
 --- a/django/contrib/admin/options.py
 +++ b/django/contrib/admin/options.py
 @@ -2040,10 +2040,14 @@ class InlineModelAdmin(BaseModelAdmin):
@@ -319,8 +319,8 @@ index dadd4acfa1..f1372e43e5 100644
              self.verbose_name = self.model._meta.verbose_name
          if self.verbose_name_plural is None:
 -            self.verbose_name_plural = self.model._meta.verbose_name_plural
-+            if self.verbose_name is not None:
-+                self.verbose_name_plural = capfirst(self.verbose_name + 's')
++            if self.verbose_name:
++                self.verbose_name_plural = format_lazy('{}{}', self.verbose_name, _('s'))
 +            else:
 +                self.verbose_name_plural = self.model._meta.verbose_name_plural
  
@@ -471,8 +471,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210908093206-0.editable-py3-none-any.whl size=26633 sha256=0089edd0ad41273deceb28abc9996db57b9125d9b0ee710c69092a7a50c76d9a
-  Stored in directory: /tmp/pip-ephem-wheel-cache-wjedizg0/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210908093206-0.editable-py3-none-any.whl size=26631 sha256=e7b775c6b2039a7cf6c93552d4802c929ef8923d9f1a2744e749602e8c8147ac
+  Stored in directory: /tmp/pip-ephem-wheel-cache-vcx0vx5m/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -558,8 +558,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
- OK
+  Applying sites.0002_alter_domain_unique... OK
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 System check identified no issues (0 silenced).
 test_callable_lookup (admin_inlines.tests.TestInline)
 Admin inline should invoke local callable when its name is listed in readonly_fields ... ok
@@ -663,7 +663,7 @@ test_inlines_verbose_name (admin_inlines.tests.SeleniumTests)
 The item added by the "Add another XXX" link must use the correct ... skipped 'No browsers specified.'
 
 ----------------------------------------------------------------------
-Ran 75 tests in 2.223s
+Ran 75 tests in 2.229s
 
 OK (skipped=12)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

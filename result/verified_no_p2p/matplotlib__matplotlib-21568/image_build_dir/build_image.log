@@ -1,0 +1,43 @@
+2024-12-07 00:19:00,916 - INFO - Building image sweb.eval.x86_64.matplotlib__matplotlib-21568:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.e958786629b532c32249d9:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-07 00:19:00,916 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/matplotlib/matplotlib /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard f0632c0fc7339f68e992ed63ae4cfac76cd41aad
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+apt-get -y update && apt-get -y upgrade && DEBIAN_FRONTEND=noninteractive apt-get install -y imagemagick ffmpeg libfreetype6-dev pkg-config texlive texlive-latex-extra texlive-fonts-recommended texlive-xetex texlive-luatex cm-super
+python -m pip install -e .
+
+2024-12-07 00:19:00,916 - INFO - Building docker image sweb.eval.x86_64.matplotlib__matplotlib-21568:latest in logs/build_images/instances/sweb.eval.x86_64.matplotlib__matplotlib-21568__latest with platform linux/x86_64
+2024-12-07 00:19:00,923 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.e958786629b532c32249d9:latest
+2024-12-07 00:19:00,923 - INFO - 
+2024-12-07 00:19:00,923 - INFO - ---> e0aafae87002
+2024-12-07 00:19:00,923 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-07 00:19:00,923 - INFO - 
+2024-12-07 00:19:00,925 - INFO - ---> Using cache
+2024-12-07 00:19:00,925 - INFO - ---> ae8ffdaeb606
+2024-12-07 00:19:00,925 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-07 00:19:00,925 - INFO - 
+2024-12-07 00:19:00,926 - INFO - ---> Using cache
+2024-12-07 00:19:00,926 - INFO - ---> 732e1ddaecb1
+2024-12-07 00:19:00,926 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-07 00:19:00,926 - INFO - 
+2024-12-07 00:19:00,926 - INFO - ---> Using cache
+2024-12-07 00:19:00,926 - INFO - ---> 6297db19e32d
+2024-12-07 00:19:00,926 - INFO - Successfully built 6297db19e32d
+2024-12-07 00:19:00,936 - INFO - Successfully tagged sweb.eval.x86_64.matplotlib__matplotlib-21568:latest
+2024-12-07 00:19:00,936 - INFO - Image built successfully!

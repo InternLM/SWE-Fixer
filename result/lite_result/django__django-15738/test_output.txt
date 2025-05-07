@@ -399,8 +399,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20220601171126-0.editable-py3-none-any.whl size=27031 sha256=2af050ba79b933c8bf6dc40dc4b695761a7016bbe7578550307ae3be545e5bc5
-  Stored in directory: /tmp/pip-ephem-wheel-cache-uvz0itka/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20220601171126-0.editable-py3-none-any.whl size=27098 sha256=2074a7d8fc2fe450e9cd67a7f686c7791d8084e6cad34b7d4ab89a56d16dbddf
+  Stored in directory: /tmp/pip-ephem-wheel-cache-zp6n0wb5/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -767,7 +767,7 @@ AssertionError: Operation type mismatch for otherapp.auto_1 (expected ['RenameIn
 
 
 ----------------------------------------------------------------------
-Ran 148 tests in 0.100s
+Ran 148 tests in 0.124s
 
 FAILED (failures=5)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

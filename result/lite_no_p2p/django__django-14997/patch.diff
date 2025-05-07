@@ -1,0 +1,34 @@
+
+diff --git a/django/db/backends/sqlite3/schema.py b/django/db/backends/sqlite3/schema.py
+index 6d9014e..c1681e6 100644
+--- a/django/db/backends/sqlite3/schema.py
++++ b/django/db/backends/sqlite3/schema.py
+@@ -421,10 +421,10 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
+     def add_constraint(self, model, constraint):
+         if isinstance(constraint, UniqueConstraint) and (
+             constraint.condition or
+-            constraint.contains_expressions or
+             constraint.include or
+             constraint.deferrable
+         ):
++
+             super().add_constraint(model, constraint)
+         else:
+             self._remake_table(model)
+
+diff --git a/django/db/backends/sqlite3/schema.py b/django/db/backends/sqlite3/schema.py
+index 6d9014e..713cc5e 100644
+--- a/django/db/backends/sqlite3/schema.py
++++ b/django/db/backends/sqlite3/schema.py
+@@ -432,10 +432,10 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):
+     def remove_constraint(self, model, constraint):
+         if isinstance(constraint, UniqueConstraint) and (
+             constraint.condition or
+-            constraint.contains_expressions or
+             constraint.include or
+             constraint.deferrable
+         ):
++
+             super().remove_constraint(model, constraint)
+         else:
+             self._remake_table(model)

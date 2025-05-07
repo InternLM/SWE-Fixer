@@ -324,15 +324,16 @@ index 7b36181800..1362bc2911 100644
          """
 + git diff 19fc6376ce67d01ca37a91ef2f55ef769f50513a
 diff --git a/django/db/models/base.py b/django/db/models/base.py
-index f2560117d2..9259868663 100644
+index f2560117d2..a6af5046d5 100644
 --- a/django/db/models/base.py
 +++ b/django/db/models/base.py
-@@ -916,10 +916,14 @@ class Model(metaclass=ModelBase):
+@@ -916,10 +916,15 @@ class Model(metaclass=ModelBase):
  
          collector = Collector(using=using)
          collector.collect([self], keep_parents=keep_parents)
 -        return collector.delete()
 +        result = collector.delete()
++        # Clear the pk so that the model instance can be reused.
 +        self.pk = None
 +        return result
  
@@ -570,7 +571,7 @@ System check identified no issues (0 silenced).
 ok
 
 ----------------------------------------------------------------------
-Ran 42 tests in 0.714s
+Ran 42 tests in 0.726s
 
 OK (skipped=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

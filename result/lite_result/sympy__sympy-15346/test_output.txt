@@ -150,35 +150,34 @@ Date:   Thu Oct 4 10:09:16 2018 +0200
 
 + git diff 9ef28fba5b4d6d0168237c9c005a550e6dc27d81
 diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
-index 9d939727c5..fd880eb810 100644
+index 9d939727c5..830b10c2b4 100644
 --- a/sympy/simplify/fu.py
 +++ b/sympy/simplify/fu.py
-@@ -720,9 +720,12 @@ def do(rv, first=True):
-                         aj = args[j]
-                         if aj is None:
-                             continue
-+                        if ai is None:
-+                            continue
-                         was = ai + aj
-                         new = do(was)
-                         if new != was:
+@@ -877,19 +877,21 @@ def do(rv, first=True):
+                 return rv
+             gcd, n1, n2, a, b, same = split
+ 
+-            # identify and get c1 to be cos then apply rule if possible
++            # identify and get c1 to be cos then apply rule if possible;
++            # if a and b are equal then the result will be 0 or 1
+             if same:  # coscos, sinsin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*cos(a - b)
++                    return gcd*(S.One if a == b else cos(a - b))
+                 return gcd*cos(a + b)
+             else:  #cossin, cossin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*sin(a + b)
++                    return gcd*(S.Zero if a == b else sin(a + b))
+                 return gcd*sin(b - a)
+ 
+         rv = process_common_addends(
 +
-                             args[i] = new  # update in place
-                             args[j] = None
-                             hit = True
-@@ -857,9 +860,12 @@ def do(rv, first=True):
-                         aj = args[j]
-                         if aj is None:
-                             continue
-+                        if ai is None:
-+                            continue
-                         was = ai + aj
-                         new = do(was)
-                         if new != was:
-+
-                             args[i] = new  # update in place
-                             args[j] = None
-                             hit = True
+             rv, do, lambda x: tuple(ordered(x.free_symbols)))
+ 
+         # need to check for inducible pairs in ratio of sqrt(3):1 that
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -329,8 +328,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        20676661
-hash randomization: on (PYTHONHASHSEED=3234250250)
+random seed:        91624952
+hash randomization: on (PYTHONHASHSEED=1019106354)
 
 sympy/simplify/tests/test_trigsimp.py[25] 
 test_trigsimp1 ok
@@ -361,7 +360,7 @@ test_Piecewise ok                                                         [FAIL]
 
 
 ________________________________ slowest tests _________________________________
-test_trigsimp_groebner - Took 12.065 seconds
+test_trigsimp_groebner - Took 11.530 seconds
 ________________________________________________________________________________
 ___ sympy/simplify/tests/test_trigsimp.py:test_issue_15129_trigsimp_methods ____
 Traceback (most recent call last):
@@ -369,7 +368,7 @@ Traceback (most recent call last):
     assert trigsimp(r1) == cos(S(1)/50)
 AssertionError
 
-== tests finished: 23 passed, 1 failed, 1 expected to fail, in 30.94 seconds ===
+== tests finished: 23 passed, 1 failed, 1 expected to fail, in 30.78 seconds ===
 DO *NOT* COMMIT!
 + git checkout 9ef28fba5b4d6d0168237c9c005a550e6dc27d81 sympy/simplify/tests/test_trigsimp.py
 Updated 1 path from 2a16dcf224

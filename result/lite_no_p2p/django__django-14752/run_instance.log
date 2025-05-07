@@ -1,0 +1,72 @@
+2025-05-06 11:18:05,089 - INFO - Environment image sweb.env.x86_64.297af196949a2a635bce66:latest found for django__django-14752
+Building instance image sweb.eval.x86_64.django__django-14752:latest for django__django-14752
+2025-05-06 11:18:05,093 - INFO - Image sweb.eval.x86_64.django__django-14752:latest already exists, skipping build.
+2025-05-06 11:18:05,093 - INFO - Creating container for django__django-14752...
+2025-05-06 11:18:05,122 - INFO - Container for django__django-14752 created: b91a8da6880e3fc567c2a8d9a2ef83e0111333d7d0a8c526aaeb1b7d89e2c5b6
+2025-05-06 11:18:05,392 - INFO - Container for django__django-14752 started: b91a8da6880e3fc567c2a8d9a2ef83e0111333d7d0a8c526aaeb1b7d89e2c5b6
+2025-05-06 11:18:05,393 - INFO - Intermediate patch for django__django-14752 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-14752/patch.diff, now applying to container...
+2025-05-06 11:18:05,625 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:18:05,682 - INFO - >>>>> Applied Patch:
+patching file django/contrib/admin/views/autocomplete.py
+patching file django/contrib/admin/views/autocomplete.py
+Hunk #1 succeeded at 100 (offset 1 line).
+
+2025-05-06 11:18:06,750 - INFO - Git diff before:
+diff --git a/django/contrib/admin/views/autocomplete.py b/django/contrib/admin/views/autocomplete.py
+index 3903e4c98c..24124e83cf 100644
+--- a/django/contrib/admin/views/autocomplete.py
++++ b/django/contrib/admin/views/autocomplete.py
+@@ -26,10 +26,11 @@ class AutocompleteJsonView(BaseListView):
+         context = self.get_context_data()
+         return JsonResponse({
+             'results': [
+-                {'id': str(getattr(obj, to_field_name)), 'text': str(obj)}
++                self.serialize_result(obj, to_field_name)
+                 for obj in context['object_list']
+             ],
+             'pagination': {'more': context['page_obj'].has_next()},
++
+         })
+ 
+     def get_paginator(self, *args, **kwargs):
+@@ -100,3 +101,6 @@ class AutocompleteJsonView(BaseListView):
+     def has_perm(self, request, obj=None):
+         """Check if user has permission to access the related model."""
+         return self.model_admin.has_view_permission(request, obj=obj)
++
++    def serialize_result(self, obj, to_field_name):
++        return {'id': str(getattr(obj, to_field_name)), 'text': str(obj)}
+2025-05-06 11:18:06,751 - INFO - Eval script for django__django-14752 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-14752/eval.sh; copying to container...
+2025-05-06 11:18:17,296 - INFO - Test runtime: 10.36 seconds
+2025-05-06 11:18:17,297 - INFO - Test output for django__django-14752 written to logs/run_evaluation/20250506_111427/SWE-Fixer/django__django-14752/test_output.txt
+2025-05-06 11:18:17,378 - INFO - Git diff after:
+diff --git a/django/contrib/admin/views/autocomplete.py b/django/contrib/admin/views/autocomplete.py
+index 3903e4c98c..24124e83cf 100644
+--- a/django/contrib/admin/views/autocomplete.py
++++ b/django/contrib/admin/views/autocomplete.py
+@@ -26,10 +26,11 @@ class AutocompleteJsonView(BaseListView):
+         context = self.get_context_data()
+         return JsonResponse({
+             'results': [
+-                {'id': str(getattr(obj, to_field_name)), 'text': str(obj)}
++                self.serialize_result(obj, to_field_name)
+                 for obj in context['object_list']
+             ],
+             'pagination': {'more': context['page_obj'].has_next()},
++
+         })
+ 
+     def get_paginator(self, *args, **kwargs):
+@@ -100,3 +101,6 @@ class AutocompleteJsonView(BaseListView):
+     def has_perm(self, request, obj=None):
+         """Check if user has permission to access the related model."""
+         return self.model_admin.has_view_permission(request, obj=obj)
++
++    def serialize_result(self, obj, to_field_name):
++        return {'id': str(getattr(obj, to_field_name)), 'text': str(obj)}
+2025-05-06 11:18:17,378 - INFO - Grading answer for django__django-14752...
+2025-05-06 11:18:17,385 - INFO - report: {'django__django-14752': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True, 'tests_status': {'FAIL_TO_PASS': {'success': ['test_serialize_result (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)'], 'failure': []}, 'PASS_TO_PASS': {'success': ['test_custom_to_field (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_custom_to_field_custom_pk (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_custom_to_field_permission_denied (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_field_does_not_allowed (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_field_does_not_exist (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_field_no_related_field (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'Search results are paginated.', 'Users require the change permission for the related model to the', 'test_limit_choices_to (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_missing_search_fields (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_must_be_logged_in (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'Searching across model relations use QuerySet.distinct() to avoid', 'test_success (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'test_to_field_resolution_with_fk_pk (admin_views.test_autocomplete_view.AutocompleteJsonViewTests)', 'to_field resolution should correctly resolve for target models using'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-14752: resolved: True
+2025-05-06 11:18:17,386 - INFO - Attempting to stop container sweb.eval.django__django-14752.20250506_111427...
+2025-05-06 11:18:32,734 - INFO - Attempting to remove container sweb.eval.django__django-14752.20250506_111427...
+2025-05-06 11:18:32,773 - INFO - Container sweb.eval.django__django-14752.20250506_111427 removed.

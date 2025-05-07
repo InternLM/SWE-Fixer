@@ -464,7 +464,7 @@ Traceback (most recent call last):
 django.db.utils.OperationalError: ambiguous column name: rating
 
 ----------------------------------------------------------------------
-Ran 67 tests in 0.135s
+Ran 67 tests in 0.124s
 
 FAILED (errors=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

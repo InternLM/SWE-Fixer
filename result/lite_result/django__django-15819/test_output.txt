@@ -1236,8 +1236,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20220706054007-0.editable-py3-none-any.whl size=27119 sha256=4aa512e86012d89f241cffd02c118fc713bd279862cc9f929ee48dc50c8a2955
-  Stored in directory: /tmp/pip-ephem-wheel-cache-g85hvf5r/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20220706054007-0.editable-py3-none-any.whl size=27190 sha256=376c480d70338a07466d01dcd490576e37977cc534bbf6c2521256a161c6bff2
+  Stored in directory: /tmp/pip-ephem-wheel-cache-d2tpa40s/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -1347,7 +1347,7 @@ Traceback (most recent call last):
 AssertionError: "author = models.ForeignKey('InspectdbPeople', models.DO_NOTHING, related_name='inspectdbmessage_author_set')" not found in "# This is an auto-generated Django model module.\n# You'll have to do the following manually to clean this up:\n#   * Rearrange models' order\n#   * Make sure each model has one field with primary_key=True\n#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior\n#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table\n# Feel free to rename the models, but don't rename db_table values or field names.\nfrom django.db import models\n\n\nclass InspectdbMessage(models.Model):\n    from_field = models.ForeignKey('InspectdbPeople', models.DO_NOTHING, db_column='from_id')  # Field renamed because it was a Python reserved word.\n    author = models.ForeignKey('InspectdbPeople', models.DO_NOTHING)\n\n    class Meta:\n        managed = False\n        db_table = 'inspectdb_message'\n"
 
 ----------------------------------------------------------------------
-Ran 24 tests in 0.333s
+Ran 24 tests in 0.384s
 
 FAILED (failures=2, skipped=4)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

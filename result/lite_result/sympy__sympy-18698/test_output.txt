@@ -331,8 +331,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        26828001
-hash randomization: on (PYTHONHASHSEED=3434618949)
+random seed:        4049651
+hash randomization: on (PYTHONHASHSEED=2667038182)
 
 sympy/polys/tests/test_polytools.py[150] 
 test_Poly_mixed_operations ok
@@ -500,7 +500,7 @@ Traceback (most recent call last):
     assert sqf_list(p) == result
 AssertionError
 
-== tests finished: 147 passed, 2 failed, 1 expected to fail, in 11.06 seconds ==
+== tests finished: 147 passed, 2 failed, 1 expected to fail, in 11.77 seconds ==
 DO *NOT* COMMIT!
 + git checkout 3dff1b98a78f28c953ae2140b69356b8391e399c sympy/polys/tests/test_polytools.py
 Updated 1 path from 98178a19ee

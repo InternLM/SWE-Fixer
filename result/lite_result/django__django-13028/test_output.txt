@@ -690,7 +690,7 @@ test_BAB_BACB (queries.tests.UnionTests) ... ok
 test_BA_BCA__BAB_BAC_BCA (queries.tests.UnionTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 284 tests in 0.696s
+Ran 284 tests in 0.715s
 
 OK (skipped=3, expected failures=2)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

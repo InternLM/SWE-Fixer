@@ -1,0 +1,80 @@
+2025-05-06 11:27:47,051 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-15346
+Building instance image sweb.eval.x86_64.sympy__sympy-15346:latest for sympy__sympy-15346
+2025-05-06 11:27:47,054 - INFO - Image sweb.eval.x86_64.sympy__sympy-15346:latest already exists, skipping build.
+2025-05-06 11:27:47,054 - INFO - Creating container for sympy__sympy-15346...
+2025-05-06 11:27:47,082 - INFO - Container for sympy__sympy-15346 created: 45a6085936242e347fc0e8984309fc4ecfbc545a4f3721266510c86dba16edea
+2025-05-06 11:27:47,333 - INFO - Container for sympy__sympy-15346 started: 45a6085936242e347fc0e8984309fc4ecfbc545a4f3721266510c86dba16edea
+2025-05-06 11:27:47,334 - INFO - Intermediate patch for sympy__sympy-15346 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-15346/patch.diff, now applying to container...
+2025-05-06 11:27:47,594 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:27:47,659 - INFO - >>>>> Applied Patch:
+patching file sympy/simplify/fu.py
+
+2025-05-06 11:27:48,177 - INFO - Git diff before:
+diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
+index 9d939727c5..830b10c2b4 100644
+--- a/sympy/simplify/fu.py
++++ b/sympy/simplify/fu.py
+@@ -877,19 +877,21 @@ def do(rv, first=True):
+                 return rv
+             gcd, n1, n2, a, b, same = split
+ 
+-            # identify and get c1 to be cos then apply rule if possible
++            # identify and get c1 to be cos then apply rule if possible;
++            # if a and b are equal then the result will be 0 or 1
+             if same:  # coscos, sinsin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*cos(a - b)
++                    return gcd*(S.One if a == b else cos(a - b))
+                 return gcd*cos(a + b)
+             else:  #cossin, cossin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*sin(a + b)
++                    return gcd*(S.Zero if a == b else sin(a + b))
+                 return gcd*sin(b - a)
+ 
+         rv = process_common_addends(
++
+             rv, do, lambda x: tuple(ordered(x.free_symbols)))
+ 
+         # need to check for inducible pairs in ratio of sqrt(3):1 that
+2025-05-06 11:27:48,177 - INFO - Eval script for sympy__sympy-15346 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-15346/eval.sh; copying to container...
+2025-05-06 11:28:22,071 - INFO - Test runtime: 33.70 seconds
+2025-05-06 11:28:22,072 - INFO - Test output for sympy__sympy-15346 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-15346/test_output.txt
+2025-05-06 11:28:22,145 - INFO - Git diff after:
+diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
+index 9d939727c5..830b10c2b4 100644
+--- a/sympy/simplify/fu.py
++++ b/sympy/simplify/fu.py
+@@ -877,19 +877,21 @@ def do(rv, first=True):
+                 return rv
+             gcd, n1, n2, a, b, same = split
+ 
+-            # identify and get c1 to be cos then apply rule if possible
++            # identify and get c1 to be cos then apply rule if possible;
++            # if a and b are equal then the result will be 0 or 1
+             if same:  # coscos, sinsin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*cos(a - b)
++                    return gcd*(S.One if a == b else cos(a - b))
+                 return gcd*cos(a + b)
+             else:  #cossin, cossin
+                 gcd = n1*gcd
+                 if n1 == n2:
+-                    return gcd*sin(a + b)
++                    return gcd*(S.Zero if a == b else sin(a + b))
+                 return gcd*sin(b - a)
+ 
+         rv = process_common_addends(
++
+             rv, do, lambda x: tuple(ordered(x.free_symbols)))
+ 
+         # need to check for inducible pairs in ratio of sqrt(3):1 that
+2025-05-06 11:28:22,145 - INFO - Grading answer for sympy__sympy-15346...
+2025-05-06 11:28:22,148 - INFO - report: {'sympy__sympy-15346': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_issue_15129_trigsimp_methods']}, 'PASS_TO_PASS': {'success': ['test_trigsimp1', 'test_trigsimp1a', 'test_trigsimp2', 'test_issue_4373', 'test_trigsimp3', 'test_issue_4661', 'test_issue_4494', 'test_issue_5948', 'test_issue_4775', 'test_issue_4280', 'test_issue_3210', 'test_trigsimp_issues', 'test_trigsimp_issue_2515', 'test_trigsimp_issue_3826', 'test_trigsimp_issue_4032', 'test_trigsimp_issue_7761', 'test_trigsimp_noncommutative', 'test_hyperbolic_simp', 'test_trigsimp_groebner', 'test_issue_2827_trigsimp_methods', 'test_exptrigsimp', 'test_powsimp_on_numbers'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-15346: resolved: False
+2025-05-06 11:28:22,148 - INFO - Attempting to stop container sweb.eval.sympy__sympy-15346.20250506_111427...
+2025-05-06 11:28:37,978 - INFO - Attempting to remove container sweb.eval.sympy__sympy-15346.20250506_111427...
+2025-05-06 11:28:38,010 - INFO - Container sweb.eval.sympy__sympy-15346.20250506_111427 removed.

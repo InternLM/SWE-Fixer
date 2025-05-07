@@ -374,7 +374,7 @@ index 1ab4712b9..4c85d7980 100644
                            'reduce_dim': [PCA(copy=True, iterated_power=7,
 + git diff 0e3c1879b06d839171b7d0a607d71bbb19a966a9
 diff --git a/sklearn/utils/_pprint.py b/sklearn/utils/_pprint.py
-index b8686dba5..d4ca9dd6b 100644
+index b8686dba5..574d90850 100644
 --- a/sklearn/utils/_pprint.py
 +++ b/sklearn/utils/_pprint.py
 @@ -66,9 +66,11 @@ BaseEstimator.__repr__ for pretty-printing estimators"""
@@ -389,13 +389,14 @@ index b8686dba5..d4ca9dd6b 100644
  from . import is_scalar_nan
  
  
-@@ -95,12 +97,18 @@ def _changed_params(estimator):
+@@ -95,12 +97,19 @@ def _changed_params(estimator):
      init_params = signature(init_func).parameters
      init_params = {name: param.default for name, param in init_params.items()}
      for k, v in params.items():
 -        if (v != init_params[k] and
 +        if isinstance(v, np.ndarray) and isinstance(init_params[k], np.ndarray):
-+            if not np.array_equal(v, init_params[k]):
++            if (not np.array_equal(v, init_params[k]) and
++                    not (is_scalar_nan(init_params[k]) and is_scalar_nan(v))):
 +                filtered_params[k] = v
 +        elif (v != init_params[k] and
                  not (is_scalar_nan(init_params[k]) and is_scalar_nan(v))):
@@ -538,16 +539,16 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
-    writing manifest file '/tmp/pip-pip-egg-info-32oz5bb2/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-5du4xksx/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.11.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.21.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.17.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.21.dev0) (1.5.2)
@@ -559,8 +560,8 @@ Installing collected packages: scikit-learn
       Removing pth entries from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/easy-install.pth:
       Removing entry: /testbed
       Successfully uninstalled scikit-learn-0.21.dev0
-  Running setup.py develop for scikit-learn
     Running command /opt/miniconda3/envs/testbed/bin/python -c 'import io, os, sys, setuptools, tokenize; sys.argv[0] = '"'"'/testbed/setup.py'"'"'; __file__='"'"'/testbed/setup.py'"'"';f = getattr(tokenize, '"'"'open'"'"', open)(__file__) if os.path.exists(__file__) else io.StringIO('"'"'from setuptools import setup; setup()'"'"');code = f.read().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __file__, '"'"'exec'"'"'))' develop --no-deps
+  Running setup.py develop for scikit-learn
     blas_opt_info:
     blas_mkl_info:
     customize UnixCCompiler
@@ -574,11 +575,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmp2adpycq6/tmp
-    creating /tmp/tmp2adpycq6/tmp/tmp2adpycq6
+    creating /tmp/tmplg1u9nwh/tmp
+    creating /tmp/tmplg1u9nwh/tmp/tmplg1u9nwh
     compile options: '-c'
-    gcc: /tmp/tmp2adpycq6/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmp2adpycq6/tmp/tmp2adpycq6/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmp2adpycq6/a.out
+    gcc: /tmp/tmplg1u9nwh/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmplg1u9nwh/tmp/tmplg1u9nwh/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmplg1u9nwh/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -733,6 +734,10 @@ WARNING: Running pip as the 'root' user can result in broken permissions and con
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout 0e3c1879b06d839171b7d0a607d71bbb19a966a9 sklearn/utils/tests/test_pprint.py
 Updated 0 paths from 686f52212
 + git apply -v -
@@ -787,13 +792,13 @@ sklearn/base.py:247: in __repr__
     rep = self._repr(object, context, level)
 /opt/miniconda3/envs/testbed/lib/python3.6/pprint.py:393: in _repr
     self._depth, level)
-sklearn/utils/_pprint.py:178: in format
+sklearn/utils/_pprint.py:179: in format
     changed_only=self._changed_only)
-sklearn/utils/_pprint.py:421: in _safe_repr
+sklearn/utils/_pprint.py:422: in _safe_repr
     params = _changed_params(object)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-estimator = <[ValueError('The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()',) raised in repr()] LogisticRegressionCV object at 0x7fbfb53e0cc0>
+estimator = <[ValueError('The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()',) raised in repr()] LogisticRegressionCV object at 0x7f2d1ebd2cc0>
 
     def _changed_params(estimator):
         """Return dict (param_name: value) of parameters that were given to
@@ -807,13 +812,14 @@ estimator = <[ValueError('The truth value of an array with more than one element
         init_params = {name: param.default for name, param in init_params.items()}
         for k, v in params.items():
             if isinstance(v, np.ndarray) and isinstance(init_params[k], np.ndarray):
-                if not np.array_equal(v, init_params[k]):
+                if (not np.array_equal(v, init_params[k]) and
+                        not (is_scalar_nan(init_params[k]) and is_scalar_nan(v))):
                     filtered_params[k] = v
 >           elif (v != init_params[k] and
                     not (is_scalar_nan(init_params[k]) and is_scalar_nan(v))):
 E                   ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
 
-sklearn/utils/_pprint.py:103: ValueError
+sklearn/utils/_pprint.py:104: ValueError
 ________________________________ test_pipeline _________________________________
 
     def test_pipeline():
@@ -1069,6 +1075,6 @@ FAILED sklearn/utils/tests/test_pprint.py::test_deeply_nested - AssertionErro...
 FAILED sklearn/utils/tests/test_pprint.py::test_gridsearch - assert "GridSear...
 FAILED sklearn/utils/tests/test_pprint.py::test_gridsearch_pipeline - Asserti...
 FAILED sklearn/utils/tests/test_pprint.py::test_n_max_elements_to_show - Asse...
-========================= 6 failed, 3 passed in 0.96s ==========================
+========================= 6 failed, 3 passed in 0.85s ==========================
 + git checkout 0e3c1879b06d839171b7d0a607d71bbb19a966a9 sklearn/utils/tests/test_pprint.py
 Updated 1 path from 686f52212

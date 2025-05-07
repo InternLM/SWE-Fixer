@@ -401,8 +401,8 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
- OK
+  Applying sites.0002_alter_domain_unique... OK
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 System check identified no issues (0 silenced).
 test_modelchoicefield (forms_tests.tests.test_error_messages.ModelChoiceFieldErrorMessagesTestCase) ... ok
 test_modelchoicefield_value_placeholder (forms_tests.tests.test_error_messages.ModelChoiceFieldErrorMessagesTestCase) ... ok
@@ -426,7 +426,7 @@ test_timefield (forms_tests.tests.test_error_messages.FormsErrorMessagesTestCase
 test_urlfield (forms_tests.tests.test_error_messages.FormsErrorMessagesTestCase) ... ok
 
 ----------------------------------------------------------------------
-Ran 20 tests in 0.048s
+Ran 20 tests in 0.049s
 
 OK
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

@@ -334,8 +334,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20211229095723-0.editable-py3-none-any.whl size=26875 sha256=b915d9fd5b27d5bc8cd421c6e5497291af9a087460567275b94e0aa2fcd61fad
-  Stored in directory: /tmp/pip-ephem-wheel-cache-36rek35b/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20211229095723-0.editable-py3-none-any.whl size=26942 sha256=9b088825df4d5dad19f9c3036482e3d8508b85f88241bcd9289d55cdb80c5e8c
+  Stored in directory: /tmp/pip-ephem-wheel-cache-h5z4b4oa/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -555,7 +555,7 @@ AssertionError: Expected 'ensure_schema' to not have been called. Called 1 times
 Calls: [call()].
 
 ----------------------------------------------------------------------
-Ran 36 tests in 0.940s
+Ran 36 tests in 0.913s
 
 FAILED (failures=1, errors=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

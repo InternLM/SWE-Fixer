@@ -176,44 +176,32 @@ index 9125923847..d5f6a7a6a2 100644
                  self.assertEqual(qs.first().annotation, 42)
 + git diff b30c0081d4d8a31ab7dc7f72a4c7099af606ef29
 diff --git a/django/db/migrations/serializer.py b/django/db/migrations/serializer.py
-index 38da1e6ecc..476190cede 100644
+index 38da1e6ecc..1c56a9a17b 100644
 --- a/django/db/migrations/serializer.py
 +++ b/django/db/migrations/serializer.py
-@@ -125,13 +125,37 @@ class EnumSerializer(BaseSerializer):
+@@ -125,13 +125,26 @@ class EnumSerializer(BaseSerializer):
      def serialize(self):
          enum_class = self.value.__class__
          module = enum_class.__module__
 -        return (
 -            "%s.%s[%r]" % (module, enum_class.__qualname__, self.value.name),
 -            {"import %s" % module},
--        )
-+        if hasattr(enum_class, "_decompose"):
-+            # Decompose the enum value into a combination of its flags.
-+            enum_value = self.value
-+            enum_names = enum_class._decompose(enum_value)
-+            if len(enum_names) == 1:
-+                enum_value = enum_class[enum_names[0]]
-+                return (
-+                    "%s.%s[%r]" % (module, enum_class.__qualname__, enum_value.name),
-+                    {"import %s" % module},
-+                )
-+            else:
-+                # Serialize each flag and combine them using the bitwise OR operator.
-+                enum_flags = [
-+                    serializer_factory(enum_class[name]).serialize()
-+                    for name in enum_names
-+                ]
-+                imports = set()
-+                flags = []
-+                for flag, flag_imports in enum_flags:
-+                    imports.update(flag_imports)
-+                    flags.append(flag)
-+                return " | ".join(flags), imports
-+        else:
++        if hasattr(self.value, "name"):
 +            return (
 +                "%s.%s[%r]" % (module, enum_class.__qualname__, self.value.name),
 +                {"import %s" % module},
 +            )
++        # If the enum has no name, it is a combination of flags.
++        # We decompose it into its components and generate an expression
++        # that ORs them together.
++        enum_value = self.value.value
++        flags = enum_class._decompose(enum_value)
++        flag_names = [f.name for f in flags]
++        flags_string = " | ".join(
++            "%s.%s[%r]" % (module, enum_class.__qualname__, name)
++            for name in flag_names
+         )
++        return flags_string, {"import %s" % module}
  
  
  class FloatSerializer(BaseSimpleSerializer):
@@ -361,8 +349,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20220824103047-0.editable-py3-none-any.whl size=27152 sha256=70186dc619c6883315b05e81381f666cad101cea1783df17c3ccb7f7de35c0fd
-  Stored in directory: /tmp/pip-ephem-wheel-cache-nnd0nb2o/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20220824103047-0.editable-py3-none-any.whl size=27219 sha256=e41523dbcd0d1e5c8c6f321abba7d02e3e9e8eaf8b3c23582274052a1006c1a1
+  Stored in directory: /tmp/pip-ephem-wheel-cache-mrto_3zw/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -459,7 +447,7 @@ First differing element 0:
 +  {'import migrations.test_writer'})
 
 ----------------------------------------------------------------------
-Ran 52 tests in 0.030s
+Ran 52 tests in 0.029s
 
 FAILED (failures=1)
 Testing against Django installed in '/testbed/django'

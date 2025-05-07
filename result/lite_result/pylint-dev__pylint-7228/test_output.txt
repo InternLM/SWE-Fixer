@@ -347,7 +347,7 @@ tests/config/test_config.py ........FF..                                 [100%]
 =================================== FAILURES ===================================
 _______________________________ test_regex_error _______________________________
 
-capsys = <_pytest.capture.CaptureFixture object at 0x7f30559b4070>
+capsys = <_pytest.capture.CaptureFixture object at 0x7fc3ef00c250>
 
     def test_regex_error(capsys: CaptureFixture) -> None:
         """Check that we correctly error when an an option is passed whose value is an invalid regular expression."""
@@ -393,7 +393,7 @@ pylint/config/arguments_manager.py:271: in _parse_command_line_configuration
     code1 = _class_escape(source, this)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-source = <sre_parse.Tokenizer object at 0x7f305596cd00>, escape = '\\p'
+source = <sre_parse.Tokenizer object at 0x7fc3ef070cd0>, escape = '\\p'
 
     def _class_escape(source, escape):
         # handle escape code inside character class
@@ -455,7 +455,7 @@ E                   re.error: bad escape \p at position 1
 /opt/miniconda3/envs/testbed/lib/python3.9/sre_parse.py:350: error
 _____________________________ test_csv_regex_error _____________________________
 
-capsys = <_pytest.capture.CaptureFixture object at 0x7f30552abaf0>
+capsys = <_pytest.capture.CaptureFixture object at 0x7fc3ee9afa90>
 
     def test_csv_regex_error(capsys: CaptureFixture) -> None:
         """Check that we correctly error when an option is passed and one
@@ -503,8 +503,8 @@ pylint/config/argument.py:106: in _regexp_csv_transfomer
     itemsappend(_parse(source, state, verbose, nested + 1,
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-source = <sre_parse.Tokenizer object at 0x7f3055811880>
-state = <sre_parse.State object at 0x7f3055811940>, verbose = 0, nested = 1
+source = <sre_parse.Tokenizer object at 0x7fc3eef6b5e0>
+state = <sre_parse.State object at 0x7fc3eef6bc70>, verbose = 0, nested = 1
 first = True
 
     def _parse(source, state, verbose, nested, first=False):
@@ -875,6 +875,6 @@ PASSED tests/config/test_config.py::test_short_verbose
 PASSED tests/config/test_config.py::test_argument_separator
 FAILED tests/config/test_config.py::test_regex_error - re.error: bad escape \...
 FAILED tests/config/test_config.py::test_csv_regex_error - re.error: missing ...
-========================= 2 failed, 10 passed in 0.74s =========================
+========================= 2 failed, 10 passed in 0.76s =========================
 + git checkout d597f252915ddcaaa15ccdfcb35670152cb83587 tests/config/test_config.py
 Updated 1 path from b488f1fdd

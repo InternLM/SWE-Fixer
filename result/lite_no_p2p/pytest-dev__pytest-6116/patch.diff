@@ -1,0 +1,24 @@
+
+diff --git a/src/_pytest/config/__init__.py b/src/_pytest/config/__init__.py
+index 2bd793d..93b42b7 100644
+--- a/src/_pytest/config/__init__.py
++++ b/src/_pytest/config/__init__.py
+@@ -796,6 +796,10 @@ class Config:
+     def _processopt(self, opt):
+         for name in opt._short_opts + opt._long_opts:
+             self._opt2dest[name] = opt.dest
++        if opt.dest == "collectonly":
++            # Add a shortcut for --collect-only.
++            opt._short_opts = list(opt._short_opts)
++            opt._short_opts.append("-c")
+ 
+         if hasattr(opt, "default") and opt.dest:
+             if not hasattr(self.option, opt.dest):
+@@ -805,6 +809,7 @@ class Config:
+     def pytest_load_initial_conftests(self, early_config):
+         self.pluginmanager._set_initial_conftests(early_config.known_args_namespace)
+ 
++
+     def _initini(self, args) -> None:
+         ns, unknown_args = self._parser.parse_known_and_unknown_args(
+             args, namespace=copy.copy(self.option)

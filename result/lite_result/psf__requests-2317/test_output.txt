@@ -150,7 +150,7 @@ Date:   Sun Oct 26 19:32:46 2014 -0500
 
 + git diff 091991be0da19de9108dbe5e3752917fea3d7fdc
 diff --git a/requests/sessions.py b/requests/sessions.py
-index d701ff2e..5bd19f8a 100644
+index d701ff2e..305ac328 100644
 --- a/requests/sessions.py
 +++ b/requests/sessions.py
 @@ -425,10 +425,11 @@ class Session(SessionRedirectMixin):
@@ -158,7 +158,7 @@ index d701ff2e..5bd19f8a 100644
          """
  
 -        method = builtin_str(method)
-+        method = to_native_string(method, encoding='ascii')
++        method = to_native_string(method)
  
          # Create the Request.
          req = Request(
@@ -297,8 +297,8 @@ Processing /testbed
 Building wheels for collected packages: requests
   Building wheel for requests (setup.py): started
   Building wheel for requests (setup.py): finished with status 'done'
-  Created wheel for requests: filename=requests-2.4.3-py2.py3-none-any.whl size=453232 sha256=a6f46f583edeca018698333b68826071b5186b9a5f0dba87f7a9caf968b45c95
-  Stored in directory: /tmp/pip-ephem-wheel-cache-g2whgt6x/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for requests: filename=requests-2.4.3-py2.py3-none-any.whl size=453222 sha256=17ace8cdbebc4a0748c96595bec7108e95639d7b1822324c7eb106ffc3a0a96c
+  Stored in directory: /tmp/pip-ephem-wheel-cache-29mr9m_a/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built requests
 Installing collected packages: requests
   Attempting uninstall: requests
@@ -490,6 +490,6 @@ PASSED test_requests.py::test_prepared_request_no_cookies_copy
 PASSED test_requests.py::test_prepared_request_complete_copy
 PASSED test_requests.py::test_prepare_unicode_url
 FAILED test_requests.py::RequestsTestCase::test_conflicting_post_params - Typ...
-============ 1 failed, 142 passed, 3 warnings in 385.90s (0:06:25) =============
+============ 1 failed, 142 passed, 3 warnings in 660.06s (0:11:00) =============
 + git checkout 091991be0da19de9108dbe5e3752917fea3d7fdc test_requests.py
 Updated 1 path from 980e0062

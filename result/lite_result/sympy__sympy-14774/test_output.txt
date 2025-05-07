@@ -150,7 +150,7 @@ Date:   Mon Jun 4 13:58:04 2018 +0300
 
 + git diff 8fc63c2d71752389a44367b8ef4aba8a91af6a45
 diff --git a/sympy/printing/latex.py b/sympy/printing/latex.py
-index a3ead157c1..cd98c98755 100644
+index a3ead157c1..bedfa6783d 100644
 --- a/sympy/printing/latex.py
 +++ b/sympy/printing/latex.py
 @@ -740,10 +740,11 @@ def _print_Function(self, expr, exp=None):
@@ -158,7 +158,7 @@ index a3ead157c1..cd98c98755 100644
                  not self._needs_function_brackets(expr.args[0])
  
 -            inv_trig_table = ["asin", "acos", "atan", "acot"]
-+            inv_trig_table = ["asin", "acos", "atan", "acsc", "asec", "acot"]
++            inv_trig_table = ["asin", "acos", "atan", "acot", "acsc", "asec"]
  
              # If the function is an inverse trig function, handle the style
              if func in inv_trig_table:
@@ -332,8 +332,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        77461965
-hash randomization: on (PYTHONHASHSEED=616278131)
+random seed:        95608298
+hash randomization: on (PYTHONHASHSEED=3914326765)
 
 sympy/printing/tests/test_latex.py[121] 
 test_printmethod ok
@@ -474,7 +474,7 @@ _____________ sympy/printing/tests/test_latex.py:test_issue_13559 ______________
     code = compile(evaluateFalse(code), '<string>', 'eval')
 ValueError: Name node can't be used with 'False' constant
 
- tests finished: 117 passed, 2 expected to fail, 2 exceptions, in 2.41 seconds =
+ tests finished: 117 passed, 2 expected to fail, 2 exceptions, in 2.36 seconds =
 DO *NOT* COMMIT!
 + git checkout 8fc63c2d71752389a44367b8ef4aba8a91af6a45 sympy/printing/tests/test_latex.py
 Updated 1 path from fcc31a910d

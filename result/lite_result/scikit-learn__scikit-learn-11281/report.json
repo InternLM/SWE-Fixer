@@ -3,14 +3,14 @@
         "patch_is_None": false,
         "patch_exists": true,
         "patch_successfully_applied": true,
-        "resolved": false,
+        "resolved": true,
         "tests_status": {
             "FAIL_TO_PASS": {
-                "success": [],
-                "failure": [
+                "success": [
                     "sklearn/mixture/tests/test_bayesian_mixture.py::test_bayesian_mixture_fit_predict",
                     "sklearn/mixture/tests/test_gaussian_mixture.py::test_gaussian_mixture_fit_predict"
-                ]
+                ],
+                "failure": []
             },
             "PASS_TO_PASS": {
                 "success": [

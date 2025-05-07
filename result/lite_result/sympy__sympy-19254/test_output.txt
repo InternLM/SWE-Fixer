@@ -150,21 +150,23 @@ Date:   Mon May 4 10:23:50 2020 +0100
 
 + git diff e0ef1da13e2ab2a77866c05246f73c871ca9388c
 diff --git a/sympy/core/basic.py b/sympy/core/basic.py
-index bbb285a72f..f17d5d2c2e 100644
+index bbb285a72f..7337726049 100644
 --- a/sympy/core/basic.py
 +++ b/sympy/core/basic.py
-@@ -104,9 +104,11 @@ class Basic(metaclass=ManagedProperties):
-     is_Point = False
+@@ -105,9 +105,13 @@ class Basic(metaclass=ManagedProperties):
      is_MatAdd = False
      is_MatMul = False
-+    is_MatPow = False
  
++    is_Matrix = False
++    is_Vector = False
++
      def __new__(cls, *args):
          obj = object.__new__(cls)
-+
          obj._assumptions = cls.default_assumptions
++
          obj._mhash = None  # will be set by __hash__ method.
  
+         obj._args = args  # all items in args must be Basic objects
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -315,8 +317,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        16413680
-hash randomization: on (PYTHONHASHSEED=4076170552)
+random seed:        26344988
+hash randomization: on (PYTHONHASHSEED=2630035932)
 
 sympy/polys/tests/test_factortools.py[21] 
 test_dup_trial_division ok
@@ -349,7 +351,7 @@ Traceback (most recent call last):
     assert R.dup_zz_mignotte_bound(2*x**2 + 3*x + 4) == 6
 AssertionError
 
-=== tests finished: 19 passed, 1 failed, 1 expected to fail, in 0.73 seconds ===
+=== tests finished: 19 passed, 1 failed, 1 expected to fail, in 0.80 seconds ===
 DO *NOT* COMMIT!
 + git checkout e0ef1da13e2ab2a77866c05246f73c871ca9388c sympy/polys/tests/test_factortools.py
 Updated 1 path from d275b7cabc

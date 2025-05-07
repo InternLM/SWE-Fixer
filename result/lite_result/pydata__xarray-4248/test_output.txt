@@ -184,8 +184,8 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 +++ '[' '' = 1 ']'
 +++ _la_log '  content of that folder:'
 +++ '[' '' = 1 ']'
-++++ sed 's/^/      /'
 ++++ ls -al /opt/miniconda3/envs/testbed/share/gdb/auto-load/replace_this_section_with_absolute_slashed_path_to_CONDA_PREFIX/lib
+++++ sed 's/^/      /'
 +++ _la_log '      total 12
       drwxr-xr-x 2 root root 4096 Dec  5 11:42 .
       drwxr-xr-x 3 root root 4096 Dec  5 11:42 ..
@@ -389,17 +389,15 @@ index efef4259..6aca9086 100644
     backends.FileManager.acquire_context
 + git diff 98dc1f4ea18738492e074e9e51ddfed5cd30ab94
 diff --git a/xarray/core/formatting.py b/xarray/core/formatting.py
-index 28eaae5f..6833499d 100644
+index 28eaae5f..66831bd5 100644
 --- a/xarray/core/formatting.py
 +++ b/xarray/core/formatting.py
-@@ -283,11 +283,14 @@ def summarize_variable(
-         dims_str = "({}) ".format(", ".join(map(str, var.dims)))
+@@ -284,10 +284,13 @@ def summarize_variable(
      else:
          dims_str = ""
--    front_str = f"{first_col}{dims_str}{var.dtype} "
-+    units = getattr(var, "units", None)
-+    units_str = f", {units}" if units is not None else ""
-+    front_str = f"{first_col}{dims_str}{var.dtype}{units_str} "
+     front_str = f"{first_col}{dims_str}{var.dtype} "
++    if hasattr(var, "units"):
++        front_str += f", in {var.units} "
  
      values_width = max_width - len(front_str)
      values_str = inline_variable_array_repr(var, values_width)
@@ -408,23 +406,6 @@ index 28eaae5f..6833499d 100644
      return front_str + values_str
  
  
-@@ -321,10 +324,15 @@ def summarize_coord(name: Hashable, var, col_width: int):
-                     _summarize_coord_levels(coord, col_width),
-                 ]
-             )
--    return summarize_variable(name, var.variable, col_width, marker)
-+    units = getattr(var, "units", None)
-+    units_str = f", {units}" if units is not None else ""
-+    return summarize_variable(
-+        name, var.variable, col_width, marker, max_width=None
-+    ) + units_str
- 
- 
- def summarize_attr(key, value, col_width=None):
-+
-     """Summary for __repr__ - use ``X.attrs[key]`` for full value."""
-     # Indent key and add ':', then right-pad if col_width is not None
-     k_str = f"    {key}:"
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -719,18 +700,18 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: numpy>=1.15 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.1.dev27+g98dc1f4e.d20250212) (1.23.0)
-Requirement already satisfied: pandas>=0.25 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.1.dev27+g98dc1f4e.d20250212) (1.5.3)
-Requirement already satisfied: setuptools>=41.2 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.1.dev27+g98dc1f4e.d20250212) (68.0.0)
-Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.1.dev27+g98dc1f4e.d20250212) (2.8.2)
-Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.1.dev27+g98dc1f4e.d20250212) (2023.3)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=0.25->xarray==0.16.1.dev27+g98dc1f4e.d20250212) (1.16.0)
+Requirement already satisfied: numpy>=1.15 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.1.dev27+g98dc1f4e.d20250506) (1.23.0)
+Requirement already satisfied: pandas>=0.25 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.1.dev27+g98dc1f4e.d20250506) (1.5.3)
+Requirement already satisfied: setuptools>=41.2 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.1.dev27+g98dc1f4e.d20250506) (68.0.0)
+Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.1.dev27+g98dc1f4e.d20250506) (2.8.2)
+Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.1.dev27+g98dc1f4e.d20250506) (2023.3)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=0.25->xarray==0.16.1.dev27+g98dc1f4e.d20250506) (1.16.0)
 Installing collected packages: xarray
   Attempting uninstall: xarray
     Found existing installation: xarray 0.16.1.dev27+g98dc1f4e
     Uninstalling xarray-0.16.1.dev27+g98dc1f4e:
       Successfully uninstalled xarray-0.16.1.dev27+g98dc1f4e
-  DEPRECATION: Legacy editable install of xarray==0.16.1.dev27+g98dc1f4e.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of xarray==0.16.1.dev27+g98dc1f4e.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for xarray
 Successfully installed xarray
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
@@ -848,6 +829,6 @@ PASSED xarray/tests/test_formatting.py::test_set_numpy_options
 PASSED xarray/tests/test_formatting.py::test_short_numpy_repr
 PASSED xarray/tests/test_formatting.py::test_large_array_repr_length
 FAILED xarray/tests/test_formatting.py::test_inline_variable_array_repr_custom_repr
-================== 1 failed, 18 passed, 11 warnings in 3.51s ===================
+================== 1 failed, 18 passed, 11 warnings in 3.18s ===================
 + git checkout 98dc1f4ea18738492e074e9e51ddfed5cd30ab94 xarray/tests/test_formatting.py
 Updated 1 path from 60cc3593

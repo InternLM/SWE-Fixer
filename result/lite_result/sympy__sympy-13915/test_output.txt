@@ -150,27 +150,23 @@ Date:   Sat Jan 13 13:20:52 2018 -0600
 
 + git diff 5c1644ff85e15752f9f8721bc142bfbf975e7805
 diff --git a/sympy/core/expr.py b/sympy/core/expr.py
-index c36d6f271d..9a7ea094ac 100644
+index c36d6f271d..b14521751a 100644
 --- a/sympy/core/expr.py
 +++ b/sympy/core/expr.py
-@@ -1694,11 +1694,15 @@ def has(e):
-                 return has_other
-             return has_other or e.has(*(e.free_symbols & sym))
+@@ -1670,9 +1670,13 @@ def as_independent(self, *deps, **hint):
+         if self.is_zero:
+             return S.Zero, S.Zero
  
--        if (want is not func or
--                func is not Add and func is not Mul):
-+        if (want is not func or func is not Add and func is not Mul or
-+                # don't let simplification mask division by zero
-+                # e.g. if x is in the denominator and we are separating x
-+                # then don't simplify
-+                (want is Mul and has(self))):
-             if has(self):
-                 return (want.identity, self)
-             else:
++        if self is S.NaN:
++            return want.identity, want.identity
 +
-                 return (self, want.identity)
+         func = self.func
+         if hint.get('as_Add', isinstance(self, Add) ):
+             want = Add
++
          else:
-             if func is Add:
+             want = Mul
+ 
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -333,8 +329,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        2763751
-hash randomization: on (PYTHONHASHSEED=1268606008)
+random seed:        7625069
+hash randomization: on (PYTHONHASHSEED=864337235)
 
 sympy/core/tests/test_arit.py[82] 
 test_bug1 ok
@@ -373,7 +369,7 @@ test_Pow_is_real E
 test_real_Pow E
 test_Pow_is_finite E
 test_Pow_is_even_odd E
-test_Pow_is_negative_positive E
+test_Pow_is_negative_positive ok
 test_Pow_is_zero ok
 test_Pow_is_nonpositive_nonnegative E
 test_Mul_is_imaginary_real E
@@ -435,6 +431,18 @@ ____________________ sympy/core/tests/test_arit.py:test_div ____________________
     c_part, nc_part, order_symbols = cls.flatten(args)
   File "/testbed/sympy/core/mul.py", line 184, in flatten
     if not a.is_zero and a.is_Rational:
+  File "/testbed/sympy/core/assumptions.py", line 248, in getit
+    return _ask(fact, self)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
+    a = evaluate(obj)
+  File "/testbed/sympy/core/add.py", line 522, in _eval_is_imaginary
+    if b.is_zero:
   File "/testbed/sympy/core/assumptions.py", line 248, in getit
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
@@ -506,7 +514,7 @@ ______ sympy/core/tests/test_arit.py:test_Add_is_nonpositive_nonnegative _______
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
-  File "/testbed/sympy/core/add.py", line 679, in _eval_is_negative
+  File "/testbed/sympy/core/add.py", line 648, in _eval_is_nonnegative
     v = _monotonic_sign(self)
   File "/testbed/sympy/core/exprtools.py", line 120, in _monotonic_sign
     d = self.diff(x)
@@ -651,6 +659,9 @@ _______________ sympy/core/tests/test_arit.py:test_Pow_is_finite _______________
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  [Previous line repeated 1 more time]
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
   File "/testbed/sympy/core/power.py", line 1130, in _eval_is_algebraic
@@ -659,6 +670,8 @@ _______________ sympy/core/tests/test_arit.py:test_Pow_is_finite _______________
     return (expr - 1).is_zero
   File "/testbed/sympy/core/assumptions.py", line 248, in getit
     return _ask(fact, self)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
@@ -718,44 +731,6 @@ ______________ sympy/core/tests/test_arit.py:test_Pow_is_even_odd ______________
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
-    _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
-    a = evaluate(obj)
-  File "/testbed/sympy/core/add.py", line 595, in _eval_is_positive
-    v = _monotonic_sign(self)
-  File "/testbed/sympy/core/exprtools.py", line 120, in _monotonic_sign
-    d = self.diff(x)
-  File "/testbed/sympy/core/expr.py", line 3013, in diff
-    return Derivative(self, *new_symbols, **assumptions)
-  File "/testbed/sympy/core/function.py", line 1246, in __new__
-    if isinstance(v, (collections.Iterable, Tuple, MatrixCommon, NDimArray)):
-  File "/opt/miniconda3/envs/testbed/lib/python3.9/collections/__init__.py", line 62, in __getattr__
-    warnings.warn("Using or importing the ABCs from 'collections' instead "
-DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
-________________________________________________________________________________
-_________ sympy/core/tests/test_arit.py:test_Pow_is_negative_positive __________
-  File "/testbed/sympy/core/tests/test_arit.py", line 1129, in test_Pow_is_negative_positive
-    assert ((-k)**r).is_positive is None
-  File "/testbed/sympy/core/assumptions.py", line 248, in getit
-    return _ask(fact, self)
-  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
-    _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
-    _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
-    _ask(pk, obj)
-  [Previous line repeated 5 more times]
-  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
-    a = evaluate(obj)
-  File "/testbed/sympy/core/power.py", line 1130, in _eval_is_algebraic
-    if self.base.is_zero or _is_one(self.base):
-  File "/testbed/sympy/core/power.py", line 1125, in _is_one
-    return (expr - 1).is_zero
-  File "/testbed/sympy/core/assumptions.py", line 248, in getit
-    return _ask(fact, self)
-  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
-    _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
   File "/testbed/sympy/core/add.py", line 522, in _eval_is_imaginary
@@ -764,34 +739,6 @@ _________ sympy/core/tests/test_arit.py:test_Pow_is_negative_positive __________
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
-    a = evaluate(obj)
-  File "/testbed/sympy/core/add.py", line 564, in _eval_is_odd
-    l = [f for f in self.args if not (f.is_even is True)]
-  File "/testbed/sympy/core/add.py", line 564, in <listcomp>
-    l = [f for f in self.args if not (f.is_even is True)]
-  File "/testbed/sympy/core/assumptions.py", line 248, in getit
-    return _ask(fact, self)
-  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
-    a = evaluate(obj)
-  File "/testbed/sympy/core/mul.py", line 1319, in _eval_is_even
-    return fuzzy_not(self.is_odd)
-  File "/testbed/sympy/core/assumptions.py", line 248, in getit
-    return _ask(fact, self)
-  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
-    a = evaluate(obj)
-  File "/testbed/sympy/core/mul.py", line 1304, in _eval_is_odd
-    elif acc != 1 and (acc + t).is_odd:
-  File "/testbed/sympy/core/assumptions.py", line 248, in getit
-    return _ask(fact, self)
-  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
-    _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
-    a = evaluate(obj)
-  File "/testbed/sympy/core/add.py", line 522, in _eval_is_imaginary
-    if b.is_zero:
-  File "/testbed/sympy/core/assumptions.py", line 248, in getit
-    return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
@@ -867,15 +814,50 @@ ___________ sympy/core/tests/test_arit.py:test_Mul_is_imaginary_real ___________
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
-  File "/testbed/sympy/core/add.py", line 676, in _eval_is_negative
-    if s != self and s.is_negative and a.is_nonpositive:
+  File "/testbed/sympy/core/add.py", line 522, in _eval_is_imaginary
+    if b.is_zero:
+  File "/testbed/sympy/core/assumptions.py", line 248, in getit
+    return _ask(fact, self)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  [Previous line repeated 1 more time]
+  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
+    a = evaluate(obj)
+  File "/testbed/sympy/core/add.py", line 522, in _eval_is_imaginary
+    if b.is_zero:
+  File "/testbed/sympy/core/assumptions.py", line 248, in getit
+    return _ask(fact, self)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
+    a = evaluate(obj)
+  File "/testbed/sympy/core/add.py", line 522, in _eval_is_imaginary
+    if b.is_zero:
+  File "/testbed/sympy/core/assumptions.py", line 248, in getit
+    return _ask(fact, self)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 291, in _ask
+    a = evaluate(obj)
+  File "/testbed/sympy/core/add.py", line 645, in _eval_is_nonnegative
+    if s != self and s.is_nonnegative:
   File "/testbed/sympy/core/assumptions.py", line 248, in getit
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
-  File "/testbed/sympy/core/add.py", line 679, in _eval_is_negative
+  File "/testbed/sympy/core/add.py", line 648, in _eval_is_nonnegative
     v = _monotonic_sign(self)
   File "/testbed/sympy/core/exprtools.py", line 120, in _monotonic_sign
     d = self.diff(x)
@@ -910,9 +892,6 @@ ____________________ sympy/core/tests/test_arit.py:test_Mod ____________________
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
-  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
-    _ask(pk, obj)
-  [Previous line repeated 2 more times]
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
   File "/testbed/sympy/core/power.py", line 563, in _eval_is_prime
@@ -952,7 +931,6 @@ _____________ sympy/core/tests/test_arit.py:test_Mod_is_nonposneg ______________
     _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
-  [Previous line repeated 1 more time]
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
   File "/testbed/sympy/core/add.py", line 564, in _eval_is_odd
@@ -983,9 +961,11 @@ _____________ sympy/core/tests/test_arit.py:test_Mod_is_nonposneg ______________
     return _ask(fact, self)
   File "/testbed/sympy/core/assumptions.py", line 303, in _ask
     _ask(pk, obj)
+  File "/testbed/sympy/core/assumptions.py", line 303, in _ask
+    _ask(pk, obj)
   File "/testbed/sympy/core/assumptions.py", line 291, in _ask
     a = evaluate(obj)
-  File "/testbed/sympy/core/add.py", line 595, in _eval_is_positive
+  File "/testbed/sympy/core/add.py", line 679, in _eval_is_negative
     v = _monotonic_sign(self)
   File "/testbed/sympy/core/exprtools.py", line 120, in _monotonic_sign
     d = self.diff(x)
@@ -1023,8 +1003,8 @@ ______ sympy/core/tests/test_arit.py:test_Mul_does_not_cancel_infinities _______
     assert ((zoo + 3*a)/(3*a + zoo)) is nan
 AssertionError
 
- tests finished: 63 passed, 1 failed, 3 expected to fail, 15 exceptions, 
-in 2.18 seconds 
+ tests finished: 64 passed, 1 failed, 3 expected to fail, 14 exceptions, 
+in 2.29 seconds 
 DO *NOT* COMMIT!
 + git checkout 5c1644ff85e15752f9f8721bc142bfbf975e7805 sympy/core/tests/test_arit.py
 Updated 1 path from b3d9410a52

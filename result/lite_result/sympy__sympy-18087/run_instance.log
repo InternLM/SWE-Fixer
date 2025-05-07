@@ -1,60 +1,56 @@
-2025-02-12 13:20:41,029 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-18087
+2025-05-06 12:42:20,983 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-18087
 Building instance image sweb.eval.x86_64.sympy__sympy-18087:latest for sympy__sympy-18087
-2025-02-12 13:20:41,034 - INFO - Image sweb.eval.x86_64.sympy__sympy-18087:latest already exists, skipping build.
-2025-02-12 13:20:41,034 - INFO - Creating container for sympy__sympy-18087...
-2025-02-12 13:20:41,064 - INFO - Container for sympy__sympy-18087 created: 492411c3a7811a786d11ab4e1ed61f72ecd1117ac3b53ab9fe9c8b0eb1fe24bc
-2025-02-12 13:20:41,400 - INFO - Container for sympy__sympy-18087 started: 492411c3a7811a786d11ab4e1ed61f72ecd1117ac3b53ab9fe9c8b0eb1fe24bc
-2025-02-12 13:20:41,400 - INFO - Intermediate patch for sympy__sympy-18087 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-18087/patch.diff, now applying to container...
-2025-02-12 13:20:41,662 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:20:41,730 - INFO - >>>>> Applied Patch:
+2025-05-06 12:42:20,985 - INFO - Image sweb.eval.x86_64.sympy__sympy-18087:latest already exists, skipping build.
+2025-05-06 12:42:20,985 - INFO - Creating container for sympy__sympy-18087...
+2025-05-06 12:42:21,013 - INFO - Container for sympy__sympy-18087 created: 84b702ea61c2537f3bb4662f49d2b03aa0ed96b7e796109b59856d471193ae46
+2025-05-06 12:42:21,315 - INFO - Container for sympy__sympy-18087 started: 84b702ea61c2537f3bb4662f49d2b03aa0ed96b7e796109b59856d471193ae46
+2025-05-06 12:42:21,315 - INFO - Intermediate patch for sympy__sympy-18087 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-18087/patch.diff, now applying to container...
+2025-05-06 12:42:21,570 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:42:21,633 - INFO - >>>>> Applied Patch:
 patching file sympy/simplify/fu.py
 
-2025-02-12 13:20:42,285 - INFO - Git diff before:
+2025-05-06 12:42:22,052 - INFO - Git diff before:
 diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
-index 612bc0bb69..0db7f81f8b 100644
+index 612bc0bb69..85508e1c9d 100644
 --- a/sympy/simplify/fu.py
 +++ b/sympy/simplify/fu.py
-@@ -507,11 +507,14 @@ def _f(rv):
+@@ -500,10 +500,11 @@ def _f(rv):
+         # change is not going to allow a simplification as far as I can tell.
+         if not (rv.is_Pow and rv.base.func == f):
+             return rv
+-        if not rv.exp.is_real:
++        if not (rv.base.is_positive or rv.exp.is_integer):
+             return rv
+ 
+         if (rv.exp < 0) == True:
++
              return rv
          if (rv.exp > max) == True:
              return rv
-+        if rv.exp == 2 and rv.base.is_Pow and rv.base.exp is S.Half:
-+            return Abs(rv.base.base)
-         if rv.exp == 2:
-             return h(g(rv.base.args[0])**2)
-         else:
-             if rv.exp == 4:
-                 e = 2
-+
-             elif not pow:
-                 if rv.exp % 2:
-                     return rv
-2025-02-12 13:20:42,286 - INFO - Eval script for sympy__sympy-18087 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-18087/eval.sh; copying to container...
-2025-02-12 13:21:04,680 - INFO - Test runtime: 22.20 seconds
-2025-02-12 13:21:04,680 - INFO - Test output for sympy__sympy-18087 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sympy__sympy-18087/test_output.txt
-2025-02-12 13:21:04,749 - INFO - Git diff after:
+2025-05-06 12:42:22,052 - INFO - Eval script for sympy__sympy-18087 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-18087/eval.sh; copying to container...
+2025-05-06 12:42:43,187 - INFO - Test runtime: 20.97 seconds
+2025-05-06 12:42:43,188 - INFO - Test output for sympy__sympy-18087 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sympy__sympy-18087/test_output.txt
+2025-05-06 12:42:43,251 - INFO - Git diff after:
 diff --git a/sympy/simplify/fu.py b/sympy/simplify/fu.py
-index 612bc0bb69..0db7f81f8b 100644
+index 612bc0bb69..85508e1c9d 100644
 --- a/sympy/simplify/fu.py
 +++ b/sympy/simplify/fu.py
-@@ -507,11 +507,14 @@ def _f(rv):
+@@ -500,10 +500,11 @@ def _f(rv):
+         # change is not going to allow a simplification as far as I can tell.
+         if not (rv.is_Pow and rv.base.func == f):
+             return rv
+-        if not rv.exp.is_real:
++        if not (rv.base.is_positive or rv.exp.is_integer):
+             return rv
+ 
+         if (rv.exp < 0) == True:
++
              return rv
          if (rv.exp > max) == True:
              return rv
-+        if rv.exp == 2 and rv.base.is_Pow and rv.base.exp is S.Half:
-+            return Abs(rv.base.base)
-         if rv.exp == 2:
-             return h(g(rv.base.args[0])**2)
-         else:
-             if rv.exp == 4:
-                 e = 2
-+
-             elif not pow:
-                 if rv.exp % 2:
-                     return rv
-2025-02-12 13:21:04,749 - INFO - Grading answer for sympy__sympy-18087...
-2025-02-12 13:21:04,752 - INFO - report: {'sympy__sympy-18087': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Factors', 'test_fu']}, 'PASS_TO_PASS': {'success': ['test_decompose_power', 'test_Term', 'test_gcd_terms', 'test_factor_terms', 'test_xreplace', 'test_factor_nc', 'test_issue_6360', 'test_issue_7903', 'test_issue_8263', 'test_monotonic_sign', 'test_TR1', 'test_TR2', 'test_TR2i', 'test_TR3', 'test__TR56', 'test_TR5', 'test_TR6', 'test_TR7', 'test_TR8', 'test_TR9', 'test_TR10', 'test_TR10i', 'test_TR11', 'test_TR12', 'test_TR13', 'test_L', 'test_objective', 'test_process_common_addends', 'test_trig_split', 'test_TRmorrie', 'test_TRpower', 'test_hyper_as_trig', 'test_TR12i', 'test_TR14', 'test_TR15_16_17'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:42:43,251 - INFO - Grading answer for sympy__sympy-18087...
+2025-05-06 12:42:43,253 - INFO - report: {'sympy__sympy-18087': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Factors', 'test_fu']}, 'PASS_TO_PASS': {'success': ['test_decompose_power', 'test_Term', 'test_gcd_terms', 'test_factor_terms', 'test_xreplace', 'test_factor_nc', 'test_issue_6360', 'test_issue_7903', 'test_issue_8263', 'test_monotonic_sign', 'test_TR1', 'test_TR2', 'test_TR2i', 'test_TR3', 'test__TR56', 'test_TR5', 'test_TR6', 'test_TR7', 'test_TR8', 'test_TR9', 'test_TR10', 'test_TR10i', 'test_TR11', 'test_TR12', 'test_TR13', 'test_L', 'test_objective', 'test_process_common_addends', 'test_trig_split', 'test_TRmorrie', 'test_TRpower', 'test_hyper_as_trig', 'test_TR12i', 'test_TR14', 'test_TR15_16_17'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sympy__sympy-18087: resolved: False
-2025-02-12 13:21:04,752 - INFO - Attempting to stop container sweb.eval.sympy__sympy-18087.20250212_130622...
-2025-02-12 13:21:20,034 - INFO - Attempting to remove container sweb.eval.sympy__sympy-18087.20250212_130622...
-2025-02-12 13:21:20,057 - INFO - Container sweb.eval.sympy__sympy-18087.20250212_130622 removed.
+2025-05-06 12:42:43,253 - INFO - Attempting to stop container sweb.eval.sympy__sympy-18087.20250506_122807...
+2025-05-06 12:42:58,560 - INFO - Attempting to remove container sweb.eval.sympy__sympy-18087.20250506_122807...
+2025-05-06 12:42:58,579 - INFO - Container sweb.eval.sympy__sympy-18087.20250506_122807 removed.

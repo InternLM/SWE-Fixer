@@ -3,13 +3,13 @@
         "patch_is_None": false,
         "patch_exists": true,
         "patch_successfully_applied": true,
-        "resolved": true,
+        "resolved": false,
         "tests_status": {
             "FAIL_TO_PASS": {
-                "success": [
+                "success": [],
+                "failure": [
                     "lib/matplotlib/tests/test_colors.py::test_index_dtype[uint8]"
-                ],
-                "failure": []
+                ]
             },
             "PASS_TO_PASS": {
                 "success": [

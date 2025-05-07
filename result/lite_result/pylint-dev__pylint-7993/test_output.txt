@@ -270,26 +270,22 @@ index beb23a4df..3787b7a0e 100644
 +use-sequence-for-iteration:14:12:14:21::Use a sequence type when iterating over values:HIGH
 + git diff e90702074e68e20dc8e5df5013ee3ecf22139c3e
 diff --git a/pylint/reporters/text.py b/pylint/reporters/text.py
-index 29bd46798..21b3d0683 100644
+index 29bd46798..9385b8ef0 100644
 --- a/pylint/reporters/text.py
 +++ b/pylint/reporters/text.py
-@@ -175,7 +175,7 @@ class TextReporter(BaseReporter):
+@@ -175,10 +175,11 @@ class TextReporter(BaseReporter):
          self._template = template
  
          # Check to see if all parameters in the template are attributes of the Message
 -        arguments = re.findall(r"\{(.+?)(:.*)?\}", template)
-+        arguments = re.findall(r"\{([^{}]+?)(:.*)?\}", template)
++        arguments = re.findall(r"\{([^{}:]+?)(:.*)?\}", template)
          for argument in arguments:
              if argument[0] not in MESSAGE_FIELDS:
                  warnings.warn(
-@@ -186,6 +186,7 @@ class TextReporter(BaseReporter):
-         self._fixed_template = template
- 
-     def write_message(self, msg: Message) -> None:
 +
-         """Convenience method to write a formatted message with class default
-         template.
-         """
+                     f"Don't recognize the argument '{argument[0]}' in the --msg-template. "
+                     "Are you sure it is supported on the current version of pylint?"
+                 )
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -483,11 +479,10 @@ pylint/reporters/text.py:207: in handle_message
     self.write_message(msg)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <pylint.reporters.text.TextReporter object at 0x7f58fa3d1bb0>
+self = <pylint.reporters.text.TextReporter object at 0x7f3e65dc3b80>
 msg = Message(msg_id='C0301', symbol='line-too-long', msg='Line too long (1/2)', C='C', category='convention', confidence=Co...e level.'), abspath='my_mod', path='my_mod', module='my_mod', obj='', line=1, column=0, end_line=None, end_column=None)
 
     def write_message(self, msg: Message) -> None:
-    
         """Convenience method to write a formatted message with class default
         template.
         """

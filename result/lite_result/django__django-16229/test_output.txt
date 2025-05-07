@@ -180,7 +180,7 @@ index 6c708fefbb..9b2f21b88b 100644
 +        self.assertSequenceEqual(qs, [link2])
 + git diff 04b15022e8d1f49af69d8a1e6cd678f31f1280ff
 diff --git a/django/forms/models.py b/django/forms/models.py
-index 35ecdc1c0d..f7e1d38aad 100644
+index 35ecdc1c0d..72c75247ce 100644
 --- a/django/forms/models.py
 +++ b/django/forms/models.py
 @@ -65,18 +65,21 @@ def construct_instance(form, instance, fields=None, exclude=None):
@@ -211,12 +211,12 @@ index 35ecdc1c0d..f7e1d38aad 100644
              fk_value = getattr(self.instance, self.fk.remote_field.field_name)
              fk_value = getattr(fk_value, "pk", fk_value)
          setattr(form.instance, self.fk.get_attname(), fk_value)
-+        # Set default values for fields with callable defaults.
++        # Set defaults for fields with callable defaults.
 +        for name, field in form.fields.items():
 +            if field.widget.value_omitted_from_data(
 +                form.data, form.files, form.add_prefix(name)
 +            ):
-+                field.initial = field.initial() if callable(field.initial) else field.initial
++                form.initial[name] = field.initial
          return form
  
      @classmethod
@@ -364,8 +364,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20221118091331-0.editable-py3-none-any.whl size=27258 sha256=5a876e5d0a73e1f42be257b5f1d0b389d4378d1137912153eb87fda809a8e680
-  Stored in directory: /tmp/pip-ephem-wheel-cache-jq8w17y0/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20221118091331-0.editable-py3-none-any.whl size=27329 sha256=8718d9ba19619155245cf0ed7c0e08e6fc3b83f43183daa1c9b019f0d5b62047
+  Stored in directory: /tmp/pip-ephem-wheel-cache-ogkhkn9u/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -459,7 +459,7 @@ Int field:
 Diff is 1070 characters long. Set self.maxDiff to None to see it.
 
 ----------------------------------------------------------------------
-Ran 23 tests in 0.110s
+Ran 23 tests in 0.090s
 
 FAILED (failures=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

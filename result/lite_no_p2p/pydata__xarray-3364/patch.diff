@@ -1,0 +1,111 @@
+
+diff --git a/xarray/core/concat.py b/xarray/core/concat.py
+index 1ac1b8e..93b97ac 100644
+--- a/xarray/core/concat.py
++++ b/xarray/core/concat.py
+@@ -16,9 +16,12 @@ def concat(
+     positions=None,
+     fill_value=dtypes.NA,
+     join="outer",
++    ignore_index=False,
+ ):
+     """Concatenate xarray objects along a new or existing dimension.
+ 
++
++
+     Parameters
+     ----------
+     objs : sequence of Dataset and DataArray objects
+
+diff --git a/xarray/core/concat.py b/xarray/core/concat.py
+index 1ac1b8e..7e0dca3 100644
+--- a/xarray/core/concat.py
++++ b/xarray/core/concat.py
+@@ -90,9 +90,16 @@ def concat(
+         - 'override': if indexes are of same size, rewrite indexes to be
+           those of the first object with that dimension. Indexes for the same
+           dimension must have the same size in all objects.
++    ignore_index : bool, optional
++        If True, reset the index along the concatenation dimension. This feature is
++        analogous to the ``ignore_index`` option in ``pandas.concat``. This option is
++        invalid when the concatenation dimension is a coordinate, and must be set to
++        ``False`` in that case.
+ 
+     indexers, mode, concat_over : deprecated
+ 
++
++
+     Returns
+     -------
+     concatenated : type of objs
+
+diff --git a/xarray/core/concat.py b/xarray/core/concat.py
+index 1ac1b8e..086977c 100644
+--- a/xarray/core/concat.py
++++ b/xarray/core/concat.py
+@@ -128,10 +128,21 @@ def concat(
+             "can only concatenate xarray Dataset and DataArray "
+             "objects, got %s" % type(first_obj)
+         )
+-    return f(objs, dim, data_vars, coords, compat, positions, fill_value, join)
++    return f(
++        objs,
++        dim,
++        data_vars,
++        coords,
++        compat,
++        positions,
++        fill_value,
++        join,
++        ignore_index,
++    )
+ 
+ 
+ def _calc_concat_dim_coord(dim):
++
+     """
+     Infer the dimension name and 1d coordinate variable (if appropriate)
+     for concatenating along the new dimension.
+
+diff --git a/xarray/core/concat.py b/xarray/core/concat.py
+index 1ac1b8e..fd89703 100644
+--- a/xarray/core/concat.py
++++ b/xarray/core/concat.py
+@@ -269,9 +269,11 @@ def _dataset_concat(
+     positions,
+     fill_value=dtypes.NA,
+     join="outer",
++    ignore_index=False,
+ ):
+     """
+     Concatenate a sequence of datasets along a new or existing dimension
++
+     """
+     from .dataset import Dataset
+ 
+
+diff --git a/xarray/core/concat.py b/xarray/core/concat.py
+index 1ac1b8e..5713d1c 100644
+--- a/xarray/core/concat.py
++++ b/xarray/core/concat.py
+@@ -382,9 +382,20 @@ def _dataset_concat(
+         # add concat dimension last to ensure that its in the final Dataset
+         result[coord.name] = coord
+ 
++    if ignore_index:
++        if dim not in result.dims:
++            raise ValueError(
++                "ignore_index=True is invalid when the concatenation dimension "
++                "is a coordinate."
++            )
++        result = result.reset_index(dim)
++
+     return result
+ 
+ 
++
++
++
+ def _dataarray_concat(
+     arrays,
+     dim,

@@ -163,7 +163,7 @@ index 5dc1c3ef0d..696d83908a 100644
 +  --> Change system locale` in system settings.
 + git diff 0456d3e42795481a186db05719300691fe2a1029
 diff --git a/django/contrib/admin/sites.py b/django/contrib/admin/sites.py
-index 837dabfea8..e052287bfb 100644
+index 837dabfea8..b7356801d7 100644
 --- a/django/contrib/admin/sites.py
 +++ b/django/contrib/admin/sites.py
 @@ -430,10 +430,11 @@ class AdminSite:
@@ -179,18 +179,18 @@ index 837dabfea8..e052287bfb 100644
          """
          app_dict = {}
  
-@@ -463,9 +464,11 @@ class AdminSite:
-             model_dict = {
-                 'name': capfirst(model._meta.verbose_name_plural),
-                 'object_name': model._meta.object_name,
-+                'model': model,
+@@ -466,9 +467,11 @@ class AdminSite:
                  'perms': perms,
                  'admin_url': None,
                  'add_url': None,
-+
++                'model_class': model,
              }
              if perms.get('change') or perms.get('view'):
                  model_dict['view_only'] = not perms.get('change')
++
+                 try:
+                     model_dict['admin_url'] = reverse('admin:%s_%s_changelist' % info, current_app=self.name)
+                 except NoReverseMatch:
 @@ -503,11 +506,12 @@ class AdminSite:
          Return a sorted list of all the installed apps that have been
          registered in this site.
@@ -359,8 +359,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0.dev20210512184601-0.editable-py3-none-any.whl size=26102 sha256=6191e09503b70bbf9a122e5958a47176f8facf942377e33eb4c3c7f834eb580c
-  Stored in directory: /tmp/pip-ephem-wheel-cache-lsxojq6r/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0.dev20210512184601-0.editable-py3-none-any.whl size=26101 sha256=d70de8764e607fdfd7dbac4998a5542096df991b705eeb005fe4675fbedbac63
+  Stored in directory: /tmp/pip-ephem-wheel-cache-5jhut_wp/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -522,10 +522,10 @@ Running migrations:
   Applying admin.0002_logentry_remove_auto_add... OK
   Applying admin.0003_logentry_add_action_flag_choices... OK
   Applying sites.0001_initial... OK
-  Applying sites.0002_alter_domain_unique... OK
-Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+  Applying sites.0002_alter_domain_unique...Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+ OK
 System check identified no issues (1 silenced).
-test_available_apps (admin_views.test_adminsite.SiteEachContextTest) ... ok
+test_available_apps (admin_views.test_adminsite.SiteEachContextTest) ... ERROR
 test_each_context (admin_views.test_adminsite.SiteEachContextTest) ... ok
 test_each_context_site_url_with_script_name (admin_views.test_adminsite.SiteEachContextTest) ... ok
 test_add_action (admin_views.test_adminsite.SiteActionsTests) ... ok
@@ -533,10 +533,18 @@ test_disable_action (admin_views.test_adminsite.SiteActionsTests) ... ok
 test_get_action (admin_views.test_adminsite.SiteActionsTests)
 AdminSite.get_action() returns an action even if it's disabled. ... ok
 
+======================================================================
+ERROR: test_available_apps (admin_views.test_adminsite.SiteEachContextTest)
 ----------------------------------------------------------------------
-Ran 6 tests in 0.009s
+Traceback (most recent call last):
+  File "/testbed/tests/admin_views/test_adminsite.py", line 60, in test_available_apps
+    self.assertEqual(article['model'], Article)
+KeyError: 'model'
 
-OK
+----------------------------------------------------------------------
+Ran 6 tests in 0.010s
+
+FAILED (errors=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 + git checkout 0456d3e42795481a186db05719300691fe2a1029 tests/admin_views/test_adminsite.py
 Updated 1 path from 208df5acd8

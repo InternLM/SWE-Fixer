@@ -1,0 +1,21 @@
+
+diff --git a/django/db/models/sql/compiler.py b/django/db/models/sql/compiler.py
+index 59c0764..558c530 100644
+--- a/django/db/models/sql/compiler.py
++++ b/django/db/models/sql/compiler.py
+@@ -468,11 +468,13 @@ class SQLCompiler:
+                 parts += ((part_sql, part_args),)
+             except EmptyResultSet:
+                 # Omit the empty queryset with UNION and with DIFFERENCE if the
+-                # first queryset is nonempty.
+-                if combinator == 'union' or (combinator == 'difference' and parts):
++                # first queryset is nonempty and with UNION if the first
++                # queryset is empty.
++                if combinator != 'union' or (combinator == 'difference' and parts):
+                     continue
+                 raise
+         if not parts:
++
+             raise EmptyResultSet
+         combinator_sql = self.connection.ops.set_operators[combinator]
+         if all and combinator == 'union':

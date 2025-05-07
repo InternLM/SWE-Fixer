@@ -151,22 +151,25 @@ Date:   Sun May 22 13:33:42 2022 +0900
 
 + git diff 195e911f1dab04b8ddeacbe04b7d214aaf81bb0b
 diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
-index e16ab8ce5..e1d466399 100644
+index e16ab8ce5..102b5b8cc 100644
 --- a/sphinx/ext/autodoc/__init__.py
 +++ b/sphinx/ext/autodoc/__init__.py
-@@ -485,10 +485,11 @@ class Documenter:
-                 retann = None
-                 args = self._call_format_args(**kwargs)
-                 if args:
--                    matched = re.match(r'^(\(.*\))\s+->\s+(.*)$', args)
-+                    matched = re.match(r'^(\(.*\))\s+->\s+(.*)?$', args)
-                     if matched:
-                         args = matched.group(1)
-                         retann = matched.group(2)
-+
-             except Exception as exc:
-                 logger.warning(__('error while formatting arguments for %s: %s'),
+@@ -494,9 +494,15 @@ class Documenter:
                                 self.fullname, exc, type='autodoc')
+                 args = None
+ 
++        if args is None:
++            args = ''
++        if retann is None:
++            retann = ''
++
+         result = self.env.events.emit_firstresult('autodoc-process-signature',
+                                                   self.objtype, self.fullname,
+                                                   self.object, self.options, args, retann)
++
+         if result:
+             args, retann = result
+ 
 diff --git a/tox.ini b/tox.ini
 index 105a02597..90ada0821 100644
 --- a/tox.ini
@@ -308,43 +311,43 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: sphinxcontrib-applehelp in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.0.0)
-Requirement already satisfied: sphinxcontrib-devhelp in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.0.0)
-Requirement already satisfied: sphinxcontrib-jsmath in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (1.0.1)
-Requirement already satisfied: sphinxcontrib-htmlhelp>=2.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.1.0)
-Requirement already satisfied: sphinxcontrib-serializinghtml>=1.1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.0.0)
-Requirement already satisfied: sphinxcontrib-qthelp in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.0.0)
-Requirement already satisfied: Jinja2>=2.3 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (3.1.4)
-Requirement already satisfied: Pygments>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.18.0)
-Requirement already satisfied: docutils<0.19,>=0.14 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (0.18.1)
-Requirement already satisfied: snowballstemmer>=1.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.2.0)
-Requirement already satisfied: babel>=1.3 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.16.0)
-Requirement already satisfied: alabaster<0.8,>=0.7 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (0.7.16)
-Requirement already satisfied: imagesize in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (1.4.1)
-Requirement already satisfied: requests>=2.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (2.32.3)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (24.2)
-Requirement already satisfied: importlib-metadata>=4.4 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (8.5.0)
-Requirement already satisfied: pytest>=4.6 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (8.3.4)
-Requirement already satisfied: html5lib in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (1.1)
-Requirement already satisfied: cython in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250212) (3.0.11)
-Requirement already satisfied: zipp>=3.20 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from importlib-metadata>=4.4->Sphinx==5.1.0.dev20250212) (3.21.0)
-Requirement already satisfied: MarkupSafe>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Jinja2>=2.3->Sphinx==5.1.0.dev20250212) (3.0.2)
-Requirement already satisfied: exceptiongroup>=1.0.0rc8 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250212) (1.2.2)
-Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250212) (2.0.0)
-Requirement already satisfied: pluggy<2,>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250212) (1.5.0)
-Requirement already satisfied: tomli>=1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250212) (2.2.1)
-Requirement already satisfied: charset-normalizer<4,>=2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250212) (3.4.0)
-Requirement already satisfied: idna<4,>=2.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250212) (3.10)
-Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250212) (2.2.3)
-Requirement already satisfied: certifi>=2017.4.17 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250212) (2024.8.30)
-Requirement already satisfied: six>=1.9 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==5.1.0.dev20250212) (1.17.0)
-Requirement already satisfied: webencodings in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==5.1.0.dev20250212) (0.5.1)
+Requirement already satisfied: sphinxcontrib-applehelp in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.0.0)
+Requirement already satisfied: sphinxcontrib-devhelp in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.0.0)
+Requirement already satisfied: sphinxcontrib-jsmath in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (1.0.1)
+Requirement already satisfied: sphinxcontrib-htmlhelp>=2.0.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.1.0)
+Requirement already satisfied: sphinxcontrib-serializinghtml>=1.1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.0.0)
+Requirement already satisfied: sphinxcontrib-qthelp in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.0.0)
+Requirement already satisfied: Jinja2>=2.3 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (3.1.4)
+Requirement already satisfied: Pygments>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.18.0)
+Requirement already satisfied: docutils<0.19,>=0.14 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (0.18.1)
+Requirement already satisfied: snowballstemmer>=1.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.2.0)
+Requirement already satisfied: babel>=1.3 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.16.0)
+Requirement already satisfied: alabaster<0.8,>=0.7 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (0.7.16)
+Requirement already satisfied: imagesize in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (1.4.1)
+Requirement already satisfied: requests>=2.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (2.32.3)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (24.2)
+Requirement already satisfied: importlib-metadata>=4.4 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (8.5.0)
+Requirement already satisfied: pytest>=4.6 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (8.3.4)
+Requirement already satisfied: html5lib in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (1.1)
+Requirement already satisfied: cython in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==5.1.0.dev20250506) (3.0.11)
+Requirement already satisfied: zipp>=3.20 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from importlib-metadata>=4.4->Sphinx==5.1.0.dev20250506) (3.21.0)
+Requirement already satisfied: MarkupSafe>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Jinja2>=2.3->Sphinx==5.1.0.dev20250506) (3.0.2)
+Requirement already satisfied: exceptiongroup>=1.0.0rc8 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250506) (1.2.2)
+Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250506) (2.0.0)
+Requirement already satisfied: pluggy<2,>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250506) (1.5.0)
+Requirement already satisfied: tomli>=1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest>=4.6->Sphinx==5.1.0.dev20250506) (2.2.1)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250506) (3.4.0)
+Requirement already satisfied: idna<4,>=2.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250506) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250506) (2.2.3)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==5.1.0.dev20250506) (2024.8.30)
+Requirement already satisfied: six>=1.9 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==5.1.0.dev20250506) (1.17.0)
+Requirement already satisfied: webencodings in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==5.1.0.dev20250506) (0.5.1)
 Installing collected packages: Sphinx
   Attempting uninstall: Sphinx
     Found existing installation: Sphinx 5.1.0.dev20241205
     Uninstalling Sphinx-5.1.0.dev20241205:
       Successfully uninstalled Sphinx-5.1.0.dev20241205
-  DEPRECATION: Legacy editable install of Sphinx[test]==5.1.0.dev20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of Sphinx[test]==5.1.0.dev20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for Sphinx
 Successfully installed Sphinx
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
@@ -386,8 +389,8 @@ tests/test_ext_napoleon_docstring.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[3
 [31m[1m_____________ test_napoleon_and_autodoc_typehints_description_all ______________[0m
 
 app = <SphinxTestApp buildername='text'>
-status = <_io.StringIO object at 0x7fce4ebbdeb0>
-warning = <_io.StringIO object at 0x7fce4ebbdf50>
+status = <_io.StringIO object at 0x7f7b958f7eb0>
+warning = <_io.StringIO object at 0x7f7b958f7f50>
 
     [0m[37m@pytest[39;49;00m.mark.sphinx([33m'[39;49;00m[33mtext[39;49;00m[33m'[39;49;00m, testroot=[33m'[39;49;00m[33mext-napoleon[39;49;00m[33m'[39;49;00m,[90m[39;49;00m
                         confoverrides={[33m'[39;49;00m[33mautodoc_typehints[39;49;00m[33m'[39;49;00m: [33m'[39;49;00m[33mdescription[39;49;00m[33m'[39;49;00m,[90m[39;49;00m
@@ -448,8 +451,8 @@ The text files are in ../tmp/pytest-of-root/pytest-0/ext-napoleon/_build/text.
 [31m[1m______ test_napoleon_and_autodoc_typehints_description_documented_params _______[0m
 
 app = <SphinxTestApp buildername='text'>
-status = <_io.StringIO object at 0x7fce4eba2af0>
-warning = <_io.StringIO object at 0x7fce4eba20f0>
+status = <_io.StringIO object at 0x7f7b95901af0>
+warning = <_io.StringIO object at 0x7f7b959010f0>
 
     [0m[37m@pytest[39;49;00m.mark.sphinx([33m'[39;49;00m[33mtext[39;49;00m[33m'[39;49;00m, testroot=[33m'[39;49;00m[33mext-napoleon[39;49;00m[33m'[39;49;00m,[90m[39;49;00m
                         confoverrides={[33m'[39;49;00m[33mautodoc_typehints[39;49;00m[33m'[39;49;00m: [33m'[39;49;00m[33mdescription[39;49;00m[33m'[39;49;00m,[90m[39;49;00m
@@ -957,31 +960,31 @@ Sample class with PEP 526 annotations and numpy docstring
    :type: str
 
 ============================= slowest 25 durations =============================
-0.42s setup    tests/test_ext_autodoc_configs.py::test_autoclass_content_class
-0.16s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_signature
+0.46s setup    tests/test_ext_autodoc_configs.py::test_autoclass_content_class
+0.18s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_signature
 0.12s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_format_fully_qualified
 0.12s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_none
 0.08s call     tests/test_ext_autodoc_configs.py::test_autodoc_default_options
-0.07s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description
 0.07s call     tests/test_ext_autodoc_configs.py::test_autodoc_default_options_with_values
-0.07s setup    tests/test_ext_autodoc_configs.py::test_autodoc_type_aliases
+0.06s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description
+0.06s setup    tests/test_ext_autodoc_configs.py::test_autodoc_type_aliases
 0.05s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_and_type_aliases
 0.03s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_both
 0.03s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_no_undoc_doc_rtype
-0.03s call     tests/test_ext_autodoc_configs.py::test_mocked_module_imports
 0.03s setup    tests/test_ext_napoleon_docstring.py::TestNumpyDocstring::test_token_type_invalid
 0.02s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_with_documented_init
 0.02s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_no_undoc
 0.02s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_with_documented_init_no_undoc
-0.02s call     tests/test_ext_napoleon_docstring.py::test_napoleon_and_autodoc_typehints_description_all
 0.02s call     tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_with_documented_init_no_undoc_doc_rtype
-0.02s setup    tests/test_ext_autodoc_configs.py::test_autodoc_typehints_signature
-0.02s call     tests/test_ext_napoleon_docstring.py::test_napoleon_and_autodoc_typehints_description_documented_params
+0.02s call     tests/test_ext_napoleon_docstring.py::test_napoleon_and_autodoc_typehints_description_all
 0.02s call     tests/test_ext_autodoc_configs.py::test_autodoc_type_aliases
-0.02s setup    tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_and_type_aliases
-0.02s setup    tests/test_ext_autodoc_configs.py::test_autoclass_content_and_docstring_signature_init
+0.02s call     tests/test_ext_napoleon_docstring.py::test_napoleon_and_autodoc_typehints_description_documented_params
 0.02s call     tests/test_ext_autodoc_configs.py::test_autoclass_content_class
+0.02s setup    tests/test_ext_autodoc_configs.py::test_autoclass_content_and_docstring_signature_init
+0.02s setup    tests/test_ext_autodoc_configs.py::test_autodoc_typehints_signature
+0.02s setup    tests/test_ext_autodoc_configs.py::test_autoclass_content_both
 0.02s call     tests/test_ext_autodoc_configs.py::test_autodoc_docstring_signature
+0.02s setup    tests/test_ext_autodoc_configs.py::test_autodoc_typehints_description_and_type_aliases
 [36m[1m=========================== short test summary info ============================[0m
 [32mPASSED[0m tests/test_ext_autodoc_configs.py::[1mtest_autoclass_content_class[0m
 [32mPASSED[0m tests/test_ext_autodoc_configs.py::[1mtest_autoclass_content_init[0m
@@ -1065,9 +1068,9 @@ Sample class with PEP 526 annotations and numpy docstring
 [32mPASSED[0m tests/test_ext_napoleon_docstring.py::[1mTestNumpyDocstring::test_pep526_annotations[0m
 [31mFAILED[0m tests/test_ext_napoleon_docstring.py::[1mtest_napoleon_and_autodoc_typehints_description_all[0m - AssertionError: assert 'typehints\n*...n      None\n' == 'typehints\n*...n ...
 [31mFAILED[0m tests/test_ext_napoleon_docstring.py::[1mtest_napoleon_and_autodoc_typehints_description_documented_params[0m - AssertionError: assert 'typehints\n*... arguments.\n' == 'typehints\n*... a...
-[31m========================= [31m[1m2 failed[0m, [32m80 passed[0m[31m in 2.59s[0m[31m =========================[0m
-py39: exit 1 (3.24 seconds) /testbed> python -X dev -X warn_default_encoding -m pytest -rA --durations 25 tests/roots/test-ext-autodoc/target/typehints.py tests/roots/test-ext-napoleon/conf.py tests/roots/test-ext-napoleon/index.rst tests/roots/test-ext-napoleon/mypackage/__init__.py tests/roots/test-ext-napoleon/mypackage/typehints.py tests/roots/test-ext-napoleon/typehints.rst tests/test_ext_autodoc_configs.py tests/test_ext_napoleon_docstring.py pid=113
-  py39: FAIL code 1 (3.25=setup[0.01]+cmd[3.24] seconds)
+[31m========================= [31m[1m2 failed[0m, [32m80 passed[0m[31m in 2.60s[0m[31m =========================[0m
+py39: exit 1 (3.20 seconds) /testbed> python -X dev -X warn_default_encoding -m pytest -rA --durations 25 tests/roots/test-ext-autodoc/target/typehints.py tests/roots/test-ext-napoleon/conf.py tests/roots/test-ext-napoleon/index.rst tests/roots/test-ext-napoleon/mypackage/__init__.py tests/roots/test-ext-napoleon/mypackage/typehints.py tests/roots/test-ext-napoleon/typehints.rst tests/test_ext_autodoc_configs.py tests/test_ext_napoleon_docstring.py pid=113
+  py39: FAIL code 1 (3.21=setup[0.01]+cmd[3.20] seconds)
   evaluation failed :( (3.34 seconds)
 + git checkout 195e911f1dab04b8ddeacbe04b7d214aaf81bb0b tests/roots/test-ext-autodoc/target/typehints.py tests/test_ext_autodoc_configs.py tests/test_ext_napoleon_docstring.py
 Updated 3 paths from 1aabd772f

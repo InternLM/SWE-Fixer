@@ -373,8 +373,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20220623091235-0.editable-py3-none-any.whl size=27102 sha256=29a36b1d6f5b140cfc32cae2c490a63dd31134ed7e82ed6b62a2c6e6e3582bb9
-  Stored in directory: /tmp/pip-ephem-wheel-cache-e595_ihi/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20220623091235-0.editable-py3-none-any.whl size=27168 sha256=955e764dba98412d01d221c2d5ef94ad461aa4259f2dbe6dcb733763bee88caf
+  Stored in directory: /tmp/pip-ephem-wheel-cache-3hdbkj81/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -405,7 +405,7 @@ test_template_tags_with_same_library_name_and_module_name (check_framework.test_
 test_template_tags_with_same_name (check_framework.test_templates.CheckTemplateTagLibrariesWithSameName) ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 0.009s
+Ran 13 tests in 0.013s
 
 OK
 Testing against Django installed in '/testbed/django'

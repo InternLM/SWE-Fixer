@@ -270,31 +270,23 @@ index f401f0d8aa..3582f054be 100644
  </div>
 + git diff b4817d20b9e55df30be0b1b2ca8c8bb6d61aab07
 diff --git a/django/core/management/base.py b/django/core/management/base.py
-index abc6f79a15..bbeb81ff67 100644
+index abc6f79a15..ae1ddb5c86 100644
 --- a/django/core/management/base.py
 +++ b/django/core/management/base.py
-@@ -396,12 +396,20 @@ class BaseCommand:
-         options = parser.parse_args(argv[2:])
-         cmd_options = vars(options)
-         # Move positional args out of options to mimic legacy optparse
--        args = cmd_options.pop("args", ())
-+        args = cmd_options.pop("args", [])
+@@ -399,11 +399,12 @@ class BaseCommand:
+         args = cmd_options.pop("args", ())
          handle_default_options(options)
          try:
-+            # Move the database name to the end of the args list to allow db
-+            # backends to add additional args before the database name without
-+            # having to worry about breaking the dbshell command.
-+            if "database" in cmd_options:
-+                db_name = cmd_options["database"]
-+                cmd_options.pop("database")
-+                args.append(db_name)
-             self.execute(*args, **cmd_options)
+-            self.execute(*args, **cmd_options)
++            self.execute(**cmd_options)
          except CommandError as e:
              if options.traceback:
-+
                  raise
  
++
              # SystemCheckError takes care of its own formatting.
+             if isinstance(e, SystemCheckError):
+                 self.stderr.write(str(e), lambda x: x)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -435,8 +427,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.2.dev20220717112353-0.editable-py3-none-any.whl size=27122 sha256=ad0fa0c1af9a5de4c300f0ce06f04d897dfa44c1502e7d9e64b834b256f294f2
-  Stored in directory: /tmp/pip-ephem-wheel-cache-le5kxvi9/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.2.dev20220717112353-0.editable-py3-none-any.whl size=27192 sha256=9e5356e14a496f9b1e614e1ec88ab906b045e033dfe729d96bbb0aaf81f61b97
+  Stored in directory: /tmp/pip-ephem-wheel-cache-8z2o1dea/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -479,7 +471,7 @@ First differing element 0:
 + (['psql', '--help', 'dbname'], None)
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.046s
+Ran 10 tests in 0.043s
 
 FAILED (failures=1, skipped=1)
 Testing against Django installed in '/testbed/django'

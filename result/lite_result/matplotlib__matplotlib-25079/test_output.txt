@@ -178,14 +178,16 @@ Date:   Tue Jan 24 18:37:21 2023 -0600
 
 + git diff 66f7956984cbfc3647e867c6e5fde889a89c64ef
 diff --git a/lib/matplotlib/image.py b/lib/matplotlib/image.py
-index 7b066bdaf7..1fcb2b9869 100644
+index 7b066bdaf7..b96905b60f 100644
 --- a/lib/matplotlib/image.py
 +++ b/lib/matplotlib/image.py
-@@ -448,10 +448,10 @@ class _ImageBase(martist.Artist, cm.ScalarMappable):
+@@ -448,10 +448,12 @@ class _ImageBase(martist.Artist, cm.ScalarMappable):
                  # for big numbers at the edge of float64's ability to represent
                  # changes.  Applying a norm first would be good, but ruins the
                  # interpolation of over numbers.
 -                self.norm.autoscale_None(A)
++                with self.norm.callbacks.blocked():
++                    self.norm.autoscale_None(A)
                  dv = np.float64(self.norm.vmax) - np.float64(self.norm.vmin)
                  vmid = np.float64(self.norm.vmin) + dv / 2
                  fact = 1e7 if scaled_dtype == np.float64 else 1e4
@@ -193,18 +195,6 @@ index 7b066bdaf7..1fcb2b9869 100644
                  newmin = vmid - dv * fact
                  if newmin < a_min:
                      newmin = None
-@@ -545,10 +545,10 @@ class _ImageBase(martist.Artist, cm.ScalarMappable):
-                     output = self.norm(resampled_masked)
-             else:
-                 if A.ndim == 2:  # _interpolation_stage == 'rgba'
--                    self.norm.autoscale_None(A)
-                     A = self.to_rgba(A)
-                 if A.shape[2] == 3:
-                     A = _rgb_to_rgba(A)
-+
-                 alpha = self._get_scalar_alpha()
-                 output_alpha = _resample(  # resample alpha channel
-                     self, A[..., 3], out_shape, t, alpha=alpha)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -381,31 +371,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1451+g66f7956984.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev1451+g66f7956984.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev1451+g66f7956984.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23417 sha256=029135a3c7aec24a4ad38ba234a81f2f6e6b7fbee54e9ed7509d2493c6649fb7
-  Stored in directory: /tmp/pip-ephem-wheel-cache-l0onjbsl/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.7.0.dev1451+g66f7956984.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=23842 sha256=cf6f37badcf4f8103515a63661ac839dd33ff7397b827bc0ac7e22d05a1e00eb
+  Stored in directory: /tmp/pip-ephem-wheel-cache-kwxh4428/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.7.0.dev1451+g66f7956984
     Uninstalling matplotlib-3.7.0.dev1451+g66f7956984:
       Successfully uninstalled matplotlib-3.7.0.dev1451+g66f7956984
-Successfully installed matplotlib-3.7.0.dev1451+g66f7956984.d20250212
+Successfully installed matplotlib-3.7.0.dev1451+g66f7956984.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 66f7956984cbfc3647e867c6e5fde889a89c64ef lib/matplotlib/tests/test_colors.py
 Updated 0 paths from 604de94236
@@ -469,7 +459,7 @@ ______________________________ test_norm_callback ______________________________
         norm.autoscale([0, 1, 2])
 >       assert increment.call_count == 1
 E       AssertionError: assert 4 == 1
-E        +  where 4 = <Mock id='140671318556304'>.call_count
+E        +  where 4 = <Mock id='140555429371408'>.call_count
 
 lib/matplotlib/tests/test_colors.py:1499: AssertionError
 ==================================== PASSES ====================================
@@ -730,6 +720,6 @@ PASSED lib/matplotlib/tests/test_colors.py::test_cm_set_cmap_error
 SKIPPED [1] lib/matplotlib/testing/compare.py:285: Don't know how to convert .svg files to png
 FAILED lib/matplotlib/tests/test_colors.py::test_double_register_builtin_cmap
 FAILED lib/matplotlib/tests/test_colors.py::test_norm_callback - AssertionErr...
-=================== 2 failed, 253 passed, 1 skipped in 6.80s ===================
+=================== 2 failed, 253 passed, 1 skipped in 6.53s ===================
 + git checkout 66f7956984cbfc3647e867c6e5fde889a89c64ef lib/matplotlib/tests/test_colors.py
 Updated 1 path from 604de94236

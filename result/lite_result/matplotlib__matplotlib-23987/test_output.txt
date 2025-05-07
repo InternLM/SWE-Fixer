@@ -178,29 +178,23 @@ Date:   Wed Sep 21 17:53:56 2022 -0400
 
 + git diff e98d8d085e8f53ec0467422b326f7738a2dd695e
 diff --git a/lib/matplotlib/figure.py b/lib/matplotlib/figure.py
-index 5bbb786984..8b4ebf1378 100644
+index 5bbb786984..2dc4db587f 100644
 --- a/lib/matplotlib/figure.py
 +++ b/lib/matplotlib/figure.py
-@@ -1311,13 +1311,15 @@ default: %(va)s
+@@ -1309,11 +1309,12 @@ default: %(va)s
+             The height of the padding between subplots,
+             as a fraction of the average Axes height.
          """
-         if (self.get_layout_engine() is not None and
+-        if (self.get_layout_engine() is not None and
++        if (isinstance(self.get_layout_engine(), ConstrainedLayoutEngine) and
                  not self.get_layout_engine().adjust_compatible):
--            _api.warn_external(
--                "This figure was using a layout engine that is "
--                "incompatible with subplots_adjust and/or tight_layout; "
--                "not calling subplots_adjust.")
-+            if not self.get_constrained_layout():
-+                _api.warn_external(
-+                    "This figure was using a layout engine that is "
-+                    "incompatible with subplots_adjust and/or tight_layout; "
-+                    "not calling subplots_adjust.")
+             _api.warn_external(
+                 "This figure was using a layout engine that is "
+                 "incompatible with subplots_adjust and/or tight_layout; "
++
+                 "not calling subplots_adjust.")
              return
          self.subplotpars.update(left, bottom, right, top, wspace, hspace)
-         for ax in self.axes:
-+
-             if hasattr(ax, 'get_subplotspec'):
-                 ax._set_position(ax.get_subplotspec().get_position(self))
-         self.stale = True
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -371,27 +365,27 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev229+ge98d8d085e.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.19 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.7.0.dev229+ge98d8d085e.d20250506) (4.7.1)
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.7.0.dev229+ge98d8d085e
     Uninstalling matplotlib-3.7.0.dev229+ge98d8d085e:
       Successfully uninstalled matplotlib-3.7.0.dev229+ge98d8d085e
-  DEPRECATION: Legacy editable install of matplotlib==3.7.0.dev229+ge98d8d085e.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of matplotlib==3.7.0.dev229+ge98d8d085e.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for matplotlib
-Successfully installed matplotlib-3.7.0.dev229+ge98d8d085e.d20250212
+Successfully installed matplotlib-3.7.0.dev229+ge98d8d085e.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout e98d8d085e8f53ec0467422b326f7738a2dd695e lib/matplotlib/tests/test_constrainedlayout.py
 Updated 0 paths from a5a83cc34b
@@ -474,6 +468,6 @@ PASSED lib/matplotlib/tests/test_constrainedlayout.py::test_set_constrained_layo
 PASSED lib/matplotlib/tests/test_constrainedlayout.py::test_set_constrained_layout[arg2-True]
 PASSED lib/matplotlib/tests/test_constrainedlayout.py::test_set_constrained_layout[arg3-True]
 FAILED lib/matplotlib/tests/test_constrainedlayout.py::test_set_constrained_layout[False-False]
-======================== 1 failed, 43 passed in 13.03s =========================
+======================== 1 failed, 43 passed in 13.34s =========================
 + git checkout e98d8d085e8f53ec0467422b326f7738a2dd695e lib/matplotlib/tests/test_constrainedlayout.py
 Updated 1 path from a5a83cc34b

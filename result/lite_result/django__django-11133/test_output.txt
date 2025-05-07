@@ -443,15 +443,15 @@ test_memoryview_content (httpwrappers.tests.HttpResponseTests) ... ok
 test_newlines_in_headers (httpwrappers.tests.HttpResponseTests) ... ok
 test_non_string_content (httpwrappers.tests.HttpResponseTests) ... ok
 test_stream_interface (httpwrappers.tests.HttpResponseTests) ... ok
-test_unsafe_redirect (httpwrappers.tests.HttpResponseTests) ... Testing against Django installed in '/testbed/django'
+test_unsafe_redirect (httpwrappers.tests.HttpResponseTests) ... ok
+
+----------------------------------------------------------------------
+Ran 65 tests in 0.008s
+
+OK
+Testing against Django installed in '/testbed/django'
 Importing application httpwrappers
 Skipping setup of unused database(s): default, other.
 System check identified no issues (0 silenced).
-ok
-
-----------------------------------------------------------------------
-Ran 65 tests in 0.007s
-
-OK
 + git checkout 879cc3da6249e920b8d54518a0ae06de835d7373 tests/httpwrappers/tests.py
 Updated 1 path from 6e92992b42

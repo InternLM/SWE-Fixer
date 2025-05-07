@@ -1,0 +1,51 @@
+2024-12-06 20:02:56,914 - INFO - Building image sweb.eval.x86_64.sphinx-doc__sphinx-8120:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.c6d251a05e0af7688b64fd:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-06 20:02:56,914 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/sphinx-doc/sphinx /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard 795747bdb6b8fb7d717d5bbfc2c3316869e66a73
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+sed -i 's/pytest/pytest -rA/' tox.ini
+sed -i 's/Jinja2>=2.3/Jinja2<3.0/' setup.py
+sed -i 's/sphinxcontrib-applehelp/sphinxcontrib-applehelp<=1.0.7/' setup.py
+sed -i 's/sphinxcontrib-devhelp/sphinxcontrib-devhelp<=1.0.5/' setup.py
+sed -i 's/sphinxcontrib-qthelp/sphinxcontrib-qthelp<=1.0.6/' setup.py
+sed -i 's/alabaster>=0.7,<0.8/alabaster>=0.7,<0.7.12/' setup.py
+sed -i "s/'packaging',/'packaging', 'markupsafe<=2.0.1',/" setup.py
+sed -i 's/sphinxcontrib-htmlhelp/sphinxcontrib-htmlhelp<=2.0.4/' setup.py
+sed -i 's/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml<=1.1.9/' setup.py
+python -m pip install -e .[test]
+
+2024-12-06 20:02:56,914 - INFO - Building docker image sweb.eval.x86_64.sphinx-doc__sphinx-8120:latest in logs/build_images/instances/sweb.eval.x86_64.sphinx-doc__sphinx-8120__latest with platform linux/x86_64
+2024-12-06 20:02:56,930 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.c6d251a05e0af7688b64fd:latest
+2024-12-06 20:02:56,930 - INFO - 
+2024-12-06 20:02:56,930 - INFO - ---> e07fd98c5f7f
+2024-12-06 20:02:56,930 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-06 20:02:56,930 - INFO - 
+2024-12-06 20:02:56,941 - INFO - ---> Using cache
+2024-12-06 20:02:56,941 - INFO - ---> 4bda0433bd55
+2024-12-06 20:02:56,941 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-06 20:02:56,941 - INFO - 
+2024-12-06 20:02:56,942 - INFO - ---> Using cache
+2024-12-06 20:02:56,942 - INFO - ---> c6aa44f96f76
+2024-12-06 20:02:56,942 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-06 20:02:56,942 - INFO - 
+2024-12-06 20:02:56,942 - INFO - ---> Using cache
+2024-12-06 20:02:56,942 - INFO - ---> fe682d4de29f
+2024-12-06 20:02:56,942 - INFO - Successfully built fe682d4de29f
+2024-12-06 20:02:56,944 - INFO - Successfully tagged sweb.eval.x86_64.sphinx-doc__sphinx-8120:latest
+2024-12-06 20:02:56,944 - INFO - Image built successfully!

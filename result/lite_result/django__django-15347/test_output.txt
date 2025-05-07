@@ -795,10 +795,10 @@ index 1fbcbe164c..fadbe6e1d5 100644
  <script src="https://secure.other.com/path/to/js3"></script>
 + git diff 7c4f3965098baad2396e24501e09237425a7bd6f
 diff --git a/django/contrib/messages/storage/cookie.py b/django/contrib/messages/storage/cookie.py
-index 1d390c71dd..422951f559 100644
+index 1d390c71dd..8edfc1ad68 100644
 --- a/django/contrib/messages/storage/cookie.py
 +++ b/django/contrib/messages/storage/cookie.py
-@@ -19,7 +19,7 @@ class MessageEncoder(json.JSONEncoder):
+@@ -19,12 +19,13 @@ class MessageEncoder(json.JSONEncoder):
              # Using 0/1 here instead of False/True to produce more compact json
              is_safedata = 1 if isinstance(obj.message, SafeData) else 0
              message = [self.message_key, is_safedata, obj.level, obj.message]
@@ -807,11 +807,17 @@ index 1d390c71dd..422951f559 100644
                  message.append(obj.extra_tags)
              return message
          return super().default(obj)
-@@ -35,10 +35,13 @@ class MessageDecoder(json.JSONDecoder):
+ 
+ 
++
+ class MessageDecoder(json.JSONDecoder):
+     """
+     Decode JSON that includes serialized ``Message`` instances.
+@@ -35,10 +36,13 @@ class MessageDecoder(json.JSONDecoder):
              if obj[0] == MessageEncoder.message_key:
                  if obj[1]:
                      obj[3] = mark_safe(obj[3])
-+                if len(obj) < 5:
++                if len(obj) == 4:
 +                    obj.append('')
                  return Message(*obj[2:])
              return [self.process_messages(item) for item in obj]
@@ -961,8 +967,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20220122153814-0.editable-py3-none-any.whl size=26914 sha256=7e21bb7eef74faf45f34dfd65fe1c60e50bb11233f61011d24f11ac2e2f17c61
-  Stored in directory: /tmp/pip-ephem-wheel-cache-8q6lmzid/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20220122153814-0.editable-py3-none-any.whl size=26984 sha256=23505858b63b753aa42390a92a72dc1ca5d1cd4b15fd81b52e52748987aec2a9
+  Stored in directory: /tmp/pip-ephem-wheel-cache-n97p_715/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -1027,7 +1033,7 @@ Traceback (most recent call last):
 AssertionError: '' != None
 
 ----------------------------------------------------------------------
-Ran 30 tests in 0.097s
+Ran 30 tests in 0.102s
 
 FAILED (failures=1)
 Testing against Django installed in '/testbed/django'

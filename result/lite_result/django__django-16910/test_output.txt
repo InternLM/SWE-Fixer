@@ -332,8 +332,8 @@ Requirement already satisfied: sqlparse>=0.3.1 in /opt/miniconda3/envs/testbed/l
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-5.0.dev20230601135641-0.editable-py3-none-any.whl size=27450 sha256=d8b5cdae3cf9f7992ccf67b1271c3f8096e45a0c29ca5f069c4602c2f0f305e3
-  Stored in directory: /tmp/pip-ephem-wheel-cache-nnwy69jc/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for Django: filename=django-5.0.dev20230601135641-0.editable-py3-none-any.whl size=27516 sha256=752918bdafde38f3118567b2e95ce2277d8456ed5b0f9765dd7450bfba9740c5
+  Stored in directory: /tmp/pip-ephem-wheel-cache-qc529l8c/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -471,7 +471,7 @@ Captured queries were:
 
 
 ----------------------------------------------------------------------
-Ran 39 tests in 0.055s
+Ran 39 tests in 0.063s
 
 FAILED (failures=2)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

@@ -1,0 +1,58 @@
+2025-05-06 06:42:03,561 - INFO - Environment image sweb.env.x86_64.7037e8c448a4b8ebfe9b13:latest found for matplotlib__matplotlib-23412
+Building instance image sweb.eval.x86_64.matplotlib__matplotlib-23412:latest for matplotlib__matplotlib-23412
+2025-05-06 06:42:03,564 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-23412:latest already exists, skipping build.
+2025-05-06 06:42:03,564 - INFO - Creating container for matplotlib__matplotlib-23412...
+2025-05-06 06:42:03,596 - INFO - Container for matplotlib__matplotlib-23412 created: 69353e2d5e711a0c65274858ec12130712cd318f054e9010e3abb563f246ca19
+2025-05-06 06:42:03,864 - INFO - Container for matplotlib__matplotlib-23412 started: 69353e2d5e711a0c65274858ec12130712cd318f054e9010e3abb563f246ca19
+2025-05-06 06:42:03,865 - INFO - Intermediate patch for matplotlib__matplotlib-23412 written to logs/run_evaluation/20250506_061805/SWE-Fixer/matplotlib__matplotlib-23412/patch.diff, now applying to container...
+2025-05-06 06:42:04,135 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:42:04,202 - INFO - >>>>> Applied Patch:
+patching file lib/matplotlib/patches.py
+
+2025-05-06 06:42:05,210 - INFO - Git diff before:
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index e062249589..3e8ec99abd 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -549,10 +549,12 @@ class Patch(artist.Artist):
+         if self._edgecolor[3] == 0 or self._linestyle == 'None':
+             lw = 0
+         gc.set_linewidth(lw)
+-        gc.set_dashes(*self._dash_pattern)
++        gc.set_dashes(self._dash_pattern[0], self._dash_pattern[1])
+         gc.set_capstyle(self._capstyle)
+         gc.set_joinstyle(self._joinstyle)
+ 
++
++
+         gc.set_antialiased(self._antialiased)
+         self._set_gc_clip(gc)
+         gc.set_url(self._url)
+2025-05-06 06:42:05,211 - INFO - Eval script for matplotlib__matplotlib-23412 written to logs/run_evaluation/20250506_061805/SWE-Fixer/matplotlib__matplotlib-23412/eval.sh; copying to container...
+2025-05-06 06:42:15,445 - INFO - Test runtime: 10.04 seconds
+2025-05-06 06:42:15,445 - INFO - Test output for matplotlib__matplotlib-23412 written to logs/run_evaluation/20250506_061805/SWE-Fixer/matplotlib__matplotlib-23412/test_output.txt
+2025-05-06 06:42:15,523 - INFO - Git diff after:
+diff --git a/lib/matplotlib/patches.py b/lib/matplotlib/patches.py
+index e062249589..3e8ec99abd 100644
+--- a/lib/matplotlib/patches.py
++++ b/lib/matplotlib/patches.py
+@@ -549,10 +549,12 @@ class Patch(artist.Artist):
+         if self._edgecolor[3] == 0 or self._linestyle == 'None':
+             lw = 0
+         gc.set_linewidth(lw)
+-        gc.set_dashes(*self._dash_pattern)
++        gc.set_dashes(self._dash_pattern[0], self._dash_pattern[1])
+         gc.set_capstyle(self._capstyle)
+         gc.set_joinstyle(self._joinstyle)
+ 
++
++
+         gc.set_antialiased(self._antialiased)
+         self._set_gc_clip(gc)
+         gc.set_url(self._url)
+2025-05-06 06:42:15,523 - INFO - Grading answer for matplotlib__matplotlib-23412...
+2025-05-06 06:42:15,527 - INFO - report: {'matplotlib__matplotlib-23412': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_patches.py::test_dash_offset_patch_draw[png]']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_patches.py::test_Polygon_close', 'lib/matplotlib/tests/test_patches.py::test_corner_center', 'lib/matplotlib/tests/test_patches.py::test_rotate_rect', 'lib/matplotlib/tests/test_patches.py::test_rotate_rect_draw[png]', 'lib/matplotlib/tests/test_patches.py::test_negative_rect', 'lib/matplotlib/tests/test_patches.py::test_clip_to_bbox[png]', 'lib/matplotlib/tests/test_patches.py::test_clip_to_bbox[pdf]', 'lib/matplotlib/tests/test_patches.py::test_patch_alpha_coloring[png]', 'lib/matplotlib/tests/test_patches.py::test_patch_alpha_coloring[pdf]', 'lib/matplotlib/tests/test_patches.py::test_patch_alpha_override[png]', 'lib/matplotlib/tests/test_patches.py::test_patch_alpha_override[pdf]', 'lib/matplotlib/tests/test_patches.py::test_patch_color_none', 'lib/matplotlib/tests/test_patches.py::test_patch_custom_linestyle[png]', 'lib/matplotlib/tests/test_patches.py::test_patch_custom_linestyle[pdf]', 'lib/matplotlib/tests/test_patches.py::test_patch_linestyle_accents', 'lib/matplotlib/tests/test_patches.py::test_patch_linestyle_none[png]', 'lib/matplotlib/tests/test_patches.py::test_wedge_movement', 'lib/matplotlib/tests/test_patches.py::test_wedge_range[png]', 'lib/matplotlib/tests/test_patches.py::test_wedge_range[pdf]', 'lib/matplotlib/tests/test_patches.py::test_patch_str', 'lib/matplotlib/tests/test_patches.py::test_multi_color_hatch[png]', 'lib/matplotlib/tests/test_patches.py::test_multi_color_hatch[pdf]', 'lib/matplotlib/tests/test_patches.py::test_units_rectangle[png]', 'lib/matplotlib/tests/test_patches.py::test_connection_patch[png]', 'lib/matplotlib/tests/test_patches.py::test_connection_patch_fig[png]', 'lib/matplotlib/tests/test_patches.py::test_datetime_rectangle', 'lib/matplotlib/tests/test_patches.py::test_datetime_datetime_fails', 'lib/matplotlib/tests/test_patches.py::test_contains_point', 'lib/matplotlib/tests/test_patches.py::test_contains_points', 'lib/matplotlib/tests/test_patches.py::test_shadow[png]', 'lib/matplotlib/tests/test_patches.py::test_fancyarrow_units', 'lib/matplotlib/tests/test_patches.py::test_fancyarrow_setdata', 'lib/matplotlib/tests/test_patches.py::test_fancyarrow_shape_error', 'lib/matplotlib/tests/test_patches.py::test_boxstyle_errors[foo-Unknown', 'lib/matplotlib/tests/test_patches.py::test_boxstyle_errors[Round,foo-Incorrect', 'lib/matplotlib/tests/test_patches.py::test_annulus[png]', 'lib/matplotlib/tests/test_patches.py::test_annulus_setters[png]', 'lib/matplotlib/tests/test_patches.py::test_annulus_setters2[png]', 'lib/matplotlib/tests/test_patches.py::test_degenerate_polygon', 'lib/matplotlib/tests/test_patches.py::test_color_override_warning[edgecolor]', 'lib/matplotlib/tests/test_patches.py::test_color_override_warning[facecolor]', 'lib/matplotlib/tests/test_patches.py::test_empty_verts', 'lib/matplotlib/tests/test_patches.py::test_default_antialiased', 'lib/matplotlib/tests/test_patches.py::test_default_linestyle', 'lib/matplotlib/tests/test_patches.py::test_default_capstyle', 'lib/matplotlib/tests/test_patches.py::test_default_joinstyle'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for matplotlib__matplotlib-23412: resolved: False
+2025-05-06 06:42:15,527 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-23412.20250506_061805...
+2025-05-06 06:42:30,797 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-23412.20250506_061805...
+2025-05-06 06:42:30,822 - INFO - Container sweb.eval.matplotlib__matplotlib-23412.20250506_061805 removed.

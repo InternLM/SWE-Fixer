@@ -173,10 +173,10 @@ index d4af1de79d..2f5aa64b9d 100644
  
 + git diff 453967477e3ddae704cd739eac2449c0e13d464c
 diff --git a/django/db/models/fields/__init__.py b/django/db/models/fields/__init__.py
-index 28374272f4..5cbdcfa18a 100644
+index 28374272f4..0d325ced03 100644
 --- a/django/db/models/fields/__init__.py
 +++ b/django/db/models/fields/__init__.py
-@@ -516,20 +516,26 @@ class Field(RegisterLookupMixin):
+@@ -516,20 +516,25 @@ class Field(RegisterLookupMixin):
      def __eq__(self, other):
          # Needed for @total_ordering
          if isinstance(other, Field):
@@ -188,10 +188,9 @@ index 28374272f4..5cbdcfa18a 100644
          return NotImplemented
  
      def __lt__(self, other):
++
          # This is needed because bisect does not take a comparison function.
          if isinstance(other, Field):
-+            if self.creation_counter == other.creation_counter:
-+                return self.model._meta.label_lower < other.model._meta.label_lower
              return self.creation_counter < other.creation_counter
          return NotImplemented
  
@@ -357,7 +356,7 @@ test_get_choices_default_ordering (model_fields.tests.GetChoicesOrderingTests) .
 test_get_choices_reverse_related_field (model_fields.tests.GetChoicesOrderingTests) ... ok
 test_get_choices_reverse_related_field_default_ordering (model_fields.tests.GetChoicesOrderingTests) ... ok
 test_abstract_inherited_fields (model_fields.tests.BasicFieldTests)
-Field instances from abstract models are not equal. ... ok
+Field instances from abstract models are not equal. ... FAIL
 test_choices_form_class (model_fields.tests.BasicFieldTests)
 Can supply a custom choices form class to Field.formfield() ... ok
 test_deconstruct_nested_field (model_fields.tests.BasicFieldTests)
@@ -392,10 +391,19 @@ test_iterator_choices (model_fields.tests.GetFieldDisplayTests) ... ok
 test_overriding_FIELD_display (model_fields.tests.GetFieldDisplayTests) ... ok
 test_overriding_inherited_FIELD_display (model_fields.tests.GetFieldDisplayTests) ... ok
 
+======================================================================
+FAIL: test_abstract_inherited_fields (model_fields.tests.BasicFieldTests)
+Field instances from abstract models are not equal.
 ----------------------------------------------------------------------
-Ran 33 tests in 0.015s
+Traceback (most recent call last):
+  File "/testbed/tests/model_fields/tests.py", line 127, in test_abstract_inherited_fields
+    self.assertLess(abstract_model_field, inherit1_model_field)
+AssertionError: <django.db.models.fields.IntegerField: field> not less than <django.db.models.fields.IntegerField: field>
 
-OK
+----------------------------------------------------------------------
+Ran 33 tests in 0.016s
+
+FAILED (failures=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
 Testing against Django installed in '/testbed/django'
 Importing application model_fields

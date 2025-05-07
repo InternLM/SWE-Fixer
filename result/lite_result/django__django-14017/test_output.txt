@@ -359,8 +359,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.0-0.editable-py3-none-any.whl size=25588 sha256=03557e6c9211dfd9e2ec7b8e1a24f749a4a2f9e55c3073ec9fb64eca127c970a
-  Stored in directory: /tmp/pip-ephem-wheel-cache-lx9wbiw3/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
+  Created wheel for Django: filename=django-4.0-0.editable-py3-none-any.whl size=25589 sha256=6a1b102ca0f06378823fec5978c740cf4f3a3f529faec1a604914596b3d34c3e
+  Stored in directory: /tmp/pip-ephem-wheel-cache-amxlc9aa/wheels/b2/50/f1/218f2e9962a80d01a4b1297698978f9fb3b60056aa24343f24
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -578,7 +578,7 @@ Traceback (most recent call last):
     return self._combine(other, self.AND)
   File "/testbed/django/db/models/query_utils.py", line 44, in _combine
     raise TypeError(other)
-TypeError: <django.db.models.expressions.Exists object at 0x7fab6c8a9fa0>
+TypeError: <django.db.models.expressions.Exists object at 0x7fab33f3af70>
 
 ======================================================================
 ERROR: test_boolean_expression_combined_with_empty_Q (expressions.tests.BasicExpressionsTests)
@@ -590,10 +590,10 @@ Traceback (most recent call last):
     return self._combine(other, self.AND)
   File "/testbed/django/db/models/query_utils.py", line 44, in _combine
     raise TypeError(other)
-TypeError: <django.db.models.expressions.Exists object at 0x7fab6c8baa00>
+TypeError: <django.db.models.expressions.Exists object at 0x7fab33f49a00>
 
 ----------------------------------------------------------------------
-Ran 152 tests in 0.214s
+Ran 152 tests in 0.229s
 
 FAILED (errors=2, skipped=2)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

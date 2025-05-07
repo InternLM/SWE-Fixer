@@ -1,15 +1,15 @@
-2025-02-12 13:18:53,332 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-8627
+2025-05-06 12:40:22,927 - INFO - Environment image sweb.env.x86_64.c6d251a05e0af7688b64fd:latest found for sphinx-doc__sphinx-8627
 Building instance image sweb.eval.x86_64.sphinx-doc__sphinx-8627:latest for sphinx-doc__sphinx-8627
-2025-02-12 13:18:53,335 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-8627:latest already exists, skipping build.
-2025-02-12 13:18:53,335 - INFO - Creating container for sphinx-doc__sphinx-8627...
-2025-02-12 13:18:53,368 - INFO - Container for sphinx-doc__sphinx-8627 created: 8d245f2d90ada8dd1eda5e6a252a696401191f1f3bf04f62a1a1bfd538d3b5da
-2025-02-12 13:18:53,724 - INFO - Container for sphinx-doc__sphinx-8627 started: 8d245f2d90ada8dd1eda5e6a252a696401191f1f3bf04f62a1a1bfd538d3b5da
-2025-02-12 13:18:53,724 - INFO - Intermediate patch for sphinx-doc__sphinx-8627 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-8627/patch.diff, now applying to container...
-2025-02-12 13:18:53,980 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:18:54,039 - INFO - >>>>> Applied Patch:
+2025-05-06 12:40:22,930 - INFO - Image sweb.eval.x86_64.sphinx-doc__sphinx-8627:latest already exists, skipping build.
+2025-05-06 12:40:22,930 - INFO - Creating container for sphinx-doc__sphinx-8627...
+2025-05-06 12:40:22,961 - INFO - Container for sphinx-doc__sphinx-8627 created: 2a2935a3a9253fcfdae83fad82489da1477d26e3fd2c18c3c749206b260008e3
+2025-05-06 12:40:23,315 - INFO - Container for sphinx-doc__sphinx-8627 started: 2a2935a3a9253fcfdae83fad82489da1477d26e3fd2c18c3c749206b260008e3
+2025-05-06 12:40:23,315 - INFO - Intermediate patch for sphinx-doc__sphinx-8627 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-8627/patch.diff, now applying to container...
+2025-05-06 12:40:23,567 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:40:23,630 - INFO - >>>>> Applied Patch:
 patching file sphinx/ext/autodoc/__init__.py
 
-2025-02-12 13:18:54,442 - INFO - Git diff before:
+2025-05-06 12:40:23,892 - INFO - Git diff before:
 diff --git a/setup.py b/setup.py
 index 8d40de1a8..03f325278 100644
 --- a/setup.py
@@ -46,23 +46,49 @@ index 8d40de1a8..03f325278 100644
  
  extras_require = {
 diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
-index 95a991b17..bb900cb9a 100644
+index 95a991b17..6c803832b 100644
 --- a/sphinx/ext/autodoc/__init__.py
 +++ b/sphinx/ext/autodoc/__init__.py
-@@ -511,11 +511,12 @@ class Documenter:
-         if result:
-             args, retann = result
+@@ -1329,16 +1329,8 @@ class FunctionDocumenter(DocstringSignatureMixin, ModuleLevelDocumenter):  # typ
+             self.add_line('   :async:', sourcename)
  
--        if args is not None:
-+        if args:
-             return args + ((' -> %s' % retann) if retann else '')
-         else:
-             return ''
+     def format_signature(self, **kwargs: Any) -> str:
+-        sigs = []
+-        if (self.analyzer and
+-                '.'.join(self.objpath) in self.analyzer.overloads and
+-                self.config.autodoc_typehints == 'signature'):
+-            # Use signatures for overloaded functions instead of the implementation function.
+-            overloaded = True
+-        else:
+-            overloaded = False
+-            sig = super().format_signature(**kwargs)
+-            sigs.append(sig)
++        sig = super().format_signature(**kwargs)
++        sigs = [sig]
  
+         if inspect.is_singledispatch_function(self.object):
+             # append signature of singledispatch'ed functions
+@@ -1352,19 +1344,12 @@ class FunctionDocumenter(DocstringSignatureMixin, ModuleLevelDocumenter):  # typ
+                     documenter.object = func
+                     documenter.objpath = [None]
+                     sigs.append(documenter.format_signature())
+-        if overloaded:
+-            __globals__ = safe_getattr(self.object, '__globals__', {})
+-            for overload in self.analyzer.overloads.get('.'.join(self.objpath)):
+-                overload = evaluate_signature(overload, __globals__,
+-                                              self.config.autodoc_type_aliases)
+-
+-                sig = stringify_signature(overload, **kwargs)
+-                sigs.append(sig)
+ 
+         return "\n".join(sigs)
+ 
+     def annotate_to_first_argument(self, func: Callable, typ: Type) -> None:
+         """Annotate type hint to the first argument of function if needed."""
 +
-     def add_directive_header(self, sig: str) -> None:
-         """Add the directive header and options to the generated content."""
-         domain = getattr(self, 'domain', 'py')
+         try:
+             sig = inspect.signature(func, type_aliases=self.config.autodoc_type_aliases)
+         except TypeError as exc:
 diff --git a/tox.ini b/tox.ini
 index 21a0faec3..be1a9127e 100644
 --- a/tox.ini
@@ -76,10 +102,10 @@ index 21a0faec3..be1a9127e 100644
  
  [testenv:flake8]
  basepython = python3
-2025-02-12 13:18:54,443 - INFO - Eval script for sphinx-doc__sphinx-8627 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-8627/eval.sh; copying to container...
-2025-02-12 13:19:00,095 - INFO - Test runtime: 5.46 seconds
-2025-02-12 13:19:00,095 - INFO - Test output for sphinx-doc__sphinx-8627 written to logs/run_evaluation/20250212_130622/SWE-Fixer/sphinx-doc__sphinx-8627/test_output.txt
-2025-02-12 13:19:00,168 - INFO - Git diff after:
+2025-05-06 12:40:23,892 - INFO - Eval script for sphinx-doc__sphinx-8627 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-8627/eval.sh; copying to container...
+2025-05-06 12:40:27,235 - INFO - Test runtime: 3.18 seconds
+2025-05-06 12:40:27,236 - INFO - Test output for sphinx-doc__sphinx-8627 written to logs/run_evaluation/20250506_122807/SWE-Fixer/sphinx-doc__sphinx-8627/test_output.txt
+2025-05-06 12:40:27,308 - INFO - Git diff after:
 diff --git a/setup.py b/setup.py
 index 8d40de1a8..03f325278 100644
 --- a/setup.py
@@ -116,23 +142,49 @@ index 8d40de1a8..03f325278 100644
  
  extras_require = {
 diff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py
-index 95a991b17..bb900cb9a 100644
+index 95a991b17..6c803832b 100644
 --- a/sphinx/ext/autodoc/__init__.py
 +++ b/sphinx/ext/autodoc/__init__.py
-@@ -511,11 +511,12 @@ class Documenter:
-         if result:
-             args, retann = result
+@@ -1329,16 +1329,8 @@ class FunctionDocumenter(DocstringSignatureMixin, ModuleLevelDocumenter):  # typ
+             self.add_line('   :async:', sourcename)
  
--        if args is not None:
-+        if args:
-             return args + ((' -> %s' % retann) if retann else '')
-         else:
-             return ''
+     def format_signature(self, **kwargs: Any) -> str:
+-        sigs = []
+-        if (self.analyzer and
+-                '.'.join(self.objpath) in self.analyzer.overloads and
+-                self.config.autodoc_typehints == 'signature'):
+-            # Use signatures for overloaded functions instead of the implementation function.
+-            overloaded = True
+-        else:
+-            overloaded = False
+-            sig = super().format_signature(**kwargs)
+-            sigs.append(sig)
++        sig = super().format_signature(**kwargs)
++        sigs = [sig]
  
+         if inspect.is_singledispatch_function(self.object):
+             # append signature of singledispatch'ed functions
+@@ -1352,19 +1344,12 @@ class FunctionDocumenter(DocstringSignatureMixin, ModuleLevelDocumenter):  # typ
+                     documenter.object = func
+                     documenter.objpath = [None]
+                     sigs.append(documenter.format_signature())
+-        if overloaded:
+-            __globals__ = safe_getattr(self.object, '__globals__', {})
+-            for overload in self.analyzer.overloads.get('.'.join(self.objpath)):
+-                overload = evaluate_signature(overload, __globals__,
+-                                              self.config.autodoc_type_aliases)
+-
+-                sig = stringify_signature(overload, **kwargs)
+-                sigs.append(sig)
+ 
+         return "\n".join(sigs)
+ 
+     def annotate_to_first_argument(self, func: Callable, typ: Type) -> None:
+         """Annotate type hint to the first argument of function if needed."""
 +
-     def add_directive_header(self, sig: str) -> None:
-         """Add the directive header and options to the generated content."""
-         domain = getattr(self, 'domain', 'py')
+         try:
+             sig = inspect.signature(func, type_aliases=self.config.autodoc_type_aliases)
+         except TypeError as exc:
 diff --git a/tox.ini b/tox.ini
 index 21a0faec3..be1a9127e 100644
 --- a/tox.ini
@@ -146,9 +198,9 @@ index 21a0faec3..be1a9127e 100644
  
  [testenv:flake8]
  basepython = python3
-2025-02-12 13:19:00,168 - INFO - Grading answer for sphinx-doc__sphinx-8627...
-2025-02-12 13:19:00,179 - INFO - report: {'sphinx-doc__sphinx-8627': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/test_util_typing.py::test_restify', 'tests/test_util_typing.py::test_stringify']}, 'PASS_TO_PASS': {'success': ['tests/test_util_typing.py::test_restify_type_hints_containers', 'tests/test_util_typing.py::test_restify_type_hints_Callable', 'tests/test_util_typing.py::test_restify_type_hints_Union', 'tests/test_util_typing.py::test_restify_type_hints_typevars', 'tests/test_util_typing.py::test_restify_type_hints_custom_class', 'tests/test_util_typing.py::test_restify_type_hints_alias', 'tests/test_util_typing.py::test_restify_type_ForwardRef', 'tests/test_util_typing.py::test_restify_broken_type_hints', 'tests/test_util_typing.py::test_stringify_type_hints_containers', 'tests/test_util_typing.py::test_stringify_Annotated', 'tests/test_util_typing.py::test_stringify_type_hints_string', 'tests/test_util_typing.py::test_stringify_type_hints_Callable', 'tests/test_util_typing.py::test_stringify_type_hints_Union', 'tests/test_util_typing.py::test_stringify_type_hints_typevars', 'tests/test_util_typing.py::test_stringify_type_hints_custom_class', 'tests/test_util_typing.py::test_stringify_type_hints_alias', 'tests/test_util_typing.py::test_stringify_broken_type_hints'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:40:27,308 - INFO - Grading answer for sphinx-doc__sphinx-8627...
+2025-05-06 12:40:27,319 - INFO - report: {'sphinx-doc__sphinx-8627': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/test_util_typing.py::test_restify', 'tests/test_util_typing.py::test_stringify']}, 'PASS_TO_PASS': {'success': ['tests/test_util_typing.py::test_restify_type_hints_containers', 'tests/test_util_typing.py::test_restify_type_hints_Callable', 'tests/test_util_typing.py::test_restify_type_hints_Union', 'tests/test_util_typing.py::test_restify_type_hints_typevars', 'tests/test_util_typing.py::test_restify_type_hints_custom_class', 'tests/test_util_typing.py::test_restify_type_hints_alias', 'tests/test_util_typing.py::test_restify_type_ForwardRef', 'tests/test_util_typing.py::test_restify_broken_type_hints', 'tests/test_util_typing.py::test_stringify_type_hints_containers', 'tests/test_util_typing.py::test_stringify_Annotated', 'tests/test_util_typing.py::test_stringify_type_hints_string', 'tests/test_util_typing.py::test_stringify_type_hints_Callable', 'tests/test_util_typing.py::test_stringify_type_hints_Union', 'tests/test_util_typing.py::test_stringify_type_hints_typevars', 'tests/test_util_typing.py::test_stringify_type_hints_custom_class', 'tests/test_util_typing.py::test_stringify_type_hints_alias', 'tests/test_util_typing.py::test_stringify_broken_type_hints'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for sphinx-doc__sphinx-8627: resolved: False
-2025-02-12 13:19:00,179 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-8627.20250212_130622...
-2025-02-12 13:19:15,495 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-8627.20250212_130622...
-2025-02-12 13:19:15,512 - INFO - Container sweb.eval.sphinx-doc__sphinx-8627.20250212_130622 removed.
+2025-05-06 12:40:27,320 - INFO - Attempting to stop container sweb.eval.sphinx-doc__sphinx-8627.20250506_122807...
+2025-05-06 12:40:43,186 - INFO - Attempting to remove container sweb.eval.sphinx-doc__sphinx-8627.20250506_122807...
+2025-05-06 12:40:43,206 - INFO - Container sweb.eval.sphinx-doc__sphinx-8627.20250506_122807 removed.

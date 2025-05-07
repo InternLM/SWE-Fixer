@@ -373,31 +373,31 @@ Obtaining file:///testbed
   Getting requirements to build editable: finished with status 'done'
   Preparing editable metadata (pyproject.toml): started
   Preparing editable metadata (pyproject.toml): finished with status 'done'
-Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (1.1.0)
-Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (0.11.0)
-Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (4.42.1)
-Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (1.4.5)
-Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (1.25.2)
-Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (23.1)
-Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (10.0.0)
-Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (3.0.9)
-Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (2.8.2)
-Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (7.1.0)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (1.16.0)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (68.1.2)
-Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev452+g66ba515e67.d20250212) (4.7.1)
+Requirement already satisfied: contourpy>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (1.1.0)
+Requirement already satisfied: cycler>=0.10 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (4.42.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (1.4.5)
+Requirement already satisfied: numpy>=1.21 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (1.25.2)
+Requirement already satisfied: packaging>=20.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (23.1)
+Requirement already satisfied: pillow>=6.2.0 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (10.0.0)
+Requirement already satisfied: pyparsing>=2.3.1 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (3.0.9)
+Requirement already satisfied: python-dateutil>=2.7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (2.8.2)
+Requirement already satisfied: setuptools_scm>=7 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (7.1.0)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from python-dateutil>=2.7->matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (1.16.0)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (68.1.2)
+Requirement already satisfied: typing-extensions in /opt/miniconda3/envs/testbed/lib/python3.11/site-packages (from setuptools_scm>=7->matplotlib==3.8.0.dev452+g66ba515e67.d20250506) (4.7.1)
 Building wheels for collected packages: matplotlib
   Building editable for matplotlib (pyproject.toml): started
   Building editable for matplotlib (pyproject.toml): finished with status 'done'
-  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev452+g66ba515e67.d20250212-0.editable-cp311-cp311-linux_x86_64.whl size=23382 sha256=00a1473a40bd72f47f38fe822e742112aedb5d86dd8ebee93d73c09fe002bfe6
-  Stored in directory: /tmp/pip-ephem-wheel-cache-bj11w1fv/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for matplotlib: filename=matplotlib-3.8.0.dev452+g66ba515e67.d20250506-0.editable-cp311-cp311-linux_x86_64.whl size=23811 sha256=a81654eacaea720694ed8c518fa239f6cc7534a10cb7a14ed02bdb1cfdd13e86
+  Stored in directory: /tmp/pip-ephem-wheel-cache-mggq_x73/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built matplotlib
 Installing collected packages: matplotlib
   Attempting uninstall: matplotlib
     Found existing installation: matplotlib 3.8.0.dev452+g66ba515e67
     Uninstalling matplotlib-3.8.0.dev452+g66ba515e67:
       Successfully uninstalled matplotlib-3.8.0.dev452+g66ba515e67
-Successfully installed matplotlib-3.8.0.dev452+g66ba515e67.d20250212
+Successfully installed matplotlib-3.8.0.dev452+g66ba515e67.d20250506
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
 + git checkout 66ba515e671638971bd11a34cff12c107a437e0b lib/matplotlib/tests/test_pickle.py
 Updated 0 paths from 93d72e7d76
@@ -469,8 +469,8 @@ lib/matplotlib/axis.py:2295: in _update_label_position
     bboxes, bboxes2 = self._get_tick_boxes_siblings(renderer=renderer)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <matplotlib.axis.XAxis object at 0x7f3e5bea0fd0>
-renderer = <matplotlib.backends.backend_agg.RendererAgg object at 0x7f3e603245d0>
+self = <matplotlib.axis.XAxis object at 0x7f5b3dc0cd50>
+renderer = <matplotlib.backends.backend_agg.RendererAgg object at 0x7f5b3de19410>
 
     def _get_tick_boxes_siblings(self, renderer):
         """
@@ -641,8 +641,8 @@ lib/matplotlib/axis.py:2295: in _update_label_position
     bboxes, bboxes2 = self._get_tick_boxes_siblings(renderer=renderer)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <matplotlib.projections.polar.ThetaAxis object at 0x7f3e62565f10>
-renderer = <matplotlib.backends.backend_agg.RendererAgg object at 0x7f3e6037c790>
+self = <matplotlib.projections.polar.ThetaAxis object at 0x7f5b3dadc610>
+renderer = <matplotlib.backends.backend_agg.RendererAgg object at 0x7f5b3da95e50>
 
     def _get_tick_boxes_siblings(self, renderer):
         """
@@ -842,6 +842,6 @@ PASSED lib/matplotlib/tests/test_pickle.py::test_vertexselector
 FAILED lib/matplotlib/tests/test_pickle.py::test_complete[png] - AttributeErr...
 FAILED lib/matplotlib/tests/test_pickle.py::test_pickle_load_from_subprocess[png]
 FAILED lib/matplotlib/tests/test_pickle.py::test_polar - AttributeError: 'Fig...
-======================== 3 failed, 180 passed in 5.90s =========================
+======================== 3 failed, 180 passed in 6.59s =========================
 + git checkout 66ba515e671638971bd11a34cff12c107a437e0b lib/matplotlib/tests/test_pickle.py
 Updated 1 path from 93d72e7d76

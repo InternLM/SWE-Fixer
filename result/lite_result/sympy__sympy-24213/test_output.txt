@@ -319,8 +319,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        63943185
-hash randomization: on (PYTHONHASHSEED=1086741734)
+random seed:        21731580
+hash randomization: on (PYTHONHASHSEED=2146624274)
 
 sympy/physics/units/tests/test_quantities.py[34] 
 test_str_repr ok
@@ -368,7 +368,7 @@ Traceback (most recent call last):
     raise ValueError(
 ValueError: Dimension of "V1" is Dimension(velocity), but it should be Dimension(acceleration*time)
 
-= tests finished: 32 passed, 1 expected to fail, 1 exceptions, in 1.47 seconds =
+= tests finished: 32 passed, 1 expected to fail, 1 exceptions, in 1.42 seconds =
 DO *NOT* COMMIT!
 + git checkout e8c22f6eac7314be8d92590bfff92ced79ee03e2 sympy/physics/units/tests/test_quantities.py
 Updated 1 path from b86b9b19fd

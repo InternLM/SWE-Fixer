@@ -603,18 +603,18 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: numpy>=1.15 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.3.dev100+ga5f53e20.d20250212) (1.23.0)
-Requirement already satisfied: pandas>=0.25 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.3.dev100+ga5f53e20.d20250212) (1.5.3)
-Requirement already satisfied: setuptools>=40.4 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.3.dev100+ga5f53e20.d20250212) (68.0.0)
-Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.3.dev100+ga5f53e20.d20250212) (2.8.2)
-Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.3.dev100+ga5f53e20.d20250212) (2023.3)
-Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=0.25->xarray==0.16.3.dev100+ga5f53e20.d20250212) (1.16.0)
+Requirement already satisfied: numpy>=1.15 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.3.dev100+ga5f53e20.d20250506) (1.23.0)
+Requirement already satisfied: pandas>=0.25 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.3.dev100+ga5f53e20.d20250506) (1.5.3)
+Requirement already satisfied: setuptools>=40.4 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from xarray==0.16.3.dev100+ga5f53e20.d20250506) (68.0.0)
+Requirement already satisfied: python-dateutil>=2.8.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.3.dev100+ga5f53e20.d20250506) (2.8.2)
+Requirement already satisfied: pytz>=2020.1 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from pandas>=0.25->xarray==0.16.3.dev100+ga5f53e20.d20250506) (2023.3)
+Requirement already satisfied: six>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.10/site-packages (from python-dateutil>=2.8.1->pandas>=0.25->xarray==0.16.3.dev100+ga5f53e20.d20250506) (1.16.0)
 Installing collected packages: xarray
   Attempting uninstall: xarray
     Found existing installation: xarray 0.16.3.dev100+ga5f53e20
     Uninstalling xarray-0.16.3.dev100+ga5f53e20:
       Successfully uninstalled xarray-0.16.3.dev100+ga5f53e20
-  DEPRECATION: Legacy editable install of xarray==0.16.3.dev100+ga5f53e20.d20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of xarray==0.16.3.dev100+ga5f53e20.d20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for xarray
 Successfully installed xarray
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
@@ -670,7 +670,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...............                 [100%]
 =================================== FAILURES ===================================
 _______________________ test_persist_Dataset[<lambda>1] ________________________
 
-persist = <function <lambda> at 0x7f09ec2d3010>
+persist = <function <lambda> at 0x7f7296a1f010>
 
     @pytest.mark.parametrize(
         "persist", [lambda x: x.persist(), lambda x: dask.persist(x)[0]]
@@ -693,7 +693,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 dsk = {('add-0203cdbd3c7f4eb7f5197092973862f7', 0): array([1, 2, 3, 4, 5]), ('add-297d8ca87453770ab88542277b85e72f', 0): array([1, 2, 3, 4, 5])}
-info = [(True, 'foo', (<function Variable._dask_finalize at 0x7f09fab57010>, (<bound method Array._rebuild of dask.array<add,...rebuild of dask.array<add, shape=(5,), dtype=int64, chunksize=(5,), chunktype=numpy.ndarray>>, (), ('x',), {}, None)))]
+info = [(True, 'foo', (<function Variable._dask_finalize at 0x7f72a52db010>, (<bound method Array._rebuild of dask.array<add,...rebuild of dask.array<add, shape=(5,), dtype=int64, chunksize=(5,), chunktype=numpy.ndarray>>, (), ('x',), {}, None)))]
 args = (set(), {'x': 5}, None, {}, None, None), variables = {}
 is_persist = True, is_dask = True
 
@@ -743,7 +743,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec069e40>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f729586ba60>
  0. xarray-<this-array>-40...1f33ff6ee76-cxy
  6. bad_func-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. bad_func-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -817,7 +817,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebec6da0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f72969ee230>
  0. xarray-<this-array>-40...2f9b95c01f33ff6ee76-cxy
  6. func-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. func-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -894,7 +894,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb73ce80>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296922320>
  0. array-d5c4489194a0dbf...4a7cc809be62bece9-cxy
  18. func-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. func-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -965,7 +965,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb15b370>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7295ded450>
  0. xarray-<this-array>-40...4788fa2f1cd7d22e01f9b-cxy
  6. add-873c6a3ad544788fa2f1cd7d22e01f9b-ndcoord
  7. add-873c6a3ad544788fa2f1cd7d22e01f9b-c2
@@ -1039,7 +1039,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec59ad40>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296f718d0>
  0. array-d5c4489194a0dbf...5bd3a944cd94792291c-cxy
  18. add-f2971932b883a5bd3a944cd94792291c-ndcoord
  19. add-f2971932b883a5bd3a944cd94792291c-c2
@@ -1114,7 +1114,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 4 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec7d8ee0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296dfab90>
  0. xarray-<this-array>-c9...4a4fe18263086469cd8
  2. sumda-cc2cd02fc48f575a60f6e31f56496fcb
  3. sumda-cc2cd02fc48f575a60f6e31f56496fcb-<this-array>
@@ -1192,7 +1192,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec59a650>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f729586be80>
  0. xarray-<this-array>-40...33ff6ee76-cxy
  6. add_attrs-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. add_attrs-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -1272,7 +1272,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec82ab60>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e60c40>
  0. array-d5c4489194a0dbf...62bece9-cxy
  18. add_attrs-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. add_attrs-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -1347,7 +1347,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb706d40>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296dfb820>
  0. xarray-<this-array>-40...6ee76-cxy
  6. change_name-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. change_name-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -1418,7 +1418,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb7369e0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f729614eaa0>
  0. xarray-<this-array>-40...284cae90c-cxy
  6. full_like-57996f86e7f3d20bd960f4e284cae90c-ndcoord
  7. full_like-57996f86e7f3d20bd960f4e284cae90c-c2
@@ -1492,7 +1492,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb706080>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e2d330>
  0. array-d5c4489194a0dbf...716ba5f3bb1490f4-c
  18. full_like-14631c303052ab81716ba5f3bb1490f4-b
  19. full_like-14631c303052ab81716ba5f3bb1490f4-a
@@ -1565,7 +1565,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 16 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb71eaa0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f72961093c0>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  14. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  15. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -1616,7 +1616,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>0] _________________
 
-func = <function <lambda> at 0x7f09eb3345e0>
+func = <function <lambda> at 0x7f7295aa85e0>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -1648,7 +1648,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec82ad70>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296dfb0a0>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -1699,7 +1699,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>1] _________________
 
-func = <function <lambda> at 0x7f09eb334700>
+func = <function <lambda> at 0x7f7295aa8700>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -1731,7 +1731,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb735c90>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7295887910>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -1782,7 +1782,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>2] _________________
 
-func = <function <lambda> at 0x7f09eb334790>
+func = <function <lambda> at 0x7f7295aa8790>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -1814,7 +1814,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb73f190>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296f71a50>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -1865,7 +1865,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>3] _________________
 
-func = <function <lambda> at 0x7f09eb334820>
+func = <function <lambda> at 0x7f7295aa8820>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -1897,7 +1897,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec6c6ad0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296c30f40>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -1948,7 +1948,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>4] _________________
 
-func = <function <lambda> at 0x7f09eb3348b0>
+func = <function <lambda> at 0x7f7295aa88b0>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -1980,7 +1980,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebe11cc0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f72961542b0>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -2031,7 +2031,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>5] _________________
 
-func = <function <lambda> at 0x7f09eb334940>
+func = <function <lambda> at 0x7f7295aa8940>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -2063,7 +2063,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 9 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec7297b0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f729704b070>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  8. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -2114,7 +2114,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>6] _________________
 
-func = <function <lambda> at 0x7f09eb3349d0>
+func = <function <lambda> at 0x7f7295aa89d0>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -2146,7 +2146,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebe5a650>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f729665c1f0>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -2197,7 +2197,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_da_transformations[<lambda>7] _________________
 
-func = <function <lambda> at 0x7f09eb334a60>
+func = <function <lambda> at 0x7f7295aa8a60>
 map_da = <xarray.DataArray 'a' (x: 10, y: 20)>
 dask.array<xarray-<this-array>, shape=(10, 20), dtype=float64, chunksize=(4, 5),...meta=np.ndarray>
     cxy      (x, y) int64 dask.array<chunksize=(4, 5), meta=np.ndarray>
@@ -2229,7 +2229,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 7 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb71c0a0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f72960a13f0>
  0. xarray-<this-array>-40...f6ee76-<this-array>
  5. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -2280,7 +2280,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>0] _________________
 
-func = <function <lambda> at 0x7f09eb334b80>
+func = <function <lambda> at 0x7f7295aa8b80>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2315,7 +2315,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebdc31f0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e14c10>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2366,7 +2366,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>1] _________________
 
-func = <function <lambda> at 0x7f09eb334c10>
+func = <function <lambda> at 0x7f7295aa8c10>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2401,7 +2401,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 19 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebe7ff40>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f72958d20e0>
  0. array-d5c4489194a0dbf...7cc809be62bece9-a
  17. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2452,7 +2452,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>2] _________________
 
-func = <function <lambda> at 0x7f09eb334ca0>
+func = <function <lambda> at 0x7f7295aa8ca0>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2487,7 +2487,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 19 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec72b310>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e78fd0>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  17. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2538,7 +2538,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>3] _________________
 
-func = <function <lambda> at 0x7f09eb334d30>
+func = <function <lambda> at 0x7f7295aa8d30>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2573,7 +2573,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb71d330>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7295863d90>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2624,7 +2624,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>4] _________________
 
-func = <function <lambda> at 0x7f09eb334dc0>
+func = <function <lambda> at 0x7f7295aa8dc0>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2659,7 +2659,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec69d600>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e4e590>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2710,7 +2710,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>5] _________________
 
-func = <function <lambda> at 0x7f09eb334e50>
+func = <function <lambda> at 0x7f7295aa8e50>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2745,7 +2745,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec6cd600>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e0ee90>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2796,7 +2796,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>6] _________________
 
-func = <function <lambda> at 0x7f09eb334ee0>
+func = <function <lambda> at 0x7f7295aa8ee0>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2831,7 +2831,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebdc3010>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296109f30>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2882,7 +2882,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 ________________ test_map_blocks_ds_transformations[<lambda>7] _________________
 
-func = <function <lambda> at 0x7f09eb334f70>
+func = <function <lambda> at 0x7f7295aa8f70>
 map_ds = <xarray.Dataset>
 Dimensions:  (x: 10, y: 20, z: 4)
 Coordinates:
@@ -2917,7 +2917,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 14 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebdc57b0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e06e90>
  0. array-d5c4489194a0dbf...cc809be62bece9-c1
  12. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  13. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -2989,7 +2989,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebe73160>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f729586ab00>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -3064,7 +3064,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eb73f580>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f72960a2aa0>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -3130,7 +3130,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec729c90>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7295884a00>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -3200,7 +3200,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eaf86cb0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e041c0>
  0. xarray-<this-array>-40...95c01f33ff6ee76-cxy
  6. lambda-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. lambda-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -3273,7 +3273,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec0694e0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296963250>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -3345,7 +3345,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebb81180>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296e062c0>
  0. array-d5c4489194a0dbf...c809be62bece9-cxy
  18. lambda-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. lambda-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -3419,7 +3419,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 8 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09eafcb880>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f7296965210>
  0. xarray-<this-array>-40...2f9b95c01f33ff6ee76-cxy
  6. func-8eee801fd39372f9b95c01f33ff6ee76-ndcoord
  7. func-8eee801fd39372f9b95c01f33ff6ee76-c2
@@ -3496,7 +3496,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 20 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ec6eaef0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f729665e1d0>
  0. array-d5c4489194a0dbf...4a7cc809be62bece9-cxy
  18. func-0ae1601fb02daa74a7cc809be62bece9-ndcoord
  19. func-0ae1601fb02daa74a7cc809be62bece9-c2
@@ -3567,7 +3567,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 cls = <class 'dask.array.core.Array'>
 dask = HighLevelGraph with 4 layers.
-<dask.highlevelgraph.HighLevelGraph object at 0x7f09ebdc5ea0>
+<dask.highlevelgraph.HighLevelGraph object at 0x7f72969ed450>
  0. ones_like-90f89d85d7f3...7825fc6e5f1b8b6eeefe6aa558
  2. lambda-fff06c7825fc6e5f1b8b6eeefe6aa558-z
  3. lambda-fff06c7825fc6e5f1b8b6eeefe6aa558-x
@@ -3618,7 +3618,7 @@ E           AttributeError: 'dict' object has no attribute 'collection_annotatio
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/dask/array/core.py:1359: AttributeError
 _______________________ TestDataset.test_sel_categorical _______________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7f09eb64e200>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f7295b62110>
 
     def test_sel_categorical(self):
         ind = pd.Series(["foo", "bar"], dtype="category")
@@ -3715,12 +3715,12 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 ____________________ TestDataset.test_sel_categorical_error ____________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7f09eb64e410>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f7295b62320>
 
     def test_sel_categorical_error(self):
         ind = pd.Series(["foo", "bar"], dtype="category")
@@ -3817,12 +3817,12 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 ___________________ TestDataset.test_categorical_multiindex ____________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7f09eb64e5f0>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f7295b62500>
 
     def test_categorical_multiindex(self):
         i1 = pd.Series([0, 0])
@@ -3924,12 +3924,12 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 _________________ TestDataset.test_from_dataframe_categorical __________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7f09eb6496c0>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f7295ba2110>
 
     def test_from_dataframe_categorical(self):
         cat = pd.CategoricalDtype(
@@ -4031,12 +4031,12 @@ name = 'xarray', extra = '', errors = 'raise', min_version = None
                     return None
                 elif errors == "raise":
 >                   raise ImportError(msg)
-E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250212' currently installed).
+E                   ImportError: Pandas requires version '0.19.0' or newer of 'xarray' (version '0.16.3.dev100+ga5f53e20.d20250506' currently installed).
 
 /opt/miniconda3/envs/testbed/lib/python3.10/site-packages/pandas/compat/_optional.py:171: ImportError
 ______________________ TestDataset.test_polyfit_warnings _______________________
 
-self = <xarray.tests.test_dataset.TestDataset object at 0x7f09eb63d180>
+self = <xarray.tests.test_dataset.TestDataset object at 0x7f7295b40df0>
 
     def test_polyfit_warnings(self):
         ds = create_test_data(seed=1)
@@ -4045,12 +4045,12 @@ self = <xarray.tests.test_dataset.TestDataset object at 0x7f09eb63d180>
             ds.var1.polyfit("dim2", 10, full=False)
 >           assert len(ws) == 1
 E           assert 3 == 1
-E            +  where 3 = len([<warnings.WarningMessage object at 0x7f09eab3ccd0>, <warnings.WarningMessage object at 0x7f09eab3f100>, <warnings.WarningMessage object at 0x7f09eab3e980>])
+E            +  where 3 = len([<warnings.WarningMessage object at 0x7f7294063250>, <warnings.WarningMessage object at 0x7f7294061f30>, <warnings.WarningMessage object at 0x7f7294060790>])
 
 /testbed/xarray/tests/test_dataset.py:5783: AssertionError
 ________________________ TestVariable.test_as_variable _________________________
 
-self = <xarray.tests.test_variable.TestVariable object at 0x7f09ebfbec50>
+self = <xarray.tests.test_variable.TestVariable object at 0x7f72960fd1b0>
 
     def test_as_variable(self):
         data = np.arange(10)
@@ -4395,7 +4395,7 @@ b'raw'
 2000-01-01
 2000-01-01 12:00:00
 2000-01-01 12:00:00
-<xarray.tests.test_dataset.TestDataset.test_constructor_0d.<locals>.Arbitrary object at 0x7f09ebe3e980>
+<xarray.tests.test_dataset.TestDataset.test_constructor_0d.<locals>.Arbitrary object at 0x7f72960a1570>
 __________________ TestVariable.test_pandas_cateogrical_dtype __________________
 ----------------------------- Captured stdout call -----------------------------
 <xarray.Variable (x: 10)>
@@ -6265,6 +6265,6 @@ FAILED xarray/tests/test_dataset.py::TestDataset::test_categorical_multiindex
 FAILED xarray/tests/test_dataset.py::TestDataset::test_from_dataframe_categorical
 FAILED xarray/tests/test_dataset.py::TestDataset::test_polyfit_warnings - ass...
 FAILED xarray/tests/test_variable.py::TestVariable::test_as_variable - Failed...
-= 44 failed, 1693 passed, 17 skipped, 74 xfailed, 25 xpassed, 8005 warnings in 64.30s (0:01:04) =
+= 44 failed, 1693 passed, 17 skipped, 74 xfailed, 25 xpassed, 8005 warnings in 61.82s (0:01:01) =
 + git checkout a5f53e203c52a7605d5db799864046471115d04f xarray/tests/test_dask.py xarray/tests/test_dataset.py xarray/tests/test_interp.py xarray/tests/test_variable.py
 Updated 4 paths from 51f81ea3

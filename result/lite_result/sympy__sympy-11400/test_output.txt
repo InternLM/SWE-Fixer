@@ -339,8 +339,8 @@ executable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.19-final-0) [C
 architecture:       64-bit
 cache:              no
 ground types:       python 
-random seed:        49034351
-hash randomization: on (PYTHONHASHSEED=3950402910)
+random seed:        16435123
+hash randomization: on (PYTHONHASHSEED=4078433905)
 
 sympy/printing/tests/test_ccode.py[32] 
 test_printmethod ok
@@ -388,7 +388,7 @@ ______________ sympy/printing/tests/test_ccode.py:test_ccode_sinc ______________
     assert ccode(expr) == (
 AssertionError
 
-============= tests finished: 30 passed, 2 failed, in 0.15 seconds =============
+============= tests finished: 30 passed, 2 failed, in 0.16 seconds =============
 DO *NOT* COMMIT!
 + git checkout 8dcb12a6cf500e8738d6729ab954a261758f49ca sympy/printing/tests/test_ccode.py
 Updated 1 path from 7fe60cfda7

@@ -165,44 +165,24 @@ index 81f3013892..c449a1381c 100644
  
 + git diff f9fe062de5fc0896d6bbbf3f260b5c44473b3c77
 diff --git a/django/db/migrations/operations/fields.py b/django/db/migrations/operations/fields.py
-index cd3aab43ad..ae3e996469 100644
+index cd3aab43ad..665bf966ca 100644
 --- a/django/db/migrations/operations/fields.py
 +++ b/django/db/migrations/operations/fields.py
-@@ -247,26 +247,28 @@ class AlterField(FieldOperation):
-         return "alter_%s_%s" % (self.model_name_lower, self.name_lower)
- 
-     def reduce(self, operation, app_label):
--        if isinstance(operation, RemoveField) and self.is_same_field_operation(
-+        if isinstance(operation, FieldOperation) and self.is_same_field_operation(
-             operation
-         ):
--            return [operation]
--        elif (
--            isinstance(operation, RenameField)
--            and self.is_same_field_operation(operation)
--            and self.field.db_column is None
--        ):
--            return [
--                operation,
--                AlterField(
--                    model_name=self.model_name,
--                    name=operation.new_name,
--                    field=self.field,
--                ),
--            ]
-+            if isinstance(operation, AlterField):
-+                return [operation]
-+            elif isinstance(operation, RemoveField):
-+                return [operation]
-+            elif isinstance(operation, RenameField) and self.field.db_column is None:
-+                return [
-+                    operation,
-+                    AlterField(
-+                        model_name=self.model_name,
-+                        name=operation.new_name,
-+                        field=self.field,
-+                    ),
-+                ]
+@@ -264,9 +264,23 @@ class AlterField(FieldOperation):
+                     field=self.field,
+                 ),
+             ]
++        elif (
++            isinstance(operation, AlterField)
++            and self.is_same_field_operation(operation)
++        ):
++            return [
++                AlterField(
++                    model_name=self.model_name,
++                    name=self.name,
++                    field=operation.field,
++                ),
++            ]
          return super().reduce(operation, app_label)
  
  
@@ -351,8 +331,8 @@ Requirement already satisfied: sqlparse>=0.2.2 in /opt/miniconda3/envs/testbed/l
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-5.0.dev20230224080859-0.editable-py3-none-any.whl size=27364 sha256=84669843d01c62a39b892863ea0078a47d8534bc131c6659fea3d1d9693326ba
-  Stored in directory: /tmp/pip-ephem-wheel-cache-2a1d2afh/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for Django: filename=django-5.0.dev20230224080859-0.editable-py3-none-any.whl size=27431 sha256=88dde137d78141ac90b67c975865bcf9287d2dca9dc6b1b5b94cd6c0037e269c
+  Stored in directory: /tmp/pip-ephem-wheel-cache-f8mxnwgx/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -432,7 +412,7 @@ The optimizer does nothing on a single operation, ... ok
 test_swapping_fields_names (migrations.test_optimizer.OptimizerTests.test_swapping_fields_names) ... ok
 
 ----------------------------------------------------------------------
-Ran 38 tests in 0.019s
+Ran 38 tests in 0.021s
 
 OK
 + git checkout f9fe062de5fc0896d6bbbf3f260b5c44473b3c77 tests/migrations/test_optimizer.py

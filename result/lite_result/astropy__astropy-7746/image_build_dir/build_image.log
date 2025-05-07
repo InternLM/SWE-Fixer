@@ -1,0 +1,42 @@
+2025-03-08 15:05:16,660 - INFO - Building image sweb.eval.x86_64.astropy__astropy-7746:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.c70974ae7654c7a2c98577:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2025-03-08 15:05:16,661 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/astropy/astropy /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+python -m pip install -e .[test] --verbose
+
+2025-03-08 15:05:16,664 - INFO - Building docker image sweb.eval.x86_64.astropy__astropy-7746:latest in logs/build_images/instances/sweb.eval.x86_64.astropy__astropy-7746__latest with platform linux/x86_64
+2025-03-08 15:05:16,684 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.c70974ae7654c7a2c98577:latest
+2025-03-08 15:05:16,685 - INFO - 
+2025-03-08 15:05:16,685 - INFO - ---> 81ba0354d5ad
+2025-03-08 15:05:16,685 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2025-03-08 15:05:16,685 - INFO - 
+2025-03-08 15:05:16,687 - INFO - ---> Using cache
+2025-03-08 15:05:16,687 - INFO - ---> 1c2cacedcc8d
+2025-03-08 15:05:16,687 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2025-03-08 15:05:16,687 - INFO - 
+2025-03-08 15:05:16,687 - INFO - ---> Using cache
+2025-03-08 15:05:16,687 - INFO - ---> e3ddb1c3722b
+2025-03-08 15:05:16,687 - INFO - Step 4/4 : WORKDIR /testbed/
+2025-03-08 15:05:16,687 - INFO - 
+2025-03-08 15:05:16,688 - INFO - ---> Using cache
+2025-03-08 15:05:16,688 - INFO - ---> 531c6d1869e2
+2025-03-08 15:05:16,688 - INFO - Successfully built 531c6d1869e2
+2025-03-08 15:05:16,700 - INFO - Successfully tagged sweb.eval.x86_64.astropy__astropy-7746:latest
+2025-03-08 15:05:16,701 - INFO - Image built successfully!

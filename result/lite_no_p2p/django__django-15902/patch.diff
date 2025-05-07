@@ -1,0 +1,18 @@
+
+diff --git a/django/forms/formsets.py b/django/forms/formsets.py
+index de2af81..44f712c 100644
+--- a/django/forms/formsets.py
++++ b/django/forms/formsets.py
+@@ -164,9 +164,12 @@ class BaseFormSet(RenderableFormMixin):
+                 },
+                 renderer=self.renderer,
+             )
++            # Avoid the deprecation warning for form template rendering.
++            form.template_name = None
+         return form
+ 
+     def total_form_count(self):
++
+         """Return the total number of forms in this FormSet."""
+         if self.is_bound:
+             # return absolute_max if it is lower than the actual total form

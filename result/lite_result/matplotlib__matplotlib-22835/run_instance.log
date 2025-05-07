@@ -1,19 +1,19 @@
-2025-02-12 13:12:00,840 - INFO - Environment image sweb.env.x86_64.7037e8c448a4b8ebfe9b13:latest found for matplotlib__matplotlib-22835
+2025-05-06 12:33:36,877 - INFO - Environment image sweb.env.x86_64.7037e8c448a4b8ebfe9b13:latest found for matplotlib__matplotlib-22835
 Building instance image sweb.eval.x86_64.matplotlib__matplotlib-22835:latest for matplotlib__matplotlib-22835
-2025-02-12 13:12:00,843 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-22835:latest already exists, skipping build.
-2025-02-12 13:12:00,843 - INFO - Creating container for matplotlib__matplotlib-22835...
-2025-02-12 13:12:00,870 - INFO - Container for matplotlib__matplotlib-22835 created: 1c8e43da7c6f7cb76cfc45fb75bb37e762e2ef857309648d1f7b9664c0aaaab3
-2025-02-12 13:12:01,464 - INFO - Container for matplotlib__matplotlib-22835 started: 1c8e43da7c6f7cb76cfc45fb75bb37e762e2ef857309648d1f7b9664c0aaaab3
-2025-02-12 13:12:01,465 - INFO - Intermediate patch for matplotlib__matplotlib-22835 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-22835/patch.diff, now applying to container...
-2025-02-12 13:12:01,689 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:12:01,743 - INFO - >>>>> Applied Patch:
+2025-05-06 12:33:36,879 - INFO - Image sweb.eval.x86_64.matplotlib__matplotlib-22835:latest already exists, skipping build.
+2025-05-06 12:33:36,879 - INFO - Creating container for matplotlib__matplotlib-22835...
+2025-05-06 12:33:36,904 - INFO - Container for matplotlib__matplotlib-22835 created: 63942e2273a35ea2f550445c4aa6f218e80b1d9165781819dd6f009bf664c75a
+2025-05-06 12:33:37,445 - INFO - Container for matplotlib__matplotlib-22835 started: 63942e2273a35ea2f550445c4aa6f218e80b1d9165781819dd6f009bf664c75a
+2025-05-06 12:33:37,446 - INFO - Intermediate patch for matplotlib__matplotlib-22835 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-22835/patch.diff, now applying to container...
+2025-05-06 12:33:37,670 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:33:37,729 - INFO - >>>>> Applied Patch:
 patching file lib/matplotlib/colors.py
 patching file lib/matplotlib/colors.py
 Hunk #1 succeeded at 1905 (offset 2 lines).
 
-2025-02-12 13:12:03,281 - INFO - Git diff before:
+2025-05-06 12:33:39,141 - INFO - Git diff before:
 diff --git a/lib/matplotlib/colors.py b/lib/matplotlib/colors.py
-index 2e51914952..a9e4c160df 100644
+index 2e51914952..675961d59a 100644
 --- a/lib/matplotlib/colors.py
 +++ b/lib/matplotlib/colors.py
 @@ -40,9 +40,11 @@ Colors that Matplotlib recognizes are listed at
@@ -28,7 +28,7 @@ index 2e51914952..a9e4c160df 100644
  import importlib
  import inspect
  import io
-@@ -1903,16 +1905,17 @@ class BoundaryNorm(Normalize):
+@@ -1903,16 +1905,30 @@ class BoundaryNorm(Normalize):
  
      def inverse(self, value):
          """
@@ -37,12 +37,25 @@ index 2e51914952..a9e4c160df 100644
 -        ValueError
 -            BoundaryNorm is not invertible, so calling this method will always
 -            raise an error
-+        Since `BoundaryNorm` is not invertible, calling this method will
-+        always issue a warning, and return ``np.nan``.
++        BoundaryNorm is not invertible; return `np.nan`.
++
++        Parameters
++        ----------
++        value : number
++
++        Returns
++        -------
++        number
++            Returns `np.nan`.
++
++        See Also
++        --------
++        Normalize.inverse : The documentation of `Normalize.inverse` has an
++            explanation why no inverse exists for `BoundaryNorm`.
          """
 -        raise ValueError("BoundaryNorm is not invertible")
 +        warnings.warn(
-+            "BoundaryNorm is not invertible, returning np.nan.",
++            "BoundaryNorm is not invertible.",
 +            stacklevel=2)
 +        return np.nan
  
@@ -52,12 +65,12 @@ index 2e51914952..a9e4c160df 100644
      """
      Dummy replacement for `Normalize`, for the case where we want to use
      indices directly in a `~matplotlib.cm.ScalarMappable`.
-2025-02-12 13:12:03,281 - INFO - Eval script for matplotlib__matplotlib-22835 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-22835/eval.sh; copying to container...
-2025-02-12 13:12:13,506 - INFO - Test runtime: 10.06 seconds
-2025-02-12 13:12:13,506 - INFO - Test output for matplotlib__matplotlib-22835 written to logs/run_evaluation/20250212_130622/SWE-Fixer/matplotlib__matplotlib-22835/test_output.txt
-2025-02-12 13:12:13,565 - INFO - Git diff after:
+2025-05-06 12:33:39,141 - INFO - Eval script for matplotlib__matplotlib-22835 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-22835/eval.sh; copying to container...
+2025-05-06 12:33:51,607 - INFO - Test runtime: 12.29 seconds
+2025-05-06 12:33:51,608 - INFO - Test output for matplotlib__matplotlib-22835 written to logs/run_evaluation/20250506_122807/SWE-Fixer/matplotlib__matplotlib-22835/test_output.txt
+2025-05-06 12:33:51,680 - INFO - Git diff after:
 diff --git a/lib/matplotlib/colors.py b/lib/matplotlib/colors.py
-index 2e51914952..a9e4c160df 100644
+index 2e51914952..675961d59a 100644
 --- a/lib/matplotlib/colors.py
 +++ b/lib/matplotlib/colors.py
 @@ -40,9 +40,11 @@ Colors that Matplotlib recognizes are listed at
@@ -72,7 +85,7 @@ index 2e51914952..a9e4c160df 100644
  import importlib
  import inspect
  import io
-@@ -1903,16 +1905,17 @@ class BoundaryNorm(Normalize):
+@@ -1903,16 +1905,30 @@ class BoundaryNorm(Normalize):
  
      def inverse(self, value):
          """
@@ -81,12 +94,25 @@ index 2e51914952..a9e4c160df 100644
 -        ValueError
 -            BoundaryNorm is not invertible, so calling this method will always
 -            raise an error
-+        Since `BoundaryNorm` is not invertible, calling this method will
-+        always issue a warning, and return ``np.nan``.
++        BoundaryNorm is not invertible; return `np.nan`.
++
++        Parameters
++        ----------
++        value : number
++
++        Returns
++        -------
++        number
++            Returns `np.nan`.
++
++        See Also
++        --------
++        Normalize.inverse : The documentation of `Normalize.inverse` has an
++            explanation why no inverse exists for `BoundaryNorm`.
          """
 -        raise ValueError("BoundaryNorm is not invertible")
 +        warnings.warn(
-+            "BoundaryNorm is not invertible, returning np.nan.",
++            "BoundaryNorm is not invertible.",
 +            stacklevel=2)
 +        return np.nan
  
@@ -96,9 +122,9 @@ index 2e51914952..a9e4c160df 100644
      """
      Dummy replacement for `Normalize`, for the case where we want to use
      indices directly in a `~matplotlib.cm.ScalarMappable`.
-2025-02-12 13:12:13,566 - INFO - Grading answer for matplotlib__matplotlib-22835...
-2025-02-12 13:12:13,569 - INFO - report: {'matplotlib__matplotlib-22835': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_artist.py::test_format_cursor_data_BoundaryNorm']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_artist.py::test_patch_transform_of_none', 'lib/matplotlib/tests/test_artist.py::test_collection_transform_of_none', 'lib/matplotlib/tests/test_artist.py::test_clipping[png]', 'lib/matplotlib/tests/test_artist.py::test_clipping[pdf]', 'lib/matplotlib/tests/test_artist.py::test_clipping_zoom[png]', 'lib/matplotlib/tests/test_artist.py::test_cull_markers', 'lib/matplotlib/tests/test_artist.py::test_hatching[png]', 'lib/matplotlib/tests/test_artist.py::test_hatching[pdf]', 'lib/matplotlib/tests/test_artist.py::test_remove', 'lib/matplotlib/tests/test_artist.py::test_default_edges[png]', 'lib/matplotlib/tests/test_artist.py::test_properties', 'lib/matplotlib/tests/test_artist.py::test_setp', 'lib/matplotlib/tests/test_artist.py::test_None_zorder', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[-unknown]', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[ACCEPTS:', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[..', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[arg', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[*arg', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_aliases', 'lib/matplotlib/tests/test_artist.py::test_set_alpha', 'lib/matplotlib/tests/test_artist.py::test_set_alpha_for_array', 'lib/matplotlib/tests/test_artist.py::test_callbacks', 'lib/matplotlib/tests/test_artist.py::test_set_signature', 'lib/matplotlib/tests/test_artist.py::test_set_is_overwritten'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:33:51,680 - INFO - Grading answer for matplotlib__matplotlib-22835...
+2025-05-06 12:33:51,683 - INFO - report: {'matplotlib__matplotlib-22835': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['lib/matplotlib/tests/test_artist.py::test_format_cursor_data_BoundaryNorm']}, 'PASS_TO_PASS': {'success': ['lib/matplotlib/tests/test_artist.py::test_patch_transform_of_none', 'lib/matplotlib/tests/test_artist.py::test_collection_transform_of_none', 'lib/matplotlib/tests/test_artist.py::test_clipping[png]', 'lib/matplotlib/tests/test_artist.py::test_clipping[pdf]', 'lib/matplotlib/tests/test_artist.py::test_clipping_zoom[png]', 'lib/matplotlib/tests/test_artist.py::test_cull_markers', 'lib/matplotlib/tests/test_artist.py::test_hatching[png]', 'lib/matplotlib/tests/test_artist.py::test_hatching[pdf]', 'lib/matplotlib/tests/test_artist.py::test_remove', 'lib/matplotlib/tests/test_artist.py::test_default_edges[png]', 'lib/matplotlib/tests/test_artist.py::test_properties', 'lib/matplotlib/tests/test_artist.py::test_setp', 'lib/matplotlib/tests/test_artist.py::test_None_zorder', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[-unknown]', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[ACCEPTS:', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[..', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[arg', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_valid_values[*arg', 'lib/matplotlib/tests/test_artist.py::test_artist_inspector_get_aliases', 'lib/matplotlib/tests/test_artist.py::test_set_alpha', 'lib/matplotlib/tests/test_artist.py::test_set_alpha_for_array', 'lib/matplotlib/tests/test_artist.py::test_callbacks', 'lib/matplotlib/tests/test_artist.py::test_set_signature', 'lib/matplotlib/tests/test_artist.py::test_set_is_overwritten'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for matplotlib__matplotlib-22835: resolved: False
-2025-02-12 13:12:13,570 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-22835.20250212_130622...
-2025-02-12 13:12:28,837 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-22835.20250212_130622...
-2025-02-12 13:12:28,850 - INFO - Container sweb.eval.matplotlib__matplotlib-22835.20250212_130622 removed.
+2025-05-06 12:33:51,683 - INFO - Attempting to stop container sweb.eval.matplotlib__matplotlib-22835.20250506_122807...
+2025-05-06 12:34:06,969 - INFO - Attempting to remove container sweb.eval.matplotlib__matplotlib-22835.20250506_122807...
+2025-05-06 12:34:06,989 - INFO - Container sweb.eval.matplotlib__matplotlib-22835.20250506_122807 removed.

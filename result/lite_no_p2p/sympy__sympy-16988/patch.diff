@@ -1,0 +1,19 @@
+
+diff --git a/sympy/sets/sets.py b/sympy/sets/sets.py
+index 693f641..8617d18 100644
+--- a/sympy/sets/sets.py
++++ b/sympy/sets/sets.py
+@@ -1321,12 +1321,12 @@ class Intersection(Set, LatticeOp):
+             binary=True)
+         if not fs_args:
+             return
+-        fs_args.sort(key=len)
+         s = fs_args[0]
+         fs_args = fs_args[1:]
+ 
+         res = []
+         unk = []
++
+         for x in s:
+             c = fuzzy_and(fuzzy_bool(o.contains(x))
+                 for o in fs_args + other)

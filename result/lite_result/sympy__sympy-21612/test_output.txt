@@ -150,10 +150,10 @@ Date:   Sun Jun 13 14:23:08 2021 +0100
 
 + git diff b4777fdcef467b7132c055f8ac2c9a5059e6a145
 diff --git a/sympy/parsing/latex/_parse_latex_antlr.py b/sympy/parsing/latex/_parse_latex_antlr.py
-index 2e4a45ad20..7efc58cdd2 100644
+index 2e4a45ad20..b5a4f52575 100644
 --- a/sympy/parsing/latex/_parse_latex_antlr.py
 +++ b/sympy/parsing/latex/_parse_latex_antlr.py
-@@ -380,11 +380,12 @@ def convert_frac(frac):
+@@ -380,16 +380,18 @@ def convert_frac(frac):
          if expr_top:
              return sympy.Derivative(expr_top, wrt)
  
@@ -164,9 +164,15 @@ index 2e4a45ad20..7efc58cdd2 100644
      inverse_denom = sympy.Pow(expr_bot, -1, evaluate=False)
      if expr_top == 1:
          return inverse_denom
-+
      else:
          return sympy.Mul(expr_top, inverse_denom, evaluate=False)
+ 
++
+ def convert_binom(binom):
+     expr_n = convert_expr(binom.n)
++
+     expr_k = convert_expr(binom.k)
+     return sympy.binomial(expr_n, expr_k, evaluate=False)
  
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
@@ -318,8 +324,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        82033211
-hash randomization: on (PYTHONHASHSEED=1804651188)
+random seed:        32305373
+hash randomization: on (PYTHONHASHSEED=1399774730)
 
 sympy/printing/tests/test_str.py[100] 
 test_printmethod ok
@@ -431,7 +437,7 @@ Traceback (most recent call last):
     assert str(Mul(x, Pow(1/y, -1, evaluate=False), evaluate=False)) == 'x/(1/y)'
 AssertionError
 
-============= tests finished: 99 passed, 1 failed, in 1.15 seconds =============
+============= tests finished: 99 passed, 1 failed, in 1.18 seconds =============
 DO *NOT* COMMIT!
 + git checkout b4777fdcef467b7132c055f8ac2c9a5059e6a145 sympy/printing/tests/test_str.py
 Updated 1 path from 5de537ff25

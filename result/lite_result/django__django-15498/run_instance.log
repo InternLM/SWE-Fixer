@@ -1,17 +1,17 @@
-2025-02-12 13:10:46,695 - INFO - Environment image sweb.env.x86_64.934a137824256b612e9dc5:latest found for django__django-15498
+2025-05-06 12:32:33,512 - INFO - Environment image sweb.env.x86_64.934a137824256b612e9dc5:latest found for django__django-15498
 Building instance image sweb.eval.x86_64.django__django-15498:latest for django__django-15498
-2025-02-12 13:10:46,697 - INFO - Image sweb.eval.x86_64.django__django-15498:latest already exists, skipping build.
-2025-02-12 13:10:46,698 - INFO - Creating container for django__django-15498...
-2025-02-12 13:10:46,729 - INFO - Container for django__django-15498 created: bf8a7a20b5590e9cdbb6c49d87b398767ad0033f760b98e81fdc7772ac37812d
-2025-02-12 13:10:47,124 - INFO - Container for django__django-15498 started: bf8a7a20b5590e9cdbb6c49d87b398767ad0033f760b98e81fdc7772ac37812d
-2025-02-12 13:10:47,124 - INFO - Intermediate patch for django__django-15498 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15498/patch.diff, now applying to container...
-2025-02-12 13:10:47,349 - INFO - Failed to apply patch to container, trying again...
-2025-02-12 13:10:47,397 - INFO - >>>>> Applied Patch:
+2025-05-06 12:32:33,516 - INFO - Image sweb.eval.x86_64.django__django-15498:latest already exists, skipping build.
+2025-05-06 12:32:33,516 - INFO - Creating container for django__django-15498...
+2025-05-06 12:32:33,554 - INFO - Container for django__django-15498 created: bc2d40b523ba70a6f3eacf78802c29686861f73968225270d62d061330202cd3
+2025-05-06 12:32:34,292 - INFO - Container for django__django-15498 started: bc2d40b523ba70a6f3eacf78802c29686861f73968225270d62d061330202cd3
+2025-05-06 12:32:34,294 - INFO - Intermediate patch for django__django-15498 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15498/patch.diff, now applying to container...
+2025-05-06 12:32:34,544 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 12:32:34,598 - INFO - >>>>> Applied Patch:
 patching file django/utils/cache.py
 
-2025-02-12 13:10:48,330 - INFO - Git diff before:
+2025-05-06 12:32:35,517 - INFO - Git diff before:
 diff --git a/django/utils/cache.py b/django/utils/cache.py
-index 90292ce4da..16244802db 100644
+index 90292ce4da..6a8bd44120 100644
 --- a/django/utils/cache.py
 +++ b/django/utils/cache.py
 @@ -175,10 +175,13 @@ def get_conditional_response(request, etag=None, last_modified=None, response=No
@@ -20,8 +20,8 @@ index 90292ce4da..16244802db 100644
      if_modified_since = request.META.get("HTTP_IF_MODIFIED_SINCE")
 -    if_modified_since = if_modified_since and parse_http_date_safe(if_modified_since)
 +    if_modified_since = (
-+        if_modified_since and if_modified_since != "" and parse_http_date_safe(if_modified_since)
-+    )
++        if_modified_since and if_modified_since.strip() != ""
++    ) and parse_http_date_safe(if_modified_since)
  
      # Step 1 of section 6 of RFC 7232: Test the If-Match precondition.
      if if_match_etags and not _if_match_passes(etag, if_match_etags):
@@ -29,12 +29,12 @@ index 90292ce4da..16244802db 100644
          return _precondition_failed(request)
  
      # Step 2: Test the If-Unmodified-Since precondition.
-2025-02-12 13:10:48,330 - INFO - Eval script for django__django-15498 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15498/eval.sh; copying to container...
-2025-02-12 13:11:03,098 - INFO - Test runtime: 14.58 seconds
-2025-02-12 13:11:03,099 - INFO - Test output for django__django-15498 written to logs/run_evaluation/20250212_130622/SWE-Fixer/django__django-15498/test_output.txt
-2025-02-12 13:11:03,190 - INFO - Git diff after:
+2025-05-06 12:32:35,517 - INFO - Eval script for django__django-15498 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15498/eval.sh; copying to container...
+2025-05-06 12:32:48,414 - INFO - Test runtime: 12.75 seconds
+2025-05-06 12:32:48,415 - INFO - Test output for django__django-15498 written to logs/run_evaluation/20250506_122807/SWE-Fixer/django__django-15498/test_output.txt
+2025-05-06 12:32:48,476 - INFO - Git diff after:
 diff --git a/django/utils/cache.py b/django/utils/cache.py
-index 90292ce4da..16244802db 100644
+index 90292ce4da..6a8bd44120 100644
 --- a/django/utils/cache.py
 +++ b/django/utils/cache.py
 @@ -175,10 +175,13 @@ def get_conditional_response(request, etag=None, last_modified=None, response=No
@@ -43,8 +43,8 @@ index 90292ce4da..16244802db 100644
      if_modified_since = request.META.get("HTTP_IF_MODIFIED_SINCE")
 -    if_modified_since = if_modified_since and parse_http_date_safe(if_modified_since)
 +    if_modified_since = (
-+        if_modified_since and if_modified_since != "" and parse_http_date_safe(if_modified_since)
-+    )
++        if_modified_since and if_modified_since.strip() != ""
++    ) and parse_http_date_safe(if_modified_since)
  
      # Step 1 of section 6 of RFC 7232: Test the If-Match precondition.
      if if_match_etags and not _if_match_passes(etag, if_match_etags):
@@ -52,9 +52,9 @@ index 90292ce4da..16244802db 100644
          return _precondition_failed(request)
  
      # Step 2: Test the If-Unmodified-Since precondition.
-2025-02-12 13:11:03,190 - INFO - Grading answer for django__django-15498...
-2025-02-12 13:11:03,197 - INFO - report: {'django__django-15498': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_was_modified_since_empty_string (view_tests.tests.test_static.StaticUtilsTests)']}, 'PASS_TO_PASS': {'success': ['A floating point mtime does not disturb was_modified_since (#18675).', 'test_404 (view_tests.tests.test_static.StaticHelperTest)', 'The static view should stream files in chunks to avoid large memory usage', 'test_copes_with_empty_path_component (view_tests.tests.test_static.StaticHelperTest)', 'No URLs are served if DEBUG=False.', 'test_empty_prefix (view_tests.tests.test_static.StaticHelperTest)', 'test_index (view_tests.tests.test_static.StaticHelperTest)', 'test_index_custom_template (view_tests.tests.test_static.StaticHelperTest)', 'test_index_subdir (view_tests.tests.test_static.StaticHelperTest)', 'Handle bogus If-Modified-Since values gracefully', 'Handle even more bogus If-Modified-Since values gracefully', 'test_is_modified_since (view_tests.tests.test_static.StaticHelperTest)', 'test_not_modified_since (view_tests.tests.test_static.StaticHelperTest)', 'test_prefix (view_tests.tests.test_static.StaticHelperTest)', 'The static view can serve static media', 'No URLs are served if prefix contains a netloc part.', 'test_unknown_mime_type (view_tests.tests.test_static.StaticHelperTest)', 'test_404 (view_tests.tests.test_static.StaticTests)', 'test_copes_with_empty_path_component (view_tests.tests.test_static.StaticTests)', 'test_index (view_tests.tests.test_static.StaticTests)', 'test_index_custom_template (view_tests.tests.test_static.StaticTests)', 'test_index_subdir (view_tests.tests.test_static.StaticTests)', 'test_is_modified_since (view_tests.tests.test_static.StaticTests)', 'test_not_modified_since (view_tests.tests.test_static.StaticTests)', 'test_unknown_mime_type (view_tests.tests.test_static.StaticTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+2025-05-06 12:32:48,476 - INFO - Grading answer for django__django-15498...
+2025-05-06 12:32:48,482 - INFO - report: {'django__django-15498': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_was_modified_since_empty_string (view_tests.tests.test_static.StaticUtilsTests)']}, 'PASS_TO_PASS': {'success': ['A floating point mtime does not disturb was_modified_since (#18675).', 'test_404 (view_tests.tests.test_static.StaticHelperTest)', 'The static view should stream files in chunks to avoid large memory usage', 'test_copes_with_empty_path_component (view_tests.tests.test_static.StaticHelperTest)', 'No URLs are served if DEBUG=False.', 'test_empty_prefix (view_tests.tests.test_static.StaticHelperTest)', 'test_index (view_tests.tests.test_static.StaticHelperTest)', 'test_index_custom_template (view_tests.tests.test_static.StaticHelperTest)', 'test_index_subdir (view_tests.tests.test_static.StaticHelperTest)', 'Handle bogus If-Modified-Since values gracefully', 'Handle even more bogus If-Modified-Since values gracefully', 'test_is_modified_since (view_tests.tests.test_static.StaticHelperTest)', 'test_not_modified_since (view_tests.tests.test_static.StaticHelperTest)', 'test_prefix (view_tests.tests.test_static.StaticHelperTest)', 'The static view can serve static media', 'No URLs are served if prefix contains a netloc part.', 'test_unknown_mime_type (view_tests.tests.test_static.StaticHelperTest)', 'test_404 (view_tests.tests.test_static.StaticTests)', 'test_copes_with_empty_path_component (view_tests.tests.test_static.StaticTests)', 'test_index (view_tests.tests.test_static.StaticTests)', 'test_index_custom_template (view_tests.tests.test_static.StaticTests)', 'test_index_subdir (view_tests.tests.test_static.StaticTests)', 'test_is_modified_since (view_tests.tests.test_static.StaticTests)', 'test_not_modified_since (view_tests.tests.test_static.StaticTests)', 'test_unknown_mime_type (view_tests.tests.test_static.StaticTests)'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
 Result for django__django-15498: resolved: False
-2025-02-12 13:11:03,197 - INFO - Attempting to stop container sweb.eval.django__django-15498.20250212_130622...
-2025-02-12 13:11:18,564 - INFO - Attempting to remove container sweb.eval.django__django-15498.20250212_130622...
-2025-02-12 13:11:18,581 - INFO - Container sweb.eval.django__django-15498.20250212_130622 removed.
+2025-05-06 12:32:48,483 - INFO - Attempting to stop container sweb.eval.django__django-15498.20250506_122807...
+2025-05-06 12:33:03,993 - INFO - Attempting to remove container sweb.eval.django__django-15498.20250506_122807...
+2025-05-06 12:33:04,014 - INFO - Container sweb.eval.django__django-15498.20250506_122807 removed.

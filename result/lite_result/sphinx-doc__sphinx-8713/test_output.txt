@@ -348,44 +348,44 @@ export CONDA_PYTHON_EXE='\''/opt/miniconda3/bin/python'\'''
 Obtaining file:///testbed
   Preparing metadata (setup.py): started
   Preparing metadata (setup.py): finished with status 'done'
-Requirement already satisfied: sphinxcontrib-applehelp<=1.0.7 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (1.0.4)
-Requirement already satisfied: sphinxcontrib-devhelp<=1.0.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (1.0.2)
-Requirement already satisfied: sphinxcontrib-jsmath in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (1.0.1)
-Requirement already satisfied: sphinxcontrib-htmlhelp<=2.0.4 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (2.0.1)
-Requirement already satisfied: sphinxcontrib-serializinghtml<=1.1.9 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (1.1.5)
-Requirement already satisfied: sphinxcontrib-qthelp<=1.0.6 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (1.0.3)
-Requirement already satisfied: Jinja2<3.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (2.11.3)
-Requirement already satisfied: Pygments>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (2.18.0)
-Requirement already satisfied: docutils>=0.14 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (0.21.2)
-Requirement already satisfied: snowballstemmer>=1.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (2.2.0)
-Requirement already satisfied: babel>=1.3 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (2.16.0)
-Requirement already satisfied: alabaster<0.7.12,>=0.7 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (0.7.11)
-Requirement already satisfied: imagesize in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (1.4.1)
-Requirement already satisfied: requests>=2.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (2.32.3)
-Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (75.1.0)
-Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (24.2)
-Requirement already satisfied: markupsafe<=2.0.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (2.0.1)
-Requirement already satisfied: pytest in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (8.3.4)
-Requirement already satisfied: pytest-cov in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (6.0.0)
-Requirement already satisfied: html5lib in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (1.1)
-Requirement already satisfied: cython in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250212) (3.0.11)
-Requirement already satisfied: charset-normalizer<4,>=2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250212) (3.4.0)
-Requirement already satisfied: idna<4,>=2.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250212) (3.10)
-Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250212) (2.2.3)
-Requirement already satisfied: certifi>=2017.4.17 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250212) (2024.8.30)
-Requirement already satisfied: six>=1.9 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==4.0.0.dev20250212) (1.17.0)
-Requirement already satisfied: webencodings in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==4.0.0.dev20250212) (0.5.1)
-Requirement already satisfied: exceptiongroup>=1.0.0rc8 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250212) (1.2.2)
-Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250212) (2.0.0)
-Requirement already satisfied: pluggy<2,>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250212) (1.5.0)
-Requirement already satisfied: tomli>=1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250212) (2.2.1)
-Requirement already satisfied: coverage>=7.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from coverage[toml]>=7.5->pytest-cov->Sphinx==4.0.0.dev20250212) (7.6.8)
+Requirement already satisfied: sphinxcontrib-applehelp<=1.0.7 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (1.0.4)
+Requirement already satisfied: sphinxcontrib-devhelp<=1.0.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (1.0.2)
+Requirement already satisfied: sphinxcontrib-jsmath in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (1.0.1)
+Requirement already satisfied: sphinxcontrib-htmlhelp<=2.0.4 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (2.0.1)
+Requirement already satisfied: sphinxcontrib-serializinghtml<=1.1.9 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (1.1.5)
+Requirement already satisfied: sphinxcontrib-qthelp<=1.0.6 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (1.0.3)
+Requirement already satisfied: Jinja2<3.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (2.11.3)
+Requirement already satisfied: Pygments>=2.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (2.18.0)
+Requirement already satisfied: docutils>=0.14 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (0.21.2)
+Requirement already satisfied: snowballstemmer>=1.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (2.2.0)
+Requirement already satisfied: babel>=1.3 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (2.16.0)
+Requirement already satisfied: alabaster<0.7.12,>=0.7 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (0.7.11)
+Requirement already satisfied: imagesize in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (1.4.1)
+Requirement already satisfied: requests>=2.5.0 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (2.32.3)
+Requirement already satisfied: setuptools in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (75.1.0)
+Requirement already satisfied: packaging in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (24.2)
+Requirement already satisfied: markupsafe<=2.0.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (2.0.1)
+Requirement already satisfied: pytest in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (8.3.4)
+Requirement already satisfied: pytest-cov in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (6.0.0)
+Requirement already satisfied: html5lib in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (1.1)
+Requirement already satisfied: cython in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from Sphinx==4.0.0.dev20250506) (3.0.11)
+Requirement already satisfied: charset-normalizer<4,>=2 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250506) (3.4.0)
+Requirement already satisfied: idna<4,>=2.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250506) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250506) (2.2.3)
+Requirement already satisfied: certifi>=2017.4.17 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from requests>=2.5.0->Sphinx==4.0.0.dev20250506) (2024.8.30)
+Requirement already satisfied: six>=1.9 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==4.0.0.dev20250506) (1.17.0)
+Requirement already satisfied: webencodings in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from html5lib->Sphinx==4.0.0.dev20250506) (0.5.1)
+Requirement already satisfied: exceptiongroup>=1.0.0rc8 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250506) (1.2.2)
+Requirement already satisfied: iniconfig in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250506) (2.0.0)
+Requirement already satisfied: pluggy<2,>=1.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250506) (1.5.0)
+Requirement already satisfied: tomli>=1 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from pytest->Sphinx==4.0.0.dev20250506) (2.2.1)
+Requirement already satisfied: coverage>=7.5 in /opt/miniconda3/envs/testbed/lib/python3.9/site-packages (from coverage[toml]>=7.5->pytest-cov->Sphinx==4.0.0.dev20250506) (7.6.8)
 Installing collected packages: Sphinx
   Attempting uninstall: Sphinx
     Found existing installation: Sphinx 4.0.0.dev20241205
     Uninstalling Sphinx-4.0.0.dev20241205:
       Successfully uninstalled Sphinx-4.0.0.dev20241205
-  DEPRECATION: Legacy editable install of Sphinx[test]==4.0.0.dev20250212 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
+  DEPRECATION: Legacy editable install of Sphinx[test]==4.0.0.dev20250506 from file:///testbed (setup.py develop) is deprecated. pip 25.0 will enforce this behaviour change. A possible replacement is to add a pyproject.toml or enable --use-pep517, and use setuptools >= 64. If the resulting installation is not behaving as expected, try using --config-settings editable_mode=compat. Please consult the setuptools documentation for more information. Discussion can be found at https://github.com/pypa/pip/issues/11457
   Running setup.py develop for Sphinx
 Successfully installed Sphinx
 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable.It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
@@ -412,8 +412,8 @@ tests/test_ext_napoleon_docstring.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[3
 =================================== FAILURES ===================================
 [31m[1m__________________ TestNumpyDocstring.test_token_type_invalid __________________[0m
 
-self = <tests.test_ext_napoleon_docstring.TestNumpyDocstring object at 0x7fa12ef8b230>
-warning = <_io.StringIO object at 0x7fa12f1160f0>
+self = <tests.test_ext_napoleon_docstring.TestNumpyDocstring object at 0x7fb9e3f8b730>
+warning = <_io.StringIO object at 0x7fb9e40e70f0>
 
     [0m[94mdef[39;49;00m [92mtest_token_type_invalid[39;49;00m([96mself[39;49;00m, warning):[90m[39;49;00m
         tokens = ([90m[39;49;00m
@@ -442,7 +442,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     [0m[96mnext[39;49;00m([96mself[39;49;00m.gen)[90m[39;49;00m
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-warning = <_io.StringIO object at 0x7fa12f1160f0>
+warning = <_io.StringIO object at 0x7fb9e40e70f0>
 match = '.+: invalid value set \\(missing closing brace\\):'
 
     [0m[37m@contextmanager[39;49;00m[90m[39;49;00m
@@ -511,7 +511,7 @@ Sample class with PEP 526 annotations and numpy docstring
    :type: str
 
 ============================= slowest 25 durations =============================
-0.47s setup    tests/test_ext_napoleon_docstring.py::TestNumpyDocstring::test_token_type_invalid
+0.42s setup    tests/test_ext_napoleon_docstring.py::TestNumpyDocstring::test_token_type_invalid
 
 (24 durations < 0.005s hidden.  Use -vv to show these durations.)
 [36m[1m=========================== short test summary info ============================[0m
@@ -562,9 +562,9 @@ Sample class with PEP 526 annotations and numpy docstring
 [32mPASSED[0m tests/test_ext_napoleon_docstring.py::[1mTestNumpyDocstring::test_escape_args_and_kwargs[*x, **y-\\*x, \\*\\*y][0m
 [32mPASSED[0m tests/test_ext_napoleon_docstring.py::[1mTestNumpyDocstring::test_pep526_annotations[0m
 [31mFAILED[0m tests/test_ext_napoleon_docstring.py::[1mTestNumpyDocstring::test_token_type_invalid[0m - assert (2 == 1)
-[31m=================== [31m[1m1 failed[0m, [32m46 passed[0m, [33m7 warnings[0m[31m in 0.72s[0m[31m ===================[0m
-py39: exit 1 (1.43 seconds) /testbed> python -X dev -m pytest -rA --durations 25 tests/test_ext_napoleon_docstring.py pid=108
-  py39: FAIL code 1 (1.45=setup[0.02]+cmd[1.43] seconds)
-  evaluation failed :( (1.54 seconds)
+[31m=================== [31m[1m1 failed[0m, [32m46 passed[0m, [33m7 warnings[0m[31m in 0.67s[0m[31m ===================[0m
+py39: exit 1 (1.33 seconds) /testbed> python -X dev -m pytest -rA --durations 25 tests/test_ext_napoleon_docstring.py pid=109
+  py39: FAIL code 1 (1.36=setup[0.02]+cmd[1.33] seconds)
+  evaluation failed :( (1.45 seconds)
 + git checkout 3ed7590ed411bd93b26098faab4f23619cdb2267 tests/test_ext_napoleon_docstring.py
 Updated 1 path from 435c396e3

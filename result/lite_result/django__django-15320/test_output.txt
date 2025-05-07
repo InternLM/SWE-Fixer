@@ -346,8 +346,8 @@ Requirement already satisfied: typing-extensions>=4 in /opt/miniconda3/envs/test
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-4.1.dev20220117064446-0.editable-py3-none-any.whl size=26887 sha256=8d8e505175ad3abd57d01736c4935c4bd544b70d6163714cb50bbd85cd0e569c
-  Stored in directory: /tmp/pip-ephem-wheel-cache-hlt79t24/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
+  Created wheel for Django: filename=django-4.1.dev20220117064446-0.editable-py3-none-any.whl size=26958 sha256=03deae5f77f55c33921699aa422f8f9a2665e98a455c0e803186c49ade437e81
+  Stored in directory: /tmp/pip-ephem-wheel-cache-hacfk0l5/wheels/7d/66/67/70d1ee2124ccf21d601c352e25cdca10f611f7c8b3f9ffb9e4
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -578,7 +578,7 @@ Traceback (most recent call last):
 AssertionError: True is not False
 
 ----------------------------------------------------------------------
-Ran 164 tests in 0.196s
+Ran 164 tests in 0.228s
 
 FAILED (failures=1, skipped=1, expected failures=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

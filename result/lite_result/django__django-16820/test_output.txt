@@ -200,38 +200,30 @@ index 85f2eda69e..69aa242a64 100644
          def a_callable(obj):
 + git diff c61219a7ae051d2baab53f041e00592011fc550c
 diff --git a/django/db/migrations/autodetector.py b/django/db/migrations/autodetector.py
-index 23c97e5474..3a9f506f5e 100644
+index 23c97e5474..95c47a8428 100644
 --- a/django/db/migrations/autodetector.py
 +++ b/django/db/migrations/autodetector.py
-@@ -1261,8 +1261,8 @@ class MigrationAutodetector:
-                     or model_name != index_together_model_name
-                 ):
-                     continue
--                removed_values = old_value.difference(new_value)
--                for removed_index_together in removed_values:
-+                # Find index_together changed to indexes.
-+                for removed_index_together in old_value.difference(new_value):
+@@ -1264,15 +1264,15 @@ class MigrationAutodetector:
+                 removed_values = old_value.difference(new_value)
+                 for removed_index_together in removed_values:
                      renamed_index_together_indexes = []
-                     for new_index in added_indexes:
-                         _, args, kwargs = new_index.deconstruct()
-@@ -1283,9 +1283,24 @@ class MigrationAutodetector:
-                         self.renamed_index_together_values[
-                             index_together_app_label, index_together_model_name
-                         ].append(removed_index_together)
-+                # Find indexes added to existing index_together.
-+                for added_index_together in new_value.difference(old_value):
-+                    for new_index in added_indexes:
-+                        _, args, kwargs = new_index.deconstruct()
-+                        # Ensure only 'fields' are defined in the Index.
-+                        if (
-+                            not args
-+                            and new_index.fields == list(added_index_together)
-+                            and set(kwargs) == {"name", "fields"}
-+                        ):
-+                            remove_from_added.append(new_index)
-+                            renamed_indexes.append(
-+                                (None, new_index.name, added_index_together)
-+                            )
+-                    for new_index in added_indexes:
+-                        _, args, kwargs = new_index.deconstruct()
++                    for added_index in added_indexes:
++                        _, args, kwargs = added_index.deconstruct()
+                         # Ensure only 'fields' are defined in the Index.
+                         if (
+                             not args
+-                            and new_index.fields == list(removed_index_together)
++                            and added_index.fields == list(removed_index_together)
+                             and set(kwargs) == {"name", "fields"}
+                         ):
+-                            renamed_index_together_indexes.append(new_index)
++                            renamed_index_together_indexes.append(added_index)
+ 
+                     if len(renamed_index_together_indexes) == 1:
+                         renamed_index = renamed_index_together_indexes[0]
+@@ -1286,6 +1286,7 @@ class MigrationAutodetector:
              # Remove renamed indexes from the lists of added and removed
              # indexes.
              added_indexes = [
@@ -378,8 +370,8 @@ Requirement already satisfied: sqlparse>=0.3.1 in /opt/miniconda3/envs/testbed/l
 Building wheels for collected packages: Django
   Building editable for Django (pyproject.toml): started
   Building editable for Django (pyproject.toml): finished with status 'done'
-  Created wheel for Django: filename=Django-5.0.dev20230502044622-0.editable-py3-none-any.whl size=27363 sha256=36da483f8c66fdeb67de389c668ab21982a1229039e4b12a20485cb5895a2e31
-  Stored in directory: /tmp/pip-ephem-wheel-cache-cd304ys4/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
+  Created wheel for Django: filename=django-5.0.dev20230502044622-0.editable-py3-none-any.whl size=27430 sha256=c57dd93f650e7ee14b17d45b0a39d95df5788325b947a8ef11e31cbf15150ea9
+  Stored in directory: /tmp/pip-ephem-wheel-cache-bvla74i9/wheels/49/5f/4f/01b7d31ea6ddac9643da788242d33e5fd3467d95d17b032c6b
 Successfully built Django
 Installing collected packages: Django
   Attempting uninstall: Django
@@ -904,7 +896,7 @@ First extra element 1:
    ')']
 
 ----------------------------------------------------------------------
-Ran 217 tests in 0.114s
+Ran 217 tests in 0.154s
 
 FAILED (failures=7)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

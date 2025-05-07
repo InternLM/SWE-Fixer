@@ -441,23 +441,21 @@ index 85d18041a..78eb22df4 100644
      y_mean, y_std = gp.predict(X_[:, np.newaxis], return_std=True)
 + git diff 3aefc834dce72e850bff48689bea3c7dff5f3fad
 diff --git a/sklearn/ensemble/bagging.py b/sklearn/ensemble/bagging.py
-index f21fbd81b..17e30112d 100644
+index f21fbd81b..92218ab37 100644
 --- a/sklearn/ensemble/bagging.py
 +++ b/sklearn/ensemble/bagging.py
-@@ -483,9 +483,9 @@ class BaggingClassifier(BaseBagging, ClassifierMixin):
+@@ -482,17 +482,10 @@ class BaggingClassifier(BaseBagging, ClassifierMixin):
+         Whether to use out-of-bag samples to estimate
          the generalization error.
  
-     warm_start : bool, optional (default=False)
+-    warm_start : bool, optional (default=False)
 -        When set to True, reuse the solution of the previous call to fit
 -        and add more estimators to the ensemble, otherwise, just fit
 -        a whole new ensemble. See :term:`the Glossary <warm_start>`.
-+        When set to ``True``, reuse the solution of the previous call to fit
-+        and add more estimators to the ensemble, otherwise, just fit a whole
-+        new ensemble. See :term:`the Glossary <warm_start>`.
- 
-         .. versionadded:: 0.17
-            *warm_start* constructor parameter.
-@@ -493,6 +493,7 @@ class BaggingClassifier(BaseBagging, ClassifierMixin):
+-
+-        .. versionadded:: 0.17
+-           *warm_start* constructor parameter.
+-
      n_jobs : int or None, optional (default=None)
          The number of jobs to run in parallel for both `fit` and `predict`.
          ``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.
@@ -466,16 +464,50 @@ index f21fbd81b..17e30112d 100644
          for more details.
  
 diff --git a/sklearn/ensemble/forest.py b/sklearn/ensemble/forest.py
-index aae9dd8c7..34929be1b 100644
+index aae9dd8c7..b3aef1e2f 100644
 --- a/sklearn/ensemble/forest.py
 +++ b/sklearn/ensemble/forest.py
-@@ -1889,9 +1889,13 @@ class RandomTreesEmbedding(BaseForest):
-         and add more estimators to the ensemble, otherwise, just fit a whole
-         new forest. See :term:`the Glossary <warm_start>`.
+@@ -1158,9 +1158,15 @@ class RandomForestRegressor(ForestRegressor):
+         whether to use out-of-bag samples to estimate
+         the R^2 on unseen data.
  
-+        .. versionadded:: 0.17
-+           *warm_start* constructor parameter.
++    warm_start : bool, optional (default=False)
++        When set to ``True``, reuse the solution of the previous call to fit
++        and add more estimators to the ensemble, otherwise, just fit a whole
++        new forest. See :term:`the Glossary <warm_start>`.
 +
+     n_jobs : int or None, optional (default=None)
+         The number of jobs to run in parallel for both `fit` and `predict`.
+         `None`` means 1 unless in a :obj:`joblib.parallel_backend` context.
++
+         ``-1`` means using all processors. See :term:`Glossary <n_jobs>`
+         for more details.
+ 
+@@ -1669,10 +1675,15 @@ class ExtraTreesRegressor(ForestRegressor):
+ 
+     oob_score : bool, optional (default=False)
+         Whether to use out-of-bag samples to estimate the R^2 on unseen data.
++    warm_start : bool, optional (default=False)
++        When set to ``True``, reuse the solution of the previous call to fit
++        and add more estimators to the ensemble, otherwise, just fit a whole
++        new forest. See :term:`the Glossary <warm_start>`.
+ 
+     n_jobs : int or None, optional (default=None)
+         The number of jobs to run in parallel for both `fit` and `predict`.
+         ``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.
++
+         ``-1`` means using all processors. See :term:`Glossary <n_jobs>`
+         for more details.
+ 
+@@ -1884,14 +1895,10 @@ class RandomTreesEmbedding(BaseForest):
+     verbose : int, optional (default=0)
+         Controls the verbosity when fitting and predicting.
+ 
+-    warm_start : bool, optional (default=False)
+-        When set to ``True``, reuse the solution of the previous call to fit
+-        and add more estimators to the ensemble, otherwise, just fit a whole
+-        new forest. See :term:`the Glossary <warm_start>`.
+-
      Attributes
      ----------
      estimators_ : list of DecisionTreeClassifier
@@ -484,57 +516,49 @@ index aae9dd8c7..34929be1b 100644
  
      References
 diff --git a/sklearn/ensemble/iforest.py b/sklearn/ensemble/iforest.py
-index 8a1bd3625..2f518be12 100644
+index 8a1bd3625..a0536039d 100644
 --- a/sklearn/ensemble/iforest.py
 +++ b/sklearn/ensemble/iforest.py
-@@ -120,9 +120,18 @@ class IsolationForest(BaseBagging, OutlierMixin):
-     verbose : int, optional (default=0)
-         Controls the verbosity of the tree building process.
+@@ -85,9 +85,15 @@ class IsolationForest(BaseBagging, OutlierMixin):
+         data sampled with replacement. If False, sampling without replacement
+         is performed.
  
 +    warm_start : bool, optional (default=False)
 +        When set to ``True``, reuse the solution of the previous call to fit
 +        and add more estimators to the ensemble, otherwise, just fit a whole
 +        new forest. See :term:`the Glossary <warm_start>`.
 +
-+        .. versionadded:: 0.17
-+           *warm_start* constructor parameter.
+     n_jobs : int or None, optional (default=None)
+         The number of jobs to run in parallel for both `fit` and `predict`.
+         ``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.
 +
+         ``-1`` means using all processors. See :term:`Glossary <n_jobs>`
+         for more details.
  
-     Attributes
-     ----------
-+
-     estimators_ : list of DecisionTreeClassifier
-         The collection of fitted sub-estimators.
- 
-@@ -173,10 +182,12 @@ class IsolationForest(BaseBagging, OutlierMixin):
+@@ -170,9 +176,11 @@ class IsolationForest(BaseBagging, OutlierMixin):
+                  contamination="legacy",
+                  max_features=1.,
+                  bootstrap=False,
++                 warm_start=False,
                   n_jobs=None,
                   behaviour='old',
                   random_state=None,
--                 verbose=0):
-+                 verbose=0,
-+                 warm_start=False):
++
+                  verbose=0):
          super().__init__(
              base_estimator=ExtraTreeRegressor(
-                 max_features=1,
-+
-                 splitter='random',
-                 random_state=random_state),
+@@ -182,9 +190,11 @@ class IsolationForest(BaseBagging, OutlierMixin):
              # here above max_features has no links with self.max_features
-@@ -187,11 +198,13 @@ class IsolationForest(BaseBagging, OutlierMixin):
+             bootstrap=bootstrap,
+             bootstrap_features=False,
++            warm_start=warm_start,
+             n_estimators=n_estimators,
+             max_samples=max_samples,
              max_features=max_features,
++
              n_jobs=n_jobs,
              random_state=random_state,
--            verbose=verbose)
-+            verbose=verbose,
-+            warm_start=warm_start)
- 
-         self.behaviour = behaviour
-         self.contamination = contamination
- 
-+
-     def _set_oob_score(self, X, y):
-         raise NotImplementedError("OOB score not supported by iforest")
- 
+             verbose=verbose)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -664,16 +688,16 @@ Using pip 21.2.2 from /opt/miniconda3/envs/testbed/lib/python3.6/site-packages/p
 Obtaining file:///testbed
     Running command python setup.py egg_info
     running egg_info
-    creating /tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info
-    writing /tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info/PKG-INFO
-    writing dependency_links to /tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info/dependency_links.txt
-    writing requirements to /tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info/requires.txt
-    writing top-level names to /tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info/top_level.txt
-    writing manifest file '/tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info/SOURCES.txt'
-    reading manifest file '/tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info/SOURCES.txt'
+    creating /tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info
+    writing /tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info/PKG-INFO
+    writing dependency_links to /tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info/dependency_links.txt
+    writing requirements to /tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info/requires.txt
+    writing top-level names to /tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info/top_level.txt
+    writing manifest file '/tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info/SOURCES.txt'
+    reading manifest file '/tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info/SOURCES.txt'
     reading manifest template 'MANIFEST.in'
     adding license file 'COPYING'
-    writing manifest file '/tmp/pip-pip-egg-info-ed45z80m/scikit_learn.egg-info/SOURCES.txt'
+    writing manifest file '/tmp/pip-pip-egg-info-f_gohlnj/scikit_learn.egg-info/SOURCES.txt'
     Partial import of sklearn during the build process.
 Requirement already satisfied: numpy>=1.11.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.21.dev0) (1.19.2)
 Requirement already satisfied: scipy>=0.17.0 in /opt/miniconda3/envs/testbed/lib/python3.6/site-packages (from scikit-learn==0.21.dev0) (1.5.2)
@@ -700,11 +724,11 @@ Installing collected packages: scikit-learn
     openblas_info:
     C compiler: gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC
 
-    creating /tmp/tmpv3s6vi7x/tmp
-    creating /tmp/tmpv3s6vi7x/tmp/tmpv3s6vi7x
+    creating /tmp/tmpnn5ojbxf/tmp
+    creating /tmp/tmpnn5ojbxf/tmp/tmpnn5ojbxf
     compile options: '-c'
-    gcc: /tmp/tmpv3s6vi7x/source.c
-    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpv3s6vi7x/tmp/tmpv3s6vi7x/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpv3s6vi7x/a.out
+    gcc: /tmp/tmpnn5ojbxf/source.c
+    gcc -pthread -B /opt/miniconda3/envs/testbed/compiler_compat -Wl,--sysroot=/ /tmp/tmpnn5ojbxf/tmp/tmpnn5ojbxf/source.o -L/opt/miniconda3/envs/testbed/lib -lopenblas -o /tmp/tmpnn5ojbxf/a.out
       FOUND:
         libraries = ['openblas', 'openblas']
         library_dirs = ['/opt/miniconda3/envs/testbed/lib']
@@ -859,6 +883,10 @@ WARNING: Running pip as the 'root' user can result in broken permissions and con
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/47/3e/68beeeeb306ea20ffd30b3ed993f531d16cd884ec4f60c9b1e238f69f2af/pip-25.0.tar.gz#sha256=8e0a97f7b4c47ae4a494560da84775e9e2f671d415d8d828e052efefb206b30b (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/c9/bc/b7db44f5f39f9d0494071bddae6880eb645970366d0a200022a1a93d57f5/pip-25.0.1-py3-none-any.whl#sha256=c46efd13b6aa8279f33f2864459c8ce587ea6a1a59ee20de055868d8f7688f7f (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
   Link requires a different Python (3.6.13 not in: '>=3.8'): https://files.pythonhosted.org/packages/70/53/b309b4a497b09655cb7e07088966881a57d082f48ac3cb54ea729fd2c6cf/pip-25.0.1.tar.gz#sha256=88f96547ea48b940a3a385494e181e29fb8637898f88d88737c5049780f196ea (from https://pypi.org/simple/pip/) (requires-python:>=3.8)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/e0/f0/8a2806114cd36e282823fd4d8e88e3b94dc943c2569c350d0c826a49db38/pip-25.1-py3-none-any.whl#sha256=13b4aa0aaad055020a11bec8a1c2a70a2b2d080e12d89b962266029fff0a16ba (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/79/67/c06f625e2968c417052b3a4a0eef40656d5d4d44033e57b40ec474af1d28/pip-25.1.tar.gz#sha256=272bdd1289f80165e9070a4f881e8f9e1001bbb50378561d1af20e49bf5a2200 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/29/a2/d40fb2460e883eca5199c62cfc2463fd261f760556ae6290f88488c362c0/pip-25.1.1-py3-none-any.whl#sha256=2913a38a2abf4ea6b64ab507bd9e967f3b53dc1ede74b01b0931e1ce548751af (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
+  Link requires a different Python (3.6.13 not in: '>=3.9'): https://files.pythonhosted.org/packages/59/de/241caa0ca606f2ec5fe0c1f4261b0465df78d786a38da693864a116c37f4/pip-25.1.1.tar.gz#sha256=3de45d411d308d5054c2168185d8da7f9a2cd753dbac8acbfa88a8909ecd9077 (from https://pypi.org/simple/pip/) (requires-python:>=3.9)
 + git checkout 3aefc834dce72e850bff48689bea3c7dff5f3fad sklearn/ensemble/tests/test_iforest.py
 Updated 0 paths from e85645a93
 + git apply -v -
@@ -894,6 +922,6 @@ PASSED sklearn/ensemble/tests/test_iforest.py::test_iforest_chunks_works1[0.25-3
 PASSED sklearn/ensemble/tests/test_iforest.py::test_iforest_chunks_works1[auto-2]
 PASSED sklearn/ensemble/tests/test_iforest.py::test_iforest_chunks_works2[0.25-3]
 PASSED sklearn/ensemble/tests/test_iforest.py::test_iforest_chunks_works2[auto-2]
-============================== 20 passed in 5.09s ==============================
+============================== 20 passed in 4.85s ==============================
 + git checkout 3aefc834dce72e850bff48689bea3c7dff5f3fad sklearn/ensemble/tests/test_iforest.py
 Updated 1 path from e85645a93

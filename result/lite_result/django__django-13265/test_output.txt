@@ -175,27 +175,28 @@ index db090de3f6..f44bef411d 100644
  cookies, sessions, and signatures that use SHA-1 algorithm will be removed in
 + git diff b2b0711b555fa292751763c2df4fe577c396f265
 diff --git a/django/db/migrations/operations/models.py b/django/db/migrations/operations/models.py
-index dddf7c679c..78ecda708f 100644
+index dddf7c679c..005cd974d0 100644
 --- a/django/db/migrations/operations/models.py
 +++ b/django/db/migrations/operations/models.py
-@@ -166,9 +166,24 @@ class CreateModel(ModelOperation):
+@@ -166,9 +166,25 @@ class CreateModel(ModelOperation):
                      managers=self.managers,
                  ),
              ]
-+        elif isinstance(operation, AddIndex) and '_order' in operation.index.fields:
-+            return [
-+                CreateModel(
-+                    self.name,
-+                    fields=self.fields,
-+                    options={**self.options, 'order_with_respect_to': operation.order_with_respect_to},
-+                    bases=self.bases,
-+                    managers=self.managers,
-+                ),
-+                AddIndex(
-+                    model_name=self.name_lower,
-+                    index=operation.index,
-+                ),
-+            ]
++        elif isinstance(operation, AddIndex) and self.name_lower == operation.model_name_lower:
++            if '_order' in operation.index.fields:
++                return [
++                    CreateModel(
++                        self.name,
++                        fields=self.fields,
++                        options={**self.options, 'order_with_respect_to': operation.order_with_respect_to},
++                        bases=self.bases,
++                        managers=self.managers,
++                    ),
++                    AddIndex(
++                        model_name=self.name,
++                        index=operation.index,
++                    ),
++                ]
          elif isinstance(operation, FieldOperation) and self.name_lower == operation.model_name_lower:
              if isinstance(operation, AddField):
                  return [
@@ -529,7 +530,7 @@ Traceback (most recent call last):
     result = self.optimize_inner(operations, app_label)
   File "/testbed/django/db/migrations/optimizer.py", line 47, in optimize_inner
     result = operation.reduce(other, app_label)
-  File "/testbed/django/db/migrations/operations/models.py", line 174, in reduce
+  File "/testbed/django/db/migrations/operations/models.py", line 175, in reduce
     options={**self.options, 'order_with_respect_to': operation.order_with_respect_to},
 AttributeError: 'AddIndex' object has no attribute 'order_with_respect_to'
 
@@ -615,7 +616,7 @@ AssertionError: Operation type mismatch for testapp.auto_1 (expected ['AlterOrde
 
 
 ----------------------------------------------------------------------
-Ran 126 tests in 0.247s
+Ran 126 tests in 0.266s
 
 FAILED (failures=5, errors=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

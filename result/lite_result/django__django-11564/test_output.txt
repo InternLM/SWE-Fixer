@@ -207,22 +207,23 @@ index 4f3c2b361b..08a77000b2 100644
          #24307 - Should skip an alter statement on databases with
 + git diff 580e644f24f1c5ae5b94784fb73a9953a178fd26
 diff --git a/django/templatetags/static.py b/django/templatetags/static.py
-index 39712aaba0..04dbafd020 100644
+index 39712aaba0..ce121c7fa0 100644
 --- a/django/templatetags/static.py
 +++ b/django/templatetags/static.py
-@@ -100,9 +100,12 @@ class StaticNode(template.Node):
+@@ -100,10 +100,13 @@ class StaticNode(template.Node):
  
      def url(self, context):
          path = self.path.resolve(context)
 +        if 'request' in context and context['request'].META.get('SCRIPT_NAME'):
-+            path = urljoin(context['request'].META['SCRIPT_NAME'], path)
++            path = '%s%s' % (context['request'].META['SCRIPT_NAME'], path)
          return self.handle_simple(path)
  
      def render(self, context):
-+
          url = self.url(context)
++
          if context.autoescape:
              url = conditional_escape(url)
+         if self.varname is None:
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -671,7 +672,7 @@ AssertionError: '' != '/somesubpath/'
 + /somesubpath/
 
 ----------------------------------------------------------------------
-Ran 179 tests in 1.658s
+Ran 179 tests in 1.682s
 
 FAILED (failures=10)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

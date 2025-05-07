@@ -1,0 +1,56 @@
+2025-05-06 06:54:51,807 - INFO - Environment image sweb.env.x86_64.e2b489bd66c1f2830ed0c5:latest found for pylint-dev__pylint-4970
+Building instance image sweb.eval.x86_64.pylint-dev__pylint-4970:latest for pylint-dev__pylint-4970
+2025-05-06 06:54:51,810 - INFO - Image sweb.eval.x86_64.pylint-dev__pylint-4970:latest already exists, skipping build.
+2025-05-06 06:54:51,810 - INFO - Creating container for pylint-dev__pylint-4970...
+2025-05-06 06:54:51,835 - INFO - Container for pylint-dev__pylint-4970 created: f9527b796a26421111eff90efe261d7c6b4dca8a462b556d4542a9c74ee0b734
+2025-05-06 06:54:52,108 - INFO - Container for pylint-dev__pylint-4970 started: f9527b796a26421111eff90efe261d7c6b4dca8a462b556d4542a9c74ee0b734
+2025-05-06 06:54:52,109 - INFO - Intermediate patch for pylint-dev__pylint-4970 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pylint-dev__pylint-4970/patch.diff, now applying to container...
+2025-05-06 06:54:52,373 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:54:52,440 - INFO - >>>>> Applied Patch:
+patching file pylint/checkers/similar.py
+
+2025-05-06 06:54:52,597 - INFO - Git diff before:
+diff --git a/pylint/checkers/similar.py b/pylint/checkers/similar.py
+index c65b1c893..57d682ddc 100644
+--- a/pylint/checkers/similar.py
++++ b/pylint/checkers/similar.py
+@@ -524,10 +524,11 @@ class Similar:
+                 lineset1, start_index_1, lineset2, start_index_2, nb_common_lines
+             )
+ 
+-            if eff_cmn_nb > self.min_lines:
++            if self.min_lines and eff_cmn_nb > self.min_lines:
+                 yield com
+ 
+     def _iter_sims(self) -> Generator[Commonality, None, None]:
++
+         """iterate on similarities among all files, by making a cartesian
+         product
+         """
+2025-05-06 06:54:52,597 - INFO - Eval script for pylint-dev__pylint-4970 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pylint-dev__pylint-4970/eval.sh; copying to container...
+2025-05-06 06:54:57,603 - INFO - Test runtime: 4.80 seconds
+2025-05-06 06:54:57,604 - INFO - Test output for pylint-dev__pylint-4970 written to logs/run_evaluation/20250506_061805/SWE-Fixer/pylint-dev__pylint-4970/test_output.txt
+2025-05-06 06:54:57,666 - INFO - Git diff after:
+diff --git a/pylint/checkers/similar.py b/pylint/checkers/similar.py
+index c65b1c893..57d682ddc 100644
+--- a/pylint/checkers/similar.py
++++ b/pylint/checkers/similar.py
+@@ -524,10 +524,11 @@ class Similar:
+                 lineset1, start_index_1, lineset2, start_index_2, nb_common_lines
+             )
+ 
+-            if eff_cmn_nb > self.min_lines:
++            if self.min_lines and eff_cmn_nb > self.min_lines:
+                 yield com
+ 
+     def _iter_sims(self) -> Generator[Commonality, None, None]:
++
+         """iterate on similarities among all files, by making a cartesian
+         product
+         """
+2025-05-06 06:54:57,666 - INFO - Grading answer for pylint-dev__pylint-4970...
+2025-05-06 06:54:57,670 - INFO - report: {'pylint-dev__pylint-4970': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['tests/checkers/unittest_similar.py::test_set_duplicate_lines_to_zero']}, 'PASS_TO_PASS': {'success': ['tests/checkers/unittest_similar.py::test_ignore_comments', 'tests/checkers/unittest_similar.py::test_ignore_docstrings', 'tests/checkers/unittest_similar.py::test_ignore_imports', 'tests/checkers/unittest_similar.py::test_multiline_imports', 'tests/checkers/unittest_similar.py::test_ignore_multiline_imports', 'tests/checkers/unittest_similar.py::test_ignore_signatures_fail', 'tests/checkers/unittest_similar.py::test_ignore_signatures_pass', 'tests/checkers/unittest_similar.py::test_ignore_signatures_class_methods_fail', 'tests/checkers/unittest_similar.py::test_ignore_signatures_class_methods_pass', 'tests/checkers/unittest_similar.py::test_ignore_signatures_empty_functions_fail', 'tests/checkers/unittest_similar.py::test_ignore_signatures_empty_functions_pass', 'tests/checkers/unittest_similar.py::test_no_hide_code_with_imports', 'tests/checkers/unittest_similar.py::test_ignore_nothing', 'tests/checkers/unittest_similar.py::test_lines_without_meaningful_content_do_not_trigger_similarity', 'tests/checkers/unittest_similar.py::test_help', 'tests/checkers/unittest_similar.py::test_no_args', 'tests/checkers/unittest_similar.py::test_get_map_data'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for pylint-dev__pylint-4970: resolved: False
+2025-05-06 06:54:57,670 - INFO - Attempting to stop container sweb.eval.pylint-dev__pylint-4970.20250506_061805...
+2025-05-06 06:55:12,933 - INFO - Attempting to remove container sweb.eval.pylint-dev__pylint-4970.20250506_061805...
+2025-05-06 06:55:12,947 - INFO - Container sweb.eval.pylint-dev__pylint-4970.20250506_061805 removed.

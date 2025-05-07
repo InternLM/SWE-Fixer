@@ -180,26 +180,23 @@ index 94b57ae57f..82d3eef867 100644
      def is_sql_auto_is_null_enabled(self):
 + git diff 3346b78a8a872286a245d1e77ef4718fc5e6be1a
 diff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py
-index 8e55bd092d..82e5af8a05 100644
+index 8e55bd092d..6868309f5c 100644
 --- a/django/db/models/sql/query.py
 +++ b/django/db/models/sql/query.py
-@@ -453,10 +453,15 @@ class Query(BaseExpression):
-                     if getattr(annotation, 'contains_aggregate', True)
-                 )
-                 if inner_query.default_cols and has_existing_aggregate_annotations:
--                    inner_query.group_by = (self.model._meta.pk.get_col(inner_query.get_initial_alias()),)
-+                    inner_query.group_by = tuple(
-+                        annotation.get_group_by_cols(alias=alias)
-+                        for alias, annotation in self.annotations.items()
-+                        if alias in added_aggregate_names
-+                    )
-                 inner_query.default_cols = False
+@@ -1253,9 +1253,13 @@ class Query(BaseExpression):
+         value = self.resolve_lookup_value(value, can_reuse, allow_joins, simple_col)
+         used_joins = {k for k, v in self.alias_refcount.items() if v > pre_joins.get(k, 0)}
  
-             relabels = {t: 'subquery' for t in inner_query.alias_map}
++        if isinstance(value, Query):
++            value.group_by = ()
 +
-             relabels[None] = 'subquery'
-             # Remove any aggregates marked for reduction from the subquery
-             # and move them to the outer AggregateQuery.
+         self.check_filterable(value)
+ 
+         clause = self.where_class()
++
+         if reffed_expression:
+             condition = self.build_lookup(lookups, reffed_expression, value)
+             clause.add(condition, AND)
 + source /opt/miniconda3/bin/activate
 ++ _CONDA_ROOT=/opt/miniconda3
 ++ . /opt/miniconda3/etc/profile.d/conda.sh
@@ -396,7 +393,7 @@ Traceback (most recent call last):
 AssertionError: <Author: Author object (2)> != <Author: Author object (3)>
 
 ----------------------------------------------------------------------
-Ran 39 tests in 0.180s
+Ran 39 tests in 0.210s
 
 FAILED (failures=1)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

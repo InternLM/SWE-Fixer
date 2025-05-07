@@ -150,7 +150,7 @@ Date:   Wed Jun 20 22:16:21 2018 -0600
 
 + git diff 0dbdc0ea83d339936da175f8c3a97d0d6bafb9f8
 diff --git a/sympy/printing/pretty/pretty.py b/sympy/printing/pretty/pretty.py
-index 0545797d5f..47d3e53285 100644
+index 0545797d5f..f485c21334 100644
 --- a/sympy/printing/pretty/pretty.py
 +++ b/sympy/printing/pretty/pretty.py
 @@ -821,19 +821,20 @@ def _print_BlockMatrix(self, B):
@@ -165,14 +165,16 @@ index 0545797d5f..47d3e53285 100644
 -                if S(item.args[0]).is_negative:
 +                if item.is_negative:
                      s = prettyForm(*stringPict.next(s, ' '))
-                     pform = self._print(item)
+-                    pform = self._print(item)
++                    s = prettyForm(*stringPict.next(s, self._print(item)))
                  else:
                      s = prettyForm(*stringPict.next(s, ' + '))
-+                    pform = self._print(item)
-                 s = prettyForm(*stringPict.next(s, pform))
+-                s = prettyForm(*stringPict.next(s, pform))
++                    s = prettyForm(*stringPict.next(s, self._print(item)))
  
          return s
  
++
 +
      def _print_MatMul(self, expr):
          args = list(expr.args)
@@ -344,8 +346,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        66511981
-hash randomization: on (PYTHONHASHSEED=79157199)
+random seed:        57360926
+hash randomization: on (PYTHONHASHSEED=2230399426)
 
 sympy/printing/pretty/tests/test_pretty.py[117] 
 test_pretty_ascii_str ok
@@ -542,7 +544,7 @@ ____ sympy/printing/pretty/tests/test_pretty.py:test_MatrixSymbol_printing _____
 AssertionError
 
  tests finished: 112 passed, 1 failed, 1 expected to fail but passed, 
-3 exceptions, in 4.36 seconds 
+3 exceptions, in 4.43 seconds 
 DO *NOT* COMMIT!
 + git checkout 0dbdc0ea83d339936da175f8c3a97d0d6bafb9f8 sympy/printing/pretty/tests/test_pretty.py
 Updated 1 path from e51a81002e

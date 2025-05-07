@@ -1,0 +1,54 @@
+2025-05-06 06:31:14,060 - INFO - Environment image sweb.env.x86_64.e83e37f52c09532c62acfb:latest found for django__django-13810
+Building instance image sweb.eval.x86_64.django__django-13810:latest for django__django-13810
+2025-05-06 06:31:14,063 - INFO - Image sweb.eval.x86_64.django__django-13810:latest already exists, skipping build.
+2025-05-06 06:31:14,063 - INFO - Creating container for django__django-13810...
+2025-05-06 06:31:14,097 - INFO - Container for django__django-13810 created: 3d4283bbd3b81a11e2d795504b0f5b02e9b5720ee68b709571c6cb73e07c4b30
+2025-05-06 06:31:14,444 - INFO - Container for django__django-13810 started: 3d4283bbd3b81a11e2d795504b0f5b02e9b5720ee68b709571c6cb73e07c4b30
+2025-05-06 06:31:14,445 - INFO - Intermediate patch for django__django-13810 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13810/patch.diff, now applying to container...
+2025-05-06 06:31:14,648 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 06:31:14,710 - INFO - >>>>> Applied Patch:
+patching file django/core/handlers/base.py
+
+2025-05-06 06:31:15,449 - INFO - Git diff before:
+diff --git a/django/core/handlers/base.py b/django/core/handlers/base.py
+index 8e8c3da06a..07cf66374e 100644
+--- a/django/core/handlers/base.py
++++ b/django/core/handlers/base.py
+@@ -55,10 +55,10 @@ class BaseHandler:
+                     middleware_is_async, handler, handler_is_async,
+                     debug=settings.DEBUG, name='middleware %s' % middleware_path,
+                 )
+-                mw_instance = middleware(handler)
+             except MiddlewareNotUsed as exc:
+                 if settings.DEBUG:
+                     if str(exc):
++
+                         logger.debug('MiddlewareNotUsed(%r): %s', middleware_path, exc)
+                     else:
+                         logger.debug('MiddlewareNotUsed: %r', middleware_path)
+2025-05-06 06:31:15,449 - INFO - Eval script for django__django-13810 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13810/eval.sh; copying to container...
+2025-05-06 06:31:23,754 - INFO - Test runtime: 8.13 seconds
+2025-05-06 06:31:23,755 - INFO - Test output for django__django-13810 written to logs/run_evaluation/20250506_061805/SWE-Fixer/django__django-13810/test_output.txt
+2025-05-06 06:31:23,834 - INFO - Git diff after:
+diff --git a/django/core/handlers/base.py b/django/core/handlers/base.py
+index 8e8c3da06a..07cf66374e 100644
+--- a/django/core/handlers/base.py
++++ b/django/core/handlers/base.py
+@@ -55,10 +55,10 @@ class BaseHandler:
+                     middleware_is_async, handler, handler_is_async,
+                     debug=settings.DEBUG, name='middleware %s' % middleware_path,
+                 )
+-                mw_instance = middleware(handler)
+             except MiddlewareNotUsed as exc:
+                 if settings.DEBUG:
+                     if str(exc):
++
+                         logger.debug('MiddlewareNotUsed(%r): %s', middleware_path, exc)
+                     else:
+                         logger.debug('MiddlewareNotUsed: %r', middleware_path)
+2025-05-06 06:31:23,834 - INFO - Grading answer for django__django-13810...
+2025-05-06 06:31:23,848 - INFO - report: {'django__django-13810': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_async_and_sync_middleware_chain_async_call (middleware_exceptions.tests.MiddlewareNotUsedTests)']}, 'PASS_TO_PASS': {'success': ['test_raise_exception (middleware_exceptions.tests.MiddlewareNotUsedTests)', 'test_not_sync_or_async_middleware (middleware_exceptions.tests.MiddlewareSyncAsyncTests)'], 'failure': ['test_missing_root_urlconf (middleware_exceptions.tests.RootUrlconfTests)', 'test_do_not_log_when_debug_is_false (middleware_exceptions.tests.MiddlewareNotUsedTests)', 'test_log (middleware_exceptions.tests.MiddlewareNotUsedTests)', 'test_log_custom_message (middleware_exceptions.tests.MiddlewareNotUsedTests)', 'test_exception_in_middleware_converted_before_prior_middleware (middleware_exceptions.tests.MiddlewareTests)', 'test_exception_in_render_passed_to_process_exception (middleware_exceptions.tests.MiddlewareTests)', 'test_process_template_response (middleware_exceptions.tests.MiddlewareTests)', 'test_process_template_response_returns_none (middleware_exceptions.tests.MiddlewareTests)', 'test_process_view_return_none (middleware_exceptions.tests.MiddlewareTests)', 'test_process_view_return_response (middleware_exceptions.tests.MiddlewareTests)', 'test_response_from_process_exception_short_circuits_remainder (middleware_exceptions.tests.MiddlewareTests)', 'test_response_from_process_exception_when_return_response (middleware_exceptions.tests.MiddlewareTests)', 'test_templateresponse_from_process_view_passed_to_process_template_response (middleware_exceptions.tests.MiddlewareTests)', 'test_templateresponse_from_process_view_rendered (middleware_exceptions.tests.MiddlewareTests)', 'test_view_exception_converted_before_middleware (middleware_exceptions.tests.MiddlewareTests)', 'test_view_exception_handled_by_process_exception (middleware_exceptions.tests.MiddlewareTests)', 'test_async_and_sync_middleware_async_call (middleware_exceptions.tests.MiddlewareSyncAsyncTests)', 'test_async_and_sync_middleware_sync_call (middleware_exceptions.tests.MiddlewareSyncAsyncTests)', 'test_async_middleware (middleware_exceptions.tests.MiddlewareSyncAsyncTests)', 'test_async_middleware_async (middleware_exceptions.tests.MiddlewareSyncAsyncTests)', 'test_sync_decorated_middleware (middleware_exceptions.tests.MiddlewareSyncAsyncTests)', 'test_sync_middleware (middleware_exceptions.tests.MiddlewareSyncAsyncTests)', 'test_sync_middleware_async (middleware_exceptions.tests.MiddlewareSyncAsyncTests)', 'test_exception_in_async_render_passed_to_process_exception (middleware_exceptions.tests.AsyncMiddlewareTests)', 'test_exception_in_render_passed_to_process_exception (middleware_exceptions.tests.AsyncMiddlewareTests)', 'test_process_template_response (middleware_exceptions.tests.AsyncMiddlewareTests)', 'test_process_template_response_returns_none (middleware_exceptions.tests.AsyncMiddlewareTests)', 'test_process_view_return_response (middleware_exceptions.tests.AsyncMiddlewareTests)']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for django__django-13810: resolved: False
+2025-05-06 06:31:23,848 - INFO - Attempting to stop container sweb.eval.django__django-13810.20250506_061805...
+2025-05-06 06:31:39,175 - INFO - Attempting to remove container sweb.eval.django__django-13810.20250506_061805...
+2025-05-06 06:31:39,192 - INFO - Container sweb.eval.django__django-13810.20250506_061805 removed.

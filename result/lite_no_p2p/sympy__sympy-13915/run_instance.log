@@ -1,0 +1,64 @@
+2025-05-06 11:27:14,554 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-13915
+Building instance image sweb.eval.x86_64.sympy__sympy-13915:latest for sympy__sympy-13915
+2025-05-06 11:27:14,556 - INFO - Image sweb.eval.x86_64.sympy__sympy-13915:latest already exists, skipping build.
+2025-05-06 11:27:14,557 - INFO - Creating container for sympy__sympy-13915...
+2025-05-06 11:27:14,593 - INFO - Container for sympy__sympy-13915 created: 44928d543a72399fc0a24c1aca5ebadb6cbd502d0afb5f258c48a75d8b90d2eb
+2025-05-06 11:27:14,868 - INFO - Container for sympy__sympy-13915 started: 44928d543a72399fc0a24c1aca5ebadb6cbd502d0afb5f258c48a75d8b90d2eb
+2025-05-06 11:27:14,868 - INFO - Intermediate patch for sympy__sympy-13915 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-13915/patch.diff, now applying to container...
+2025-05-06 11:27:15,106 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:27:15,167 - INFO - >>>>> Applied Patch:
+patching file sympy/core/expr.py
+
+2025-05-06 11:27:15,626 - INFO - Git diff before:
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index c36d6f271d..ba4489657e 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -1694,11 +1694,14 @@ def has(e):
+                 return has_other
+             return has_other or e.has(*(e.free_symbols & sym))
+ 
+-        if (want is not func or
+-                func is not Add and func is not Mul):
++        if (want is not func or func is not Add and func is not Mul or
++                # don't let simplification mask undefined expression
++                # e.g. (1/x - 1/x).subs(x, 0) should be NaN, not 0
++                self.is_number and self.simplify() != self):
+             if has(self):
+                 return (want.identity, self)
+             else:
++
+                 return (self, want.identity)
+         else:
+             if func is Add:
+2025-05-06 11:27:15,627 - INFO - Eval script for sympy__sympy-13915 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-13915/eval.sh; copying to container...
+2025-05-06 11:28:18,219 - INFO - Test runtime: 62.43 seconds
+2025-05-06 11:28:18,220 - INFO - Test output for sympy__sympy-13915 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-13915/test_output.txt
+2025-05-06 11:28:18,288 - INFO - Git diff after:
+diff --git a/sympy/core/expr.py b/sympy/core/expr.py
+index c36d6f271d..ba4489657e 100644
+--- a/sympy/core/expr.py
++++ b/sympy/core/expr.py
+@@ -1694,11 +1694,14 @@ def has(e):
+                 return has_other
+             return has_other or e.has(*(e.free_symbols & sym))
+ 
+-        if (want is not func or
+-                func is not Add and func is not Mul):
++        if (want is not func or func is not Add and func is not Mul or
++                # don't let simplification mask undefined expression
++                # e.g. (1/x - 1/x).subs(x, 0) should be NaN, not 0
++                self.is_number and self.simplify() != self):
+             if has(self):
+                 return (want.identity, self)
+             else:
++
+                 return (self, want.identity)
+         else:
+             if func is Add:
+2025-05-06 11:28:18,288 - INFO - Grading answer for sympy__sympy-13915...
+2025-05-06 11:28:18,308 - INFO - report: {'sympy__sympy-13915': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_Mul_does_not_cancel_infinities']}, 'PASS_TO_PASS': {'success': ['test_bug1', 'test_Symbol', 'test_arit0', 'test_pow2', 'test_pow3', 'test_mod_pow', 'test_pow_E', 'test_pow_issue_3516', 'test_pow_im', 'test_real_mul', 'test_ncmul', 'test_ncpow', 'test_powerbug', 'test_Mul_doesnt_expand_exp', 'test_Add_Mul_is_integer', 'test_Add_Mul_is_finite', 'test_Mul_is_even_odd', 'test_evenness_in_ternary_integer_product_with_even', 'test_oddness_in_ternary_integer_product_with_even', 'test_Mul_is_rational', 'test_Add_is_rational', 'test_Add_is_even_odd', 'test_Mul_is_negative_positive', 'test_Mul_is_negative_positive_2', 'test_Mul_is_nonpositive_nonnegative', 'test_Pow_is_zero', 'test_Mul_hermitian_antihermitian', 'test_Add_is_comparable', 'test_Mul_is_comparable', 'test_Pow_is_comparable', 'test_Add_is_positive_2', 'test_Add_is_irrational', 'test_issue_3531b', 'test_bug3', 'test_suppressed_evaluation', 'test_Add_as_coeff_mul', 'test_Pow_as_coeff_mul_doesnt_expand', 'test_issue_3514', 'test_make_args', 'test_issue_5126', 'test_Rational_as_content_primitive', 'test_Add_as_content_primitive', 'test_Mul_as_content_primitive', 'test_Pow_as_content_primitive', 'test_issue_5460', 'test_product_irrational', 'test_issue_5919', 'test_Mod_is_integer', 'test_issue_6001', 'test_polar', 'test_issue_6040', 'test_issue_6082', 'test_issue_6077', 'test_mul_flatten_oo', 'test_add_flatten', 'test_issue_5160_6087_6089_6090', 'test_float_int', 'test_issue_6611a', 'test_denest_add_mul', 'test_mul_zero_detection', 'test_Mul_with_zero_infinite'], 'failure': ['test_issue_8247_8354']}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-13915: resolved: False
+2025-05-06 11:28:18,308 - INFO - Attempting to stop container sweb.eval.sympy__sympy-13915.20250506_111427...
+2025-05-06 11:28:33,673 - INFO - Attempting to remove container sweb.eval.sympy__sympy-13915.20250506_111427...
+2025-05-06 11:28:33,699 - INFO - Container sweb.eval.sympy__sympy-13915.20250506_111427 removed.

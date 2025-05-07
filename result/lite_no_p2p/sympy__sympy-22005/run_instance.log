@@ -1,0 +1,82 @@
+2025-05-06 11:30:01,894 - INFO - Environment image sweb.env.x86_64.c795f4b88616b8462021ed:latest found for sympy__sympy-22005
+Building instance image sweb.eval.x86_64.sympy__sympy-22005:latest for sympy__sympy-22005
+2025-05-06 11:30:01,896 - INFO - Image sweb.eval.x86_64.sympy__sympy-22005:latest already exists, skipping build.
+2025-05-06 11:30:01,896 - INFO - Creating container for sympy__sympy-22005...
+2025-05-06 11:30:01,929 - INFO - Container for sympy__sympy-22005 created: 61302cdcfbe8f1bddfb9fb340ad9748b288e1e1f06c88b5f4e8b685c12dda3f2
+2025-05-06 11:30:02,221 - INFO - Container for sympy__sympy-22005 started: 61302cdcfbe8f1bddfb9fb340ad9748b288e1e1f06c88b5f4e8b685c12dda3f2
+2025-05-06 11:30:02,221 - INFO - Intermediate patch for sympy__sympy-22005 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-22005/patch.diff, now applying to container...
+2025-05-06 11:30:02,457 - INFO - Failed to apply patch to container, trying again...
+2025-05-06 11:30:02,519 - INFO - >>>>> Applied Patch:
+patching file sympy/solvers/polysys.py
+patching file sympy/solvers/polysys.py
+Hunk #1 succeeded at 275 (offset 1 line).
+
+2025-05-06 11:30:03,089 - INFO - Git diff before:
+diff --git a/sympy/solvers/polysys.py b/sympy/solvers/polysys.py
+index b9809fd4e9..13674b6b3e 100644
+--- a/sympy/solvers/polysys.py
++++ b/sympy/solvers/polysys.py
+@@ -240,10 +240,11 @@ def _solve_reduced_system(system, gens, entry=False):
+ 
+         univariate = list(filter(_is_univariate, basis))
+ 
+-        if len(univariate) == 1:
++        if len(univariate) == len(gens):
+             f = univariate.pop()
+         else:
+             raise NotImplementedError(filldedent('''
++
+                 only zero-dimensional systems supported
+                 (finite number of solutions)
+                 '''))
+@@ -274,10 +275,11 @@ def _solve_reduced_system(system, gens, entry=False):
+             for solution in _solve_reduced_system(new_system, new_gens):
+                 solutions.append(solution + (zero,))
+ 
+-        if solutions and len(solutions[0]) != len(gens):
++        if len(univariate) != len(gens):
+             raise NotImplementedError(filldedent('''
+                 only zero-dimensional systems supported
+                 (finite number of solutions)
++
+                 '''))
+         return solutions
+2025-05-06 11:30:03,090 - INFO - Eval script for sympy__sympy-22005 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-22005/eval.sh; copying to container...
+2025-05-06 11:30:10,899 - INFO - Test runtime: 7.64 seconds
+2025-05-06 11:30:10,899 - INFO - Test output for sympy__sympy-22005 written to logs/run_evaluation/20250506_111427/SWE-Fixer/sympy__sympy-22005/test_output.txt
+2025-05-06 11:30:10,963 - INFO - Git diff after:
+diff --git a/sympy/solvers/polysys.py b/sympy/solvers/polysys.py
+index b9809fd4e9..13674b6b3e 100644
+--- a/sympy/solvers/polysys.py
++++ b/sympy/solvers/polysys.py
+@@ -240,10 +240,11 @@ def _solve_reduced_system(system, gens, entry=False):
+ 
+         univariate = list(filter(_is_univariate, basis))
+ 
+-        if len(univariate) == 1:
++        if len(univariate) == len(gens):
+             f = univariate.pop()
+         else:
+             raise NotImplementedError(filldedent('''
++
+                 only zero-dimensional systems supported
+                 (finite number of solutions)
+                 '''))
+@@ -274,10 +275,11 @@ def _solve_reduced_system(system, gens, entry=False):
+             for solution in _solve_reduced_system(new_system, new_gens):
+                 solutions.append(solution + (zero,))
+ 
+-        if solutions and len(solutions[0]) != len(gens):
++        if len(univariate) != len(gens):
+             raise NotImplementedError(filldedent('''
+                 only zero-dimensional systems supported
+                 (finite number of solutions)
++
+                 '''))
+         return solutions
+2025-05-06 11:30:10,963 - INFO - Grading answer for sympy__sympy-22005...
+2025-05-06 11:30:10,966 - INFO - report: {'sympy__sympy-22005': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': False, 'tests_status': {'FAIL_TO_PASS': {'success': [], 'failure': ['test_solve_poly_system']}, 'PASS_TO_PASS': {'success': ['test_solve_biquadratic', 'test_solve_triangulated'], 'failure': []}, 'FAIL_TO_FAIL': {'success': [], 'failure': []}, 'PASS_TO_FAIL': {'success': [], 'failure': []}}}}
+Result for sympy__sympy-22005: resolved: False
+2025-05-06 11:30:10,967 - INFO - Attempting to stop container sweb.eval.sympy__sympy-22005.20250506_111427...
+2025-05-06 11:30:26,271 - INFO - Attempting to remove container sweb.eval.sympy__sympy-22005.20250506_111427...
+2025-05-06 11:30:26,295 - INFO - Container sweb.eval.sympy__sympy-22005.20250506_111427 removed.

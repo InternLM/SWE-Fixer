@@ -1,0 +1,42 @@
+2024-12-06 19:56:20,110 - INFO - Building image sweb.eval.x86_64.scikit-learn__scikit-learn-25102:latest
+Using dockerfile:
+FROM --platform=linux/x86_64 sweb.env.x86_64.3a59860bcd0dab8bbfb2ff:latest
+
+COPY ./setup_repo.sh /root/
+RUN /bin/bash /root/setup_repo.sh
+
+WORKDIR /testbed/
+
+Adding (1) setup scripts to image build repo
+2024-12-06 19:56:20,110 - INFO - [SETUP SCRIPT] setup_repo.sh:
+#!/bin/bash
+set -euxo pipefail
+git clone -o origin https://github.com/scikit-learn/scikit-learn /testbed
+chmod -R 777 /testbed
+cd /testbed
+git reset --hard f9a1cf072da9d7375d6c2163f68a6038b13b310f
+git remote remove origin
+source /opt/miniconda3/bin/activate
+conda activate testbed
+echo "Current environment: $CONDA_DEFAULT_ENV"
+python -m pip install -v --no-use-pep517 --no-build-isolation -e .
+
+2024-12-06 19:56:20,111 - INFO - Building docker image sweb.eval.x86_64.scikit-learn__scikit-learn-25102:latest in logs/build_images/instances/sweb.eval.x86_64.scikit-learn__scikit-learn-25102__latest with platform linux/x86_64
+2024-12-06 19:56:20,121 - INFO - Step 1/4 : FROM --platform=linux/x86_64 sweb.env.x86_64.3a59860bcd0dab8bbfb2ff:latest
+2024-12-06 19:56:20,121 - INFO - 
+2024-12-06 19:56:20,122 - INFO - ---> f8344564d941
+2024-12-06 19:56:20,122 - INFO - Step 2/4 : COPY ./setup_repo.sh /root/
+2024-12-06 19:56:20,122 - INFO - 
+2024-12-06 19:56:20,122 - INFO - ---> Using cache
+2024-12-06 19:56:20,122 - INFO - ---> c34f4fea65d5
+2024-12-06 19:56:20,122 - INFO - Step 3/4 : RUN /bin/bash /root/setup_repo.sh
+2024-12-06 19:56:20,122 - INFO - 
+2024-12-06 19:56:20,122 - INFO - ---> Using cache
+2024-12-06 19:56:20,122 - INFO - ---> 5bd36fab7d32
+2024-12-06 19:56:20,122 - INFO - Step 4/4 : WORKDIR /testbed/
+2024-12-06 19:56:20,122 - INFO - 
+2024-12-06 19:56:20,122 - INFO - ---> Using cache
+2024-12-06 19:56:20,122 - INFO - ---> 2694916b17c0
+2024-12-06 19:56:20,122 - INFO - Successfully built 2694916b17c0
+2024-12-06 19:56:20,127 - INFO - Successfully tagged sweb.eval.x86_64.scikit-learn__scikit-learn-25102:latest
+2024-12-06 19:56:20,127 - INFO - Image built successfully!

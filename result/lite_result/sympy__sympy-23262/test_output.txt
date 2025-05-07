@@ -316,8 +316,8 @@ architecture:       64-bit
 cache:              no
 ground types:       python 
 numpy:              None
-random seed:        15760419
-hash randomization: on (PYTHONHASHSEED=2128298094)
+random seed:        68182219
+hash randomization: on (PYTHONHASHSEED=2098661168)
 
 sympy/utilities/tests/test_lambdify.py[117] 
 test_no_args ok
@@ -439,6 +439,6 @@ test_lambdify_cse ok
 test_deprecated_set ok                                                      [OK]
 
 
-============ tests finished: 63 passed, 54 skipped, in 2.35 seconds ============
+============ tests finished: 63 passed, 54 skipped, in 2.45 seconds ============
 + git checkout fdc707f73a65a429935c01532cd3970d3355eab6 sympy/utilities/tests/test_lambdify.py
 Updated 1 path from 20d9aa5a00
